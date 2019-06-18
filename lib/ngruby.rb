@@ -10,15 +10,21 @@ module Ngruby
   class Config
     class << self
       attr_accessor :default_faraday_connection
+      attr_accessor :default_faraday_options
+      attr_accessor :default_faraday_config
     end
   end
 
+  Config.default_faraday_options = {}
+  Config.default_faraday_config = ->(conn) { conn.adapter Faraday.default_adapter }
   Config.default_faraday_connection = -> do
-    Faraday.new do |conn|
+    opts = Config.default_faraday_options
+    opts = opts.call if opts.respond_to?(:call)
+    Faraday.new(nil, opts) do |conn|
       conn.request :retry
       conn.response :json, content_type: /\bjson$/
       conn.response :raise_error
-      conn.adapter :net_http
+      Config.default_faraday_config.(conn)
     end
   end
 end
