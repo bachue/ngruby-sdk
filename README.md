@@ -1,4 +1,6 @@
-# Ngruby
+# New Generation Qiniu SDK for Ruby
+
+[![Code Climate](https://codeclimate.com/github/bachue/ngruby-sdk.svg)](https://codeclimate.com/github/bachue/ngruby-sdk) [![Build Status](https://api.travis-ci.org/bachue/ngruby-sdk.svg?branch=master)](https://travis-ci.org/bachue/ngruby-sdk) [![Coverage Status](https://coveralls.io/repos/bachue/ngruby-sdk/badge.svg?branch=master)](https://coveralls.io/r/bachue/ngruby-sdk?branch=master)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ngruby`. To experiment with that code, run `bin/console` for an interactive prompt.
 
