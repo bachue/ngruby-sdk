@@ -55,8 +55,8 @@ module Ngruby
       end
 
       class << self
-        def auto(uc_server: AutoZone::UcServer)
-          AutoZone.new(uc_server: uc_server)
+        def auto(api_server: AutoZone::API_SERVER)
+          AutoZone.new(api_server: api_server)
         end
 
         def huadong

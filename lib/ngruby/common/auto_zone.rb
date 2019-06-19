@@ -7,9 +7,9 @@ module Ngruby
   module Common
     # 该类主要用来根据用户提供的 AccessKey 和 Bucket 来自动获取有效的 Zone 实例
     class AutoZone
-      UC_SERVER = 'https://uc.qbox.me'
-      def initialize(uc_server: UC_SERVER)
-        @uc_server = uc_server
+      API_SERVER = 'https://uc.qbox.me'
+      def initialize(api_server: API_SERVER)
+        @api_server = api_server
         @conn = if Config.default_faraday_connection.respond_to?(:call)
                   Config.default_faraday_connection.call
                 else
@@ -25,7 +25,7 @@ module Ngruby
       end
 
       def query(access_key:, bucket:)
-        resp = @conn.get("#{@uc_server}/v1/query", ak: access_key, bucket: bucket)
+        resp = @conn.get("#{@api_server}/v1/query", ak: access_key, bucket: bucket)
         up_http = resp.body.dig('http', 'up', 0)
         up_backup_http = resp.body.dig('http', 'up', 1)
         up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)

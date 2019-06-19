@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock', '~> 3.6'
   spec.add_runtime_dependency 'faraday', '~> 0.15'
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.13'
+  spec.add_runtime_dependency 'safe_yaml', '~> 1.0'
 end
