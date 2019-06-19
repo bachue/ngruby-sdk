@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'faraday'
 
 module Ngruby
+  # HTTP 客户端
   class Client
     attr_reader :access_key
     attr_reader :secret_key
@@ -8,7 +11,8 @@ module Ngruby
     def initialize(
       access_key:,
       secret_key:,
-      faraday: nil)
+      faraday: nil
+    )
       @access_key = access_key
       @secret_key = secret_key
       @faraday_connection = faraday

@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 require 'faraday'
 require 'ngruby/common/zone'
 
 module Ngruby
   module Common
-    class AutoZone < Zone
-      UcServer = 'https://uc.qbox.me'.freeze
-      def initialize(uc_server: UcServer)
+    # 该类主要用来根据用户提供的 AccessKey 和 Bucket 来自动获取有效的 Zone 实例
+    class AutoZone
+      UC_SERVER = 'https://uc.qbox.me'
+      def initialize(uc_server: UC_SERVER)
         @uc_server = uc_server
         @conn = if Config.default_faraday_connection.respond_to?(:call)
                   Config.default_faraday_connection.call
@@ -17,12 +20,12 @@ module Ngruby
           'http://up-z1.qiniu.com' => Zone.zone1,
           'http://up-z2.qiniu.com' => Zone.zone2,
           'http://up-na0.qiniu.com' => Zone.zone_na0,
-          'http://up-as0.qiniu.com' => Zone.zone_as0,
+          'http://up-as0.qiniu.com' => Zone.zone_as0
         }
       end
 
       def query(access_key:, bucket:)
-        resp = @conn.get("#{@uc_server}/v1/query", { ak: access_key, bucket: bucket })
+        resp = @conn.get("#{@uc_server}/v1/query", ak: access_key, bucket: bucket)
         up_http = resp.body.dig('http', 'up', 0)
         up_backup_http = resp.body.dig('http', 'up', 1)
         up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)
@@ -31,7 +34,7 @@ module Ngruby
         up_backup_https = resp.body.dig('https', 'up', 1)
         up_ip_https = resp.body.dig('https', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)
         io_https = resp.body.dig('https', 'io', 0)
-        Zone.new(region: 'auto'.freeze,
+        Zone.new(region: 'auto',
                  up_http: up_http.freeze,
                  up_https: up_https.freeze,
                  up_backup_http: up_backup_http.freeze,
@@ -39,8 +42,7 @@ module Ngruby
                  up_ip_http: up_ip_http.freeze,
                  up_ip_https: up_ip_https.freeze,
                  io_vip_http: io_http.freeze,
-                 io_vip_https: io_https.freeze).
-                 freeze
+                 io_vip_https: io_https.freeze).freeze
       end
     end
   end

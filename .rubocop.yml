@@ -1,0 +1,24 @@
+AllCops:
+  TargetRubyVersion: 2.4
+Layout/ExtraSpacing:
+  Exclude:
+    - "**/*.gemspec"
+Layout/SpaceAroundOperators:
+  Exclude:
+    - "**/*.gemspec"
+Metrics/AbcSize:
+  Enabled: false
+Metrics/ClassLength:
+  Max: 500
+Metrics/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 100
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+Metrics/BlockLength:
+  Exclude:
+    - "**/*.gemspec"
+    - "**/*_spec.rb"
+Style/AsciiComments:
+  Enabled: false
