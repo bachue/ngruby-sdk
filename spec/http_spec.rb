@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Ngqiniu::HTTP::Response do
+RSpec.describe Ngqiniu::HTTP do
   it 'should create ngqiniu http response for faraday response' do
     good_resp = Ngqiniu::HTTP.client.get('https://uc.qbox.me/v1/query', ak: access_key, bucket: 'z0-bucket')
     expect(good_resp).to be_finished

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Ngqiniu::Zone do
+RSpec.describe Ngqiniu::Common do
   it 'should returns predefined zone' do
     zone0 = Ngqiniu::Zone.huadong
     expect(zone0.region).to eq('z0')
