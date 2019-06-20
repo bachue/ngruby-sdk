@@ -6,12 +6,14 @@ require 'ngqiniu/version'
 require 'ngqiniu/client'
 require 'ngqiniu/common/zone'
 require 'ngqiniu/common/auto_zone'
+require 'ngqiniu/utils/auth'
 require 'ngqiniu/http/client'
 require 'ngqiniu/http/response'
 
 # 下一代七牛 Ruby SDK
 module Ngqiniu
   include Common
+  include Utils
   # 全局配置
   class Config
     class << self

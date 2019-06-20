@@ -26,10 +26,19 @@ module Ngqiniu
         @faraday_connection = faraday_connection
       end
 
-      Faraday::Connection::METHODS.each do |method|
-        define_method(method) do |*args|
+      %i[get head delete].each do |method|
+        define_method(method) do |url = nil, params = nil, headers = nil|
           begin_time = Time.now
-          faraday_response = @faraday_connection.public_send(method, *args)
+          faraday_response = @faraday_connection.public_send(method, url, params, headers)
+          end_time = Time.now
+          Response.new(faraday_response, duration: end_time - begin_time, address: nil)
+        end
+      end
+
+      %i[post put patch].each do |method|
+        define_method(method) do |url = nil, body = nil, headers = nil, &block|
+          begin_time = Time.now
+          faraday_response = @faraday_connection.public_send(method, url, body, headers, &block)
           end_time = Time.now
           Response.new(faraday_response, duration: end_time - begin_time, address: nil)
         end
