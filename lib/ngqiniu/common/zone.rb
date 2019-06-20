@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Ngruby
+module Ngqiniu
   module Common
     # 多区域上传域名
     class Zone
@@ -30,12 +30,12 @@ module Ngruby
         up_ip_https: nil,
         io_vip_http: nil,
         io_vip_https: nil,
-        rs_http: 'http://rs.qiniu.com',
-        rs_https: 'https://rs.qbox.me',
-        rsf_http: 'http://rsf.qiniu.com',
-        rsf_https: 'https://rsf.qbox.me',
-        api_http: 'http://api.qiniu.com',
-        api_https: 'https://api.qiniu.com'
+        rs_http: nil,
+        rs_https: nil,
+        rsf_http: nil,
+        rsf_https: nil,
+        api_http: nil,
+        api_https: nil
       )
         @region = region
         @up_http = up_http
@@ -46,12 +46,12 @@ module Ngruby
         @up_ip_https = up_ip_https
         @io_vip_http = io_vip_http
         @io_vip_https = io_vip_https
-        @rs_http = rs_http
-        @rs_https = rs_https
-        @rsf_http = rsf_http
-        @rsf_https = rsf_https
-        @api_http = api_http
-        @api_https = api_https
+        @rs_http = rs_http || 'http://rs.qiniu.com'
+        @rs_https = rs_https || 'https://rs.qbox.me'
+        @rsf_http = rsf_http || 'http://rsf.qiniu.com'
+        @rsf_https = rsf_https || 'https://rsf.qbox.me'
+        @api_http = api_http || 'http://api.qiniu.com'
+        @api_https = api_https || 'https://api.qiniu.com'
       end
 
       class << self

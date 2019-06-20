@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ngruby/version'
+require 'ngqiniu/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'ngruby'
-  spec.version       = Ngruby::VERSION
+  spec.name          = 'ngqiniu'
+  spec.version       = Ngqiniu::VERSION
   spec.authors       = ['Rong Zhou', 'Shanghai Qiniu Information Technologies Co., Ltd.']
   spec.email         = ['zhourong@qiniu.com', 'sdk@qiniu.com', 'support@qiniu.com']
 

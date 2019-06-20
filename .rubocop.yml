@@ -16,6 +16,8 @@ Metrics/MethodLength:
   Max: 100
 Metrics/ParameterLists:
   CountKeywordArgs: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
 Metrics/BlockLength:
   Exclude:
     - "**/*.gemspec"

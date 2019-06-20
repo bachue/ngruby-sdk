@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'ngruby'
+require 'ngqiniu'
 
 require 'coveralls'
 Coveralls.wear!

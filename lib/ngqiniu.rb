@@ -2,13 +2,15 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'ngruby/version'
-require 'ngruby/client'
-require 'ngruby/common/zone'
-require 'ngruby/common/auto_zone'
+require 'ngqiniu/version'
+require 'ngqiniu/client'
+require 'ngqiniu/common/zone'
+require 'ngqiniu/common/auto_zone'
+require 'ngqiniu/http/client'
+require 'ngqiniu/http/response'
 
 # 下一代七牛 Ruby SDK
-module Ngruby
+module Ngqiniu
   include Common
   # 全局配置
   class Config
