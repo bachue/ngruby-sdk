@@ -8,7 +8,6 @@ RSpec.describe Ngqiniu::HTTP do
     expect(good_resp.status).to eq(200)
     expect(good_resp.req_id).not_to be_empty
     expect(good_resp.xlog).not_to be_empty
-    expect(good_resp.xvia).not_to be_empty
     expect(good_resp.duration).to be > 0
     expect(good_resp).not_to be_server_error
     expect(good_resp.error).to be_nil
@@ -21,7 +20,6 @@ RSpec.describe Ngqiniu::HTTP do
     expect(bad_resp.status).to eq(631)
     expect(bad_resp.req_id).not_to be_empty
     expect(bad_resp.xlog).not_to be_empty
-    expect(bad_resp.xvia).not_to be_empty
     expect(bad_resp.duration).to be > 0
     expect(bad_resp).not_to be_server_error
     expect(bad_resp.error).to eq('no such bucket')

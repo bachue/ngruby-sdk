@@ -7,35 +7,6 @@ module Ngqiniu
   module Utils
     # 七牛认证相关
     class Auth
-      POLICY_FIELDS = %w[
-        callbackUrl
-        callbackBody
-        callbackHost
-        callbackBodyType
-        callbackFetchKey
-
-        returnUrl
-        returnBody
-
-        endUser
-        saveKey
-        insertOnly
-        isPrefixalScope
-
-        detectMime
-        mimeLimit
-        fsizeLimit
-        fsizeMin
-
-        persistentOps
-        persistentNotifyUrl
-        persistentPipeline
-
-        deleteAfterDays
-        fileType
-      ].freeze
-      DEPRECATED_POLICY_FIELDS = %w[asyncOps].freeze
-
       attr_reader :access_key
 
       def initialize(access_key:, secret_key:)
@@ -80,13 +51,7 @@ module Ngqiniu
       end
 
       def sign_download_url_with_lifetime(base_url, lifetime:)
-        deadline = Time.now.to_i
-        deadline += if lifetime.respond_to?(:totals)
-                      lifetime.totals
-                    else
-                      lifetime.to_i
-                    end
-        deadline = [deadline, (1 << 32) - 1].min
+        deadline = [Time.now.to_i + lifetime.to_i, (1 << 32) - 1].min
         sign_download_url_with_deadline(base_url, deadline: deadline)
       end
 
