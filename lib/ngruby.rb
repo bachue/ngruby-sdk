@@ -9,6 +9,7 @@ require 'ngruby/common/auto_zone'
 
 # 下一代七牛 Ruby SDK
 module Ngruby
+  include Common
   # 全局配置
   class Config
     class << self

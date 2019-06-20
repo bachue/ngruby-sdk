@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Ngruby::Common::Zone do
+RSpec.describe Ngruby::Zone do
   it 'should returns predefined zone' do
-    zone0 = Ngruby::Common::Zone.huadong
+    zone0 = Ngruby::Zone.huadong
     expect(zone0.region).to eq('z0')
     expect(zone0.up_http).to eq('http://up.qiniu.com')
     expect(zone0.up_https).to eq('https://up.qbox.me')
@@ -17,7 +17,7 @@ RSpec.describe Ngruby::Common::Zone do
     expect(zone0.api_http).to eq('http://api.qiniu.com')
     expect(zone0.api_https).to eq('https://api.qiniu.com')
 
-    zone1 = Ngruby::Common::Zone.zone1
+    zone1 = Ngruby::Zone.zone1
     expect(zone1.region).to eq('z1')
     expect(zone1.up_http).to eq('http://up-z1.qiniu.com')
     expect(zone1.up_https).to eq('https://up-z1.qbox.me')
@@ -34,7 +34,7 @@ RSpec.describe Ngruby::Common::Zone do
   end
 
   it 'could use access key & bucket to judge which zone is better for me' do
-    auto_zone = Ngruby::Common::Zone.auto.query(access_key: access_key, bucket: 'assets-cdn')
+    auto_zone = Ngruby::Zone.auto.query(access_key: access_key, bucket: 'assets-cdn')
     expect(auto_zone.region).to eq('auto')
     expect(auto_zone.up_http).to eq('http://up.qiniu.com')
     expect(auto_zone.up_https).to eq('https://up.qbox.me')
