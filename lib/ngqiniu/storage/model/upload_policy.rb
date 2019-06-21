@@ -55,6 +55,11 @@ module Ngqiniu
           @deadline = [Time.now.to_i + lifetime.to_i, (1 << 32) - 1].min
         end
 
+        def will_die_in(*args)
+          self.lifetime = Duration.new(*args)
+          self
+        end
+
         def lifetime
           Duration.new(seconds: Time.at(@deadline) - Time.now) unless @deadline.nil?
         end
@@ -81,19 +86,23 @@ module Ngqiniu
 
         def insert_only!
           @insert_only = true
+          self
         end
 
         def detect_mime!
           @detect_mime = true
+          self
         end
 
         def infrequent!
           @file_type = StorageType.infrequent
+          self
         end
 
         def set_return(url, body: nil)
           @return_url = url
           @return_body = body
+          self
         end
 
         def set_callback(url, host: nil, body: nil, body_type: nil)
@@ -101,12 +110,14 @@ module Ngqiniu
           @callback_host = host
           @callback_body = body
           @callback_body_type = body_type
+          self
         end
 
         def set_persistent_ops(ops, notify_url: nil, pipeline: nil)
           @persistent_ops = ops
           @persistent_notify_url = notify_url
           @persistent_pipeline = pipeline
+          self
         end
 
         def to_h

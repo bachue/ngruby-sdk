@@ -36,8 +36,7 @@ RSpec.describe Ngqiniu::Storage::Model do
     end
 
     it 'could set lifetime of the uptoken' do
-      policy = Ngqiniu::Storage::Model::UploadPolicy.new bucket: 'test'
-      policy.lifetime = Duration.new seconds: 30
+      policy = Ngqiniu::Storage::Model::UploadPolicy.new(bucket: 'test').will_die_in(seconds: 30)
       expect(policy.deadline).to be_within(1).of(Time.now + 30)
       h = policy.to_h
       expect(h[:deadline]).to be_within(1).of(Time.now.to_i + 30)
@@ -48,8 +47,10 @@ RSpec.describe Ngqiniu::Storage::Model do
     it 'could set to infrequent storage' do
       policy = Ngqiniu::Storage::Model::UploadPolicy.new bucket: 'test'
       expect(policy).not_to be_infrequent
-      policy.infrequent!
+      expect(policy).not_to be_detect_mime
+      policy.infrequent!.detect_mime!
       expect(policy).to be_infrequent
+      expect(policy).to be_detect_mime
     end
   end
 end
