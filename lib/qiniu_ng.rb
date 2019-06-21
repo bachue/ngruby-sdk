@@ -35,4 +35,11 @@ module QiniuNg
   Config.use_https = false
   Config.default_faraday_options = {}
   Config.default_faraday_config = ->(conn) { conn.adapter Faraday.default_adapter }
+
+  def self.config(use_https: nil, **opts, &block)
+    Config.use_https = use_https unless use_https.nil?
+    Config.default_faraday_options = opts unless opts.empty?
+    Config.default_faraday_config = block if block_given?
+    nil
+  end
 end
