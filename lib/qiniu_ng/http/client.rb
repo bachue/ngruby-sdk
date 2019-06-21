@@ -3,33 +3,33 @@
 module QiniuNg
   # HTTP 协议相关
   module HTTP
-    # HTTP 错误码
-    module ErrorCode
-      INVALID_ARGUMENT = -4
-      INVALID_FILE = -3
-      CANCELLED = -2
-      NETWORK_ERROR = -1
-      UNKNOWN_ERROR = 0
-    end
-
-    def self.client
-      @client ||= if Config.default_faraday_connection.respond_to?(:call)
-                    Client.new Config.default_faraday_connection.call
-                  else
-                    Client.new Config.default_faraday_connection
-                  end
+    def self.client(auth: nil, auth_version: nil)
+      faraday_connection = begin
+        opts = Config.default_faraday_options
+        opts = opts.call if opts.respond_to?(:call)
+        Faraday.new(nil, opts) do |conn|
+          conn.request :retry
+          conn.request :qiniu_auth, auth: auth, version: auth_version
+          conn.response :json, content_type: /\bjson$/
+          conn.response :raise_error
+          conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}")
+          Config.default_faraday_config.call(conn)
+        end
+      end
+      Client.new(faraday_connection, auth: auth, auth_version: auth_version)
     end
 
     # HTTP 客户端
     class Client
-      def initialize(faraday_connection)
+      def initialize(faraday_connection, auth: nil, auth_version: nil)
         @faraday_connection = faraday_connection
+        @auth = auth
+        @auth_version = auth_version
       end
 
       %i[get head delete].each do |method|
-        define_method(method) do |url = nil, params: nil, headers: nil, **options|
+        define_method(method) do |url, params: nil, headers: {}, **options|
           begin_time = Time.now
-          headers = { user_agent: "QiniuNg SDK v#{VERSION}" }.merge(headers || {})
           faraday_response = @faraday_connection.public_send(method, url, params, headers) do |req|
             req.options.update(options)
           end
@@ -39,9 +39,8 @@ module QiniuNg
       end
 
       %i[post put patch].each do |method|
-        define_method(method) do |url = nil, body: nil, headers: nil, **options|
+        define_method(method) do |url, body: nil, headers: {}, **options|
           begin_time = Time.now
-          headers = { user_agent: "QiniuNg SDK v#{VERSION}" }.merge(headers || {})
           faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
             req.options.update(options)
           end

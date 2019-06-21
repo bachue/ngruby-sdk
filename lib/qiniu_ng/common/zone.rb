@@ -54,6 +54,34 @@ module QiniuNg
         @api_https = api_https || 'https://api.qiniu.com'
       end
 
+      def up(https = false)
+        https ? @up_https : @up_http
+      end
+
+      def up_backup(https = false)
+        https ? @up_backup_https : @up_backup_http
+      end
+
+      def up_ip(https = false)
+        https ? @up_ip_https : @up_ip_http
+      end
+
+      def io_vip(https = false)
+        https ? @io_vip_https : @io_vip_http
+      end
+
+      def rs(https = false)
+        https ? @rs_https : @rs_http
+      end
+
+      def rsf(https = false)
+        https ? @rsf_https : @rsf_http
+      end
+
+      def api(https = false)
+        https ? @api_https : @api_http
+      end
+
       class << self
         def auto(api_server: AutoZone::API_SERVER)
           AutoZone.new(api_server: api_server)

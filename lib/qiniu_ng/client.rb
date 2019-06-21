@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
 require 'faraday'
+require 'forwardable'
 
 module QiniuNg
   # 七牛 SDK 客户端
   class Client
-    attr_reader :access_key
-    attr_reader :secret_key
+    extend Forwardable
 
-    def initialize(
-      access_key:,
-      secret_key:,
-      faraday: nil
-    )
-      @access_key = access_key
-      @secret_key = secret_key
-      @faraday_connection = faraday || HTTP.client
+    def initialize(access_key:, secret_key:)
+      @auth = Utils::Auth.new(access_key: access_key, secret_key: secret_key)
+      @http_client_with_auth_v1 = HTTP.client(auth: @auth, auth_version: 1)
+      @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1)
     end
+
+    def_delegators :@bucket_manager, :bucket_names
   end
 end
