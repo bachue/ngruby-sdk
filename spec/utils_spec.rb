@@ -17,10 +17,10 @@ RSpec.describe Ngqiniu::Utils do
     end
 
     it 'should sign request correctly' do
-      expect(dummy_auth.sign_request('http://www.qiniu.com?go=1', 'test', '')).to(
+      expect(dummy_auth.sign_request('http://www.qiniu.com?go=1', body: 'test', content_type: '')).to(
         eq 'abcdefghklmnopq:cFyRVoWrE3IugPIMP5YJFTO-O-Y='
       )
-      expect(dummy_auth.sign_request('http://www.qiniu.com?go=1', 'test', 'application/x-www-form-urlencoded')).to(
+      expect(dummy_auth.sign_request('http://www.qiniu.com?go=1', body: 'test', content_type: 'application/x-www-form-urlencoded')).to(
         eq 'abcdefghklmnopq:svWRNcacOE-YMsc70nuIYdaa1e4='
       )
     end

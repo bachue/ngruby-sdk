@@ -23,7 +23,7 @@ module Ngqiniu
         "#{sign(encoded_data)}:#{encoded_data}"
       end
 
-      def sign_request(url, body, content_type)
+      def sign_request(url, content_type:, body: nil)
         form_mime = 'application/x-www-form-urlencoded'
         uri = URI(url)
         data_to_sign = uri.path.encode('UTF-8')
@@ -33,8 +33,8 @@ module Ngqiniu
         sign(data_to_sign)
       end
 
-      def callback_valid?(original_authorization, url, body, content_type)
-        original_authorization == "QBox #{sign_request(url, body, content_type)}"
+      def callback_valid?(original_authorization, url, content_type:, body: nil)
+        original_authorization == "QBox #{sign_request(url, body: body, content_type: content_type)}"
       end
 
       def sign_download_url_with_deadline(base_url, deadline:)
