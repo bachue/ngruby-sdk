@@ -3,7 +3,7 @@
 require 'openssl'
 require 'base64'
 
-module Ngqiniu
+module QiniuNg
   module Utils
     # 七牛认证相关
     class Auth

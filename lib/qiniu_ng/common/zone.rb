@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Ngqiniu
+module QiniuNg
   module Common
     # 多区域上传域名
     class Zone

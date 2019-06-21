@@ -2,7 +2,7 @@
 
 require 'forwardable'
 
-module Ngqiniu
+module QiniuNg
   module HTTP
     # 定义 HTTP 请求的日志信息和常规方法
     class Response

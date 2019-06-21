@@ -2,7 +2,7 @@
 
 require 'ruby-enum'
 
-module Ngqiniu
+module QiniuNg
   module Storage
     module Model
       # 存储类型（normal: 普通存储，infrequent: 低频存储）

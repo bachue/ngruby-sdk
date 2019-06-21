@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Ngqiniu::Common do
+RSpec.describe QiniuNg::Common do
   it 'should returns predefined zone' do
-    zone0 = Ngqiniu::Zone.huadong
+    zone0 = QiniuNg::Zone.huadong
     expect(zone0.region).to eq('z0')
     expect(zone0.up_http).to eq('http://up.qiniu.com')
     expect(zone0.up_https).to eq('https://up.qbox.me')
@@ -17,7 +17,7 @@ RSpec.describe Ngqiniu::Common do
     expect(zone0.api_http).to eq('http://api.qiniu.com')
     expect(zone0.api_https).to eq('https://api.qiniu.com')
 
-    zone1 = Ngqiniu::Zone.zone1
+    zone1 = QiniuNg::Zone.zone1
     expect(zone1.region).to eq('z1')
     expect(zone1.up_http).to eq('http://up-z1.qiniu.com')
     expect(zone1.up_https).to eq('https://up-z1.qbox.me')
@@ -34,7 +34,7 @@ RSpec.describe Ngqiniu::Common do
   end
 
   it 'could use access key & bucket to judge which zone is better for me' do
-    auto_zone = Ngqiniu::Zone.auto.query(access_key: access_key, bucket: 'na-bucket')
+    auto_zone = QiniuNg::Zone.auto.query(access_key: access_key, bucket: 'na-bucket')
     expect(auto_zone.region).to eq('auto')
     expect(auto_zone.up_http).to eq('http://up-na0.qiniu.com')
     expect(auto_zone.up_https).to eq('https://up-na0.qbox.me')

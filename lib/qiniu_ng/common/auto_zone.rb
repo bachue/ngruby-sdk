@@ -2,7 +2,7 @@
 
 require 'faraday'
 
-module Ngqiniu
+module QiniuNg
   module Common
     # 该类主要用来根据用户提供的 AccessKey 和 Bucket 来自动获取有效的 Zone 实例
     class AutoZone

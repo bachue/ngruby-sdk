@@ -2,19 +2,19 @@
 
 require 'faraday'
 require 'faraday_middleware'
-require 'ngqiniu/version'
-require 'ngqiniu/client'
-require 'ngqiniu/common/zone'
-require 'ngqiniu/common/auto_zone'
-require 'ngqiniu/utils/auth'
-require 'ngqiniu/http/client'
-require 'ngqiniu/http/response'
-require 'ngqiniu/storage/model/entry'
-require 'ngqiniu/storage/model/upload_policy'
-require 'ngqiniu/storage/model/storage_type'
+require 'qiniu_ng/version'
+require 'qiniu_ng/client'
+require 'qiniu_ng/common/zone'
+require 'qiniu_ng/common/auto_zone'
+require 'qiniu_ng/utils/auth'
+require 'qiniu_ng/http/client'
+require 'qiniu_ng/http/response'
+require 'qiniu_ng/storage/model/entry'
+require 'qiniu_ng/storage/model/upload_policy'
+require 'qiniu_ng/storage/model/storage_type'
 
 # 下一代七牛 Ruby SDK
-module Ngqiniu
+module QiniuNg
   include Common
   include Utils
   # 全局配置

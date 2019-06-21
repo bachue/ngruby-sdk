@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Ngqiniu
+module QiniuNg
   # HTTP 协议相关
   module HTTP
     # HTTP 错误码

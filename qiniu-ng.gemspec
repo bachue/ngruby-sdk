@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ngqiniu/version'
+require 'qiniu_ng/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'ngqiniu'
-  spec.version       = Ngqiniu::VERSION
+  spec.name          = 'ng-qiniu'
+  spec.version       = QiniuNg::VERSION
   spec.authors       = ['Rong Zhou', 'Shanghai Qiniu Information Technologies Co., Ltd.']
   spec.email         = ['zhourong@qiniu.com', 'sdk@qiniu.com', 'support@qiniu.com']
 

@@ -2,7 +2,7 @@
 
 require 'faraday'
 
-module Ngqiniu
+module QiniuNg
   # 七牛 SDK 客户端
   class Client
     attr_reader :access_key

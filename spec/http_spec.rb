@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Ngqiniu::HTTP do
-  it 'should create ngqiniu http response for faraday response' do
-    good_resp = Ngqiniu::HTTP.client.get('https://uc.qbox.me/v1/query', ak: access_key, bucket: 'z0-bucket')
+RSpec.describe QiniuNg::HTTP do
+  it 'should create qiniu_ng http response for faraday response' do
+    good_resp = QiniuNg::HTTP.client.get('https://uc.qbox.me/v1/query', ak: access_key, bucket: 'z0-bucket')
     expect(good_resp).to be_finished
     expect(good_resp.reason_phrase).to eq('OK')
     expect(good_resp.status).to eq(200)
@@ -14,7 +14,7 @@ RSpec.describe Ngqiniu::HTTP do
   end
 
   it 'should get error message from http response' do
-    bad_resp = Ngqiniu::HTTP.client.get('https://uc.qbox.me/v1/query', ak: access_key, bucket: 'unexisted-bucket')
+    bad_resp = QiniuNg::HTTP.client.get('https://uc.qbox.me/v1/query', ak: access_key, bucket: 'unexisted-bucket')
     expect(bad_resp).to be_finished
     expect(bad_resp.reason_phrase).to eq('status code 631')
     expect(bad_resp.status).to eq(631)

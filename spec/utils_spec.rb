@@ -2,12 +2,12 @@
 
 require_relative 'spec_helper'
 
-RSpec.describe Ngqiniu::Utils do
-  describe Ngqiniu::Utils::Auth do
+RSpec.describe QiniuNg::Utils do
+  describe QiniuNg::Utils::Auth do
     describe '#sign' do
       dummy_access_key = 'abcdefghklmnopq'
       dummy_secret_key = '1234567890'
-      dummy_auth = Ngqiniu::Utils::Auth.new(access_key: dummy_access_key, secret_key: dummy_secret_key)
+      dummy_auth = QiniuNg::Utils::Auth.new(access_key: dummy_access_key, secret_key: dummy_secret_key)
 
       it 'should sign correctly' do
         expect(dummy_auth.sign('hello')).to eq 'abcdefghklmnopq:b84KVc-LroDiz0ebUANfdzSRxa0='
@@ -86,7 +86,7 @@ RSpec.describe Ngqiniu::Utils do
 
     describe '#sign_download_url_with_deadline' do
       it 'should sign download url correctly' do
-        dummy_auth = Ngqiniu::Utils::Auth.new(access_key: 'abcdefghklmnopq', secret_key: '1234567890')
+        dummy_auth = QiniuNg::Utils::Auth.new(access_key: 'abcdefghklmnopq', secret_key: '1234567890')
         expect(dummy_auth.sign_download_url_with_deadline('http://www.qiniu.com?go=1', deadline: Time.at(1_234_567_890 + 3600))).to(
           eq 'http://www.qiniu.com?go=1&e=1234571490&token=abcdefghklmnopq:8vzBeLZ9W3E4kbBLFLW0Xe0u7v4='
         )
@@ -94,7 +94,7 @@ RSpec.describe Ngqiniu::Utils do
 
       %w[4k 1m 4m 8m 16m 64m 1g].each do |size|
         it "should download #{size} file correctly" do
-          real_auth = Ngqiniu::Utils::Auth.new(access_key: access_key, secret_key: secret_key)
+          real_auth = QiniuNg::Utils::Auth.new(access_key: access_key, secret_key: secret_key)
           url = real_auth.sign_download_url_with_lifetime("http://z1-bucket.kodo-test.qiniu-solutions.com/#{size}", lifetime: { seconds: 30 })
           expect(Faraday.head(url)).to be_success
         end

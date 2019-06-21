@@ -2,7 +2,7 @@
 
 require 'base64'
 
-module Ngqiniu
+module QiniuNg
   module Storage
     module Model
       # 云存储中的资源标识符

@@ -2,7 +2,7 @@
 
 require 'duration'
 
-module Ngqiniu
+module QiniuNg
   module Storage
     module Model
       # 上传策略
