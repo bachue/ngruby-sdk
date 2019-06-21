@@ -19,8 +19,8 @@ module QiniuNg
         }
       end
 
-      def query(access_key:, bucket:)
-        resp = @client.get("#{@api_server}/v1/query", ak: access_key, bucket: bucket)
+      def query(access_key:, bucket:, **options)
+        resp = @client.get("#{@api_server}/v1/query", params: { ak: access_key, bucket: bucket }, **options)
         up_http = resp.body.dig('http', 'up', 0)
         up_backup_http = resp.body.dig('http', 'up', 1)
         up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)

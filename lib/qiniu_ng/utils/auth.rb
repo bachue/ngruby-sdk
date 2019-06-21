@@ -93,13 +93,13 @@ module QiniuNg
 
       def inc_body_v1?(content_type, body)
         form_mime = 'application/x-www-form-urlencoded'
-        !body.nil? && form_mime.casecmp?(content_type)
+        !body.nil? && !content_type.nil? && form_mime.casecmp?(content_type)
       end
 
       def inc_body_v2?(content_type, body)
         form_mime = 'application/x-www-form-urlencoded'
         json_mime = 'application/json'
-        !body.nil? && (form_mime.casecmp?(content_type) || json_mime.casecmp?(content_type))
+        !body.nil? && !content_type.nil? && (form_mime.casecmp?(content_type) || json_mime.casecmp?(content_type))
       end
     end
   end

@@ -27,18 +27,24 @@ module QiniuNg
       end
 
       %i[get head delete].each do |method|
-        define_method(method) do |url = nil, params = nil, headers = nil|
+        define_method(method) do |url = nil, params: nil, headers: nil, **options|
           begin_time = Time.now
-          faraday_response = @faraday_connection.public_send(method, url, params, headers)
+          headers = { user_agent: "QiniuNg SDK v#{VERSION}" }.merge(headers || {})
+          faraday_response = @faraday_connection.public_send(method, url, params, headers) do |req|
+            req.options.update(options)
+          end
           end_time = Time.now
           Response.new(faraday_response, duration: end_time - begin_time, address: nil)
         end
       end
 
       %i[post put patch].each do |method|
-        define_method(method) do |url = nil, body = nil, headers = nil, &block|
+        define_method(method) do |url = nil, body: nil, headers: nil, **options|
           begin_time = Time.now
-          faraday_response = @faraday_connection.public_send(method, url, body, headers, &block)
+          headers = { user_agent: "QiniuNg SDK v#{VERSION}" }.merge(headers || {})
+          faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
+            req.options.update(options)
+          end
           end_time = Time.now
           Response.new(faraday_response, duration: end_time - begin_time, address: nil)
         end
