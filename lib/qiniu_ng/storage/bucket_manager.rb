@@ -1,15 +1,41 @@
 # frozen_string_literal: true
 
+require 'base64'
+
 module QiniuNg
   module Storage
-    # 七牛 SDK 存储管理
+    # 七牛空间管理
     class BucketManager
       def initialize(http_client)
         @http_client = http_client
       end
 
-      def bucket_names(https: false)
-        @http_client.get("#{Common::Zone.huadong.rs(https)}/buckets").body
+      def bucket_names(https: nil, **options)
+        @http_client.get("#{rs_url(https)}/buckets", **options).body
+      end
+
+      def create_bucket(bucket_name, zone: :z0, https: nil, **options)
+        region = zone.is_a?(Common::Zone) ? zone.region || :z0 : zone
+        encoded_bucket_name = Base64.urlsafe_encode64(bucket_name)
+        @http_client.post("#{rs_url(https)}/mkbucketv2/#{encoded_bucket_name}/region/#{region}", **options)
+        bucket(bucket_name)
+      end
+
+      def drop_bucket(bucket_name, https: nil, **options)
+        @http_client.post("#{rs_url(https)}/drop/#{bucket_name}", **options)
+        nil
+      end
+      alias delete_bucket drop_bucket
+
+      def bucket(bucket_name)
+        Bucket.new(bucket_name, http_client: @http_client)
+      end
+
+      private
+
+      def rs_url(https)
+        https = Config.use_https if https.nil?
+        Common::Zone.huadong.rs(https)
       end
     end
   end

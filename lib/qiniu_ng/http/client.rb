@@ -41,6 +41,7 @@ module QiniuNg
       %i[post put patch].each do |method|
         define_method(method) do |url, body: nil, headers: {}, **options|
           begin_time = Time.now
+          headers = { content_type: 'application/x-www-form-urlencoded' }.merge(headers)
           faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
             req.options.update(options)
           end

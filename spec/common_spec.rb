@@ -35,7 +35,7 @@ RSpec.describe QiniuNg::Common do
 
   it 'could use access key & bucket to judge which zone is better for me' do
     auto_zone = QiniuNg::Zone.auto.query(access_key: access_key, bucket: 'na-bucket')
-    expect(auto_zone.region).to eq('auto')
+    expect(auto_zone.region).to eq('na0')
     expect(auto_zone.up_http).to eq('http://up-na0.qiniu.com')
     expect(auto_zone.up_https).to eq('https://up-na0.qbox.me')
     expect(auto_zone.up_backup_http).to eq('http://upload-na0.qiniu.com')

@@ -17,6 +17,7 @@ require 'qiniu_ng/storage/model/entry'
 require 'qiniu_ng/storage/model/upload_policy'
 require 'qiniu_ng/storage/model/storage_type'
 require 'qiniu_ng/storage/bucket_manager'
+require 'qiniu_ng/storage/bucket'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg
@@ -25,11 +26,13 @@ module QiniuNg
   # 全局配置
   class Config
     class << self
+      attr_accessor :use_https
       attr_accessor :default_faraday_options
       attr_accessor :default_faraday_config
     end
   end
 
+  Config.use_https = false
   Config.default_faraday_options = {}
   Config.default_faraday_config = ->(conn) { conn.adapter Faraday.default_adapter }
 end

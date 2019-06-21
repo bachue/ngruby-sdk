@@ -14,6 +14,6 @@ module QiniuNg
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1)
     end
 
-    def_delegators :@bucket_manager, :bucket_names
+    def_delegators :@bucket_manager, :bucket_names, :create_bucket, :drop_bucket, :delete_bucket, :bucket
   end
 end

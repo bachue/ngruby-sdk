@@ -83,8 +83,8 @@ module QiniuNg
       end
 
       class << self
-        def auto(api_server: AutoZone::API_SERVER)
-          AutoZone.new(api_server: api_server)
+        def auto
+          AutoZone.new
         end
 
         def huadong
