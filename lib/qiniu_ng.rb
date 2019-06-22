@@ -9,6 +9,7 @@ require 'qiniu_ng/common/zone'
 require 'qiniu_ng/common/auto_zone'
 require 'qiniu_ng/utils/auth'
 require 'qiniu_ng/utils/etag'
+require 'qiniu_ng/http/error'
 require 'qiniu_ng/http/error_code'
 require 'qiniu_ng/http/middleware'
 require 'qiniu_ng/http/client'
@@ -32,14 +33,14 @@ module QiniuNg
     end
   end
 
-  Config.use_https = false
-  Config.default_faraday_options = {}
-  Config.default_faraday_config = ->(conn) { conn.adapter Faraday.default_adapter }
-
   def self.config(use_https: nil, **opts, &block)
     Config.use_https = use_https unless use_https.nil?
     Config.default_faraday_options = opts unless opts.empty?
     Config.default_faraday_config = block if block_given?
     nil
+  end
+
+  config(use_https: false) do |conn|
+    conn.adapter Faraday.default_adapter
   end
 end

@@ -23,5 +23,14 @@ RSpec.describe QiniuNg::Client do
       client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
       expect(client.bucket('z0-bucket').domains).to include('z0-bucket.kodo-test.qiniu-solutions.com')
     end
+
+    it 'should set / unset image for bucket' do
+      bucket = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key).bucket('z0-bucket')
+      begin
+        bucket.set_image 'http://www.qiniu.com'
+      ensure
+        bucket.unset_image
+      end
+    end
   end
 end

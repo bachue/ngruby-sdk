@@ -11,6 +11,7 @@ module QiniuNg
           conn.request :retry
           conn.request :qiniu_auth, auth: auth, version: auth_version
           conn.response :json, content_type: /\bjson$/
+          conn.response :qiniu_raise_error
           conn.response :raise_error
           conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}")
           Config.default_faraday_config.call(conn)

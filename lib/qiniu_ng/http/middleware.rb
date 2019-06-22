@@ -27,7 +27,48 @@ module QiniuNg
         end
       end
 
+      # 七牛 HTTP 错误处理中间件
+      class RaiseError < Faraday::Response::Middleware
+        def on_complete(env)
+          case env[:status]
+          when 298
+            raise PartialOK, response_values(env)
+          when 419
+            raise UserDisabled, response_values(env)
+          when 573
+            raise OutOfLimit, response_values(env)
+          when 579
+            raise CallbackFailed, response_values(env)
+          when 599
+            raise FunctionError, response_values(env)
+          when 608
+            raise FileModified, response_values(env)
+          when 612
+            raise ResourceNotFound, response_values(env)
+          when 614
+            raise ResourceExists, response_values(env)
+          when 630
+            raise TooManyBuckets, response_values(env)
+          when 631
+            raise BucketNotFound, response_values(env)
+          when 640
+            raise InvalidMarker, response_values(env)
+          when 701
+            raise InvalidContext, response_values(env)
+          when 600..1000
+            raise Error, response_values(env)
+          end
+        end
+
+        private
+
+        def response_values(env)
+          { status: env.status, headers: env.response_headers, body: env.body }
+        end
+      end
+
       Faraday::Request.register_middleware qiniu_auth: -> { Auth }
+      Faraday::Response.register_middleware qiniu_raise_error: -> { RaiseError }
     end
   end
 end
