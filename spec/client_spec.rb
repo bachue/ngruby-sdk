@@ -19,17 +19,41 @@ RSpec.describe QiniuNg::Client do
   end
 
   describe QiniuNg::Storage::Bucket do
-    it 'should get bucket domains' do
+    client = nil
+    bucket = nil
+
+    before :all do
       client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
+      bucket = client.create_bucket("test-bucket-#{time_id}")
+    end
+
+    after :all do
+      bucket.drop
+    end
+
+    it 'should get bucket domains' do
       expect(client.bucket('z0-bucket').domains).to include('z0-bucket.kodo-test.qiniu-solutions.com')
     end
 
     it 'should set / unset image for bucket' do
-      bucket = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key).bucket('z0-bucket')
+      expect(bucket.image).to be_nil
       begin
-        bucket.set_image 'http://www.qiniu.com'
+        bucket.set_image 'http://www.qiniu.com', source_host: 'z0-bucket.kodo-test.qiniu-solutions.com'
+        expect(bucket.image.source_url).to eq('http://www.qiniu.com')
+        expect(bucket.image.source_host).to eq('z0-bucket.kodo-test.qiniu-solutions.com')
       ensure
         bucket.unset_image
+      end
+    end
+
+    it 'should update bucket acl' do
+      expect(bucket).not_to be_private
+      begin
+        bucket.private!
+        expect(bucket).to be_private
+      ensure
+        bucket.public!
+        expect(bucket).not_to be_private
       end
     end
   end

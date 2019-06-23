@@ -40,10 +40,11 @@ module QiniuNg
       end
 
       %i[post put patch].each do |method|
-        define_method(method) do |url, body: nil, headers: {}, **options|
+        define_method(method) do |url, params: nil, body: nil, headers: {}, **options|
           begin_time = Time.now
           headers = { content_type: 'application/x-www-form-urlencoded' }.merge(headers)
           faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
+            req.params.update(params) unless params.nil?
             req.options.update(options)
           end
           end_time = Time.now

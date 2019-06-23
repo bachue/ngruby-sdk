@@ -13,6 +13,12 @@ module QiniuNg
         @bucket_name
       end
 
+      def drop(https: nil, **options)
+        @http_client.post("#{rs_url(https)}/drop/#{@bucket_name}", **options)
+        nil
+      end
+      alias delete drop
+
       def domains(https: nil, **options)
         @http_client.get("#{api_url(https)}/v6/domain/list", params: { tbl: @bucket_name }, **options).body
       end
@@ -30,11 +36,46 @@ module QiniuNg
         nil
       end
 
+      def public!(https: nil, **options)
+        update_acl(private_access: false, https: https, **options)
+      end
+
+      def private!(https: nil, **options)
+        update_acl(private_access: true, https: https, **options)
+      end
+
+      def private?(https: nil, **options)
+        info(https: https, **options)['private'] == 1
+      end
+
+      ImageInfo = Struct.new(:source_url, :source_host)
+
+      def image(https: nil, **options)
+        result = info(https: https, **options)
+        ImageInfo.new(result['source'], result['host']) if result['source']
+      end
+
       private
+
+      def update_acl(private_access:, https: nil, **options)
+        private_access = private_access ? 1 : 0
+        params = { bucket: @bucket_name, private: private_access }
+        @http_client.post("#{uc_url(https)}/private", params: params, **options)
+        nil
+      end
+
+      def info(https: nil, **options)
+        @http_client.get("#{uc_url(https)}/v2/bucketInfo", params: { bucket: @bucket_name }, **options).body
+      end
 
       def api_url(https)
         https = Config.use_https if https.nil?
         Common::Zone.huadong.api(https)
+      end
+
+      def rs_url(https)
+        https = Config.use_https if https.nil?
+        Common::Zone.huadong.rs(https)
       end
 
       def uc_url(https)

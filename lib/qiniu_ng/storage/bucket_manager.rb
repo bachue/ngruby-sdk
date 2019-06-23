@@ -22,8 +22,7 @@ module QiniuNg
       end
 
       def drop_bucket(bucket_name, https: nil, **options)
-        @http_client.post("#{rs_url(https)}/drop/#{bucket_name}", **options)
-        nil
+        bucket(bucket_name).drop(https: https, **options)
       end
       alias delete_bucket drop_bucket
 
