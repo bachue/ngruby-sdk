@@ -55,7 +55,26 @@ module QiniuNg
         ImageInfo.new(result['source'], result['host']) if result['source']
       end
 
+      def enable_index_page(https: nil, **options)
+        set_index_page(true, https: https, **options)
+      end
+
+      def disable_index_page(https: nil, **options)
+        set_index_page(false, https: https, **options)
+      end
+
+      def has_index_page?(https: nil, **options)
+        info(https: https, **options)['no_index_page'].zero?
+      end
+
       private
+
+      def set_index_page(enabled, https: nil, **options)
+        no_index_page = enabled ? 0 : 1
+        params = { bucket: @bucket_name, noIndexPage: no_index_page }
+        @http_client.post("#{uc_url(https)}/noIndexPage", params: params, **options)
+        nil
+      end
 
       def update_acl(private_access:, https: nil, **options)
         private_access = private_access ? 1 : 0

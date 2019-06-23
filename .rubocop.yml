@@ -24,5 +24,8 @@ Metrics/BlockLength:
   Exclude:
     - "**/*.gemspec"
     - "**/*_spec.rb"
+Naming/PredicateName:
+  NamePrefix: ["is_"]
+  NamePrefixBlacklist: ["is_"]
 Style/AsciiComments:
   Enabled: false

@@ -56,5 +56,16 @@ RSpec.describe QiniuNg::Client do
         expect(bucket).not_to be_private
       end
     end
+
+    it 'should update bucket noIndexPage' do
+      expect(bucket).to have_index_page
+      begin
+        bucket.disable_index_page
+        expect(bucket).not_to have_index_page
+      ensure
+        bucket.enable_index_page
+        expect(bucket).to have_index_page
+      end
+    end
   end
 end
