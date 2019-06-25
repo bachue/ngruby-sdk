@@ -130,4 +130,22 @@ RSpec.describe QiniuNg::Utils do
       end
     end
   end
+
+  describe QiniuNg::Utils::Bool do
+    it 'should convert value to bool' do
+      expect(QiniuNg::Bool.to_bool(1)).to be true
+      expect(QiniuNg::Bool.to_bool(0)).to be false
+      expect(QiniuNg::Bool.to_bool(true)).to be true
+      expect(QiniuNg::Bool.to_bool(false)).to be false
+      expect(QiniuNg::Bool.to_bool(nil)).to be false
+    end
+
+    it 'should convert value to int' do
+      expect(QiniuNg::Bool.to_int(1)).to eq 1
+      expect(QiniuNg::Bool.to_int(0)).to eq 0
+      expect(QiniuNg::Bool.to_int(true)).to eq 1
+      expect(QiniuNg::Bool.to_int(false)).to eq 0
+      expect(QiniuNg::Bool.to_int(nil)).to eq 0
+    end
+  end
 end

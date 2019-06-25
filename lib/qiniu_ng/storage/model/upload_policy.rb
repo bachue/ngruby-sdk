@@ -82,7 +82,11 @@ module QiniuNg
           !@detect_mime.nil?
         end
 
-        def infrequent?
+        def normal_storage?
+          @file_type.nil? || @file_type == StorageType.normal
+        end
+
+        def infrequent_storage?
           @file_type == StorageType.infrequent
         end
 
@@ -96,7 +100,12 @@ module QiniuNg
           self
         end
 
-        def infrequent!
+        def normal_storage!
+          @file_type = StorageType.normal
+          self
+        end
+
+        def infrequent_storage!
           @file_type = StorageType.infrequent
           self
         end
@@ -185,7 +194,7 @@ module QiniuNg
             mimeLimit: @mime_limit,
             deadline: @deadline&.to_i,
             deleteAfterDays: @delete_after_days&.to_i,
-            file_type: @file_type&.to_i
+            fileType: @file_type&.to_i
           }
           h.each_with_object({}) do |(k, v), o|
             o[k] = v unless v.nil?

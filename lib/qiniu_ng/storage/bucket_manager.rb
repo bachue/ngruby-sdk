@@ -6,8 +6,9 @@ module QiniuNg
   module Storage
     # 七牛空间管理
     class BucketManager
-      def initialize(http_client)
+      def initialize(http_client, auth)
         @http_client = http_client
+        @auth = auth
       end
 
       def bucket_names(https: nil, **options)
@@ -27,7 +28,7 @@ module QiniuNg
       alias delete_bucket drop_bucket
 
       def bucket(bucket_name)
-        Bucket.new(bucket_name, http_client: @http_client)
+        Bucket.new(bucket_name, @http_client, @auth)
       end
 
       private

@@ -11,7 +11,7 @@ module QiniuNg
     def initialize(access_key:, secret_key:)
       @auth = Utils::Auth.new(access_key: access_key, secret_key: secret_key)
       @http_client_with_auth_v1 = HTTP.client(auth: @auth, auth_version: 1)
-      @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1)
+      @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @auth)
     end
 
     def_delegators :@bucket_manager, :bucket_names, :create_bucket, :drop_bucket, :delete_bucket, :bucket

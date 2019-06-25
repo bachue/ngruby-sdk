@@ -4,9 +4,10 @@ module QiniuNg
   module Storage
     # 七牛空间
     class Bucket
-      def initialize(bucket_name, http_client:)
+      def initialize(bucket_name, http_client, auth)
         @bucket_name = bucket_name
         @http_client = http_client
+        @auth = auth
       end
 
       def name
@@ -67,17 +68,21 @@ module QiniuNg
         info(https: https, **options)['no_index_page'].zero?
       end
 
+      def entry(key)
+        Entry.new(self, key, @http_client, @auth)
+      end
+
       private
 
       def set_index_page(enabled, https: nil, **options)
-        no_index_page = enabled ? 0 : 1
+        no_index_page = Utils::Bool.to_int(!enabled)
         params = { bucket: @bucket_name, noIndexPage: no_index_page }
         @http_client.post("#{uc_url(https)}/noIndexPage", params: params, **options)
         nil
       end
 
       def update_acl(private_access:, https: nil, **options)
-        private_access = private_access ? 1 : 0
+        private_access = Utils::Bool.to_int(private_access)
         params = { bucket: @bucket_name, private: private_access }
         @http_client.post("#{uc_url(https)}/private", params: params, **options)
         nil
@@ -98,7 +103,7 @@ module QiniuNg
       end
 
       def uc_url(https)
-        https ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
+        Utils::Bool.to_bool(https) ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
       end
     end
   end

@@ -8,6 +8,7 @@ require 'qiniu_ng/common/constant'
 require 'qiniu_ng/common/zone'
 require 'qiniu_ng/common/auto_zone'
 require 'qiniu_ng/utils/auth'
+require 'qiniu_ng/utils/bool'
 require 'qiniu_ng/utils/etag'
 require 'qiniu_ng/http/error'
 require 'qiniu_ng/http/error_code'
@@ -19,6 +20,9 @@ require 'qiniu_ng/storage/model/upload_policy'
 require 'qiniu_ng/storage/model/storage_type'
 require 'qiniu_ng/storage/bucket_manager'
 require 'qiniu_ng/storage/bucket'
+require 'qiniu_ng/storage/entry'
+require 'qiniu_ng/storage/op'
+require 'qiniu_ng/storage/download_url'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg

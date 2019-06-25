@@ -55,31 +55,31 @@ module QiniuNg
       end
 
       def up(https = false)
-        https ? @up_https : @up_http
+        Utils::Bool.to_bool(https) ? @up_https : @up_http
       end
 
       def up_backup(https = false)
-        https ? @up_backup_https : @up_backup_http
+        Utils::Bool.to_bool(https) ? @up_backup_https : @up_backup_http
       end
 
       def up_ip(https = false)
-        https ? @up_ip_https : @up_ip_http
+        Utils::Bool.to_bool(https) ? @up_ip_https : @up_ip_http
       end
 
       def io_vip(https = false)
-        https ? @io_vip_https : @io_vip_http
+        Utils::Bool.to_bool(https) ? @io_vip_https : @io_vip_http
       end
 
       def rs(https = false)
-        https ? @rs_https : @rs_http
+        Utils::Bool.to_bool(https) ? @rs_https : @rs_http
       end
 
       def rsf(https = false)
-        https ? @rsf_https : @rsf_http
+        Utils::Bool.to_bool(https) ? @rsf_https : @rsf_http
       end
 
       def api(https = false)
-        https ? @api_https : @api_http
+        Utils::Bool.to_bool(https) ? @api_https : @api_http
       end
 
       class << self

@@ -59,10 +59,16 @@ RSpec.describe QiniuNg::Storage::Model do
 
     it 'could set to infrequent storage' do
       policy = QiniuNg::Storage::Model::UploadPolicy.new bucket: 'test'
-      expect(policy).not_to be_infrequent
+      expect(policy).not_to be_infrequent_storage
+      expect(policy).to be_normal_storage
       expect(policy).not_to be_detect_mime
-      policy.infrequent!.detect_mime!
-      expect(policy).to be_infrequent
+      policy.infrequent_storage!.detect_mime!
+      expect(policy).to be_infrequent_storage
+      expect(policy).not_to be_normal_storage
+      expect(policy).to be_detect_mime
+      policy.normal_storage!
+      expect(policy).not_to be_infrequent_storage
+      expect(policy).to be_normal_storage
       expect(policy).to be_detect_mime
     end
 
