@@ -154,4 +154,26 @@ RSpec.describe QiniuNg::Client do
       end
     end
   end
+
+  describe QiniuNg::Storage::BatchOperations do
+    client = nil
+
+    before :all do
+      client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
+    end
+
+    it 'should get all stats of a bucket' do
+      files = %w[4k 16k 1m].freeze
+      batch = client.bucket('z0-bucket').batch
+      files.each do |file|
+        batch = batch.stat(file)
+      end
+      results = batch.do
+      expect(results.select(&:success?).size).to eq files.size
+      expect(results.reject(&:success?).size).to be_zero
+      expect(results.map { |result| result.response.file_size }).to eq(
+        [4 * (1 << 10), 16 * (1 << 10), 1 * (1 << 20)]
+      )
+    end
+  end
 end

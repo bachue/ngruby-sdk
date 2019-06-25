@@ -15,12 +15,12 @@ module QiniuNg
 
         def call(env)
           unless @auth.nil? || @version.nil?
-            env[:request_headers][:authorization] = @auth.authorization_for_request(
-              env[:url],
+            env.request_headers[:authorization] = @auth.authorization_for_request(
+              env.url,
               version: @version,
-              method: env[:method],
-              content_type: env[:request_headers][:content_type],
-              body: env[:request_body]
+              method: env.method,
+              content_type: env.request_headers[:content_type],
+              body: env[:body]
             )
           end
           @app.call(env)
@@ -31,8 +31,6 @@ module QiniuNg
       class RaiseError < Faraday::Response::Middleware
         def on_complete(env)
           case env[:status]
-          when 298
-            raise PartialOK, response_values(env)
           when 419
             raise UserDisabled, response_values(env)
           when 573

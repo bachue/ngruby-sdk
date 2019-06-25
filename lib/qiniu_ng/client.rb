@@ -15,5 +15,9 @@ module QiniuNg
     end
 
     def_delegators :@bucket_manager, :bucket_names, :create_bucket, :drop_bucket, :delete_bucket, :bucket
+
+    def batch
+      BatchOperation.new(nil, @http_client, @auth)
+    end
   end
 end

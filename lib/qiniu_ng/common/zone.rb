@@ -102,6 +102,7 @@ module QiniuNg
               api_http: 'http://api.qiniu.com',
               api_https: 'https://api.qiniu.com').freeze
         end
+        alias z0 huadong
         alias zone0 huadong
 
         def qvm_huadong
@@ -136,6 +137,7 @@ module QiniuNg
               api_http: 'http://api-z1.qiniu.com',
               api_https: 'https://api-z1.qiniu.com').freeze
         end
+        alias z1 huabei
         alias zone1 huabei
 
         def qvm_huabei
@@ -170,6 +172,7 @@ module QiniuNg
               api_http: 'http://api-z2.qiniu.com',
               api_https: 'https://api-z2.qiniu.com').freeze
         end
+        alias z2 huanan
         alias zone2 huanan
 
         def beimei
@@ -187,6 +190,7 @@ module QiniuNg
               api_http: 'http://api-na0.qiniu.com',
               api_https: 'https://api-na0.qiniu.com').freeze
         end
+        alias na0 beimei
         alias zone_na0 beimei
         alias north_america beimei
 
@@ -205,6 +209,7 @@ module QiniuNg
               api_http: 'http://api-as0.qiniu.com',
               api_https: 'https://api-as0.qiniu.com').freeze
         end
+        alias as0 xinjiapo
         alias zone_as0 xinjiapo
         alias singapore xinjiapo
       end

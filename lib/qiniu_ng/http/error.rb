@@ -4,9 +4,6 @@ module QiniuNg
   # HTTP 协议相关
   module HTTP
     # HTTP 错误码
-    class Error < Faraday::Error
-    end
-
     class AccountError < Faraday::Error
     end
 
@@ -14,9 +11,6 @@ module QiniuNg
     end
 
     class ServerError < Faraday::ClientError
-    end
-
-    class PartialOKError < Error
     end
 
     class UserDisabledError < AccountError

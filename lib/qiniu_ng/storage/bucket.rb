@@ -4,14 +4,22 @@ module QiniuNg
   module Storage
     # 七牛空间
     class Bucket
-      def initialize(bucket_name, http_client, auth)
+      def initialize(bucket_name, zone, http_client, auth)
         @bucket_name = bucket_name
         @http_client = http_client
         @auth = auth
+        @zone = zone
       end
 
       def name
         @bucket_name
+      end
+
+      def zone
+        @zone ||= begin
+          region_id = info['region'].to_sym
+          Common::Zone.send(region_id) if Common::Zone.respond_to?(region_id)
+        end
       end
 
       def drop(https: nil, **options)
@@ -70,6 +78,10 @@ module QiniuNg
 
       def entry(key)
         Entry.new(self, key, @http_client, @auth)
+      end
+
+      def batch
+        BatchOperations.new(self, @http_client, @auth)
       end
 
       private

@@ -61,14 +61,14 @@ module QiniuNg
         self
       end
 
-      def move_to(bucket, key, force: false, https: nil, **options)
-        op = Op::Move.new(self, bucket: bucket, key: key, force: force)
+      def move_to(bucket_name, key, force: false, https: nil, **options)
+        op = Op::Move.new(self, bucket: bucket_name, key: key, force: force)
         @http_client.post("#{rs_url(https)}#{op}", **options)
         self
       end
 
-      def copy_to(bucket, key, force: false, https: nil, **options)
-        op = Op::Copy.new(self, bucket: bucket, key: key, force: force)
+      def copy_to(bucket_name, key, force: false, https: nil, **options)
+        op = Op::Copy.new(self, bucket: bucket_name, key: key, force: force)
         @http_client.post("#{rs_url(https)}#{op}", **options)
         self
       end
@@ -93,7 +93,7 @@ module QiniuNg
 
       def rs_url(https)
         https = Config.use_https if https.nil?
-        Common::Zone.huadong.rs(https)
+        @bucket.zone.rs(https)
       end
     end
   end

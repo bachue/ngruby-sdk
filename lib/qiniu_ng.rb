@@ -22,6 +22,7 @@ require 'qiniu_ng/storage/bucket_manager'
 require 'qiniu_ng/storage/bucket'
 require 'qiniu_ng/storage/entry'
 require 'qiniu_ng/storage/op'
+require 'qiniu_ng/storage/batch_operations'
 require 'qiniu_ng/storage/download_url'
 
 # 下一代七牛 Ruby SDK
