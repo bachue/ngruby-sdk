@@ -70,14 +70,23 @@ RSpec.describe QiniuNg::Client do
   end
 
   describe QiniuNg::Storage::Entry do
-    # TODO: 转换成对新上传的文件进行处理
     bucket = nil
     entry = nil
 
     before :all do
       client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
+      auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
+      http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
       bucket = client.bucket('z0-bucket')
-      entry = bucket.entry('16k')
+      entry = bucket.entry("16k-#{Time.now.usec}")
+      QiniuNg::Storage::Uploader::FormUploader.new(bucket, http_client, auth).sync_upload_file(
+        create_temp_file(kilo_size: 16),
+        upload_token: entry.upload_token { |policy| policy.set_token_lifetime(seconds: 30) },
+      )
+    end
+
+    after :all do
+      entry.delete
     end
 
     it 'should disable / enable the entry' do
@@ -125,7 +134,7 @@ RSpec.describe QiniuNg::Client do
     it 'should rename the entry' do
       old_public_url = entry.download_url.public
       expect(Faraday.get(old_public_url + "?t=#{Time.now.usec}")).to be_success
-      new_entry = bucket.entry('16K')
+      new_entry = bucket.entry("16K-#{Time.now.usec}")
       new_public_url = new_entry.download_url.public
       begin
         entry.rename_to(new_entry.key)
@@ -141,7 +150,7 @@ RSpec.describe QiniuNg::Client do
     it 'should copy / delete the entry' do
       old_public_url = entry.download_url.public
       expect(Faraday.get(old_public_url + "?t=#{Time.now.usec}")).to be_success
-      new_entry = bucket.entry('16K')
+      new_entry = bucket.entry("16K-#{Time.now.usec}")
       new_public_url = new_entry.download_url.public
       begin
         entry.copy_to(bucket.name, new_entry.key)

@@ -18,6 +18,8 @@ Metrics/MethodLength:
   Max: 100
 Metrics/ParameterLists:
   CountKeywordArgs: false
+Metrics/PerceivedComplexity:
+  Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false
 Metrics/BlockLength:

@@ -25,13 +25,8 @@ module QiniuNg
           @key = key || key_prefix
           @scope = Entry.new(bucket: @bucket, key: @key).to_s
           @is_prefixal_scope = key_prefix.nil? ? nil : true
-          if key.nil?
-            @save_key = nil
-            @force_save_key = nil
-          else
-            @save_key = key
-            @force_save_key = true
-          end
+          @save_key = nil
+          @force_save_key = nil
           @insert_only = nil
           @detect_mime = nil
           @file_type = nil

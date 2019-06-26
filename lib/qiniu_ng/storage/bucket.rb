@@ -80,6 +80,18 @@ module QiniuNg
         Entry.new(self, key, @http_client, @auth)
       end
 
+      def upload_token_for_key(key)
+        policy = Model::UploadPolicy.new(bucket: @bucket_name, key: key)
+        yield policy if block_given?
+        UploadToken.from_policy(policy, @auth)
+      end
+
+      def upload_token_for_key_prefix(key_prefix)
+        policy = Model::UploadPolicy.new(bucket: @bucket_name, key_prefix: key_prefix)
+        yield policy if block_given?
+        UploadToken.from_policy(policy, @auth)
+      end
+
       def batch
         BatchOperations.new(self, @http_client, @auth)
       end

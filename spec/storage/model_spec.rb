@@ -27,13 +27,13 @@ RSpec.describe QiniuNg::Storage::Model do
       policy = QiniuNg::Storage::Model::UploadPolicy.new bucket: 'test', key: 'filename'
       expect(policy.bucket).to eq 'test'
       expect(policy.key).to eq 'filename'
-      expect(policy.save_key).to eq 'filename'
+      expect(policy.save_key).to be_nil
       expect(policy).not_to be_prefixal_scope
-      expect(policy).to be_force_save_key
+      expect(policy).not_to be_force_save_key
       h = policy.to_h
       expect(h[:scope]).to eq 'test:filename'
-      expect(h[:saveKey]).to eq 'filename'
-      expect(h[:forceSaveKey]).to be true
+      expect(h[:saveKey]).to be_nil
+      expect(h[:forceSaveKey]).to be_nil
     end
 
     it 'should be able to create upload token with bucket and key prefix' do
@@ -89,8 +89,8 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(new_policy.bucket).to eq 'test'
       expect(new_policy.key).to eq 'filename'
       expect(new_policy).not_to be_prefixal_scope
-      expect(new_policy.save_key).to eq 'filename'
-      expect(new_policy).to be_force_save_key
+      expect(new_policy.save_key).to be_nil
+      expect(new_policy).not_to be_force_save_key
       expect(new_policy).not_to be_insert_only
       expect(new_policy).to be_detect_mime
       expect(new_policy).to be_infrequent_storage

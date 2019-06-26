@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'faraday'
+require 'tempfile'
 require 'pathname'
 
 module SpecHelpers
@@ -17,6 +19,14 @@ module SpecHelpers
     end
     temp_file.path
   ensure
-    temp_file.close
+    temp_file&.close
+  end
+
+  def temp_file_from_url(url)
+    temp_file = File.open(Pathname.new('/tmp').join(File.basename(url)), 'wb')
+    temp_file << Faraday.get(url).body
+    temp_file.path
+  ensure
+    temp_file&.close
   end
 end

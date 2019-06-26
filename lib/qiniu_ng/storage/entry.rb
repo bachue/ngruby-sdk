@@ -1,19 +1,23 @@
 # frozen_string_literal: true
 
 require 'base64'
+require 'forwardable'
 
 module QiniuNg
   module Storage
     # 七牛空间中的文件项
     class Entry
+      extend Forwardable
       attr_reader :bucket, :key
 
       def initialize(bucket, key, http_client, auth)
         @bucket = bucket
         @key = key
+        @entry = Model::Entry.new(bucket: bucket.name, key: key)
         @http_client = http_client
         @auth = auth
       end
+      def_delegators :@entry, :to_s, :encode
 
       def stat(https: nil, **options)
         op = Op::Stat.new(self)
@@ -78,19 +82,15 @@ module QiniuNg
         self
       end
 
-      def to_s
-        str = @bucket.name
-        str += ":#{@key}" unless @key.nil? || @key.empty?
-        str
-      end
-
-      def encode
-        Base64.urlsafe_encode64(to_s)
-      end
-
       def download_url(domain: nil, https: nil, **options)
         domain = @bucket.domains(https: https, **options).first if domain.nil? || domain.empty?
         DownloadURL.new(domain, @key, @auth, https: https) if domain
+      end
+
+      def upload_token
+        policy = Model::UploadPolicy.new(bucket: @bucket.name, key: @key)
+        yield policy if block_given?
+        UploadToken.from_policy(policy, @auth)
       end
 
       private
