@@ -175,5 +175,14 @@ RSpec.describe QiniuNg::Client do
         [4 * (1 << 10), 16 * (1 << 10), 1 * (1 << 20)]
       )
     end
+
+    it 'should do batch operations more than limits' do
+      size = (QiniuNg::Config.batch_max_size * 2.5).to_i
+      batch = client.bucket('z0-bucket').batch
+      size.times do
+        batch = batch.stat('16k')
+      end
+      expect(batch.do.size).to eq size
+    end
   end
 end

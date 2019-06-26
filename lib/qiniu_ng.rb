@@ -34,19 +34,21 @@ module QiniuNg
   class Config
     class << self
       attr_accessor :use_https
+      attr_accessor :batch_max_size
       attr_accessor :default_faraday_options
       attr_accessor :default_faraday_config
     end
   end
 
-  def self.config(use_https: nil, **opts, &block)
+  def self.config(use_https: nil, batch_max_size: nil, **opts, &block)
     Config.use_https = use_https unless use_https.nil?
+    Config.batch_max_size = batch_max_size unless batch_max_size.nil?
     Config.default_faraday_options = opts unless opts.empty?
     Config.default_faraday_config = block if block_given?
     nil
   end
 
-  config(use_https: false) do |conn|
+  config(use_https: false, batch_max_size: 10_000) do |conn|
     conn.adapter Faraday.default_adapter
   end
 end

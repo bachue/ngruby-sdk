@@ -85,14 +85,16 @@ module QiniuNg
       end
 
       def do(zone: @default_zone, https: nil, **options)
-        Results.new(
-          @ops,
-          @http_client.post(
-            "#{rs_url(zone, https)}/batch",
-            body: Faraday::Utils.build_query(@ops.map { |op| ['op', op.to_s] }),
-            **options
-          )
-        )
+        results = []
+        ops = @ops
+        until ops.size.zero?
+          current_ops = ops[0...Config.batch_max_size]
+          ops = ops[Config.batch_max_size..-1] || []
+          results += @http_client.post("#{rs_url(zone, https)}/batch",
+                                       body: Faraday::Utils.build_query(current_ops.map { |op| ['op', op.to_s] }),
+                                       **options).body
+        end
+        Results.new(@ops, results)
       end
 
       # 批量操作结果
@@ -115,7 +117,7 @@ module QiniuNg
 
         def initialize(ops, results)
           @results = ops.each_with_index.map do |op, index|
-            Result.new(op, results.body[index]['code'], results.body[index]['data'])
+            Result.new(op, results[index]['code'], results[index]['data'])
           end
         end
 
@@ -125,6 +127,10 @@ module QiniuNg
           else
             @results.each
           end
+        end
+
+        def size
+          @results.size
         end
       end
 
