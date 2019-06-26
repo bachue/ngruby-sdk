@@ -159,7 +159,7 @@ module QiniuNg
           Duration.new(day: @delete_after_days) unless @delete_after_days.nil?
         end
 
-        def save_as(key:, force: true)
+        def save_as(key, force: true)
           @save_key = key
           @force_save_key = force
         end
@@ -174,7 +174,7 @@ module QiniuNg
                    else
                      new(bucket: bucket, key: key)
                    end
-          policy.save_as(key: hash['saveKey'], force: hash['forceSaveKey'])
+          policy.save_as(hash['saveKey'], force: hash['forceSaveKey'])
           policy.insert_only! if hash['insertOnly'] == 1
           policy.detect_mime! if hash['detectMime'] == 1
           case hash['fileType']

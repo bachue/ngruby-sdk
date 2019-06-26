@@ -29,6 +29,18 @@ module QiniuNg
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
+        def sync_upload_stream(stream, key: nil, upload_token: nil, params: {}, meta: {},
+                               mime_type: nil, crc32: nil, https: nil, **options)
+          resp = @http_client.post("#{up_url(https)}/",
+                                   headers: { content_type: 'multipart/form-data' },
+                                   body: build_request_body(key: key,
+                                                            upload_token: upload_token,
+                                                            upload_io: Faraday::UploadIO.new(stream, mime_type),
+                                                            params: params, meta: meta, crc32: crc32),
+                                   **options)
+          Result.new(resp.body['hash'], resp.body['key'])
+        end
+
         private
 
         def build_request_body(key:, upload_token:, upload_io:, params:, meta:, crc32:)
