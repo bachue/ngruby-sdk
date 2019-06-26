@@ -5,8 +5,13 @@ require 'duration'
 module QiniuNg
   module Storage
     module Model
-      # 上传策略
+      # 七牛上传策略
       class UploadPolicy
+        module Errors
+          class InvalidUploadToken < ArgumentError
+          end
+        end
+
         attr_reader :scope, :bucket, :key
         attr_reader :return_url, :return_body
         attr_reader :callback_url, :callback_host, :callback_body, :callback_body_type
@@ -18,7 +23,7 @@ module QiniuNg
         def initialize(bucket:, key: nil, key_prefix: nil)
           @bucket = bucket
           @key = key || key_prefix
-          @scope = Entry.new(bucket: @bucket, key: @key).encode
+          @scope = Entry.new(bucket: @bucket, key: @key).to_s
           @is_prefixal_scope = key_prefix.nil? ? nil : true
           if key.nil?
             @save_key = nil
@@ -164,19 +169,47 @@ module QiniuNg
         end
         alias force_save_key? force_save_key
 
-        def to_h
-          to_bool = lambda do |b|
-            case b
-            when false then 0
-            when nil then nil
-            else 1
-            end
+        def self.from_json(json)
+          require 'json' unless defined?(JSON)
+          hash = JSON.parse(json)
+          bucket, key = hash['scope']&.split(':', 2)
+          policy = if hash['isPrefixalScope'] == 1
+                     new(bucket: bucket, key_prefix: key)
+                   else
+                     new(bucket: bucket, key: key)
+                   end
+          policy.save_as(key: hash['saveKey'], force: hash['forceSaveKey'])
+          policy.insert_only! if hash['insertOnly'] == 1
+          policy.detect_mime! if hash['detectMime'] == 1
+          case hash['fileType']
+          when Model::StorageType.normal, nil
+            policy.normal_storage!
+          when Model::StorageType.infrequent
+            policy.infrequent_storage!
+          else
+            raise InvalidUploadToken, "Unrecognized fileType: #{hash['fileType']}"
           end
+          policy.token_deadline = hash['deadline']
+          policy.end_user = hash['endUser']
+          policy.set_return(hash['returnUrl'], body: hash['returnBody'])
+                .set_callback(hash['callbackUrl'],
+                              host: hash['callbackHost'],
+                              body: hash['callbackBody'],
+                              body_type: hash['callbackBodyType'])
+                .set_persistent_ops(hash['persistentOps'],
+                                    notify_url: hash['persistentNotifyUrl'],
+                                    pipeline: hash['persistentPipeline'])
+                .limit_file_size(min: hash['fsizeMin'], max: hash['fsizeLimit'])
+                .limit_content_type(hash['mimeLimit'])
+                .set_file_lifetime(days: hash['deleteAfterDays'])
+        end
+
+        def to_h
           h = {
             scope: @scope,
-            isPrefixalScope: to_bool.call(@is_prefixal_scope),
-            insertOnly: to_bool.call(@insert_only),
-            detectMime: to_bool.call(@detect_mime),
+            isPrefixalScope: Utils::Bool.to_int(@is_prefixal_scope, omitempty: true),
+            insertOnly: Utils::Bool.to_int(@insert_only, omitempty: true),
+            detectMime: Utils::Bool.to_int(@detect_mime, omitempty: true),
             endUser: @end_user,
             returnUrl: @return_url,
             returnBody: @return_body,
@@ -201,6 +234,10 @@ module QiniuNg
           end
         end
         alias as_json to_h
+
+        def ==(other)
+          to_h == other.to_h
+        end
 
         def to_json(*args)
           h = as_json

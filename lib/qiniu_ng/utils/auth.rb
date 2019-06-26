@@ -85,6 +85,10 @@ module QiniuNg
         sign_download_url_with_deadline(base_url, deadline: deadline)
       end
 
+      def sign_upload_policy(upload_policy)
+        sign_with_data(upload_policy.to_json)
+      end
+
       private
 
       def hmac_digest(data)

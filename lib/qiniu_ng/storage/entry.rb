@@ -78,10 +78,14 @@ module QiniuNg
         self
       end
 
-      def encode
+      def to_s
         str = @bucket.name
         str += ":#{@key}" unless @key.nil? || @key.empty?
-        Base64.urlsafe_encode64(str)
+        str
+      end
+
+      def encode
+        Base64.urlsafe_encode64(to_s)
       end
 
       def download_url(domain: nil, https: nil, **options)

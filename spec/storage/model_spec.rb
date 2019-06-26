@@ -20,7 +20,7 @@ RSpec.describe QiniuNg::Storage::Model do
       policy = QiniuNg::Storage::Model::UploadPolicy.new bucket: 'test'
       expect(policy.bucket).to eq 'test'
       h = policy.to_h
-      expect(h[:scope]).to eq Base64.urlsafe_encode64('test')
+      expect(h[:scope]).to eq 'test'
     end
 
     it 'should be able to create upload token with bucket and key' do
@@ -31,7 +31,7 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(policy).not_to be_prefixal_scope
       expect(policy).to be_force_save_key
       h = policy.to_h
-      expect(h[:scope]).to eq Base64.urlsafe_encode64('test:filename')
+      expect(h[:scope]).to eq 'test:filename'
       expect(h[:saveKey]).to eq 'filename'
       expect(h[:forceSaveKey]).to be true
     end
@@ -44,7 +44,7 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(policy).to be_prefixal_scope
       expect(policy).not_to be_force_save_key
       h = policy.to_h
-      expect(h[:scope]).to eq Base64.urlsafe_encode64('test:filename')
+      expect(h[:scope]).to eq 'test:filename'
       expect(h[:isPrefixalScope]).to eq 1
     end
 
@@ -79,6 +79,43 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(policy.content_type_limit).to contain_exactly('video/*', 'image/*')
       h = policy.to_h
       expect(h[:mimeLimit]).to eq('video/*;image/*')
+    end
+
+    it 'should be able to convert it to json and convert it back' do
+      policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test', key: 'filename')
+      policy.set_token_lifetime(seconds: 30).detect_mime!.infrequent_storage!.limit_content_type('video/*')
+      new_policy = QiniuNg::Storage::Model::UploadPolicy.from_json(policy.to_json)
+      expect(new_policy.scope).to eq 'test:filename'
+      expect(new_policy.bucket).to eq 'test'
+      expect(new_policy.key).to eq 'filename'
+      expect(new_policy).not_to be_prefixal_scope
+      expect(new_policy.save_key).to eq 'filename'
+      expect(new_policy).to be_force_save_key
+      expect(new_policy).not_to be_insert_only
+      expect(new_policy).to be_detect_mime
+      expect(new_policy).to be_infrequent_storage
+      expect(new_policy.token_deadline).to be_within(5).of(Time.now + 30)
+      expect(new_policy.end_user).to be_nil
+      expect(new_policy.content_type_limit).to eq ['video/*']
+      expect(new_policy.file_lifetime).to be_nil
+
+      policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test')
+      new_policy = QiniuNg::Storage::Model::UploadPolicy.from_json(policy.to_json)
+      expect(new_policy.scope).to eq 'test'
+      expect(new_policy.bucket).to eq 'test'
+      expect(new_policy.key).to be_nil
+      expect(new_policy).not_to be_prefixal_scope
+      expect(new_policy.save_key).to be_nil
+      expect(new_policy).not_to be_force_save_key
+
+      policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test', key_prefix: 'file-')
+      new_policy = QiniuNg::Storage::Model::UploadPolicy.from_json(policy.to_json)
+      expect(new_policy.scope).to eq 'test:file-'
+      expect(new_policy.bucket).to eq 'test'
+      expect(new_policy.key).to eq 'file-'
+      expect(new_policy).to be_prefixal_scope
+      expect(new_policy.save_key).to be_nil
+      expect(new_policy).not_to be_force_save_key
     end
   end
 end
