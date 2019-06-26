@@ -36,20 +36,28 @@ module QiniuNg
     class << self
       attr_accessor :use_https
       attr_accessor :batch_max_size
+      attr_accessor :default_upload_token_lifetime
+      attr_accessor :default_download_url_lifetime
       attr_accessor :default_faraday_options
       attr_accessor :default_faraday_config
     end
   end
 
-  def self.config(use_https: nil, batch_max_size: nil, **opts, &block)
+  def self.config(use_https: nil,
+                  batch_max_size: nil,
+                  upload_token_lifetime: nil,
+                  download_url_lifetime: nil,
+                  **opts, &block)
     Config.use_https = use_https unless use_https.nil?
     Config.batch_max_size = batch_max_size unless batch_max_size.nil?
+    Config.default_upload_token_lifetime = upload_token_lifetime unless upload_token_lifetime.nil?
+    Config.default_download_url_lifetime = download_url_lifetime unless download_url_lifetime.nil?
     Config.default_faraday_options = opts unless opts.empty?
     Config.default_faraday_config = block if block_given?
     nil
   end
 
-  config(use_https: false, batch_max_size: 10_000) do |conn|
+  config(use_https: false, batch_max_size: 10_000, upload_token_lifetime: 3600, download_url_lifetime: 3600) do |conn|
     conn.adapter Faraday.default_adapter
   end
 end

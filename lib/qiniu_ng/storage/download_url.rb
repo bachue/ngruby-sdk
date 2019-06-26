@@ -27,10 +27,8 @@ module QiniuNg
         url = public(filename: filename, fop: fop)
         if deadline.nil?
           @auth.sign_download_url_with_deadline(url, deadline: deadline)
-        elsif lifetime.nil?
-          @auth.sign_download_url_with_lifetime(url, lifetime: lifetime)
         else
-          raise ArgumentError, 'Either lifetime or deadline must be specified'
+          @auth.sign_download_url_with_lifetime(url, lifetime: lifetime || Config.default_download_url_lifetime)
         end
       end
     end

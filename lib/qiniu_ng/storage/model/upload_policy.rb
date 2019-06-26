@@ -45,6 +45,7 @@ module QiniuNg
           @max_file_size = nil
           @mime_limit = nil
           @delete_after_days = nil
+          self.token_lifetime = Config.default_upload_token_lifetime
         end
 
         def token_lifetime=(lifetime)

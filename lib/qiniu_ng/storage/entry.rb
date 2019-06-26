@@ -82,6 +82,13 @@ module QiniuNg
         self
       end
 
+      def try_delete(https: nil, **options)
+        delete(https: https, **options)
+      rescue HTTP::ResourceNotFound
+        # do nothing
+        self
+      end
+
       def download_url(domain: nil, https: nil, **options)
         domain = @bucket.domains(https: https, **options).first if domain.nil? || domain.empty?
         DownloadURL.new(domain, @key, @auth, https: https) if domain

@@ -80,8 +80,7 @@ RSpec.describe QiniuNg::Client do
       bucket = client.bucket('z0-bucket')
       entry = bucket.entry("16k-#{Time.now.usec}")
       QiniuNg::Storage::Uploader::FormUploader.new(bucket, http_client, auth).sync_upload_file(
-        create_temp_file(kilo_size: 16),
-        upload_token: entry.upload_token { |policy| policy.set_token_lifetime(seconds: 30) },
+        create_temp_file(kilo_size: 16), upload_token: entry.upload_token
       )
     end
 
@@ -91,7 +90,7 @@ RSpec.describe QiniuNg::Client do
 
     it 'should disable / enable the entry' do
       public_url = entry.download_url.public
-      private_url = entry.download_url.private(lifetime: 30)
+      private_url = entry.download_url.private
       expect(Faraday.get(public_url + "?t=#{Time.now.usec}")).to be_success
       expect(Faraday.get(private_url + "&t=#{Time.now.usec}")).to be_success
       begin
