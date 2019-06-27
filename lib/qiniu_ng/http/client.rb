@@ -8,13 +8,11 @@ module QiniuNg
         opts = Config.default_faraday_options
         opts = opts.call if opts.respond_to?(:call)
         Faraday.new(nil, opts) do |conn|
-          conn.request :retry
           conn.request :multipart
           conn.request :qiniu_auth, auth: auth, version: auth_version
           conn.response :json, content_type: /\bjson$/
           conn.response :qiniu_raise_error
           conn.response :raise_error
-          # conn.response :logger, nil, headers: true, bodies: true
           conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}")
           Config.default_faraday_config.call(conn)
         end

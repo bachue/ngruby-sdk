@@ -15,7 +15,7 @@ module QiniuNg
 
         def call(env)
           unless @auth.nil? || @version.nil?
-            env.request_headers[:authorization] = @auth.authorization_for_request(
+            env.request_headers[:authorization] ||= @auth.authorization_for_request(
               env.url,
               version: @version,
               method: env.method,

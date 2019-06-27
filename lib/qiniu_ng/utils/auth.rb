@@ -10,8 +10,8 @@ module QiniuNg
       attr_reader :access_key
 
       def initialize(access_key:, secret_key:)
-        @access_key = access_key
-        @secret_key = secret_key
+        @access_key = access_key.freeze
+        @secret_key = secret_key.freeze
       end
 
       def sign(data)
@@ -87,6 +87,10 @@ module QiniuNg
 
       def sign_upload_policy(upload_policy)
         sign_with_data(upload_policy.to_json)
+      end
+
+      def inspect
+        %(#<#{self.class.name} @access_key=#{@access_key.inspect} @secret_key=CENSORED>)
       end
 
       private

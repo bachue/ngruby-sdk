@@ -2,6 +2,11 @@
 
 require 'qiniu_ng'
 
+QiniuNg.config do |conn|
+  conn.request :retry, max: 5, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
+  conn.adapter :net_http_persistent
+end
+
 require 'coveralls'
 Coveralls.wear!
 

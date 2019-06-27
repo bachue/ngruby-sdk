@@ -5,7 +5,7 @@ module QiniuNg
     # 七牛空间
     class Bucket
       def initialize(bucket_name, zone, http_client, auth)
-        @bucket_name = bucket_name
+        @bucket_name = bucket_name.freeze
         @http_client = http_client
         @auth = auth
         @zone = zone

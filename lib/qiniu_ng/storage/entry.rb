@@ -12,7 +12,7 @@ module QiniuNg
 
       def initialize(bucket, key, http_client, auth)
         @bucket = bucket
-        @key = key
+        @key = key.freeze
         @entry = Model::Entry.new(bucket: bucket.name, key: key)
         @http_client = http_client
         @auth = auth

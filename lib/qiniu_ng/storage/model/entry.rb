@@ -9,8 +9,8 @@ module QiniuNg
       class Entry
         attr_accessor :bucket, :key
         def initialize(bucket:, key: nil)
-          @bucket = bucket
-          @key = key
+          @bucket = bucket.freeze
+          @key = key.freeze
         end
 
         def self.parse(str)

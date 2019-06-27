@@ -8,8 +8,8 @@ module QiniuNg
         raise ArgumentError unless (auth.nil? && upload_policy.nil?) || upload_token.nil?
 
         @auth = auth
-        @policy = upload_policy
-        @token = upload_token
+        @policy = upload_policy.freeze
+        @token = upload_token.freeze
       end
 
       def self.from_policy(upload_policy, auth)
@@ -21,11 +21,11 @@ module QiniuNg
       end
 
       def policy
-        @policy ||= Model::UploadPolicy.from_json(Base64.urlsafe_decode64(@token.split(':').last))
+        @policy ||= Model::UploadPolicy.from_json(Base64.urlsafe_decode64(@token.split(':').last)).freeze
       end
 
       def token
-        @token ||= @auth.sign_upload_policy(@policy)
+        @token ||= @auth.sign_upload_policy(@policy).freeze
       end
       alias to_s token
     end

@@ -17,6 +17,7 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 100
 Metrics/ParameterLists:
+  Max: 10
   CountKeywordArgs: false
 Metrics/PerceivedComplexity:
   Enabled: false
@@ -29,5 +30,7 @@ Metrics/BlockLength:
 Naming/PredicateName:
   NamePrefix: ["is_"]
   NamePrefixBlacklist: ["is_"]
+Style/AndOr:
+  EnforcedStyle: conditionals
 Style/AsciiComments:
   Enabled: false
