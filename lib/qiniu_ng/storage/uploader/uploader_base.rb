@@ -31,6 +31,11 @@ module QiniuNg
           https = Config.use_https if https.nil?
           @bucket.zone.up(https)
         end
+
+        def up_backup_urls(https)
+          https = Config.use_https if https.nil?
+          [@bucket.zone.up_backup(https), @bucket.zone.up_ip(https)].compact
+        end
       end
     end
   end

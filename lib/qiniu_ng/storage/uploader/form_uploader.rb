@@ -12,6 +12,7 @@ module QiniuNg
                              mime_type: nil, disable_crc32: false, https: nil, **options)
           crc32 = Digest::CRC32.file(filepath).digest.unpack1('N*') unless disable_crc32
           resp = @http_client.post("#{up_url(https)}/",
+                                   backup_urls: up_backup_urls(https),
                                    headers: { content_type: 'multipart/form-data' },
                                    body: build_request_body(key: key,
                                                             upload_token: upload_token,
@@ -24,6 +25,7 @@ module QiniuNg
         def sync_upload_stream(stream, key: nil, upload_token: nil, params: {}, meta: {},
                                mime_type: nil, crc32: nil, https: nil, **options)
           resp = @http_client.post("#{up_url(https)}/",
+                                   backup_urls: up_backup_urls(https),
                                    headers: { content_type: 'multipart/form-data' },
                                    body: build_request_body(key: key,
                                                             upload_token: upload_token,

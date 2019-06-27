@@ -21,11 +21,11 @@ module QiniuNg
         resp = @client.get("#{api_url(https)}/v1/query", params: { ak: access_key, bucket: bucket }, **options)
         up_http = resp.body.dig('http', 'up', 0)
         up_backup_http = resp.body.dig('http', 'up', 1)
-        up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)
+        up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)
         io_http = resp.body.dig('http', 'io', 0)
         up_https = resp.body.dig('https', 'up', 0)
         up_backup_https = resp.body.dig('https', 'up', 1)
-        up_ip_https = resp.body.dig('https', 'up', 2)&.split(' ')&.dig(2)&.split('//')&.dig(1)
+        up_ip_https = resp.body.dig('https', 'up', 2)&.split(' ')&.dig(2) || up_ip_http&.sub('http://', 'https://')
         io_https = resp.body.dig('https', 'io', 0)
         region = @infer_domains_map[up_http]&.region
         rs_http = @infer_domains_map[up_http]&.rs_http

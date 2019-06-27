@@ -51,7 +51,7 @@ module QiniuNg
                 part_num: part_num
               }
             end
-          rescue StandardException
+          rescue StandardError
             delete_parts(key, upload_token, upload_id, https: https, **options) unless upload_id.nil?
             raise
           end
@@ -63,7 +63,7 @@ module QiniuNg
         def init_parts(key, upload_token, https: nil, **options)
           resp = @http_client.post(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads",
-            headers: { authorization: "UpToken #{upload_token}" }, **options
+            backup_urls: up_backup_urls(https), headers: { authorization: "UpToken #{upload_token}" }, **options
           )
           resp.body['uploadId']
         end
@@ -73,7 +73,7 @@ module QiniuNg
           headers[:content_md5] = Digest::MD5.hexdigest(data) unless disable_md5
           resp = @http_client.put(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}/#{part_num}",
-            headers: headers, body: data, **options
+            backup_urls: up_backup_urls(https), headers: headers, body: data, **options
           )
           resp.body['etag']
         end
@@ -86,7 +86,7 @@ module QiniuNg
 
           resp = @http_client.post(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}",
-            headers: headers, body: body.to_json, **options
+            backup_urls: up_backup_urls(https), headers: headers, body: body.to_json, **options
           )
           Result.new(resp.body['hash'], resp.body['key'])
         end
@@ -94,7 +94,7 @@ module QiniuNg
         def delete_parts(key, upload_token, upload_id, https: nil, **options)
           @http_client.delete(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}",
-            headers: { authorization: "UpToken #{upload_token}" }, **options
+            backup_urls: up_backup_urls(https), headers: { authorization: "UpToken #{upload_token}" }, **options
           )
           nil
         end

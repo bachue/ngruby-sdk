@@ -16,10 +16,30 @@ RSpec.describe QiniuNg::HTTP do
   end
 
   describe QiniuNg::HTTP::Middleware::RaiseError do
+    before :all do
+      WebMock.enable!
+    end
+
+    after :all do
+      WebMock.disable!
+    end
+
+    after :each do
+      WebMock.reset!
+    end
+
     it 'should raise error for qiniu status code' do
+      WebMock::API.stub_request(:get, 'http://uc.qbox.me/v2/bucketInfo?bucket=unexisted').to_return(status: 631, body: '{}')
       expect do
-        QiniuNg::Client.new(access_key: access_key, secret_key: secret_key).bucket('unexisted-bucket').set_image('http://www.qiniu.com')
+        QiniuNg::Client.new(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
       end.to raise_error(QiniuNg::HTTP::BucketNotFound)
+    end
+
+    it 'should raise error for qiniu status code' do
+      WebMock::API.stub_request(:get, 'http://uc.qbox.me/v2/bucketInfo?bucket=unexisted').to_return(status: 579, body: '{}')
+      expect do
+        QiniuNg::Client.new(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
+      end.to raise_error(QiniuNg::HTTP::CallbackFailed)
     end
   end
 end

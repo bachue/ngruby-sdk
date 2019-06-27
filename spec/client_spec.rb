@@ -91,16 +91,16 @@ RSpec.describe QiniuNg::Client do
     it 'should disable / enable the entry' do
       public_url = entry.download_url.public
       private_url = entry.download_url.private
-      expect(Faraday.head(public_url + "?t=#{Time.now.usec}")).to be_success
-      expect(Faraday.head(private_url + "&t=#{Time.now.usec}")).to be_success
+      expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
+      expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
       begin
         entry.disable!
-        expect(Faraday.head(public_url + "?t=#{Time.now.usec}").status).to eq 403
-        expect(Faraday.head(private_url + "&t=#{Time.now.usec}").status).to eq 403
+        expect(head(public_url + "?t=#{Time.now.usec}").status).to eq 403
+        expect(head(private_url + "&t=#{Time.now.usec}").status).to eq 403
       ensure
         entry.enable!
-        expect(Faraday.head(public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(Faraday.head(private_url + "&t=#{Time.now.usec}")).to be_success
+        expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
       end
     end
 
@@ -132,33 +132,33 @@ RSpec.describe QiniuNg::Client do
 
     it 'should rename the entry' do
       old_public_url = entry.download_url.public
-      expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+      expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
       new_entry = bucket.entry("16K-#{Time.now.usec}")
       new_public_url = new_entry.download_url.public
       begin
         entry.rename_to(new_entry.key)
-        expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}").status).to eq 404
-        expect(Faraday.head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(old_public_url + "?t=#{Time.now.usec}").status).to eq 404
+        expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
       ensure
         new_entry.rename_to(entry.key)
-        expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(Faraday.head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
       end
     end
 
     it 'should copy / delete the entry' do
       old_public_url = entry.download_url.public
-      expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+      expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
       new_entry = bucket.entry("16K-#{Time.now.usec}")
       new_public_url = new_entry.download_url.public
       begin
         entry.copy_to(bucket.name, new_entry.key)
-        expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(Faraday.head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
       ensure
         new_entry.delete
-        expect(Faraday.head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(Faraday.head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
       end
     end
   end

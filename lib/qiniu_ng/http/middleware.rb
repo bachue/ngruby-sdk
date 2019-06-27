@@ -54,7 +54,7 @@ module QiniuNg
           when 701
             raise InvalidContext, response_values(env)
           when 600..1000
-            raise Error, response_values(env)
+            raise ServerError, response_values(env)
           end
         end
 

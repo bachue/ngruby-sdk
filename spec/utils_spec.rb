@@ -96,7 +96,7 @@ RSpec.describe QiniuNg::Utils do
         it "should download #{size} file correctly" do
           real_auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
           url = real_auth.sign_download_url_with_lifetime("http://z1-bucket.kodo-test.qiniu-solutions.com/#{size}", lifetime: { seconds: 30 })
-          expect(Faraday.head(url)).to be_success
+          expect(head(url)).to be_success
         end
       end
     end

@@ -11,8 +11,8 @@ module QiniuNg
           conn.request :multipart
           conn.request :qiniu_auth, auth: auth, version: auth_version
           conn.response :json, content_type: /\bjson$/
-          conn.response :qiniu_raise_error
           conn.response :raise_error
+          conn.response :qiniu_raise_error
           conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}")
           Config.default_faraday_config.call(conn)
         end
@@ -29,27 +29,58 @@ module QiniuNg
       end
 
       %i[get head delete].each do |method|
-        define_method(method) do |url, params: nil, headers: {}, **options|
-          begin_time = Time.now
-          faraday_response = @faraday_connection.public_send(method, url, params, headers) do |req|
-            req.options.update(options)
+        define_method(method) do |url, params: nil, headers: {}, backup_urls: [], **options|
+          begin
+            begin_time = Time.now
+            faraday_response = @faraday_connection.public_send(method, url, params, headers) do |req|
+              req.options.update(options)
+            end
+            end_time = Time.now
+            Response.new(faraday_response, duration: end_time - begin_time, address: nil)
+          rescue Faraday::Error => e
+            raise unless retryable?(e)
+
+            next_url = backup_urls.shift
+            raise if next_url.nil?
+
+            next_url += '/' unless next_url.end_with?('/')
+            url.sub!(%r{^https?://[^/]+}, next_url)
+            retry
           end
-          end_time = Time.now
-          Response.new(faraday_response, duration: end_time - begin_time, address: nil)
         end
       end
 
       %i[post put patch].each do |method|
-        define_method(method) do |url, params: nil, body: nil, headers: {}, **options|
-          begin_time = Time.now
-          headers = { content_type: 'application/x-www-form-urlencoded' }.merge(headers)
-          faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
-            req.params.update(params) unless params.nil?
-            req.options.update(options)
+        define_method(method) do |url, params: nil, body: nil, headers: {}, backup_urls: [], **options|
+          begin
+            begin_time = Time.now
+            headers = { content_type: 'application/x-www-form-urlencoded' }.merge(headers)
+            faraday_response = @faraday_connection.public_send(method, url, body, headers) do |req|
+              req.params.update(params) unless params.nil?
+              req.options.update(options)
+            end
+            end_time = Time.now
+            Response.new(faraday_response, duration: end_time - begin_time, address: nil)
+          rescue Faraday::Error => e
+            raise unless retryable?(e)
+
+            next_url = backup_urls.shift
+            raise if next_url.nil?
+
+            next_url += '/' unless next_url.end_with?('/')
+            url = url.sub(%r{^https?://[^/]+/}, next_url)
+            retry
           end
-          end_time = Time.now
-          Response.new(faraday_response, duration: end_time - begin_time, address: nil)
         end
+      end
+
+      private
+
+      def retryable?(error)
+        return true if error.is_a?(Faraday::TimeoutError)
+
+        status = error.response&.dig(:status)
+        ((500...600).include?(status) && status != 579) || status == 996 if status
       end
     end
   end

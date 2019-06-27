@@ -28,7 +28,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = Faraday.head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -51,7 +51,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                              upload_token: bucket.upload_token_for_key_prefix('test-image-'))
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = Faraday.head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -60,6 +60,42 @@ RSpec.describe QiniuNg::Storage::Uploader do
         stream.close
         entry.try_delete
         File.unlink(path)
+      end
+    end
+
+    describe 'auto retry' do
+      before :all do
+        bucket.zone
+
+        WebMock.enable!
+      end
+
+      after :all do
+        WebMock.disable!
+      end
+
+      after :each do
+        WebMock.reset!
+      end
+
+      it 'should switch to backup url' do
+        entry = bucket.entry("test-image-#{Time.now.usec}.png")
+        path = create_temp_file(kilo_size: 10)
+
+        WebMock::API.stub_request(:post, 'http://up.qiniu.com/').to_timeout
+        WebMock::API.stub_request(:post, 'http://upload.qiniu.com')
+                    .to_return(headers: { 'Content-Type': 'application/json' },
+                               body: { hash: 'fakehash', key: entry.key }.to_json)
+        begin
+          result = uploader.sync_upload_file(path,
+                                             upload_token: entry.upload_token,
+                                             params: { param_key1: 'param_value1', param_key2: 'param_value2' },
+                                             meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
+          expect(result.hash).not_to be_empty
+          expect(result.key).to eq entry.key
+        ensure
+          File.unlink(path)
+        end
       end
     end
   end
@@ -80,7 +116,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = Faraday.head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'application/octet-stream'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -103,7 +139,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
     #                                          upload_token: bucket.upload_token_for_key_prefix('15mb-'))
     #     expect(result.hash).not_to be_empty
     #     expect(result.key).to eq entry.key
-    #     response = Faraday.head(entry.download_url.public + "?t=#{Time.now.usec}")
+    #     response = head(entry.download_url.public + "?t=#{Time.now.usec}")
     #     expect(response).to be_success
     #     expect(response.headers[:content_type]).to eq 'application/octet-stream'
     #     expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -114,5 +150,50 @@ RSpec.describe QiniuNg::Storage::Uploader do
     #     File.unlink(path)
     #   end
     # end
+
+    describe 'auto retry' do
+      before :all do
+        bucket.zone
+
+        WebMock.enable!
+      end
+
+      after :all do
+        WebMock.disable!
+      end
+
+      after :each do
+        WebMock.reset!
+      end
+
+      it 'should switch to backup url' do
+        entry = bucket.entry("test-image-#{Time.now.usec}.png")
+        encoded_key = Base64.urlsafe_encode64(entry.key)
+        path = create_temp_file(kilo_size: 1)
+
+        WebMock::API.stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads").to_timeout
+        WebMock::API.stub_request(:post, "http://upload.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads")
+                    .to_return(headers: { 'Content-Type': 'application/json' },
+                               body: { uploadId: 'abc' }.to_json)
+        WebMock::API.stub_request(:put, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1").to_timeout
+        WebMock::API.stub_request(:put, "http://upload.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
+                    .to_return(headers: { 'Content-Type': 'application/json' },
+                               body: { etag: '123' }.to_json)
+        WebMock::API.stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc").to_timeout
+        WebMock::API.stub_request(:post, "http://upload.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
+                    .to_return(headers: { 'Content-Type': 'application/json' },
+                               body: { hash: 'fakehash', key: entry.key }.to_json)
+        begin
+          result = uploader.sync_upload_file(path,
+                                             upload_token: entry.upload_token,
+                                             params: { param_key1: 'param_value1', param_key2: 'param_value2' },
+                                             meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
+          expect(result.hash).not_to be_empty
+          expect(result.key).to eq entry.key
+        ensure
+          File.unlink(path)
+        end
+      end
+    end
   end
 end
