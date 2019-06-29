@@ -4,7 +4,7 @@ require 'qiniu_ng'
 
 QiniuNg.config do |conn|
   conn.request :retry, max: 5, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
-  conn.response :logger, nil, headers: true #, bodies: true
+  # conn.response :logger, nil, headers: true #, bodies: true
   conn.adapter :net_http_persistent
 end
 

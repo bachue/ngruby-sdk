@@ -17,8 +17,7 @@ module QiniuNg
 
       def zone
         @zone ||= begin
-          region_id = info['region'].to_sym
-          Common::Zone.send(region_id) if Common::Zone.respond_to?(region_id)
+          Common::Zone.auto.query(access_key: @auth.access_key, bucket: @bucket_name)
         end
       end
 
