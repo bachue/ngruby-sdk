@@ -12,7 +12,7 @@ module QiniuNg
     module Recorder
       # 文件记录器
       class FileRecorder
-        def initialize(dir = '/tmp')
+        def initialize(dir = Config.default_file_recorder_path)
           FileUtils.mkdir_p(dir)
           @dir = Pathname.new(dir)
           @mutex = Mutex.new

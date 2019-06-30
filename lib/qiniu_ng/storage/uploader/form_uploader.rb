@@ -4,13 +4,13 @@ require 'digest/crc32'
 
 module QiniuNg
   module Storage
-    # 上传模块
-    module Uploader
+    # 上传控制器
+    class Uploader
       # 表单上传
       class FormUploader < UploaderBase
         def sync_upload_file(filepath, key: nil, upload_token: nil, params: {}, meta: {},
-                             mime_type: nil, disable_crc32: false, https: nil, **options)
-          crc32 = Digest::CRC32.file(filepath).digest.unpack1('N*') unless disable_crc32
+                             mime_type: nil, disable_checksum: false, https: nil, **options)
+          crc32 = Digest::CRC32.file(filepath).digest.unpack1('N*') unless disable_checksum
           resp = @http_client.post("#{up_url(https)}/",
                                    backup_urls: up_backup_urls(https),
                                    headers: { content_type: 'multipart/form-data' },

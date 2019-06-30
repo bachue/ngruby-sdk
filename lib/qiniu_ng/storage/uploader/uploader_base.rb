@@ -3,7 +3,7 @@
 module QiniuNg
   module Storage
     # 上传模块
-    module Uploader
+    class Uploader
       Result = Struct.new(:hash, :key)
       # 上传父类
       class UploaderBase

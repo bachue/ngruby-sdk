@@ -79,6 +79,10 @@ module QiniuNg
         Entry.new(self, key, @http_client, @auth)
       end
 
+      def uploader(block_size: Config.default_upload_block_size)
+        Uploader.new(self, @http_client, @auth, block_size: block_size)
+      end
+
       def upload_token_for_key(key)
         policy = Model::UploadPolicy.new(bucket: @bucket_name, key: key)
         yield policy if block_given?

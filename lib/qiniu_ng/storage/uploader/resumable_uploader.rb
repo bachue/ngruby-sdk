@@ -5,36 +5,35 @@ require 'digest/md5'
 
 module QiniuNg
   module Storage
-    # 上传模块
-    module Uploader
+    # 上传控制器
+    class Uploader
       # 分块上传
       class ResumableUploader < UploaderBase
-        def initialize(bucket, http_client, auth, recorder: nil, block_size: 1 << 22)
+        def initialize(bucket, http_client, auth, block_size: Config.default_upload_block_size)
           raise ArgumengError, 'block_size must be multiples of 4 MB' unless (block_size % (1 << 22)).zero?
 
           @bucket = bucket
           @http_client = http_client
           @auth = auth
-          @recorder = recorder
           @block_size = block_size.freeze
         end
 
         def sync_upload_file(filepath,
                              key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil,
-                             mime_type: nil, disable_md5: false, https: nil, **options)
+                             mime_type: nil, disable_checksum: false, https: nil, **options)
           File.open(filepath, 'rb') do |file|
             upload_recorder = UploadRecorder.new(recorder, bucket: @bucket.name, key: key, file: file)
             sync_upload_stream(file,
                                key: key, upload_token: upload_token, size: file.size,
                                params: params, meta: meta, mime_type: mime_type,
-                               upload_recorder: upload_recorder, disable_md5: disable_md5,
+                               upload_recorder: upload_recorder, disable_checksum: disable_checksum,
                                https: https, **options)
           end
         end
 
         def sync_upload_stream(stream,
                                key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
-                               size: nil, mime_type: nil, disable_md5: false, https: nil, **options)
+                               size: nil, mime_type: nil, disable_checksum: false, https: nil, **options)
           unuse(mime_type, params)
           key ||= extract_key_from_upload_token(upload_token) or raise ArgumentError, 'missing keyword: key'
 
@@ -59,7 +58,7 @@ module QiniuNg
             part_num += 1
             list << {
               etag: upload_part(block, key, upload_token, upload_id, part_num,
-                                disable_md5: disable_md5, https: https, **options),
+                                disable_checksum: disable_checksum, https: https, **options),
               part_num: part_num
             }
             uploaded_size += @block_size
@@ -80,9 +79,9 @@ module QiniuNg
           resp.body['uploadId']
         end
 
-        def upload_part(data, key, upload_token, upload_id, part_num, disable_md5: false, https: nil, **options)
+        def upload_part(data, key, upload_token, upload_id, part_num, disable_checksum: false, https: nil, **options)
           headers = { authorization: "UpToken #{upload_token}", content_type: 'application/octet-stream' }
-          headers[:content_md5] = Digest::MD5.hexdigest(data) unless disable_md5
+          headers[:content_md5] = Digest::MD5.hexdigest(data) unless disable_checksum
           resp = @http_client.put(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}/#{part_num}",
             backup_urls: up_backup_urls(https), headers: headers, body: data, **options

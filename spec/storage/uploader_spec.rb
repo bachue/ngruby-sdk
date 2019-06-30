@@ -166,7 +166,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
       end
 
       before :each do
-        entry = bucket.entry('test-image.png')
+        entry = bucket.entry('test-data')
         encoded_key = Base64.urlsafe_encode64(entry.key)
         path = create_temp_file(kilo_size: 5 * 1024)
       end
@@ -255,6 +255,90 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
+      end
+    end
+  end
+
+  describe QiniuNg::Storage::Uploader do
+    before :all do
+      bucket.zone
+      WebMock.enable!
+    end
+
+    after :all do
+      WebMock.disable!
+    end
+
+    after :each do
+      WebMock.reset!
+    end
+
+    it 'should use form uploader for small file' do
+      entry = bucket.entry('test-data')
+      path = create_temp_file(kilo_size: 4 * 1024)
+      stub_request(:post, 'http://up.qiniu.com')
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { hash: 'fakehash', key: entry.key }.to_json)
+      begin
+        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token)
+      ensure
+        File.unlink(path)
+      end
+    end
+
+    it 'should use resumable uploader for big file' do
+      entry = bucket.entry('test-data')
+      encoded_key = Base64.urlsafe_encode64(entry.key)
+      path = create_temp_file(kilo_size: 5 * 1024)
+      stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { uploadId: 'abc' }.to_json)
+      stub_request(:put, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { etag: '123' }.to_json)
+      stub_request(:put, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { etag: '456' }.to_json)
+      stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { hash: 'fakehash', key: entry.key }.to_json)
+      begin
+        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token)
+      ensure
+        File.unlink(path)
+      end
+    end
+
+    it 'should use resumable uploader by force' do
+      entry = bucket.entry('test-data')
+      encoded_key = Base64.urlsafe_encode64(entry.key)
+      path = create_temp_file(kilo_size: 1 * 1024)
+      stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { uploadId: 'abc' }.to_json)
+      stub_request(:put, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { etag: '123' }.to_json)
+      stub_request(:post, "http://up.qiniu.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { hash: 'fakehash', key: entry.key }.to_json)
+      begin
+        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token, resumable_policy: :always)
+      ensure
+        File.unlink(path)
+      end
+    end
+
+    it 'should use form uploader by force' do
+      entry = bucket.entry('test-data')
+      path = create_temp_file(kilo_size: 10 * 1024)
+      stub_request(:post, 'http://up.qiniu.com')
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { hash: 'fakehash', key: entry.key }.to_json)
+      begin
+        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token, resumable_policy: :never)
+      ensure
+        File.unlink(path)
       end
     end
   end
