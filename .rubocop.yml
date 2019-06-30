@@ -6,6 +6,8 @@ Layout/ExtraSpacing:
 Layout/SpaceAroundOperators:
   Exclude:
     - "**/*.gemspec"
+Lint/HandleExceptions:
+  AllowComments: true
 Metrics/AbcSize:
   Enabled: false
 Metrics/ClassLength:

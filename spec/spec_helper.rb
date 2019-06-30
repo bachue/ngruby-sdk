@@ -5,7 +5,7 @@ require 'qiniu_ng'
 QiniuNg.config do |conn|
   conn.request :retry, max: 5, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
   # conn.response :logger, nil, headers: true #, bodies: true
-  conn.adapter :net_http_persistent
+  conn.adapter :net_http
 end
 
 require 'coveralls'
@@ -35,6 +35,8 @@ require_relative 'spec_helpers/temp_file_helper'
 RSpec.configure do |config|
   config.include Variables
   config.include SpecHelpers
+  config.include WebMock::API
+  config.include WebMock::Matchers
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -115,3 +117,5 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 end
+
+WebMock::AssertionFailure.error_class = RSpec::Expectations::ExpectationNotMetError

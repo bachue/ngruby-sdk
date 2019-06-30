@@ -77,7 +77,9 @@ module QiniuNg
       private
 
       def retryable?(error)
-        return true if error.is_a?(Faraday::TimeoutError)
+        [Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].each do |err_class|
+          return true if error.is_a?(err_class)
+        end
 
         status = error.response&.dig(:status)
         ((500...600).include?(status) && status != 579) || status == 996 if status
