@@ -3,7 +3,8 @@
 require 'qiniu_ng'
 
 QiniuNg.config do |conn|
-  conn.request :retry, max: 5, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
+  conn.request :retry, max: 5, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2,
+                       exceptions: Faraday::Request::Retry::DEFAULT_EXCEPTIONS + [QiniuNg::HTTP::RETRYABLE_EXCEPTIONS]
   # conn.response :logger, nil, headers: true #, bodies: true
   conn.adapter :net_http
 end

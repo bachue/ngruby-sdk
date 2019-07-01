@@ -13,12 +13,14 @@ module QiniuNg
           conn.response :json, content_type: /\bjson$/
           conn.response :raise_error
           conn.response :qiniu_raise_error
-          conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}/#{RUBY_DESCRIPTION}"
+          conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}/#{RUBY_DESCRIPTION}")
           Config.default_faraday_config.call(conn)
         end
       end
       Client.new(faraday_connection, auth: auth, auth_version: auth_version)
     end
+
+    RETRYABLE_EXCEPTIONS = [Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].freeze
 
     # HTTP 客户端
     class Client
@@ -77,7 +79,7 @@ module QiniuNg
       private
 
       def retryable?(error)
-        [Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].each do |err_class|
+        RETRYABLE_EXCEPTIONS.each do |err_class|
           return true if error.is_a?(err_class)
         end
 
