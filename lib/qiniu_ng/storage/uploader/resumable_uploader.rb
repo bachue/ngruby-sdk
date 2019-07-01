@@ -108,7 +108,7 @@ module QiniuNg
           headers = { authorization: "UpToken #{upload_token}", content_type: 'text/plain' }
           meta.each { |k, v| headers[:"x-qn-meta-#{k}"] = v }
           body = { parts: list.map { |hash| { Etag: hash[:etag], PartNumber: hash[:part_num] } } }
-          require 'json' unless body.respond_to?(:json)
+          require 'json' unless body.respond_to?(:to_json)
 
           resp = @http_client.post(
             "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}",

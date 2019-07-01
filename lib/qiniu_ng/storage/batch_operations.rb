@@ -4,82 +4,83 @@ module QiniuNg
   module Storage
     # 七牛文件的批量操作
     class BatchOperations
-      def initialize(default_bucket, http_client, auth)
+      def initialize(default_bucket, http_client_v1, http_client_v2, auth)
         @default_bucket = default_bucket
         @default_zone = default_bucket.zone
-        @http_client = http_client
+        @http_client_v1 = http_client_v1
+        @http_client_v2 = http_client_v2
         @auth = auth
         @ops = []
       end
 
       def stat(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::Stat.new(entry)
         self
       end
 
       def disable!(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeStatus.new(entry, disabled: true)
         self
       end
 
       def enable!(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeStatus.new(entry, disabled: false)
         self
       end
 
       def set_lifetime(key, bucket: @default_bucket, days:)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::SetLifetime.new(entry, days: days)
         self
       end
 
       def normal_storage!(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeType.new(entry, type: Model::StorageType.normal)
         self
       end
 
       def infrequent_storage!(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeType.new(entry, type: Model::StorageType.infrequent)
         self
       end
 
       def change_mime_type(key, mime_type, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeMIMEType.new(entry, mime_type: mime_type)
         self
       end
 
       def change_meta(key, meta, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::ChangeMeta.new(entry, meta: meta)
         self
       end
 
       def rename_to(src_key, dest_key, force: false, bucket: @default_bucket)
-        entry = Entry.new(bucket, src_key, @http_client, @auth)
+        entry = Entry.new(bucket, src_key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::Move.new(entry, bucket: bucket, key: dest_key, force: force)
         self
       end
 
       def move_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
-        entry = Entry.new(src_bucket, src_key, @http_client, @auth)
+        entry = Entry.new(src_bucket, src_key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::Move.new(entry, bucket: dest_bucket, key: dest_key, force: force)
         self
       end
 
       def copy_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
-        entry = Entry.new(src_bucket, src_key, @http_client, @auth)
+        entry = Entry.new(src_bucket, src_key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::Copy.new(entry, bucket: dest_bucket, key: dest_key, force: force)
         self
       end
 
       def delete(key, bucket: @default_bucket)
-        entry = Entry.new(bucket, key, @http_client, @auth)
+        entry = Entry.new(bucket, key, @http_client_v1, @http_client_v2, @auth)
         @ops << Op::Delete.new(entry)
         self
       end

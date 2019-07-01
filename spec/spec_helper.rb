@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'rspec/eventually'
+
+Rspec::Eventually.timeout = 30
+
 require 'qiniu_ng'
 
 QiniuNg.config do |conn|

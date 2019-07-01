@@ -178,6 +178,20 @@ RSpec.describe QiniuNg::Client do
           entry.try_delete
         end
       end
+
+      it 'should fetch the entry from the url async' do
+        src_entry = client.bucket('z1-bucket').entry('1m')
+        src_url = src_entry.download_url.private
+        expect(head(src_url)).to be_success
+        entry = bucket.entry("16k-#{Time.now.usec}")
+        begin
+          result = entry.fetch_from(src_url, async: true)
+          expect { result }.to eventually be_done
+          expect(head("#{entry.download_url.public}?t=#{Time.now.usec}")).to be_success
+        ensure
+          entry.try_delete
+        end
+      end
     end
   end
 

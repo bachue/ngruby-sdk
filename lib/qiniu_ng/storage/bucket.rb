@@ -4,9 +4,10 @@ module QiniuNg
   module Storage
     # 七牛空间
     class Bucket
-      def initialize(bucket_name, zone, http_client, auth)
+      def initialize(bucket_name, zone, http_client_v1, http_client_v2, auth)
         @bucket_name = bucket_name.freeze
-        @http_client = http_client
+        @http_client_v1 = http_client_v1
+        @http_client_v2 = http_client_v2
         @auth = auth
         @zone = zone
       end
@@ -22,25 +23,25 @@ module QiniuNg
       end
 
       def drop(https: nil, **options)
-        @http_client.post("#{rs_url(https)}/drop/#{@bucket_name}", **options)
+        @http_client_v1.post("#{rs_url(https)}/drop/#{@bucket_name}", **options)
         nil
       end
       alias delete drop
 
       def domains(https: nil, **options)
-        @http_client.get("#{api_url(https)}/v6/domain/list", params: { tbl: @bucket_name }, **options).body
+        @http_client_v1.get("#{api_url(https)}/v6/domain/list", params: { tbl: @bucket_name }, **options).body
       end
 
       def set_image(source_url, source_host: nil, https: nil, **options)
         encoded_url = Base64.urlsafe_encode64(source_url)
         url = "#{uc_url(https)}/image/#{@bucket_name}/from/#{encoded_url}"
         url += "/host/#{Base64.urlsafe_encode64(source_host)}" unless source_host.nil? || source_host.empty?
-        @http_client.post(url, **options)
+        @http_client_v1.post(url, **options)
         nil
       end
 
       def unset_image(https: nil, **options)
-        @http_client.post("#{uc_url(https)}/unimage/#{@bucket_name}", **options)
+        @http_client_v1.post("#{uc_url(https)}/unimage/#{@bucket_name}", **options)
         nil
       end
 
@@ -76,11 +77,11 @@ module QiniuNg
       end
 
       def entry(key)
-        Entry.new(self, key, @http_client, @auth)
+        Entry.new(self, key, @http_client_v1, @http_client_v2, @auth)
       end
 
       def uploader(block_size: Config.default_upload_block_size)
-        Uploader.new(self, @http_client, @auth, block_size: block_size)
+        Uploader.new(self, @http_client_v1, @auth, block_size: block_size)
       end
 
       def upload_token_for_key(key)
@@ -96,7 +97,7 @@ module QiniuNg
       end
 
       def batch
-        BatchOperations.new(self, @http_client, @auth)
+        BatchOperations.new(self, @http_client_v1, @auth)
       end
 
       private
@@ -104,19 +105,19 @@ module QiniuNg
       def set_index_page(enabled, https: nil, **options)
         no_index_page = Utils::Bool.to_int(!enabled)
         params = { bucket: @bucket_name, noIndexPage: no_index_page }
-        @http_client.post("#{uc_url(https)}/noIndexPage", params: params, **options)
+        @http_client_v1.post("#{uc_url(https)}/noIndexPage", params: params, **options)
         nil
       end
 
       def update_acl(private_access:, https: nil, **options)
         private_access = Utils::Bool.to_int(private_access)
         params = { bucket: @bucket_name, private: private_access }
-        @http_client.post("#{uc_url(https)}/private", params: params, **options)
+        @http_client_v1.post("#{uc_url(https)}/private", params: params, **options)
         nil
       end
 
       def info(https: nil, **options)
-        @http_client.get("#{uc_url(https)}/v2/bucketInfo", params: { bucket: @bucket_name }, **options).body
+        @http_client_v1.get("#{uc_url(https)}/v2/bucketInfo", params: { bucket: @bucket_name }, **options).body
       end
 
       def api_url(https)

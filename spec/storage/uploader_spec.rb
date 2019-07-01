@@ -9,7 +9,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
   before :all do
     auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
     http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
-    bucket = QiniuNg::Storage::BucketManager.new(http_client, auth).bucket('z0-bucket')
+    bucket = QiniuNg::Storage::BucketManager.new(http_client, nil, auth).bucket('z0-bucket')
   end
 
   describe QiniuNg::Storage::Uploader::FormUploader do
