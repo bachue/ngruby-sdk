@@ -70,91 +70,113 @@ RSpec.describe QiniuNg::Client do
   end
 
   describe QiniuNg::Storage::Entry do
+    client = nil
     bucket = nil
     entry = nil
 
     before :all do
       client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
       bucket = client.bucket('z0-bucket')
-      entry = bucket.entry("16k-#{Time.now.usec}")
-      bucket.uploader.upload(filepath: create_temp_file(kilo_size: 16), upload_token: entry.upload_token)
     end
 
-    after :all do
-      entry.try_delete
-    end
+    describe 'Basic' do
+      before :all do
+        entry = bucket.entry("16k-#{Time.now.usec}")
+        bucket.uploader.upload(filepath: create_temp_file(kilo_size: 16), upload_token: entry.upload_token)
+      end
 
-    it 'should disable / enable the entry' do
-      public_url = entry.download_url.public
-      private_url = entry.download_url.private
-      expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
-      expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
-      begin
-        entry.disable!
-        expect(head(public_url + "?t=#{Time.now.usec}").status).to eq 403
-        expect(head(private_url + "&t=#{Time.now.usec}").status).to eq 403
-      ensure
-        entry.enable!
+      after :all do
+        entry.try_delete
+      end
+
+      it 'should disable / enable the entry' do
+        public_url = entry.download_url.public
+        private_url = entry.download_url.private
         expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
         expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
+        begin
+          entry.disable!
+          expect(head(public_url + "?t=#{Time.now.usec}").status).to eq 403
+          expect(head(private_url + "&t=#{Time.now.usec}").status).to eq 403
+        ensure
+          entry.enable!
+          expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
+          expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
+        end
       end
-    end
 
-    it 'should set entry to infrequent / normal storage' do
-      expect(entry.stat).to be_normal_storage
-      expect(entry.stat).not_to be_infrequent_storage
-      begin
-        entry.infrequent_storage!
-        expect(entry.stat).not_to be_normal_storage
-        expect(entry.stat).to be_infrequent_storage
-      ensure
-        entry.normal_storage!
+      it 'should set entry to infrequent / normal storage' do
         expect(entry.stat).to be_normal_storage
         expect(entry.stat).not_to be_infrequent_storage
+        begin
+          entry.infrequent_storage!
+          expect(entry.stat).not_to be_normal_storage
+          expect(entry.stat).to be_infrequent_storage
+        ensure
+          entry.normal_storage!
+          expect(entry.stat).to be_normal_storage
+          expect(entry.stat).not_to be_infrequent_storage
+        end
       end
-    end
 
-    it 'should change mime_type' do
-      original_mime_type = entry.stat.mime_type
-      expect(entry.stat.mime_type).not_to eq 'application/json'
-      begin
-        entry.change_mime_type 'application/json'
-        expect(entry.stat.mime_type).to eq 'application/json'
-      ensure
-        entry.change_mime_type original_mime_type
+      it 'should change mime_type' do
+        original_mime_type = entry.stat.mime_type
         expect(entry.stat.mime_type).not_to eq 'application/json'
+        begin
+          entry.change_mime_type 'application/json'
+          expect(entry.stat.mime_type).to eq 'application/json'
+        ensure
+          entry.change_mime_type original_mime_type
+          expect(entry.stat.mime_type).not_to eq 'application/json'
+        end
+      end
+
+      it 'should rename the entry' do
+        old_public_url = entry.download_url.public
+        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        new_entry = bucket.entry("16K-#{Time.now.usec}")
+        new_public_url = new_entry.download_url.public
+        begin
+          entry.rename_to(new_entry.key)
+          expect(head(old_public_url + "?t=#{Time.now.usec}").status).to eq 404
+          expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+        ensure
+          new_entry.rename_to(entry.key)
+          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+          expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+        end
+      end
+
+      it 'should copy / delete the entry' do
+        old_public_url = entry.download_url.public
+        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        new_entry = bucket.entry("16K-#{Time.now.usec}")
+        new_public_url = new_entry.download_url.public
+        begin
+          entry.copy_to(bucket.name, new_entry.key)
+          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+          expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+        ensure
+          new_entry.delete
+          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+          expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+        end
       end
     end
 
-    it 'should rename the entry' do
-      old_public_url = entry.download_url.public
-      expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-      new_entry = bucket.entry("16K-#{Time.now.usec}")
-      new_public_url = new_entry.download_url.public
-      begin
-        entry.rename_to(new_entry.key)
-        expect(head(old_public_url + "?t=#{Time.now.usec}").status).to eq 404
-        expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
-      ensure
-        new_entry.rename_to(entry.key)
-        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
-      end
-    end
-
-    it 'should copy / delete the entry' do
-      old_public_url = entry.download_url.public
-      expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-      new_entry = bucket.entry("16K-#{Time.now.usec}")
-      new_public_url = new_entry.download_url.public
-      begin
-        entry.copy_to(bucket.name, new_entry.key)
-        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
-      ensure
-        new_entry.delete
-        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+    describe 'Fetch' do
+      it 'should fetch the entry from the url' do
+        src_entry = client.bucket('z1-bucket').entry('1m')
+        src_url = src_entry.download_url.private
+        expect(head(src_url)).to be_success
+        entry = bucket.entry("16k-#{Time.now.usec}")
+        begin
+          dest_entry = entry.fetch_from(src_url)
+          expect(dest_entry.file_size).to eq(1 << 20)
+          expect(head("#{dest_entry.download_url.public}?t=#{Time.now.usec}")).to be_success
+        ensure
+          entry.try_delete
+        end
       end
     end
   end

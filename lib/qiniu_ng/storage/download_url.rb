@@ -25,7 +25,7 @@ module QiniuNg
 
       def private(lifetime: nil, deadline: nil, filename: nil, fop: nil)
         url = public(filename: filename, fop: fop)
-        if deadline.nil?
+        if !deadline.nil? && deadline.positive?
           @auth.sign_download_url_with_deadline(url, deadline: deadline)
         else
           @auth.sign_download_url_with_lifetime(url, lifetime: lifetime || Config.default_download_url_lifetime)

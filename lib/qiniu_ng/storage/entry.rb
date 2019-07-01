@@ -82,6 +82,13 @@ module QiniuNg
         self
       end
 
+      def fetch_from(url, https: nil, **options)
+        encoded_url = Base64.urlsafe_encode64(url)
+        body = @http_client.post("#{io_url(https)}/fetch/#{encoded_url}/to/#{encode}", **options).body
+        Model::FetchedEntry.new(self, key: body['key'], hash: body['hash'],
+                                      mime_type: body['mimeType'], file_size: body['fsize'])
+      end
+
       def try_delete(https: nil, **options)
         delete(https: https, **options)
       rescue HTTP::ResourceNotFound
@@ -90,7 +97,7 @@ module QiniuNg
       end
 
       def download_url(domain: nil, https: nil, **options)
-        domain = @bucket.domains(https: https, **options).first if domain.nil? || domain.empty?
+        domain = @bucket.domains(https: https, **options).last if domain.nil? || domain.empty?
         DownloadURL.new(domain, @key, @auth, https: https) if domain
       end
 
@@ -105,6 +112,11 @@ module QiniuNg
       def rs_url(https)
         https = Config.use_https if https.nil?
         @bucket.zone.rs(https)
+      end
+
+      def io_url(https)
+        https = Config.use_https if https.nil?
+        @bucket.zone.io(https)
       end
     end
   end

@@ -2,6 +2,7 @@
 
 require 'faraday'
 require 'forwardable'
+require 'qiniu_ng/storage/bucket_manager'
 
 module QiniuNg
   # 七牛 SDK 客户端
@@ -14,7 +15,7 @@ module QiniuNg
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @auth)
     end
 
-    def_delegators :@bucket_manager, :bucket_names, :create_bucket, :drop_bucket, :delete_bucket, :bucket
+    def_delegators :@bucket_manager, *QiniuNg::Storage::BucketManager.public_instance_methods(false)
 
     def batch
       BatchOperation.new(nil, @http_client, @auth)

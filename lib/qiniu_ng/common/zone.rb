@@ -66,7 +66,7 @@ module QiniuNg
         Utils::Bool.to_bool(https) ? @up_ip_https : @up_ip_http
       end
 
-      def io_vip(https = false)
+      def io(https = false)
         Utils::Bool.to_bool(https) ? @io_vip_https : @io_vip_http
       end
 
