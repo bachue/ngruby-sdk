@@ -9,8 +9,8 @@ module QiniuNg
       # 表单上传
       class FormUploader < UploaderBase
         def sync_upload_file(filepath, key: nil, upload_token: nil, params: {}, meta: {},
-                             mime_type: nil, disable_checksum: false, https: nil, **options)
-          crc32 = Digest::CRC32.file(filepath).digest.unpack1('N*') unless disable_checksum
+                             mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
+          crc32 = crc32_of_file(filepath) unless disable_checksum
           resp = @http_client.post("#{up_url(https)}/",
                                    backup_urls: up_backup_urls(https),
                                    headers: { content_type: 'multipart/form-data' },
@@ -19,11 +19,23 @@ module QiniuNg
                                                             upload_io: Faraday::UploadIO.new(filepath, mime_type),
                                                             params: params, meta: meta, crc32: crc32),
                                    **options)
+          unless disable_checksum
+            validate_etag(resp.body['key'], resp.body['hash'], etag_of_file(filepath), https: https, **options)
+          end
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
-        def sync_upload_stream(stream, key: nil, upload_token: nil, params: {}, meta: {},
-                               mime_type: nil, crc32: nil, https: nil, **options)
+        def sync_upload_stream(stream, key: nil, upload_token: nil, params: {}, meta: {}, mime_type: DEFAULT_MIME,
+                               disable_checksum: false, crc32: nil, etag: nil, https: nil, **options)
+          if disable_checksum
+            crc32 = nil
+            etag = nil
+          else
+            crc32 ||= guess_crc32_of_stream(stream)
+            etag ||= guess_etag_of_stream(stream) || begin
+              String.new.tap { |str| stream = Utils::Etag::Reader.new(stream, str) }
+            end
+          end
           resp = @http_client.post("#{up_url(https)}/",
                                    backup_urls: up_backup_urls(https),
                                    headers: { content_type: 'multipart/form-data' },
@@ -32,10 +44,50 @@ module QiniuNg
                                                             upload_io: Faraday::UploadIO.new(stream, mime_type),
                                                             params: params, meta: meta, crc32: crc32),
                                    **options)
+          validate_etag(resp.body['key'], resp.body['hash'], etag, https: https, **options) unless etag.nil?
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
         private
+
+        def validate_etag(key, actual, expected, https: nil, **options)
+          return if expected == actual
+
+          @bucket.entry(key).delete(https: https, **options)
+          raise ChecksumError
+        end
+
+        def guess_crc32_of_stream(stream)
+          if stream.respond_to?(:path)
+            crc32_of_file(stream.path)
+          elsif stream.respond_to?(:string)
+            crc32_of_string(stream.string)
+          end
+        end
+
+        def guess_etag_of_stream(stream)
+          if stream.respond_to?(:path)
+            etag_of_file(stream.path)
+          elsif stream.respond_to?(:string)
+            etag_of_string(stream.string)
+          end
+        end
+
+        def crc32_of_file(filepath)
+          Digest::CRC32.file(filepath).digest.unpack1('N*')
+        end
+
+        def crc32_of_string(string)
+          Digest::CRC32.digest(string).unpack1('N*')
+        end
+
+        def etag_of_file(filepath)
+          Utils::Etag.from_file_path(filepath)
+        end
+
+        def etag_of_string(string)
+          Utils::Etag.from_data(string)
+        end
 
         def build_request_body(key:, upload_token:, upload_io:, params:, meta:, crc32:)
           body = { token: upload_token.to_s }

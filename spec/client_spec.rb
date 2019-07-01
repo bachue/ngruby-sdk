@@ -75,17 +75,13 @@ RSpec.describe QiniuNg::Client do
 
     before :all do
       client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
-      auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
-      http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
       bucket = client.bucket('z0-bucket')
       entry = bucket.entry("16k-#{Time.now.usec}")
-      QiniuNg::Storage::Uploader::FormUploader.new(bucket, http_client, auth).sync_upload_file(
-        create_temp_file(kilo_size: 16), upload_token: entry.upload_token
-      )
+      bucket.uploader.upload(filepath: create_temp_file(kilo_size: 16), upload_token: entry.upload_token)
     end
 
     after :all do
-      entry.delete
+      entry.try_delete
     end
 
     it 'should disable / enable the entry' do

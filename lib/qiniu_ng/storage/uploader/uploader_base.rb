@@ -5,6 +5,11 @@ module QiniuNg
     # 上传模块
     class Uploader
       Result = Struct.new(:hash, :key)
+      DEFAULT_MIME = 'application/octet-stream'
+
+      class ChecksumError < Faraday::Error
+      end
+
       # 上传父类
       class UploaderBase
         def initialize(bucket, http_client, auth)

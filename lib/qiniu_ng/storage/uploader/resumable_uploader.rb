@@ -20,7 +20,7 @@ module QiniuNg
 
         def sync_upload_file(filepath,
                              key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil,
-                             mime_type: nil, disable_checksum: false, https: nil, **options)
+                             mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           File.open(filepath, 'rb') do |file|
             upload_recorder = UploadRecorder.new(recorder, bucket: @bucket.name, key: key, file: file)
             sync_upload_stream(file,
@@ -33,7 +33,7 @@ module QiniuNg
 
         def sync_upload_stream(stream,
                                key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
-                               size: nil, mime_type: nil, disable_checksum: false, https: nil, **options)
+                               size: nil, mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           unuse(mime_type, params)
           key ||= extract_key_from_upload_token(upload_token) or raise ArgumentError, 'missing keyword: key'
 
@@ -56,20 +56,35 @@ module QiniuNg
             break if block.nil?
 
             part_num += 1
-            list << {
-              etag: upload_part(block, key, upload_token, upload_id, part_num,
-                                disable_checksum: disable_checksum, https: https, **options),
-              part_num: part_num
-            }
+            actual_etag = upload_part(block, key, upload_token, upload_id, part_num,
+                                      disable_checksum: disable_checksum, https: https, **options)
+            unless disable_checksum
+              validate_part_checksum(actual_etag, block)
+              block_sha1 = Utils::Etag.sha1(block)
+            end
+            list << { etag: actual_etag, part_num: part_num, sha1: block_sha1 }
             uploaded_size += @block_size
             upload_recorder.sync(Record.new(upload_id, list, uploaded_size: uploaded_size))
           end
           result = complete_parts(list, key, upload_token, upload_id, meta: meta, https: https, **options)
+          validate_parts_checksum(result.key, result.hash, list) unless disable_checksum
           upload_recorder.del
           result
         end
 
         private
+
+        def validate_parts_checksum(key, actual, etag_idxes, https: nil, **options)
+          sha1s = etag_idxes.map { |ei| ei[:sha1] }
+          return if sha1s.detect(&:nil?) || Utils::Etag.encode_sha1s(sha1s) == actual
+
+          @bucket.entry(key).delete(https: https, **options)
+          raise ChecksumError
+        end
+
+        def validate_part_checksum(actual, block)
+          raise ChecksumError unless Utils::Etag.from_data(block) == actual
+        end
 
         def init_parts(key, upload_token, https: nil, **options)
           resp = @http_client.post(
@@ -131,16 +146,21 @@ module QiniuNg
           def self.from_json(json)
             require 'json' unless defined?(JSON)
             hash = JSON.parse(json)
-            etag_idxes = hash['etag_idxes'].map { |ei| { etag: ei['etag'], part_num: ei['part_num'] } }
+            etag_idxes = hash['etag_idxes'].each_with_object([]) do |ei, obj|
+              h = { etag: ei['etag'], part_num: ei['part_num'] }
+              h[:sha1] = [h['sha1']].pack('H*') unless ei['sha1'].nil? || ei['sha1'].empty?
+              obj << h
+            end
             new(hash['upload_id'], etag_idxes,
                 uploaded_size: hash['uploaded_size'], created_at: Time.at(hash['created_at']))
           end
 
           def to_json(*args)
-            hash = {
-              upload_id: @upload_id, etag_idxes: @etag_idxes,
-              uploaded_size: @uploaded_size, created_at: @created_at.to_i
-            }
+            hash = { upload_id: @upload_id, uploaded_size: @uploaded_size, created_at: @created_at.to_i }
+            hash[:etag_idxes] = @etag_idxes.each_with_object([]) do |ei, obj|
+              sha1 = ei[:sha1].unpack1('H*') unless ei[:sha1].nil? || ei[:sha1].empty?
+              obj << { etag: ei[:etag], part_num: ei[:part_num], sha1: sha1 }
+            end
             require 'json' unless hash.respond_to?(:to_json)
             hash.to_json(*args)
           end
