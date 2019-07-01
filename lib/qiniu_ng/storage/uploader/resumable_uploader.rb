@@ -158,7 +158,7 @@ module QiniuNg
           def to_json(*args)
             hash = { upload_id: @upload_id, uploaded_size: @uploaded_size, created_at: @created_at.to_i }
             hash[:etag_idxes] = @etag_idxes.each_with_object([]) do |ei, obj|
-              sha1 = ei[:sha1].unpack1('H*') unless ei[:sha1].nil? || ei[:sha1].empty?
+              sha1 = ei[:sha1].unpack('H*').first unless ei[:sha1].nil? || ei[:sha1].empty?
               obj << { etag: ei[:etag], part_num: ei[:part_num], sha1: sha1 }
             end
             require 'json' unless hash.respond_to?(:to_json)

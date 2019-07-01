@@ -74,11 +74,11 @@ module QiniuNg
         end
 
         def crc32_of_file(filepath)
-          Digest::CRC32.file(filepath).digest.unpack1('N*')
+          Digest::CRC32.file(filepath).digest.unpack('N*').first
         end
 
         def crc32_of_string(string)
-          Digest::CRC32.digest(string).unpack1('N*')
+          Digest::CRC32.digest(string).unpack('N*').first
         end
 
         def etag_of_file(filepath)

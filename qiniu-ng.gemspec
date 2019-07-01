@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   = "see:\nhttps://github.com/bachue/ngruby-sdk\n"
   spec.homepage      = 'https://github.com/bachue/ngruby-sdk'
   spec.license       = 'MIT'
-  spec.required_ruby_version = '~> 2.4'
+  spec.required_ruby_version = '~> 2.3'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
