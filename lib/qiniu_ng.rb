@@ -30,7 +30,8 @@ require 'qiniu_ng/storage/bucket'
 require 'qiniu_ng/storage/entry'
 require 'qiniu_ng/storage/op'
 require 'qiniu_ng/storage/batch_operations'
-require 'qiniu_ng/storage/download_url'
+require 'qiniu_ng/storage/public_url'
+require 'qiniu_ng/storage/private_url'
 require 'qiniu_ng/storage/upload_token'
 
 # 下一代七牛 Ruby SDK

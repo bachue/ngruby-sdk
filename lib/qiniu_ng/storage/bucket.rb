@@ -97,7 +97,7 @@ module QiniuNg
       end
 
       def batch
-        BatchOperations.new(self, @http_client_v1, @auth)
+        BatchOperations.new(self, @http_client_v1, @http_client_v2, @auth)
       end
 
       private

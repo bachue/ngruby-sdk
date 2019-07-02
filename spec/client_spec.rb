@@ -90,18 +90,18 @@ RSpec.describe QiniuNg::Client do
       end
 
       it 'should disable / enable the entry' do
-        public_url = entry.download_url.public
-        private_url = entry.download_url.private
-        expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
-        expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
+        public_url = entry.download_url
+        private_url = public_url.private
+        expect(head(public_url.refresh)).to be_success
+        expect(head(private_url.refresh)).to be_success
         begin
           entry.disable!
-          expect(head(public_url + "?t=#{Time.now.usec}").status).to eq 403
-          expect(head(private_url + "&t=#{Time.now.usec}").status).to eq 403
+          expect { head(public_url.refresh).status }.to eventually eq 403
+          expect { head(private_url.refresh).status }.to eventually eq 403
         ensure
           entry.enable!
-          expect(head(public_url + "?t=#{Time.now.usec}")).to be_success
-          expect(head(private_url + "&t=#{Time.now.usec}")).to be_success
+          expect { head(public_url.refresh) }.to eventually be_success
+          expect { head(private_url.refresh) }.to eventually be_success
         end
       end
 
@@ -110,12 +110,12 @@ RSpec.describe QiniuNg::Client do
         expect(entry.stat).not_to be_infrequent_storage
         begin
           entry.infrequent_storage!
-          expect(entry.stat).not_to be_normal_storage
-          expect(entry.stat).to be_infrequent_storage
+          expect { entry.stat }.to eventually_not be_normal_storage
+          expect { entry.stat }.to eventually be_infrequent_storage
         ensure
           entry.normal_storage!
-          expect(entry.stat).to be_normal_storage
-          expect(entry.stat).not_to be_infrequent_storage
+          expect { entry.stat }.to eventually be_normal_storage
+          expect { entry.stat }.to eventually_not be_infrequent_storage
         end
       end
 
@@ -124,42 +124,42 @@ RSpec.describe QiniuNg::Client do
         expect(entry.stat.mime_type).not_to eq 'application/json'
         begin
           entry.change_mime_type 'application/json'
-          expect(entry.stat.mime_type).to eq 'application/json'
+          expect { entry.stat.mime_type }.to eventually eq 'application/json'
         ensure
           entry.change_mime_type original_mime_type
-          expect(entry.stat.mime_type).not_to eq 'application/json'
+          expect { entry.stat.mime_type }.to eventually_not eq 'application/json'
         end
       end
 
       it 'should rename the entry' do
-        old_public_url = entry.download_url.public
-        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        old_public_url = entry.download_url
+        expect(head(old_public_url.refresh)).to be_success
         new_entry = bucket.entry("16K-#{Time.now.usec}")
-        new_public_url = new_entry.download_url.public
+        new_public_url = new_entry.download_url
         begin
           entry.rename_to(new_entry.key)
-          expect(head(old_public_url + "?t=#{Time.now.usec}").status).to eq 404
-          expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+          expect { head(old_public_url.refresh).status }.to eventually eq 404
+          expect { head(new_public_url.refresh) }.to eventually be_success
         ensure
           new_entry.rename_to(entry.key)
-          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-          expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+          expect { head(old_public_url.refresh) }.to eventually be_success
+          expect { head(new_public_url.refresh).status }.to eventually eq 404
         end
       end
 
       it 'should copy / delete the entry' do
-        old_public_url = entry.download_url.public
-        expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
+        old_public_url = entry.download_url
+        expect(head(old_public_url.refresh)).to be_success
         new_entry = bucket.entry("16K-#{Time.now.usec}")
-        new_public_url = new_entry.download_url.public
+        new_public_url = new_entry.download_url
         begin
           entry.copy_to(bucket.name, new_entry.key)
-          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-          expect(head(new_public_url + "?t=#{Time.now.usec}")).to be_success
+          expect { head(old_public_url.refresh) }.to eventually be_success
+          expect { head(new_public_url.refresh) }.to eventually be_success
         ensure
           new_entry.delete
-          expect(head(old_public_url + "?t=#{Time.now.usec}")).to be_success
-          expect(head(new_public_url + "?t=#{Time.now.usec}").status).to eq 404
+          expect { head(old_public_url.refresh) }.to eventually be_success
+          expect { head(new_public_url.refresh).status }.to eventually eq 404
         end
       end
     end
@@ -173,7 +173,7 @@ RSpec.describe QiniuNg::Client do
         begin
           dest_entry = entry.fetch_from(src_url)
           expect(dest_entry.file_size).to eq(1 << 20)
-          expect(head("#{dest_entry.download_url.public}?t=#{Time.now.usec}")).to be_success
+          expect(head(dest_entry.download_url.refresh)).to be_success
         ensure
           entry.try_delete
         end
@@ -187,7 +187,7 @@ RSpec.describe QiniuNg::Client do
         begin
           result = entry.fetch_from(src_url, async: true)
           expect { result }.to eventually be_done
-          expect(head("#{entry.download_url.public}?t=#{Time.now.usec}")).to be_success
+          expect(head(entry.download_url.refresh)).to be_success
         ensure
           entry.try_delete
         end
@@ -223,6 +223,44 @@ RSpec.describe QiniuNg::Client do
         batch = batch.stat('16k')
       end
       expect(batch.do.size).to eq size
+    end
+  end
+
+  describe QiniuNg::Storage::PublicURL do
+    entry = nil
+
+    before :all do
+      client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
+      entry = client.bucket('z0-bucket').entry('1m')
+    end
+
+    it 'should access entry by public url' do
+      expect(head(entry.download_url)).to be_success
+    end
+
+    it 'should set fop' do
+      expect(head(entry.download_url.set(fop: 'qhash/md5'))).to be_success
+    end
+
+    it 'should set filename' do
+      expect(entry.download_url.set(filename: 'test.bin')).to be_include('attname=test.bin')
+    end
+  end
+
+  describe QiniuNg::Storage::PrivateURL do
+    entry = nil
+
+    before :all do
+      client = QiniuNg::Client.new(access_key: access_key, secret_key: secret_key)
+      entry = client.bucket('z1-bucket').entry('1m')
+    end
+
+    it 'should not access entry by public url' do
+      expect(head(entry.download_url).status).to eq 401
+    end
+
+    it 'should access entry by private url' do
+      expect(head(entry.download_url.private)).to be_success
     end
   end
 end

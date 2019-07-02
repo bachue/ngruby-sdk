@@ -28,7 +28,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -51,7 +51,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                              upload_token: bucket.upload_token_for_key_prefix('test-image-'))
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -146,7 +146,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        response = head(entry.download_url.public + "?t=#{Time.now.usec}")
+        response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'application/octet-stream'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
@@ -169,7 +169,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
     #                                          upload_token: bucket.upload_token_for_key_prefix('15mb-'))
     #     expect(result.hash).not_to be_empty
     #     expect(result.key).to eq entry.key
-    #     response = head(entry.download_url.public + "?t=#{Time.now.usec}")
+    #     response = head(entry.download_url.refresh)
     #     expect(response).to be_success
     #     expect(response.headers[:content_type]).to eq 'application/octet-stream'
     #     expect(response.headers[:content_length]).to eq File.size(path).to_s

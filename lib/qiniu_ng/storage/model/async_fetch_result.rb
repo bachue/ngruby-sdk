@@ -13,7 +13,7 @@ module QiniuNg
 
         def done?(https: nil, **options)
           resp_body = @http_client_v2.get("#{api_url(https)}/sisyphus/fetch", params: { id: @id }, **options).body
-          resp_body['wait'] < 0
+          resp_body['wait'].negative?
         end
 
         private

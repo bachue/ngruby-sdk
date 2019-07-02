@@ -46,7 +46,8 @@ module QiniuNg
       end
 
       def infrequent_storage!(https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeType.new(self, type: Model::StorageType.infrequent)}", **options)
+        op = Op::ChangeType.new(self, type: Model::StorageType.infrequent)
+        @http_client_v1.post("#{rs_url(https)}#{op}", **options)
         self
       end
 
@@ -93,7 +94,7 @@ module QiniuNg
       end
 
       def async_fetch_from(url, md5: nil, https: nil, callback_url: nil, callback_host: nil,
-                                callback_body: nil, callback_body_type: nil, **options)
+                           callback_body: nil, callback_body_type: nil, **options)
         req_body = {
           url: url, bucket: @bucket.name, key: @key, md5: md5, callbackurl: callback_url,
           callbackhost: callback_host, callbackbody: callback_body, callbackbodytype: callback_body_type
@@ -115,7 +116,7 @@ module QiniuNg
 
       def download_url(domain: nil, https: nil, **options)
         domain = @bucket.domains(https: https, **options).last if domain.nil? || domain.empty?
-        DownloadURL.new(domain, @key, @auth, https: https) if domain
+        PublicURL.new(domain, @key, @auth, https: https) if domain
       end
 
       def upload_token
