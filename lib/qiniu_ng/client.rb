@@ -16,7 +16,7 @@ module QiniuNg
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @http_client_with_auth_v2, @auth)
     end
 
-    def_delegators :@bucket_manager, *QiniuNg::Storage::BucketManager.public_instance_methods(false)
+    def_delegators :@bucket_manager, *Storage::BucketManager.public_instance_methods(false)
 
     def batch
       BatchOperation.new(nil, @http_client, @auth)

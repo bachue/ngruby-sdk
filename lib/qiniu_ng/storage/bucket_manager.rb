@@ -12,19 +12,19 @@ module QiniuNg
         @auth = auth
       end
 
-      def bucket_names(https: nil, **options)
-        @http_client_v1.get("#{rs_url(https)}/buckets", **options).body
+      def bucket_names(rs_zone: nil, https: nil, **options)
+        @http_client_v1.get("#{rs_url(rs_zone, https)}/buckets", **options).body
       end
 
-      def create_bucket(bucket_name, zone: :z0, https: nil, **options)
+      def create_bucket(bucket_name, zone: :z0, rs_zone: nil, https: nil, **options)
         region = zone.is_a?(Common::Zone) ? zone.region || :z0 : zone
         encoded_bucket_name = Base64.urlsafe_encode64(bucket_name)
-        @http_client_v1.post("#{rs_url(https)}/mkbucketv2/#{encoded_bucket_name}/region/#{region}", **options)
+        @http_client_v1.post("#{rs_url(rs_zone, https)}/mkbucketv2/#{encoded_bucket_name}/region/#{region}", **options)
         bucket(bucket_name)
       end
 
-      def drop_bucket(bucket_name, https: nil, **options)
-        bucket(bucket_name).drop(https: https, **options)
+      def drop_bucket(bucket_name, rs_zone: nil, https: nil, **options)
+        bucket(bucket_name).drop(rs_zone: rs_zone, https: https, **options)
       end
       alias delete_bucket drop_bucket
 
@@ -34,9 +34,10 @@ module QiniuNg
 
       private
 
-      def rs_url(https)
+      def rs_url(rs_zone, https)
         https = Config.use_https if https.nil?
-        Common::Zone.huadong.rs(https)
+        rs_zone ||= Common::Zone.huadong
+        rs_zone.rs(https)
       end
     end
   end

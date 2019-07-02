@@ -48,7 +48,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
       begin
         result = uploader.sync_upload_stream(stream,
                                              key: entry.key,
-                                             upload_token: bucket.upload_token_for_key_prefix('test-image-'))
+                                             upload_token: bucket.upload_token(key_prefix: 'test-image-'))
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
         response = head(entry.download_url.refresh)
@@ -166,7 +166,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
     #   begin
     #     result = uploader.sync_upload_stream(stream,
     #                                          key: entry.key,
-    #                                          upload_token: bucket.upload_token_for_key_prefix('15mb-'))
+    #                                          upload_token: bucket.upload_token(key_prefix: '15mb-'))
     #     expect(result.hash).not_to be_empty
     #     expect(result.key).to eq entry.key
     #     response = head(entry.download_url.refresh)

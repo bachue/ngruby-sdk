@@ -18,7 +18,7 @@ module QiniuNg
           @hash = hash.freeze
           @file_size = file_size.freeze
         end
-        def_delegators :@entry, *QiniuNg::Storage::Entry.public_instance_methods(false)
+        def_delegators :@entry, *Storage::Entry.public_instance_methods(false)
       end
     end
   end
