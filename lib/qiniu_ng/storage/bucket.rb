@@ -87,7 +87,7 @@ module QiniuNg
                             self, prefix, limit, marker, rsf_zone, https, options)
       end
 
-      # ???????
+      # 文件列举迭代器
       class FilesEnumerable
         include Enumerable
 
@@ -154,6 +154,10 @@ module QiniuNg
         return upload_token_for_key(key) unless key.nil?
         return upload_token_for_key_prefix(key_prefix) unless key_prefix.nil?
 
+        upload_token_for_bucket
+      end
+
+      def upload_token_for_bucket
         policy = Model::UploadPolicy.new(bucket: @bucket_name)
         yield policy if block_given?
         UploadToken.from_policy(policy, @auth)
@@ -173,6 +177,10 @@ module QiniuNg
 
       def batch
         BatchOperations.new(self, @http_client_v1, @http_client_v2, @auth)
+      end
+
+      def life_cycle_rules
+        LifeCycleRules.new(self, @http_client_v1, @auth)
       end
 
       private

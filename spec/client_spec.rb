@@ -59,6 +59,43 @@ RSpec.describe QiniuNg::Client do
       end
     end
 
+    it 'should add rules to life cycle rules' do
+      rules = bucket.life_cycle_rules
+      expect(rules.all).to be_empty
+      rules.new(name: 'test_rule1').delete_after(days: 7).to_line_after(days: 3).create!
+      rules.new(name: 'test_rule2').start_with('temp').delete_after(days: 3).always_to_line.create!
+      expect(rules.all.size).to eq 2
+      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(test_rule1.prefix).to be_empty
+      expect(test_rule1.delete_after_days).to eq 7
+      expect(test_rule1.to_line_after_days).to eq 3
+      expect(test_rule1).not_to be_always_to_line
+      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      expect(test_rule2.prefix).to eq 'temp'
+      expect(test_rule2.delete_after_days).to eq 3
+      expect(test_rule2).to be_always_to_line
+      rules.new(name: 'test_rule2').start_with('fake').delete_after(days: 3).always_to_line.replace!
+      expect(rules.all.size).to eq 2
+      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(test_rule1.prefix).to be_empty
+      expect(test_rule1.delete_after_days).to eq 7
+      expect(test_rule1.to_line_after_days).to eq 3
+      expect(test_rule1).not_to be_always_to_line
+      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      expect(test_rule2.prefix).to eq 'fake'
+      expect(test_rule2.delete_after_days).to eq 3
+      expect(test_rule2).to be_always_to_line
+      rules.delete(name: 'test_rule2')
+      expect(rules.all.size).to eq 1
+      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(test_rule1.prefix).to be_empty
+      expect(test_rule1.delete_after_days).to eq 7
+      expect(test_rule1.to_line_after_days).to eq 3
+      expect(test_rule1).not_to be_always_to_line
+      rules.delete(name: 'test_rule1')
+      expect(rules.all).to be_empty
+    end
+
     it 'should update bucket acl' do
       expect(bucket).not_to be_private
       begin
