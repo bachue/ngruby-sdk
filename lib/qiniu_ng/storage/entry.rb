@@ -84,6 +84,11 @@ module QiniuNg
         self
       end
 
+      def prefetch(https: nil, **options)
+        @http_client_v1.post("#{io_url(https)}/prefetch/#{encode}", **options)
+        self
+      end
+
       def fetch_from(url, async: false, https: nil, **options)
         return async_fetch_from(url, https: https, **options) if async
 

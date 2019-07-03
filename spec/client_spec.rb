@@ -46,6 +46,19 @@ RSpec.describe QiniuNg::Client do
       end
     end
 
+    it 'should prefetch image from remote url' do
+      expect(bucket.image).to be_nil
+      begin
+        bucket.set_image 'https://mars-assets.qnssl.com'
+        expect(bucket.entry('qiniulog/img-slogan-white-en.png').prefetch.stat.mime_type).to eq 'image/png'
+        expect(bucket.entry('qiniulog/img-slogan-blue-en.png').prefetch.stat.mime_type).to eq 'image/png'
+        expect(bucket.entry('qiniulogo/img-horizontal-white-en.png').prefetch.stat.mime_type).to eq 'image/png'
+        expect(bucket.entry('qiniulogo/img-verical-white-en.png').prefetch.stat.mime_type).to eq 'image/png'
+      ensure
+        bucket.unset_image
+      end
+    end
+
     it 'should update bucket acl' do
       expect(bucket).not_to be_private
       begin
