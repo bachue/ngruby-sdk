@@ -89,8 +89,7 @@ module QiniuNg
 
         encoded_url = Base64.urlsafe_encode64(url)
         body = @http_client_v1.post("#{io_url(https)}/fetch/#{encoded_url}/to/#{encode}", **options).body
-        Model::FetchedEntry.new(self, key: body['key'], hash: body['hash'],
-                                      mime_type: body['mimeType'], file_size: body['fsize'])
+        Model::FetchedEntry.new(self, hash: body['hash'], mime_type: body['mimeType'], file_size: body['fsize'])
       end
 
       def async_fetch_from(url, md5: nil, https: nil, callback_url: nil, callback_host: nil,

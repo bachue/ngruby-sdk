@@ -82,6 +82,70 @@ module QiniuNg
         Entry.new(self, key, @http_client_v1, @http_client_v2, @auth)
       end
 
+      def files(rsf_zone: nil, prefix: nil, limit: nil, marker: nil, https: nil, **options)
+        FilesEnumerable.new(@http_client_v1, @http_client_v2, @auth,
+                            self, prefix, limit, marker, rsf_zone, https, options)
+      end
+
+      # ???????
+      class FilesEnumerable
+        include Enumerable
+
+        def initialize(http_client_v1, http_client_v2, auth, bucket, prefix, limit, marker, rsf_zone, https, options)
+          @http_client_v1 = http_client_v1
+          @http_client_v2 = http_client_v2
+          @auth = auth
+          @bucket = bucket
+          @prefix = prefix
+          @limit = limit
+          @marker = marker
+          @got = 0
+          @rsf_url = "#{get_rsf_url(rsf_zone, https)}/list"
+          @options = options
+        end
+
+        def each
+          enumerator.each do |entry|
+            yield entry
+          end
+        end
+
+        private
+
+        def enumerator
+          Enumerator.new do |yielder|
+            loop do
+              params = { bucket: @bucket.name }
+              params[:prefix] = @prefix unless @prefix.nil? || @prefix.empty?
+              params[:limit] = @limit unless @limit.nil? || !@limit.positive?
+              params[:marker] = @marker unless @marker.nil? || @marker.empty?
+              body = @http_client_v1.post(@rsf_url, params: params, **@options).body
+              @marker = body['marker']
+              break if body['items'].size.zero?
+
+              body['items'].each do |item|
+                break unless @limit.nil? || @got < @limit
+
+                entry = Entry.new(@bucket, item['key'], @http_client_v1, @http_client_v2, @auth)
+                yielder << Model::ListedEntry.new(
+                  entry, mime_type: item['mimeType'], hash: item['hash'], file_size: item['fsize'],
+                         created_at: Time.at(0, item['putTime'].to_f / 10), end_user: item['endUser'],
+                         storage_type: item['type'], status: item['status']
+                )
+                @got += 1
+              end
+              break if @marker.nil? || @marker.empty? || (!@limit.nil? && @got >= @limit)
+            end
+          end
+        end
+
+        def get_rsf_url(rsf_zone, https)
+          https = Config.use_https if https.nil?
+          rsf_zone ||= Common::Zone.huadong
+          rsf_zone.rsf(https)
+        end
+      end
+
       def uploader(block_size: Config.default_upload_block_size)
         Uploader.new(self, @http_client_v1, @auth, block_size: block_size)
       end

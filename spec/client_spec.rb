@@ -164,6 +164,50 @@ RSpec.describe QiniuNg::Client do
       end
     end
 
+    describe 'List' do
+      it 'should list all the files' do
+        iter = client.bucket('na-bucket').files
+        count = 0
+        iter.each_with_index do |e, i|
+          expect(e.bucket_name).to eq 'na-bucket'
+          expect(e.key).to eq(format('%04d', i))
+          expect(e.file_size).to eq 1024
+          expect(e).to be_normal_storage
+          expect(e).to be_enabled
+          count += 1
+        end
+        expect(count).to eq 2500
+      end
+
+      it 'should list part of the files' do
+        iter = client.bucket('na-bucket').files limit: 1500
+        count = 0
+        iter.each_with_index do |e, i|
+          expect(e.bucket_name).to eq 'na-bucket'
+          expect(e.key).to eq(format('%04d', i))
+          expect(e.file_size).to eq 1024
+          expect(e).to be_normal_storage
+          expect(e).to be_enabled
+          count += 1
+        end
+        expect(count).to eq 1500
+      end
+
+      it 'should list all files started with the specified string' do
+        iter = client.bucket('na-bucket').files prefix: '1'
+        count = 0
+        iter.each_with_index do |e, i|
+          expect(e.bucket_name).to eq 'na-bucket'
+          expect(e.key).to eq(format('%04d', i + 1000))
+          expect(e.file_size).to eq 1024
+          expect(e).to be_normal_storage
+          expect(e).to be_enabled
+          count += 1
+        end
+        expect(count).to eq 1000
+      end
+    end
+
     describe 'Fetch' do
       it 'should fetch the entry from the url' do
         src_entry = client.bucket('z1-bucket').entry('1m')

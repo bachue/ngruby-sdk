@@ -2,7 +2,7 @@
 
 require 'rspec/eventually'
 
-Rspec::Eventually.timeout = 30
+Rspec::Eventually.timeout = 300
 
 require 'qiniu_ng'
 

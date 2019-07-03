@@ -5,9 +5,11 @@ require 'tempfile'
 require 'pathname'
 
 module SpecHelpers
-  def create_temp_file(kilo_size:)
+  def create_temp_file(kilo_size:, thread_id: nil)
     fake_data = ('A' + 'b' * 4093 + "\r\n").freeze
-    temp_file = File.open(Pathname.new('/tmp').join("qiniu_#{kilo_size}k"), 'wb')
+    filename = "qiniu_#{kilo_size}k"
+    filename += "_t#{thread_id}" if thread_id
+    temp_file = File.open(Pathname.new('/tmp').join(filename), 'wb')
     written = 0
     size = kilo_size * 1024
     rest = size
