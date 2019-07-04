@@ -78,8 +78,11 @@ module QiniuNg
           sha1s = etag_idxes.map { |ei| ei[:sha1] }
           return if sha1s.detect(&:nil?) || Utils::Etag.encode_sha1s(sha1s) == actual
 
-          @bucket.entry(key).delete(https: https, **options)
-          raise ChecksumError
+          begin
+            @bucket.entry(key).delete(https: https, **options)
+          ensure
+            raise ChecksumError
+          end
         end
 
         def validate_part_checksum(actual, block)
