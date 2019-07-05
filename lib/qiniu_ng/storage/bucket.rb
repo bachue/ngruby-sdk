@@ -24,26 +24,26 @@ module QiniuNg
       attr_writer :zone
 
       def drop(rs_zone: nil, https: nil, **options)
-        @http_client_v1.post("#{get_rs_url(rs_zone, https)}/drop/#{@bucket_name}", **options)
-        nil
+        BucketManager.new(@http_client_v1, @http_client_v2, @auth)
+                     .drop_bucket(@bucket_name, rs_zone: rs_zone, https: https, **options)
       end
       alias delete drop
 
       def domains(api_zone: nil, https: nil, **options)
-        url = "#{get_api_url(api_zone, https)}/v6/domain/list"
-        @http_client_v1.get(url, params: { tbl: @bucket_name }, **options).body
+        params = { tbl: @bucket_name }
+        @http_client_v1.get('/v6/domain/list', get_api_url(api_zone, https), params: params, **options).body
       end
 
       def set_image(source_url, uc_url: nil, source_host: nil, https: nil, **options)
         encoded_url = Base64.urlsafe_encode64(source_url)
-        url = "#{uc_url || get_uc_url(https)}/image/#{@bucket_name}/from/#{encoded_url}"
-        url += "/host/#{Base64.urlsafe_encode64(source_host)}" unless source_host.nil? || source_host.empty?
-        @http_client_v1.post(url, **options)
+        path = "/image/#{@bucket_name}/from/#{encoded_url}"
+        path += "/host/#{Base64.urlsafe_encode64(source_host)}" unless source_host.nil? || source_host.empty?
+        @http_client_v1.post(path, uc_url || get_uc_url(https), **options)
         nil
       end
 
       def unset_image(uc_url: nil, https: nil, **options)
-        @http_client_v1.post("#{uc_url || get_uc_url(https)}/unimage/#{@bucket_name}", **options)
+        @http_client_v1.post("/unimage/#{@bucket_name}", uc_url || get_uc_url(https), **options)
         nil
       end
 
@@ -100,7 +100,7 @@ module QiniuNg
           @limit = limit
           @marker = marker
           @got = 0
-          @rsf_url = "#{get_rsf_url(rsf_zone, https)}/list"
+          @rsf_url = get_rsf_url(rsf_zone, https)
           @options = options
         end
 
@@ -119,7 +119,7 @@ module QiniuNg
               params[:prefix] = @prefix unless @prefix.nil? || @prefix.empty?
               params[:limit] = @limit unless @limit.nil? || !@limit.positive?
               params[:marker] = @marker unless @marker.nil? || @marker.empty?
-              body = @http_client_v1.post(@rsf_url, params: params, **@options).body
+              body = @http_client_v1.post('/list', @rsf_url, params: params, **@options).body
               @marker = body['marker']
               break if body['items'].size.zero?
 
@@ -141,8 +141,8 @@ module QiniuNg
 
         def get_rsf_url(rsf_zone, https)
           https = Config.use_https if https.nil?
-          rsf_zone ||= Common::Zone.huadong
-          rsf_zone.rsf(https)
+          rsf_zone ||= @bucket.zone
+          rsf_zone.rsf_url(https)
         end
       end
 
@@ -188,33 +188,32 @@ module QiniuNg
       def set_index_page(enabled, uc_url: nil, https: nil, **options)
         no_index_page = Utils::Bool.to_int(!enabled)
         params = { bucket: @bucket_name, noIndexPage: no_index_page }
-        @http_client_v1.post("#{uc_url || get_uc_url(https)}/noIndexPage", params: params, **options)
+        @http_client_v1.post('/noIndexPage', uc_url || get_uc_url(https), params: params, **options)
         nil
       end
 
       def update_acl(private_access:, uc_url: nil, https: nil, **options)
         private_access = Utils::Bool.to_int(private_access)
         params = { bucket: @bucket_name, private: private_access }
-        @http_client_v1.post("#{uc_url || get_uc_url(https)}/private", params: params, **options)
+        @http_client_v1.post('/private', uc_url || get_uc_url(https), params: params, **options)
         nil
       end
 
       def info(uc_url: nil, https: nil, **options)
-        @http_client_v1.get("#{uc_url || get_uc_url(https)}/v2/bucketInfo",
-                            params: { bucket: @bucket_name },
-                            **options).body
+        @http_client_v1.get('/v2/bucketInfo', uc_url || get_uc_url(https), params: { bucket: @bucket_name },
+                                                                           **options).body
       end
 
       def get_api_url(api_zone, https)
         https = Config.use_https if https.nil?
-        api_zone ||= Common::Zone.huadong
-        api_zone.api(https)
+        api_zone ||= zone
+        api_zone.api_url(https)
       end
 
       def get_rs_url(rs_zone, https)
         https = Config.use_https if https.nil?
-        rs_zone ||= Common::Zone.huadong
-        rs_zone.rs(https)
+        rs_zone ||= zone
+        rs_zone.rs_url(https)
       end
 
       def get_uc_url(https)

@@ -9,7 +9,7 @@ module QiniuNg
         @resumable_uploader = ResumableUploader.new(bucket, http_client, auth, block_size: block_size)
       end
 
-      def upload(filepath: nil, stream: nil, key: nil, upload_token: nil, params: {}, meta: {},
+      def upload(filepath: nil, stream: nil, key: nil, upload_token:, params: {}, meta: {},
                  recorder: Recorder::FileRecorder.new, mime_type: DEFAULT_MIME, disable_checksum: false,
                  resumable_policy: :auto, https: nil, **options)
         if !filepath || resumable_policy == :always ||

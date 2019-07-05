@@ -22,70 +22,70 @@ module QiniuNg
 
       def stat(https: nil, **options)
         op = Op::Stat.new(self)
-        op.parse(@http_client_v1.get("#{rs_url(https)}#{op}", **options).body)
+        op.parse(@http_client_v1.get(op, rs_url(https), **options).body)
       end
 
       def disable!(https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeStatus.new(self, disabled: true)}", **options)
+        @http_client_v1.post(Op::ChangeStatus.new(self, disabled: true), rs_url(https), **options)
         self
       end
 
       def enable!(https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeStatus.new(self, disabled: false)}", **options)
+        @http_client_v1.post(Op::ChangeStatus.new(self, disabled: false), rs_url(https), **options)
         self
       end
 
       def set_lifetime(days:, https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::SetLifetime.new(self, days: days)}", **options)
+        @http_client_v1.post(Op::SetLifetime.new(self, days: days), rs_url(https), **options)
         self
       end
 
       def normal_storage!(https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeType.new(self, type: Model::StorageType.normal)}", **options)
+        @http_client_v1.post(Op::ChangeType.new(self, type: Model::StorageType.normal), rs_url(https), **options)
         self
       end
 
       def infrequent_storage!(https: nil, **options)
         op = Op::ChangeType.new(self, type: Model::StorageType.infrequent)
-        @http_client_v1.post("#{rs_url(https)}#{op}", **options)
+        @http_client_v1.post(op, rs_url(https), **options)
         self
       end
 
       def change_mime_type(mime_type, https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeMIMEType.new(self, mime_type: mime_type)}", **options)
+        @http_client_v1.post(Op::ChangeMIMEType.new(self, mime_type: mime_type), rs_url(https), **options)
         self
       end
 
       def change_meta(meta, https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::ChangeMeta.new(self, meta: meta)}", **options)
+        @http_client_v1.post(Op::ChangeMeta.new(self, meta: meta), rs_url(https), **options)
         self
       end
 
       def rename_to(key, force: false, https: nil, **options)
         op = Op::Move.new(self, bucket: @bucket.name, key: key, force: force)
-        @http_client_v1.post("#{rs_url(https)}#{op}", **options)
+        @http_client_v1.post(op, rs_url(https), **options)
         self
       end
 
       def move_to(bucket_name, key, force: false, https: nil, **options)
         op = Op::Move.new(self, bucket: bucket_name, key: key, force: force)
-        @http_client_v1.post("#{rs_url(https)}#{op}", **options)
+        @http_client_v1.post(op, rs_url(https), **options)
         self
       end
 
       def copy_to(bucket_name, key, force: false, https: nil, **options)
         op = Op::Copy.new(self, bucket: bucket_name, key: key, force: force)
-        @http_client_v1.post("#{rs_url(https)}#{op}", **options)
+        @http_client_v1.post(op, rs_url(https), **options)
         self
       end
 
       def delete(https: nil, **options)
-        @http_client_v1.post("#{rs_url(https)}#{Op::Delete.new(self)}", **options)
+        @http_client_v1.post(Op::Delete.new(self), rs_url(https), **options)
         self
       end
 
       def prefetch(https: nil, **options)
-        @http_client_v1.post("#{io_url(https)}/prefetch/#{encode}", **options)
+        @http_client_v1.post("/prefetch/#{encode}", io_urls(https), **options)
         self
       end
 
@@ -93,7 +93,7 @@ module QiniuNg
         return async_fetch_from(url, https: https, **options) if async
 
         encoded_url = Base64.urlsafe_encode64(url)
-        body = @http_client_v1.post("#{io_url(https)}/fetch/#{encoded_url}/to/#{encode}", **options).body
+        body = @http_client_v1.post("/fetch/#{encoded_url}/to/#{encode}", io_urls(https), **options).body
         Model::FetchedEntry.new(self, hash: body['hash'], mime_type: body['mimeType'], file_size: body['fsize'])
       end
 
@@ -104,7 +104,7 @@ module QiniuNg
           callbackhost: callback_host, callbackbody: callback_body, callbackbodytype: callback_body_type
         }.reject { |_, v| v.nil? }
         require 'json' unless req_body.respond_to?(:to_json)
-        resp_body = @http_client_v2.post("#{api_url(https)}/sisyphus/fetch",
+        resp_body = @http_client_v2.post('/sisyphus/fetch', api_url(https),
                                          headers: { content_type: 'application/json' },
                                          body: req_body.to_json,
                                          **options).body
@@ -133,17 +133,17 @@ module QiniuNg
 
       def rs_url(https)
         https = Config.use_https if https.nil?
-        @bucket.zone.rs(https)
+        @bucket.zone.rs_url(https)
       end
 
       def api_url(https)
         https = Config.use_https if https.nil?
-        @bucket.zone.api(https)
+        @bucket.zone.api_url(https)
       end
 
-      def io_url(https)
+      def io_urls(https)
         https = Config.use_https if https.nil?
-        @bucket.zone.io(https)
+        @bucket.zone.io_urls(https).dup
       end
     end
   end

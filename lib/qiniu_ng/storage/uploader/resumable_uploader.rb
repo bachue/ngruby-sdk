@@ -19,7 +19,7 @@ module QiniuNg
         end
 
         def sync_upload_file(filepath,
-                             key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil,
+                             key: nil, upload_token:, params: {}, meta: {}, recorder: nil,
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           File.open(filepath, 'rb') do |file|
             upload_recorder = UploadRecorder.new(recorder, bucket: @bucket.name, key: key, file: file)
@@ -32,7 +32,7 @@ module QiniuNg
         end
 
         def sync_upload_stream(stream,
-                               key: nil, upload_token: nil, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
+                               key: nil, upload_token:, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
                                size: nil, mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           unuse(mime_type, params)
           key ||= extract_key_from_upload_token(upload_token) or raise ArgumentError, 'missing keyword: key'
@@ -91,8 +91,10 @@ module QiniuNg
 
         def init_parts(key, upload_token, https: nil, **options)
           resp = @http_client.post(
-            "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads",
-            backup_urls: up_backup_urls(https), headers: { authorization: "UpToken #{upload_token}" }, **options
+            "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads", up_urls(https),
+            headers: { authorization: "UpToken #{upload_token}" },
+            retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
+            idempotent: true,  **options
           )
           resp.body['uploadId']
         end
@@ -101,8 +103,10 @@ module QiniuNg
           headers = { authorization: "UpToken #{upload_token}", content_type: 'application/octet-stream' }
           headers[:content_md5] = Digest::MD5.hexdigest(data) unless disable_checksum
           resp = @http_client.put(
-            "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}/#{part_num}",
-            backup_urls: up_backup_urls(https), headers: headers, body: data, **options
+            "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}/#{part_num}", up_urls(https),
+            headers: headers, body: data,
+            retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
+            idempotent: true,  **options
           )
           resp.body['etag']
         end
@@ -114,16 +118,20 @@ module QiniuNg
           require 'json' unless body.respond_to?(:to_json)
 
           resp = @http_client.post(
-            "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}",
-            backup_urls: up_backup_urls(https), headers: headers, body: body.to_json, **options
+            "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}", up_urls(https),
+            headers: headers, body: body.to_json,
+            retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
+            idempotent: true, **options
           )
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
         def delete_parts(key, upload_token, upload_id, https: nil, **options)
           @http_client.delete(
-            "#{up_url(https)}/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}",
-            backup_urls: up_backup_urls(https), headers: { authorization: "UpToken #{upload_token}" }, **options
+            "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}", up_urls(https),
+            headers: { authorization: "UpToken #{upload_token}" },
+            retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
+            idempotent: true, **options
           )
           nil
         end

@@ -53,6 +53,8 @@ module QiniuNg
       attr_accessor :default_download_url_lifetime
       attr_accessor :default_faraday_options
       attr_accessor :default_faraday_config
+      attr_accessor :default_http_request_retries
+      attr_accessor :default_http_request_retry_delay
     end
   end
 
@@ -63,6 +65,8 @@ module QiniuNg
                   download_url_lifetime: nil,
                   upload_block_size: nil,
                   file_recorder_path: nil,
+                  http_request_retries: nil,
+                  http_request_retry_delay: nil,
                   **opts, &block)
     Config.use_https = use_https unless use_https.nil?
     Config.batch_max_size = batch_max_size unless batch_max_size.nil?
@@ -71,6 +75,8 @@ module QiniuNg
     Config.default_upload_token_lifetime = upload_token_lifetime unless upload_token_lifetime.nil?
     Config.default_download_url_lifetime = download_url_lifetime unless download_url_lifetime.nil?
     Config.default_upload_block_size = upload_block_size unless upload_block_size.nil?
+    Config.default_http_request_retries = http_request_retries unless http_request_retries.nil?
+    Config.default_http_request_retry_delay = http_request_retry_delay unless http_request_retry_delay.nil?
     Config.default_faraday_options = opts unless opts.empty?
     Config.default_faraday_config = block if block_given?
     nil
@@ -82,7 +88,9 @@ module QiniuNg
          upload_token_lifetime: 3600,
          download_url_lifetime: 3600,
          upload_threshold: 1 << 22,
-         upload_block_size: 1 << 22) do |conn|
+         upload_block_size: 1 << 22,
+         http_request_retries: 3,
+         http_request_retry_delay: 0.5) do |conn|
     conn.adapter Faraday.default_adapter
   end
 end

@@ -12,7 +12,7 @@ module QiniuNg
         end
 
         def done?(https: nil, **options)
-          resp_body = @http_client_v2.get("#{api_url(https)}/sisyphus/fetch", params: { id: @id }, **options).body
+          resp_body = @http_client_v2.get('/sisyphus/fetch', api_url(https), params: { id: @id }, **options).body
           resp_body['wait'].negative?
         end
 
@@ -20,7 +20,7 @@ module QiniuNg
 
         def api_url(https)
           https = Config.use_https if https.nil?
-          @bucket.zone.api(https)
+          @bucket.zone.api_url(https)
         end
       end
     end

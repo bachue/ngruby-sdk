@@ -8,11 +8,12 @@ module QiniuNg
     class Uploader
       # 表单上传
       class FormUploader < UploaderBase
-        def sync_upload_file(filepath, key: nil, upload_token: nil, params: {}, meta: {},
+        def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {},
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           crc32 = crc32_of_file(filepath) unless disable_checksum
-          resp = @http_client.post("#{up_url(https)}/",
-                                   backup_urls: up_backup_urls(https),
+          resp = @http_client.post('/', up_urls(https),
+                                   idempotent: true,
+                                   retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
                                    headers: { content_type: 'multipart/form-data' },
                                    body: build_request_body(key: key,
                                                             upload_token: upload_token,
@@ -25,7 +26,7 @@ module QiniuNg
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
-        def sync_upload_stream(stream, key: nil, upload_token: nil, params: {}, meta: {}, mime_type: DEFAULT_MIME,
+        def sync_upload_stream(stream, key: nil, upload_token:, params: {}, meta: {}, mime_type: DEFAULT_MIME,
                                disable_checksum: false, crc32: nil, etag: nil, https: nil, **options)
           if disable_checksum
             crc32 = nil
@@ -36,8 +37,9 @@ module QiniuNg
               String.new.tap { |str| stream = Utils::Etag::Reader.new(stream, str) }
             end
           end
-          resp = @http_client.post("#{up_url(https)}/",
-                                   backup_urls: up_backup_urls(https),
+          resp = @http_client.post('/', up_urls(https),
+                                   idempotent: true,
+                                   retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
                                    headers: { content_type: 'multipart/form-data' },
                                    body: build_request_body(key: key,
                                                             upload_token: upload_token,

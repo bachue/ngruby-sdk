@@ -9,53 +9,51 @@ module QiniuNg
       def initialize
         @client = HTTP.client
         @infer_domains_map = {
-          'http://up.qiniu.com' => Zone.zone0,
-          'http://up-z1.qiniu.com' => Zone.zone1,
-          'http://up-z2.qiniu.com' => Zone.zone2,
-          'http://up-na0.qiniu.com' => Zone.zone_na0,
-          'http://up-as0.qiniu.com' => Zone.zone_as0
+          'iovip.qbox.me' => Zone.zone0,
+          'iovip-z1.qbox.me' => Zone.zone1,
+          'iovip-z2.qbox.me' => Zone.zone2,
+          'iovip-na0.qbox.me' => Zone.zone_na0,
+          'iovip-as0.qbox.me' => Zone.zone_as0
         }
       end
 
       def query(access_key:, bucket:, https: nil, **options)
-        resp = @client.get("#{api_url(https)}/v1/query", params: { ak: access_key, bucket: bucket }, **options)
-        up_http = resp.body.dig('http', 'up', 0)
-        up_backup_http = resp.body.dig('http', 'up', 1)
-        up_ip_http = resp.body.dig('http', 'up', 2)&.split(' ')&.dig(2)
-        io_http = resp.body.dig('http', 'io', 0)
-        up_https = resp.body.dig('https', 'up', 0)
-        up_backup_https = resp.body.dig('https', 'up', 1)
-        up_ip_https = resp.body.dig('https', 'up', 2)&.split(' ')&.dig(2) || up_ip_http&.sub('http://', 'https://')
-        io_https = resp.body.dig('https', 'io', 0)
-        region = @infer_domains_map[up_http]&.region
-        rs_http = @infer_domains_map[up_http]&.rs_http
-        rs_https = @infer_domains_map[up_http]&.rs_https
-        rsf_http = @infer_domains_map[up_http]&.rsf_http
-        rsf_https = @infer_domains_map[up_http]&.rsf_https
-        api_http = @infer_domains_map[up_http]&.api_http
-        api_https = @infer_domains_map[up_http]&.api_https
+        body = @client.get('/v2/query', api_url(https), params: { ak: access_key, bucket: bucket }, **options).body
+
+        up_hosts = body['up']&.slice('acc', 'src', 'old_acc', 'old_src')&.values
+                             &.map { |region| region&.slice('main', 'backup')&.values }&.flatten&.compact
+        up_http_urls = up_hosts.map { |domain| "http://#{domain}" }
+        up_https_urls = up_hosts.map { |domain| "https://#{domain}" }
+
+        io_hosts = body.dig('io', 'src', 'main')
+        io_http_urls = io_hosts.map { |domain| "http://#{domain}" }
+        io_https_urls = io_hosts.map { |domain| "https://#{domain}" }
+
+        region = @infer_domains_map[io_hosts.first]&.region
+        rs_http_url = @infer_domains_map[io_hosts.first]&.rs_http_url
+        rs_https_url = @infer_domains_map[io_hosts.first]&.rs_https_url
+        rsf_http_url = @infer_domains_map[io_hosts.first]&.rsf_http_url
+        rsf_https_url = @infer_domains_map[io_hosts.first]&.rsf_https_url
+        api_http_url = @infer_domains_map[io_hosts.first]&.api_http_url
+        api_https_url = @infer_domains_map[io_hosts.first]&.api_https_url
         Zone.new(region: region,
-                 up_http: up_http&.freeze,
-                 up_https: up_https&.freeze,
-                 up_backup_http: up_backup_http&.freeze,
-                 up_backup_https: up_backup_https&.freeze,
-                 up_ip_http: up_ip_http&.freeze,
-                 up_ip_https: up_ip_https&.freeze,
-                 io_vip_http: io_http&.freeze,
-                 io_vip_https: io_https&.freeze,
-                 rs_http: rs_http&.freeze,
-                 rs_https: rs_https&.freeze,
-                 rsf_http: rsf_http&.freeze,
-                 rsf_https: rsf_https&.freeze,
-                 api_http: api_http&.freeze,
-                 api_https: api_https&.freeze).freeze
+                 up_http_urls: up_http_urls&.freeze,
+                 up_https_urls: up_https_urls&.freeze,
+                 io_http_urls: io_http_urls&.freeze,
+                 io_https_urls: io_https_urls&.freeze,
+                 rs_http_url: rs_http_url&.freeze,
+                 rs_https_url: rs_https_url&.freeze,
+                 rsf_http_url: rsf_http_url&.freeze,
+                 rsf_https_url: rsf_https_url&.freeze,
+                 api_http_url: api_http_url&.freeze,
+                 api_https_url: api_https_url&.freeze).freeze
       end
 
       private
 
       def api_url(https)
         https = Config.use_https if https.nil?
-        Common::Zone.huadong.api(https)
+        Common::Zone.huadong.api_url(https)
       end
     end
   end

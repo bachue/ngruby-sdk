@@ -32,14 +32,16 @@ module QiniuNg
           upload_policy.save_key || upload_policy.key
         end
 
-        def up_url(https)
+        def up_urls(https)
           https = Config.use_https if https.nil?
-          @bucket.zone.up(https)
+          @bucket.zone.up_urls(https).dup
         end
 
-        def up_backup_urls(https)
-          https = Config.use_https if https.nil?
-          [@bucket.zone.up_backup(https), @bucket.zone.up_ip(https)].compact
+        def need_retry(status_code, headers, body, _error, upload_policy)
+          ((500...600).to_a - [579] + [406, 996]).include?(status_code) ||
+            status_code == 200 && body.is_a?(Hash) && !body['error'].nil? ||
+            (200...500).include?(status_code) && headers['X-ReqId'].nil? &&
+              !body.is_a?(Hash) && upload_policy.return_url.nil?
         end
       end
     end

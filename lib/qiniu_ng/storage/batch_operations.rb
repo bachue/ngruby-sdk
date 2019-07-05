@@ -91,7 +91,7 @@ module QiniuNg
         until ops.size.zero?
           current_ops = ops[0...Config.batch_max_size]
           ops = ops[Config.batch_max_size..-1] || []
-          results += @http_client_v1.post("#{rs_url(zone, https)}/batch",
+          results += @http_client_v1.post('/batch', rs_url(zone, https),
                                           body: Faraday::Utils.build_query(current_ops.map { |op| ['op', op.to_s] }),
                                           **options).body
         end
@@ -139,7 +139,7 @@ module QiniuNg
 
       def rs_url(zone, https)
         https = Config.use_https if https.nil?
-        zone.rs(https)
+        zone.rs_url(https)
       end
     end
   end

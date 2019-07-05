@@ -16,13 +16,13 @@ module QiniuNg
 
       def delete(name:, uc_url: nil, https: nil, **options)
         params = { bucket: @bucket.name, name: name }
-        @http_client.post("#{uc_url || get_uc_url(https)}/rules/delete", params: params, **options)
+        @http_client.post('/rules/delete', uc_url || get_uc_url(https), params: params, **options)
         self
       end
 
       def all(uc_url: nil, https: nil, **options)
         params = { bucket: @bucket.name }
-        body = @http_client.get("#{uc_url || get_uc_url(https)}/rules/get", params: params, **options).body
+        body = @http_client.get('/rules/get', uc_url || get_uc_url(https), params: params, **options).body
         rules_from_hash(body || [])
       end
 
@@ -38,13 +38,13 @@ module QiniuNg
 
       def create_rule(rule, uc_url: nil, https: nil, **options)
         params = build_params(rule)
-        @http_client.post("#{uc_url || get_uc_url(https)}/rules/add", params: params, **options)
+        @http_client.post('/rules/add', uc_url || get_uc_url(https), params: params, **options)
         nil
       end
 
       def replace_rule(rule, uc_url: nil, https: nil, **options)
         params = build_params(rule)
-        @http_client.post("#{uc_url || get_uc_url(https)}/rules/update", params: params, **options)
+        @http_client.post('/rules/update', uc_url || get_uc_url(https), params: params, **options)
         nil
       end
 
