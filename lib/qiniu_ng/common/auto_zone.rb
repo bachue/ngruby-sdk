@@ -20,8 +20,8 @@ module QiniuNg
       def query(access_key:, bucket:, https: nil, **options)
         body = @client.get('/v2/query', api_url(https), params: { ak: access_key, bucket: bucket }, **options).body
 
-        up_hosts = body['up']&.slice('acc', 'src', 'old_acc', 'old_src')&.values
-                             &.map { |region| region&.slice('main', 'backup')&.values }&.flatten&.compact
+        up_hosts = body['up']&.values_at('acc', 'src', 'old_acc', 'old_src')
+                             &.map { |region| region&.values_at('main', 'backup') }&.flatten&.compact
         up_http_urls = up_hosts.map { |domain| "http://#{domain}" }
         up_https_urls = up_hosts.map { |domain| "https://#{domain}" }
 
