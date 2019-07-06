@@ -191,6 +191,14 @@ module QiniuNg
         CORSRules.new(self, @http_client_v1, @auth)
       end
 
+      def enable_original_protection(uc_url: nil, https: nil, **options)
+        set_original_protection(true, uc_url: uc_url, https: https, **options)
+      end
+
+      def disable_original_protection(uc_url: nil, https: nil, **options)
+        set_original_protection(false, uc_url: uc_url, https: https, **options)
+      end
+
       private
 
       def set_index_page(enabled, uc_url: nil, https: nil, **options)
@@ -204,6 +212,12 @@ module QiniuNg
         private_access = Utils::Bool.to_int(private_access)
         params = { bucket: @bucket_name, private: private_access }
         @http_client_v1.post('/private', uc_url || get_uc_url(https), params: params, **options)
+        nil
+      end
+
+      def set_original_protection(enabled, uc_url: nil, https: nil, **options)
+        enabled = Utils::Bool.to_int(enabled)
+        @http_client_v1.post("/accessMode/#{@bucket_name}/mode/#{enabled}", uc_url || get_uc_url(https), **options)
         nil
       end
 

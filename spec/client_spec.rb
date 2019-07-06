@@ -132,6 +132,11 @@ RSpec.describe QiniuNg::Client do
       expect(rules).to be_empty
     end
 
+    it 'should enable / disable original protection' do
+      bucket.disable_original_protection
+      bucket.enable_original_protection
+    end
+
     it 'should update bucket acl' do
       expect(bucket).not_to be_private
       begin
