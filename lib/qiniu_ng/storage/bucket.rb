@@ -199,6 +199,18 @@ module QiniuNg
         set_original_protection(false, uc_url: uc_url, https: https, **options)
       end
 
+      def set_cache_max_age(args, uc_url: nil, https: nil, **options)
+        max_age = Duration.new(args) if args.is_a?(Hash)
+        params = { bucket: @bucket_name, maxAge: max_age.to_i }
+        @http_client_v1.post('/maxAge', uc_url || get_uc_url(https), params: params, **options)
+        nil
+      end
+
+      def cache_max_age(uc_url: nil, https: nil, **options)
+        max_age_secs = info(uc_url: uc_url, https: https, **options)['max_age']
+        Duration.new(seconds: max_age_secs)
+      end
+
       private
 
       def set_index_page(enabled, uc_url: nil, https: nil, **options)

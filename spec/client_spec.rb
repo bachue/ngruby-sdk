@@ -137,6 +137,11 @@ RSpec.describe QiniuNg::Client do
       bucket.enable_original_protection
     end
 
+    it 'should set max age' do
+      bucket.set_cache_max_age(days: 365)
+      expect(bucket.cache_max_age.days).to eq 1
+    end
+
     it 'should update bucket acl' do
       expect(bucket).not_to be_private
       begin
