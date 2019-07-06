@@ -22,6 +22,8 @@ require 'qiniu_ng/storage/model/async_fetch_result'
 require 'qiniu_ng/storage/model/upload_policy'
 require 'qiniu_ng/storage/model/storage_type'
 require 'qiniu_ng/storage/model/life_cycle_rule'
+require 'qiniu_ng/storage/model/bucket_event_type'
+require 'qiniu_ng/storage/model/bucket_event_rule'
 require 'qiniu_ng/storage/recorder/file_recorder'
 require 'qiniu_ng/storage/uploader'
 require 'qiniu_ng/storage/uploader/uploader_base'
@@ -36,6 +38,7 @@ require 'qiniu_ng/storage/public_url'
 require 'qiniu_ng/storage/private_url'
 require 'qiniu_ng/storage/upload_token'
 require 'qiniu_ng/storage/life_cycle_rules'
+require 'qiniu_ng/storage/bucket_event_rules'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg

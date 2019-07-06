@@ -7,6 +7,9 @@ module QiniuNg
       faraday_connection = begin
         opts = Config.default_faraday_options
         opts = opts.call if opts.respond_to?(:call)
+        opts ||= {}
+        opts[:request] ||= {}
+        opts[:request][:params_encoder] = Faraday::FlatParamsEncoder
         Faraday.new(nil, opts) do |conn|
           conn.request :multipart
           conn.request :qiniu_auth, auth: auth, version: auth_version

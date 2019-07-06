@@ -58,7 +58,7 @@ module QiniuNg
       end
 
       def get_uc_url(https)
-        Utils::Bool.to_bool(https) ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
+        Common::Zone.uc_url(https)
       end
     end
   end

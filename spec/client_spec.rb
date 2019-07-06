@@ -96,6 +96,30 @@ RSpec.describe QiniuNg::Client do
       expect(rules.all).to be_empty
     end
 
+    it 'should add rules to bucket event rules' do
+      rules = bucket.bucket_event_rules
+      expect(rules.all).to be_empty
+      event_types1 = [QiniuNg::Storage::Model::BucketEventType::PUT, QiniuNg::Storage::Model::BucketEventType::MKFILE]
+      rules.new(name: 'test_rule1').listen_on(event_types1).callback('http://www.test1.com').create!
+      event_types2 = [QiniuNg::Storage::Model::BucketEventType::COPY, QiniuNg::Storage::Model::BucketEventType::MOVE]
+      rules.new(name: 'test_rule2').listen_on(event_types2).callback('http://www.test2.com', host: 'www.test2.com').start_with('prefix-').end_with('.mp3').create!
+      expect(rules.all.size).to eq 2
+      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(test_rule1.prefix).to be_empty
+      expect(test_rule1.suffix).to be_empty
+      expect(test_rule1.events).to match_array(event_types1)
+      expect(test_rule1.callback_urls).to eq ['http://www.test1.com']
+      expect(test_rule1.callback_host).to be_empty
+      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      expect(test_rule2.prefix).to eq 'prefix-'
+      expect(test_rule2.suffix).to eq '.mp3'
+      expect(test_rule2.events).to match_array(event_types2)
+      expect(test_rule2.callback_urls).to eq ['http://www.test2.com']
+      expect(test_rule2.callback_host).to eq 'www.test2.com'
+      rules.delete(name: 'test_rule1')
+      expect(rules.all.size).to eq 1
+    end
+
     it 'should update bucket acl' do
       expect(bucket).not_to be_private
       begin

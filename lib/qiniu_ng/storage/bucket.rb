@@ -183,6 +183,10 @@ module QiniuNg
         LifeCycleRules.new(self, @http_client_v1, @auth)
       end
 
+      def bucket_event_rules
+        BucketEventRules.new(self, @http_client_v1, @auth)
+      end
+
       private
 
       def set_index_page(enabled, uc_url: nil, https: nil, **options)
@@ -217,7 +221,7 @@ module QiniuNg
       end
 
       def get_uc_url(https)
-        Utils::Bool.to_bool(https) ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
+        Common::Zone.uc_url(https)
       end
     end
   end

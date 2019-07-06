@@ -159,6 +159,12 @@ module QiniuNg
         alias zone_as0 xinjiapo
         alias singapore xinjiapo
       end
+
+      class << self
+        def uc_url(https)
+          Utils::Bool.to_bool(https) ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
+        end
+      end
     end
   end
 end
