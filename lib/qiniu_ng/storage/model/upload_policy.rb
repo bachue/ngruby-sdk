@@ -166,8 +166,7 @@ module QiniuNg
         alias force_save_key? force_save_key
 
         def self.from_json(json)
-          require 'json' unless defined?(JSON)
-          hash = JSON.parse(json)
+          hash = Config.default_json_unmarshaler.call(json)
           bucket, key = hash['scope']&.split(':', 2)
           policy = if hash['isPrefixalScope'] == 1
                      new(bucket: bucket, key_prefix: key)
@@ -236,9 +235,7 @@ module QiniuNg
         end
 
         def to_json(*args)
-          h = as_json
-          require 'json' unless h.respond_to?(:to_json)
-          as_json.to_json(*args)
+          Config.default_json_marshaler.call(as_json, *args)
         end
       end
       PutPolicy = UploadPolicy

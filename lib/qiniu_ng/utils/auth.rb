@@ -86,8 +86,7 @@ module QiniuNg
       end
 
       def sign_upload_policy(upload_policy)
-        require 'json' unless upload_policy.respond_to?(:to_json)
-        sign_with_data(upload_policy.to_json)
+        sign_with_data(Config.default_json_marshaler.call(upload_policy))
       end
 
       def inspect

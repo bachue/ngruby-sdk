@@ -103,10 +103,9 @@ module QiniuNg
           url: url, bucket: @bucket.name, key: @key, md5: md5, callbackurl: callback_url,
           callbackhost: callback_host, callbackbody: callback_body, callbackbodytype: callback_body_type
         }.reject { |_, v| v.nil? }
-        require 'json' unless req_body.respond_to?(:to_json)
         resp_body = @http_client_v2.post('/sisyphus/fetch', api_url(https),
                                          headers: { content_type: 'application/json' },
-                                         body: req_body.to_json,
+                                         body: Config.default_json_marshaler.call(req_body),
                                          **options).body
         Model::AsyncFetchResult.new(@bucket, @http_client_v2, resp_body['id'])
       end

@@ -55,6 +55,8 @@ module QiniuNg
       attr_accessor :default_faraday_config
       attr_accessor :default_http_request_retries
       attr_accessor :default_http_request_retry_delay
+      attr_accessor :default_json_marshaler
+      attr_accessor :default_json_unmarshaler
     end
   end
 
@@ -67,6 +69,8 @@ module QiniuNg
                   file_recorder_path: nil,
                   http_request_retries: nil,
                   http_request_retry_delay: nil,
+                  json_marshaler: nil,
+                  json_unmarshaler: nil,
                   **opts, &block)
     Config.use_https = use_https unless use_https.nil?
     Config.batch_max_size = batch_max_size unless batch_max_size.nil?
@@ -77,6 +81,8 @@ module QiniuNg
     Config.default_upload_block_size = upload_block_size unless upload_block_size.nil?
     Config.default_http_request_retries = http_request_retries unless http_request_retries.nil?
     Config.default_http_request_retry_delay = http_request_retry_delay unless http_request_retry_delay.nil?
+    Config.default_json_marshaler = json_marshaler unless json_marshaler.nil?
+    Config.default_json_unmarshaler = json_unmarshaler unless json_unmarshaler.nil?
     Config.default_faraday_options = opts unless opts.empty?
     Config.default_faraday_config = block if block_given?
     nil
@@ -90,7 +96,15 @@ module QiniuNg
          upload_threshold: 1 << 22,
          upload_block_size: 1 << 22,
          http_request_retries: 3,
-         http_request_retry_delay: 0.5) do |conn|
+         http_request_retry_delay: 0.5,
+         json_marshaler: lambda do |obj, *args|
+           require 'json' unless defined?(JSON)
+           JSON.generate(obj, *args)
+         end,
+         json_unmarshaler: lambda do |data, *args|
+           require 'json' unless defined?(JSON)
+           JSON.parse(data, *args)
+         end) do |conn|
     conn.adapter Faraday.default_adapter
   end
 end

@@ -115,11 +115,9 @@ module QiniuNg
           headers = { authorization: "UpToken #{upload_token}", content_type: 'text/plain' }
           meta.each { |k, v| headers[:"x-qn-meta-#{k}"] = v }
           body = { parts: list.map { |hash| { Etag: hash[:etag], PartNumber: hash[:part_num] } } }
-          require 'json' unless body.respond_to?(:to_json)
-
           resp = @http_client.post(
             "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}", up_urls(https),
-            headers: headers, body: body.to_json,
+            headers: headers, body: Config.default_json_marshaler.call(body),
             retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
             idempotent: true, **options
           )
@@ -155,8 +153,7 @@ module QiniuNg
           end
 
           def self.from_json(json)
-            require 'json' unless defined?(JSON)
-            hash = JSON.parse(json)
+            hash = Config.default_json_unmarshaler.call(json)
             etag_idxes = hash['etag_idxes'].each_with_object([]) do |ei, obj|
               h = { etag: ei['etag'], part_num: ei['part_num'] }
               h[:sha1] = [h['sha1']].pack('H*') unless ei['sha1'].nil? || ei['sha1'].empty?
@@ -172,8 +169,7 @@ module QiniuNg
               sha1 = ei[:sha1].unpack('H*').first unless ei[:sha1].nil? || ei[:sha1].empty?
               obj << { etag: ei[:etag], part_num: ei[:part_num], sha1: sha1 }
             end
-            require 'json' unless hash.respond_to?(:to_json)
-            hash.to_json(*args)
+            Config.default_json_marshaler.call(hash, *args)
           end
 
           def active?(file_size)
