@@ -50,6 +50,12 @@ module QiniuNg
           @rules
         end
         alias update! replace!
+
+        def inspect
+          "#<#{self.class.name} @name=#{@name.inspect}> @prefix=#{@prefix.inspect}>" \
+          " @suffix=#{@suffix.inspect}> @events=#{@events.inspect}" \
+          " @callback_urls=#{@callback_urls.inspect} @callback_host=#{@callback_host.inspect}>"
+        end
       end
     end
   end

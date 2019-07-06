@@ -114,10 +114,22 @@ RSpec.describe QiniuNg::Client do
       expect(test_rule2.prefix).to eq 'prefix-'
       expect(test_rule2.suffix).to eq '.mp3'
       expect(test_rule2.events).to match_array(event_types2)
-      expect(test_rule2.callback_urls).to eq ['http://www.test2.com']
+      expect(test_rule2.callback_urls).to eq %w[http://www.test2.com]
       expect(test_rule2.callback_host).to eq 'www.test2.com'
       rules.delete(name: 'test_rule1')
       expect(rules.all.size).to eq 1
+    end
+
+    it 'should set / get cors rules' do
+      cors_rules = bucket.cors_rules
+      new_rule1 = cors_rules.new(%w[http://www.test1.com http://www.test2.com], %w[GET DELETE]).cache_max_age(days: 365)
+      new_rule2 = cors_rules.new(%w[http://www.test3.com http://www.test4.com], %w[POST PUT]).cache_max_age(days: 365)
+      cors_rules.set([new_rule1, new_rule2])
+      rules = cors_rules.all
+      expect(rules.size).to eq 2
+      cors_rules.clear
+      rules = cors_rules.all
+      expect(rules).to be_empty
     end
 
     it 'should update bucket acl' do

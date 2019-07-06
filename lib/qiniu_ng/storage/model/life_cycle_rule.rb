@@ -49,6 +49,11 @@ module QiniuNg
           @rules
         end
         alias update! replace!
+
+        def inspect
+          "#<#{self.class.name} @name=#{@name.inspect}> @prefix=#{@prefix.inspect}" \
+          " @delete_after_days=#{@delete_after_days.inspect} @to_line_after_days=#{@to_line_after_days.inspect}>"
+        end
       end
     end
   end

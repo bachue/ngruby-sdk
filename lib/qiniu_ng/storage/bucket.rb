@@ -187,6 +187,10 @@ module QiniuNg
         BucketEventRules.new(self, @http_client_v1, @auth)
       end
 
+      def cors_rules
+        CORSRules.new(self, @http_client_v1, @auth)
+      end
+
       private
 
       def set_index_page(enabled, uc_url: nil, https: nil, **options)
