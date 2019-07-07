@@ -4,10 +4,9 @@ module QiniuNg
   module Storage
     # 七牛生命周期规则集合
     class LifeCycleRules
-      def initialize(bucket, http_client, auth)
+      def initialize(bucket, http_client)
         @bucket = bucket
         @http_client = http_client
-        @auth = auth
       end
 
       def new(name:)

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe QiniuNg::Storage::Uploader do
-  auth = nil
   http_client = nil
   bucket = nil
   entry = nil
@@ -15,7 +14,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
   describe QiniuNg::Storage::Uploader::FormUploader do
     uploader = nil
     before :all do
-      uploader = QiniuNg::Storage::Uploader::FormUploader.new(bucket, http_client, auth)
+      uploader = QiniuNg::Storage::Uploader::FormUploader.new(bucket, http_client)
     end
 
     it 'should upload file directly' do
@@ -142,7 +141,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
   describe QiniuNg::Storage::Uploader::ResumableUploader do
     uploader = nil
     before :all do
-      uploader = QiniuNg::Storage::Uploader::ResumableUploader.new(bucket, http_client, auth)
+      uploader = QiniuNg::Storage::Uploader::ResumableUploader.new(bucket, http_client)
     end
 
     it 'should upload file directly' do

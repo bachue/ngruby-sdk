@@ -4,9 +4,9 @@ module QiniuNg
   module Storage
     # 上传控制器
     class Uploader
-      def initialize(bucket, http_client, auth, block_size: Config.default_upload_block_size)
-        @form_uploader = FormUploader.new(bucket, http_client, auth)
-        @resumable_uploader = ResumableUploader.new(bucket, http_client, auth, block_size: block_size)
+      def initialize(bucket, http_client, block_size: Config.default_upload_block_size)
+        @form_uploader = FormUploader.new(bucket, http_client)
+        @resumable_uploader = ResumableUploader.new(bucket, http_client, block_size: block_size)
       end
 
       def upload(filepath: nil, stream: nil, key: nil, upload_token:, params: {}, meta: {},

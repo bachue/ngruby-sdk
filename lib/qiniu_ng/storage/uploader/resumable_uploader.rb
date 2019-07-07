@@ -9,12 +9,11 @@ module QiniuNg
     class Uploader
       # 分块上传
       class ResumableUploader < UploaderBase
-        def initialize(bucket, http_client, auth, block_size: Config.default_upload_block_size)
+        def initialize(bucket, http_client, block_size: Config.default_upload_block_size)
           raise ArgumengError, 'block_size must be multiples of 4 MB' unless (block_size % (1 << 22)).zero?
 
           @bucket = bucket
           @http_client = http_client
-          @auth = auth
           @block_size = block_size.freeze
         end
 

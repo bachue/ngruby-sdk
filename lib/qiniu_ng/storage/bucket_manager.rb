@@ -29,8 +29,8 @@ module QiniuNg
       end
       alias delete_bucket drop_bucket
 
-      def bucket(bucket_name, zone: nil)
-        Bucket.new(bucket_name, zone, @http_client_v1, @http_client_v2, @auth)
+      def bucket(bucket_name, zone: nil, domains: nil)
+        Bucket.new(bucket_name, zone, @http_client_v1, @http_client_v2, @auth, domains)
       end
 
       private

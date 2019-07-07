@@ -12,14 +12,13 @@ module QiniuNg
 
       # 上传父类
       class UploaderBase
-        def initialize(bucket, http_client, auth)
+        def initialize(bucket, http_client)
           if self.class.name == UploaderBase.name
             raise NoMethodError, "undefined method `new` for #{UploaderBase.name}:Class"
           end
 
           @bucket = bucket
           @http_client = http_client
-          @auth = auth
         end
 
         private

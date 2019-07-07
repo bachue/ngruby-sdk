@@ -4,10 +4,9 @@ module QiniuNg
   module Storage
     # 七牛 CORS 规则集合
     class CORSRules
-      def initialize(bucket, http_client, auth)
+      def initialize(bucket, http_client)
         @bucket = bucket
         @http_client = http_client
-        @auth = auth
         @rules = []
       end
 

@@ -2,6 +2,7 @@
 
 require 'faraday'
 require 'faraday_middleware'
+require 'concurrent-ruby'
 require 'qiniu_ng/version'
 require 'qiniu_ng/client'
 require 'qiniu_ng/common/constant'
@@ -41,6 +42,8 @@ require 'qiniu_ng/storage/upload_token'
 require 'qiniu_ng/storage/life_cycle_rules'
 require 'qiniu_ng/storage/bucket_event_rules'
 require 'qiniu_ng/storage/cors_rules'
+require 'qiniu_ng/cdn/manager'
+require 'qiniu_ng/cdn/refresh_result'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg
@@ -63,6 +66,11 @@ module QiniuNg
       attr_accessor :default_json_marshaler
       attr_accessor :default_json_unmarshaler
     end
+  end
+
+  def self.new_client(access_key:, secret_key:)
+    auth = Utils::Auth.new(access_key: access_key, secret_key: secret_key)
+    Client.new(auth)
   end
 
   def self.config(use_https: nil,

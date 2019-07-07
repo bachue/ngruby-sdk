@@ -164,6 +164,10 @@ module QiniuNg
         def uc_url(https)
           Utils::Bool.to_bool(https) ? 'https://uc.qbox.me' : 'http://uc.qbox.me'
         end
+
+        def fusion_url(https)
+          Utils::Bool.to_bool(https) ? 'https://fusion.qiniuapi.com' : 'http://fusion.qiniuapi.com'
+        end
       end
     end
   end

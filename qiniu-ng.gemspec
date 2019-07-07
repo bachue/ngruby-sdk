@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec-eventually', '~> 0.1'
   spec.add_development_dependency 'rubocop', '~> 0.71'
   spec.add_development_dependency 'webmock', '~> 3.6'
+  spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
   spec.add_runtime_dependency 'digest-crc', '~> 0.4'
   spec.add_runtime_dependency 'duration', '~> 0.1'
   spec.add_runtime_dependency 'faraday', '~> 0.15'

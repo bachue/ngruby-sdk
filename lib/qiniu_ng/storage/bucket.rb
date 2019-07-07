@@ -4,12 +4,15 @@ module QiniuNg
   module Storage
     # 七牛空间
     class Bucket
-      def initialize(bucket_name, zone, http_client_v1, http_client_v2, auth)
+      def initialize(bucket_name, zone, http_client_v1, http_client_v2, auth, domains)
         @bucket_name = bucket_name.freeze
         @http_client_v1 = http_client_v1
         @http_client_v2 = http_client_v2
         @auth = auth
-        @zone = zone
+        @zone = zone.freeze
+        @zone_lock = Concurrent::ReadWriteLock.new
+        @domains = domains.freeze
+        @domains_lock = Concurrent::ReadWriteLock.new
       end
 
       def name
@@ -17,11 +20,17 @@ module QiniuNg
       end
 
       def zone
-        @zone ||= begin
-          Common::Zone.auto.query(access_key: @auth.access_key, bucket: @bucket_name)
+        zone = @zone_lock.with_read_lock { @zone }
+        return zone if zone
+
+        @zone_lock.with_write_lock do
+          @zone ||= Common::Zone.auto.query(access_key: @auth.access_key, bucket: @bucket_name).freeze
         end
       end
-      attr_writer :zone
+
+      def zone=(zone)
+        @zone_lock.with_write_lock { @zone = zone.freeze }
+      end
 
       def drop(rs_zone: nil, https: nil, **options)
         BucketManager.new(@http_client_v1, @http_client_v2, @auth)
@@ -30,8 +39,20 @@ module QiniuNg
       alias delete drop
 
       def domains(api_zone: nil, https: nil, **options)
-        params = { tbl: @bucket_name }
-        @http_client_v1.get('/v6/domain/list', get_api_url(api_zone, https), params: params, **options).body
+        domains = @domains_lock.with_read_lock { @domains }
+        return domains if domains
+
+        @domains_lock.with_write_lock do
+          @domains ||= begin
+            params = { tbl: @bucket_name }
+            @http_client_v1.get('/v6/domain/list', get_api_url(api_zone, https), params: params, **options).body.freeze
+          end
+          @domains
+        end
+      end
+
+      def domains=(domains)
+        @domains_lock.with_write_lock { @domains = domains.freeze }
       end
 
       def set_image(source_url, uc_url: nil, source_host: nil, https: nil, **options)
@@ -105,6 +126,8 @@ module QiniuNg
         end
 
         def each
+          return enumerator unless block_given?
+
           enumerator.each do |entry|
             yield entry
           end
@@ -147,7 +170,7 @@ module QiniuNg
       end
 
       def uploader(block_size: Config.default_upload_block_size)
-        Uploader.new(self, @http_client_v1, @auth, block_size: block_size)
+        Uploader.new(self, @http_client_v1, block_size: block_size)
       end
 
       def upload_token(key: nil, key_prefix: nil)
@@ -180,15 +203,15 @@ module QiniuNg
       end
 
       def life_cycle_rules
-        LifeCycleRules.new(self, @http_client_v1, @auth)
+        LifeCycleRules.new(self, @http_client_v1)
       end
 
       def bucket_event_rules
-        BucketEventRules.new(self, @http_client_v1, @auth)
+        BucketEventRules.new(self, @http_client_v1)
       end
 
       def cors_rules
-        CORSRules.new(self, @http_client_v1, @auth)
+        CORSRules.new(self, @http_client_v1)
       end
 
       def enable_original_protection(uc_url: nil, https: nil, **options)
@@ -209,6 +232,24 @@ module QiniuNg
       def cache_max_age(uc_url: nil, https: nil, **options)
         max_age_secs = info(uc_url: uc_url, https: https, **options)['max_age']
         Duration.new(seconds: max_age_secs)
+      end
+
+      def set_quota(size: 0, count: 0, api_zone: nil, https: nil, **options)
+        size = -1 if size.nil?
+        count = -1 if count.nil?
+        @http_client_v1.post("/setbucketquota/#{@bucket_name}/size/#{size}/count/#{count}",
+                             get_api_url(api_zone, https), **options)
+        nil
+      end
+
+      Quota = Struct.new(:size, :count)
+
+      def quota(api_zone: nil, https: nil, **options)
+        resp_body = @http_client_v1.get("/getbucketquota/#{@bucket_name}",
+                                        get_api_url(api_zone, https), **options).body
+        resp_body['size'] = nil if resp_body['size'].negative?
+        resp_body['count'] = nil if resp_body['count'].negative?
+        Quota.new(resp_body['size'], resp_body['count'])
       end
 
       private
