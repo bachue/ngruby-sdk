@@ -44,6 +44,7 @@ require 'qiniu_ng/storage/bucket_event_rules'
 require 'qiniu_ng/storage/cors_rules'
 require 'qiniu_ng/cdn/manager'
 require 'qiniu_ng/cdn/refresh_result'
+require 'qiniu_ng/cdn/prefetch_result'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg

@@ -363,7 +363,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: QiniuNg::Etag.from_file_path(path), key: entry.key }.to_json)
       begin
-        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token)
+        bucket.upload(filepath: path, upload_token: entry.upload_token)
       ensure
         File.unlink(path)
       end
@@ -386,7 +386,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: 'fakehash', key: entry.key }.to_json)
       begin
-        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token, disable_checksum: true)
+        bucket.upload(filepath: path, upload_token: entry.upload_token, disable_checksum: true)
       ensure
         File.unlink(path)
       end
@@ -406,8 +406,8 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: 'fakehash', key: entry.key }.to_json)
       begin
-        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token,
-                               resumable_policy: :always, disable_checksum: true)
+        bucket.upload(filepath: path, upload_token: entry.upload_token,
+                      resumable_policy: :always, disable_checksum: true)
       ensure
         File.unlink(path)
       end
@@ -420,7 +420,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: QiniuNg::Etag.from_file_path(path), key: entry.key }.to_json)
       begin
-        bucket.uploader.upload(filepath: path, upload_token: entry.upload_token, resumable_policy: :never)
+        bucket.upload(filepath: path, upload_token: entry.upload_token, resumable_policy: :never)
       ensure
         File.unlink(path)
       end

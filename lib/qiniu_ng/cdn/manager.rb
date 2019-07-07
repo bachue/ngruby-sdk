@@ -46,6 +46,25 @@ module QiniuNg
         results
       end
 
+      def cdn_prefetch(urls, fusion_url: nil, https: nil, **options)
+        prefetch_urls = urls.is_a?(Array) ? urls.dup : [urls]
+        results = {}
+        until prefetch_urls.empty?
+          req_body = { urls: prefetch_urls.shift(MAX_API_PREFETCH_URL_COUNT) }
+          resp_body = @http_client_v2.post('/v2/tune/prefetch', fusion_url || get_fusion_url(https),
+                                           headers: { content_type: 'application/json' },
+                                           body: Config.default_json_marshaler.call(req_body),
+                                           **options).body
+          results[resp_body['requestId']] = PrefetchResult.new(
+            request_id: resp_body['requestId'], code: resp_body['code'], description: resp_body['error'],
+            invalid_urls: resp_body['invalidUrls'] || [],
+            quota_perday: resp_body['quotaDay'], surplus_today: resp_body['surplusDay'],
+            http_client: @http_client_v2
+          )
+        end
+        results
+      end
+
       private
 
       def get_fusion_url(https)

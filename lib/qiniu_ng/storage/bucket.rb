@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module Storage
     # 七牛空间
     class Bucket
+      extend Forwardable
+
       def initialize(bucket_name, zone, http_client_v1, http_client_v2, auth, domains)
         @bucket_name = bucket_name.freeze
         @http_client_v1 = http_client_v1
@@ -13,6 +17,8 @@ module QiniuNg
         @zone_lock = Concurrent::ReadWriteLock.new
         @domains = domains.freeze
         @domains_lock = Concurrent::ReadWriteLock.new
+        @uploader = nil
+        @uploader_lock = Concurrent::ReadWriteLock.new
       end
 
       def name
@@ -170,8 +176,14 @@ module QiniuNg
       end
 
       def uploader(block_size: Config.default_upload_block_size)
-        Uploader.new(self, @http_client_v1, block_size: block_size)
+        uploader = @uploader_lock.with_read_lock { @uploader }
+        return uploader unless uploader.nil?
+
+        @uploader_lock.with_write_lock do
+          @uploader ||= Uploader.new(self, @http_client_v1, block_size: block_size)
+        end
       end
+      def_delegators :uploader, :upload
 
       def upload_token(key: nil, key_prefix: nil)
         return upload_token_for_key(key) unless key.nil?

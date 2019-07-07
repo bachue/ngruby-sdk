@@ -197,7 +197,7 @@ RSpec.describe QiniuNg::Storage do
     describe 'Basic' do
       before :all do
         entry = bucket.entry("16k-#{Time.now.usec}")
-        bucket.uploader.upload(filepath: create_temp_file(kilo_size: 16), upload_token: entry.upload_token)
+        bucket.upload(filepath: create_temp_file(kilo_size: 16), upload_token: entry.upload_token)
       end
 
       after :all do

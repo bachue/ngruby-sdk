@@ -7,7 +7,7 @@ Rspec::Eventually.timeout = 300
 require 'qiniu_ng'
 
 QiniuNg.config do |conn|
-  conn.response :logger, nil, headers: true, bodies: true
+  # conn.response :logger, nil, headers: true, bodies: true
   conn.adapter :net_http
 end
 
