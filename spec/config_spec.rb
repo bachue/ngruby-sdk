@@ -16,7 +16,8 @@ RSpec.describe QiniuNg::Config do
   it 'should get valid faraday connection' do
     stub_request(:get, 'http://www.qiniu.com/?a=1&b=2')
       .to_return(headers: { 'Content-Type': 'application/json' }, body: '{"c": 3}')
-    resp = QiniuNg::HTTP.client.get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 })
+    resp = QiniuNg::HTTP.client(domains_manager: QiniuNg::HTTP::DomainsManager.new)
+                        .get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 })
     expect(resp.body).to eq 'c' => 3
   end
 
@@ -26,7 +27,8 @@ RSpec.describe QiniuNg::Config do
     begin
       original_default_faraday_options = QiniuNg::Config.default_faraday_options
       QiniuNg.config params: { c: 3 }
-      resp = QiniuNg::HTTP.client.get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 })
+      resp = QiniuNg::HTTP.client(domains_manager: QiniuNg::HTTP::DomainsManager.new)
+                          .get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 })
       expect(resp.body).to eq 'd' => 4
     ensure
       QiniuNg::Config.default_faraday_options = original_default_faraday_options
@@ -39,9 +41,10 @@ RSpec.describe QiniuNg::Config do
     begin
       original_default_faraday_config = QiniuNg::Config.default_faraday_config
       QiniuNg.config { |conn| conn.adapter :em_http }
-      expect { QiniuNg::HTTP.client.get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 }) }.to(
-        raise_error(/missing dependency for Faraday::Adapter::EMHttp/)
-      )
+      expect do
+        QiniuNg::HTTP.client(domains_manager: QiniuNg::HTTP::DomainsManager.new)
+                     .get('/', 'http://www.qiniu.com', params: { a: 1, b: 2 })
+      end.to raise_error(/missing dependency for Faraday::Adapter::EMHttp/)
     ensure
       QiniuNg::Config.default_faraday_config = original_default_faraday_config
     end

@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
 RSpec.describe QiniuNg::Storage::Uploader do
+  domains_manager = nil
   http_client = nil
   bucket = nil
   entry = nil
 
   before :all do
+    domains_manager = QiniuNg::HTTP::DomainsManager.new
     auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
-    http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
+    http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1, domains_manager: domains_manager)
     bucket = QiniuNg::Storage::BucketManager.new(http_client, nil, auth).bucket('z0-bucket')
+  end
+
+  after :each do
+    domains_manager.unfreeze_all!
   end
 
   describe QiniuNg::Storage::Uploader::FormUploader do
@@ -88,7 +94,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         File.unlink(path)
       end
 
-      it 'should switch to backup url' do
+      it 'should switch to backup url, and raise error if all urls are exhausted' do
         stub_request(:post, 'http://upload.qiniup.com/').to_timeout
         stub_request(:post, 'http://up.qiniup.com')
           .to_return(headers: { 'Content-Type': 'text/plain' },
@@ -108,6 +114,20 @@ RSpec.describe QiniuNg::Storage::Uploader do
         assert_requested(:post, 'http://up.qiniup.com', times: 4)
         assert_requested(:post, 'http://upload.qbox.me', times: 4)
         assert_requested(:post, 'http://up.qbox.me', times: 1)
+
+        WebMock.reset!
+
+        stub_request(:post, 'http://up.qbox.me').to_timeout
+        expect do
+          result = uploader.sync_upload_file(path, upload_token: entry.upload_token)
+        end.to raise_error(Faraday::ConnectionFailed)
+        assert_requested(:post, 'http://up.qbox.me', times: 4)
+
+        WebMock.reset!
+
+        expect do
+          result = uploader.sync_upload_file(path, upload_token: entry.upload_token)
+        end.to raise_error(QiniuNg::HTTP::NoURLAvailable)
       end
 
       it 'should validate the checksum' do
@@ -276,15 +296,12 @@ RSpec.describe QiniuNg::Storage::Uploader do
         stub_request(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads")
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { uploadId: 'abc' }.to_json)
-        stub_request(:put, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1").to_timeout
         stub_request(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { etag: '123' }.to_json)
-        stub_request(:put, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2").to_timeout
         stub_request(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2")
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { etag: '456' }.to_json)
-        stub_request(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc").to_timeout
         stub_request(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { hash: 'fakehash', key: entry.key }.to_json)
@@ -294,6 +311,41 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
+        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 4)
+        assert_requested(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 1)
+        assert_requested(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1", times: 1)
+        assert_requested(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 1)
+        assert_requested(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc", times: 1)
+      end
+
+      it 'could exhaust all urls and raise error' do
+        stub_request(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads").to_timeout
+        stub_request(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads")
+          .to_return(headers: { 'Content-Type': 'application/json' },
+                     body: { uploadId: 'abc' }.to_json)
+        stub_request(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1").to_timeout
+        stub_request(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
+          .to_return(headers: { 'Content-Type': 'application/json' },
+                     body: { etag: '123' }.to_json)
+        stub_request(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2").to_timeout
+        stub_request(:put, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2")
+          .to_return(headers: { 'Content-Type': 'application/json' },
+                     body: { etag: '456' }.to_json)
+        stub_request(:post, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
+          .to_return(headers: { 'Content-Type': 'application/json' },
+                     body: '{')
+        expect do
+          uploader.sync_upload_file(path,
+                                    upload_token: entry.upload_token, disable_checksum: true,
+                                    params: { param_key1: 'param_value1', param_key2: 'param_value2' },
+                                    meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
+        end.to raise_error(Faraday::ParsingError)
+        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 4)
+        assert_requested(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 1)
+        assert_requested(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1", times: 1)
+        assert_requested(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 4)
+        assert_requested(:put, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 1)
+        assert_requested(:post, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc", times: 4)
       end
 
       it 'should validate the checksum' do

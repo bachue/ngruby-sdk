@@ -389,7 +389,8 @@ RSpec.describe QiniuNg::Storage do
     entry = nil
 
     before :all do
-      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+      domains_manager = QiniuNg::HTTP::DomainsManager.new
+      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key, domains_manager: domains_manager)
       entry = client.bucket('z0-bucket').entry('1m')
     end
 

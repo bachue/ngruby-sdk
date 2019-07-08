@@ -10,10 +10,11 @@ module QiniuNg
   class Client
     extend Forwardable
 
-    def initialize(auth)
+    def initialize(auth, domains_manager: nil)
+      @domains_manager = domains_manager || HTTP::DomainsManager.new
       @auth = auth
-      @http_client_with_auth_v1 = HTTP.client(auth: auth, auth_version: 1)
-      @http_client_with_auth_v2 = HTTP.client(auth: auth, auth_version: 2)
+      @http_client_with_auth_v1 = HTTP.client(auth: auth, auth_version: 1, domains_manager: @domains_manager)
+      @http_client_with_auth_v2 = HTTP.client(auth: auth, auth_version: 2, domains_manager: @domains_manager)
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @http_client_with_auth_v2, auth)
       @cdn_manager = CDN::Manager.new(@http_client_with_auth_v2)
     end

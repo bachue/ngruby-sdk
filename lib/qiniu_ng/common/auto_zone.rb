@@ -7,7 +7,7 @@ module QiniuNg
     # 该类主要用来根据用户提供的 AccessKey 和 Bucket 来自动获取有效的 Zone 实例
     class AutoZone
       def initialize
-        @client = HTTP.client
+        @client = HTTP.client(domains_manager: HTTP::DomainsManager.new)
         @infer_domains_map = {
           'iovip.qbox.me' => Zone.zone0,
           'iovip-z1.qbox.me' => Zone.zone1,

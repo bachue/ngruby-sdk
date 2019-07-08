@@ -45,5 +45,11 @@ module QiniuNg
 
     class InvalidContext < ClientError
     end
+
+    class NeedToRetry < Faraday::Error
+    end
+
+    class NoURLAvailable < RuntimeError
+    end
   end
 end

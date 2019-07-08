@@ -13,6 +13,7 @@ require 'qiniu_ng/utils/bool'
 require 'qiniu_ng/utils/etag'
 require 'qiniu_ng/http/error'
 require 'qiniu_ng/http/error_code'
+require 'qiniu_ng/http/domains_manager'
 require 'qiniu_ng/http/middleware'
 require 'qiniu_ng/http/client'
 require 'qiniu_ng/http/response'
@@ -69,9 +70,9 @@ module QiniuNg
     end
   end
 
-  def self.new_client(access_key:, secret_key:)
+  def self.new_client(access_key:, secret_key:, domains_manager: nil)
     auth = Utils::Auth.new(access_key: access_key, secret_key: secret_key)
-    Client.new(auth)
+    Client.new(auth, domains_manager: domains_manager)
   end
 
   def self.config(use_https: nil,

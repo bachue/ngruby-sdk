@@ -3,7 +3,7 @@
 module QiniuNg
   # HTTP 协议相关
   module HTTP
-    def self.client(auth: nil, auth_version: nil)
+    def self.client(auth: nil, auth_version: nil, domains_manager:)
       faraday_connection = begin
         opts = Config.default_faraday_options
         opts = opts.call if opts.respond_to?(:call)
@@ -20,10 +20,7 @@ module QiniuNg
           Config.default_faraday_config.call(conn)
         end
       end
-      Client.new(faraday_connection, auth: auth, auth_version: auth_version)
-    end
-
-    class NeedToRetry < Faraday::Error
+      Client.new(faraday_connection, auth: auth, auth_version: auth_version, domains_manager: domains_manager)
     end
 
     RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, NeedToRetry,
@@ -32,10 +29,11 @@ module QiniuNg
 
     # HTTP 客户端
     class Client
-      def initialize(faraday_connection, auth: nil, auth_version: nil)
+      def initialize(faraday_connection, domains_manager:, auth: nil, auth_version: nil)
         @faraday_connection = faraday_connection
         @auth = auth
         @auth_version = auth_version
+        @domains_manager = domains_manager
       end
 
       # rubocop:disable Layout/MultilineBlockLayout, Layout/SpaceAroundBlockParameters
@@ -76,13 +74,15 @@ module QiniuNg
         raise ArgumentError, 'urls must not be nil or empty' if urls.nil? || urls.empty?
 
         urls = [urls] unless urls.is_a?(Array)
-        url = join_url(urls.shift, path)
+        url = make_url(urls, path)
+        raise HTTP::NoURLAvailable if url.nil?
+
         retried = 0
         begin
           begin_time = Time.now
           resp = yield url
           end_time = Time.now
-          raise NeedToRetry if retry_if.call(resp.status, resp.headers, resp.body, nil)
+          raise HTTP::NeedToRetry if retry_if.call(resp.status, resp.headers, resp.body, nil)
 
           Response.new(resp, duration: end_time - begin_time, address: nil)
         rescue Faraday::Error => e
@@ -94,16 +94,19 @@ module QiniuNg
             sleep(retry_delay) if retry_delay.positive?
             retry
           end
-          raise if urls.empty?
+          @domains_manager.freeze(url)
+          url = make_url(urls, path)
+          raise if url.nil?
 
-          url = join_url(urls.shift, path)
           retried = 0
           retry
         end
       end
 
-      def join_url(url_prefix, path)
-        url = url_prefix
+      def make_url(urls, path)
+        url = choose_url(urls)
+        return nil if url.nil?
+
         url += if url.end_with?('/') && path.start_with?('/')
                  path[1..-1]
                elsif url.end_with?('/') || path.start_with?('/')
@@ -112,6 +115,15 @@ module QiniuNg
                  '/' + path
                end
         url
+      end
+
+      def choose_url(urls)
+        url = nil
+        until urls.empty?
+          url = urls.shift
+          return url unless @domains_manager.frozen?(url)
+        end
+        nil
       end
 
       def retryable?(error, method, retry_if, idempotent)
@@ -123,7 +135,7 @@ module QiniuNg
                            error.class.to_s == err_class.to_s
                          end
                        end
-        return true if error.is_a?(NeedToRetry)
+        return true if error.is_a?(HTTP::NeedToRetry)
         return false if error.response.nil?
 
         if error.response.is_a?(Hash)
