@@ -29,10 +29,6 @@ module QiniuNg
         " @quota_perday=#{@quota_perday.inspect} @surplus_today=#{@surplus_today.inspect}>"
       end
 
-      # 预取查询异常
-      class QueryError < Faraday::Error
-      end
-
       # 预取查询结果
       class QueryResult
         attr_reader :request_id, :url, :state, :state_detail, :created_at, :begin_at, :end_at
@@ -110,7 +106,7 @@ module QiniuNg
                                        headers: { content_type: 'application/json' },
                                        body: Config.default_json_marshaler.call(body.merge(pageNo: page_no)),
                                        **@options)
-              raise QueryError, response_values(resp) unless resp.body['code'] == 200
+              raise PrefetchQueryError, response_values(resp) unless resp.body['code'] == 200
 
               page_no += 1
               total = resp.body['total']
