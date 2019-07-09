@@ -61,7 +61,7 @@ RSpec.describe QiniuNg::CDN do
     entries = 3.times.map { bucket.entry("16k-#{Time.now.usec}") }
     begin
       entries.each_with_index do |entry, i|
-        bucket.upload(filepath: paths[i], upload_token: entry.upload_token)
+        bucket.upload(filepath: paths[i], key: entry.key, upload_token: entry.upload_token)
       end
       requests = client.cdn_prefetch(entries.map(&:download_url))
       expect(requests.size).to eq 1

@@ -20,8 +20,7 @@ module QiniuNg
       #
       # @param [Pathname] filepath 上传文件的路径，与 stream 参数不要同时使用
       # @param [#read] stream 上传数据流，与 filepath 参数不要同时使用
-      # @param [String] key 上传到存储空间后的文件名，如果不指定，将会使用 upload_token 中定义的文件名。
-      #   如果 upload_token 中没有指定文件名，将由七牛云自动决定文件名。
+      # @param [String] key 上传到存储空间后的文件名，将由七牛云自动决定文件名。
       # @param [Hash] params 指定自定义变量，注意，SDK 将为每个变量名自动增加 "x:" 前缀。
       #   {参考文档}[https://developer.qiniu.com/kodo/manual/1235/vars]
       # @param [Hash] meta 指定文件的 HTTP Header 信息，注意，SDK 将为每个 HTTP Header Key 自动增加 "x-qn-meta-" 前缀
@@ -39,26 +38,28 @@ module QiniuNg
       # @param [Hash] options 额外的 Faraday 参数
       # @raise [QiniuNg::Storage::Uploader::ChecksumError] 校验和出错
       # @return [QiniuNg::Storage::Uploader::Result] 返回上传结果
-      def upload(filepath: nil, stream: nil, key: nil, upload_token:, params: {}, meta: {},
+      def upload(filepath: nil, stream: nil, key: nil, upload_token:, params: {}, meta: {}, filename: nil,
                  recorder: Recorder::FileRecorder.new, mime_type: DEFAULT_MIME, disable_checksum: false,
                  upload_threshold: Config.upload_threshold, resumable_policy: :auto, https: nil, **options)
         if !filepath || resumable_policy == :always ||
            resumable_policy != :never && File.size(filepath) > upload_threshold
           if filepath
             @resumable_uploader.sync_upload_file(filepath, key: key, upload_token: upload_token, params: params,
-                                                           meta: meta, recorder: recorder, mime_type: mime_type,
-                                                           disable_checksum: disable_checksum, https: https, **options)
+                                                           meta: meta, filename: filename, recorder: recorder,
+                                                           mime_type: mime_type, disable_checksum: disable_checksum,
+                                                           https: https, **options)
           elsif stream
             @resumable_uploader.sync_upload_stream(stream, key: key, upload_token: upload_token, params: params,
-                                                           meta: meta, recorder: recorder, mime_type: mime_type,
-                                                           disable_checksum: disable_checksum, https: https, **options)
+                                                           meta: meta, filename: filename, recorder: recorder,
+                                                           mime_type: mime_type, disable_checksum: disable_checksum,
+                                                           https: https, **options)
           else
             raise ArgumentError, 'either filepath or stream must be specified to upload'
           end
         else
           @form_uploader.sync_upload_file(filepath, key: key, upload_token: upload_token, params: params, meta: meta,
-                                                    mime_type: mime_type, disable_checksum: disable_checksum,
-                                                    https: https, **options)
+                                                    filename: filename, mime_type: mime_type,
+                                                    disable_checksum: disable_checksum, https: https, **options)
         end
       end
     end

@@ -9,14 +9,14 @@ module QiniuNg
       # @!visibility private
       class FormUploader < UploaderBase
         # @!visibility private
-        def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {},
+        def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {}, filename: nil,
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           crc32 = crc32_of_file(filepath) unless disable_checksum
           resp = @http_client.post('/', up_urls(https),
                                    idempotent: true,
                                    retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
                                    headers: { content_type: 'multipart/form-data' },
-                                   body: build_request_body(key: key,
+                                   body: build_request_body(key: key, filename: filename,
                                                             upload_token: upload_token,
                                                             upload_io: Faraday::UploadIO.new(filepath, mime_type),
                                                             params: params, meta: meta, crc32: crc32),
@@ -28,8 +28,9 @@ module QiniuNg
         end
 
         # @!visibility private
-        def sync_upload_stream(stream, key: nil, upload_token:, params: {}, meta: {}, mime_type: DEFAULT_MIME,
-                               disable_checksum: false, crc32: nil, etag: nil, https: nil, **options)
+        def sync_upload_stream(stream, key: nil, upload_token:, params: {}, meta: {}, filename: nil,
+                               mime_type: DEFAULT_MIME, disable_checksum: false, crc32: nil, etag: nil,
+                               https: nil, **options)
           if disable_checksum
             crc32 = nil
             etag = nil
@@ -43,7 +44,7 @@ module QiniuNg
                                    idempotent: true,
                                    retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
                                    headers: { content_type: 'multipart/form-data' },
-                                   body: build_request_body(key: key,
+                                   body: build_request_body(key: key, filename: filename,
                                                             upload_token: upload_token,
                                                             upload_io: Faraday::UploadIO.new(stream, mime_type),
                                                             params: params, meta: meta, crc32: crc32),
@@ -94,12 +95,12 @@ module QiniuNg
           Utils::Etag.from_data(string)
         end
 
-        def build_request_body(key:, upload_token:, upload_io:, params:, meta:, crc32:)
+        def build_request_body(key:, filename:, upload_token:, upload_io:, params:, meta:, crc32:)
           body = { token: upload_token.to_s }
-          body[:key] = key || extract_key_from_upload_token(upload_token) or raise ArgumentError, 'missing keyword: key'
+          body[:key] = key if key
           body[:file] = upload_io
           body[:crc32] = crc32 unless crc32.nil?
-          body[:fileName] = upload_io.original_filename
+          body[:fileName] = filename || upload_io.original_filename
           body[:fileName] = 'fileName' if body[:fileName].nil? || body[:fileName].empty?
           params.each { |k, v| body[:"x:#{k}"] = v }
           meta.each { |k, v| body[:"x-qn-meta-#{k}"] = v }

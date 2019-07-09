@@ -19,26 +19,22 @@ module QiniuNg
         end
 
         # @!visibility private
-        def sync_upload_file(filepath,
-                             key: nil, upload_token:, params: {}, meta: {}, recorder: nil,
+        def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {}, filename: nil, recorder: nil,
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           File.open(filepath, 'rb') do |file|
             upload_recorder = UploadRecorder.new(recorder, bucket: @bucket.name, key: key, file: file)
             sync_upload_stream(file,
                                key: key, upload_token: upload_token, size: file.size,
-                               params: params, meta: meta, mime_type: mime_type,
+                               params: params, meta: meta, filename: filename, mime_type: mime_type,
                                upload_recorder: upload_recorder, disable_checksum: disable_checksum,
                                https: https, **options)
           end
         end
 
         # @!visibility private
-        def sync_upload_stream(stream,
-                               key: nil, upload_token:, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
-                               size: nil, mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
-          unuse(mime_type, params)
-          key ||= extract_key_from_upload_token(upload_token) or raise ArgumentError, 'missing keyword: key'
-
+        def sync_upload_stream(stream, key: nil, upload_token:, params: {}, meta: {}, filename: nil, recorder: nil,
+                               upload_recorder: nil, size: nil, mime_type: DEFAULT_MIME, disable_checksum: false,
+                               https: nil, **options)
           list = []
           upload_recorder ||= UploadRecorder.new(recorder, bucket: @bucket.name, key: key)
           record = upload_recorder.load
@@ -68,7 +64,9 @@ module QiniuNg
             uploaded_size += @block_size
             upload_recorder.sync(Record.new(upload_id, list, uploaded_size: uploaded_size))
           end
-          result = complete_parts(list, key, upload_token, upload_id, meta: meta, https: https, **options)
+          result = complete_parts(list, key, upload_token, upload_id,
+                                  meta: meta, filename: filename, mime_type: mime_type, params: params,
+                                  https: https, **options)
           validate_parts_checksum(result.key, result.hash, list) unless disable_checksum
           upload_recorder.del
           result
@@ -115,10 +113,15 @@ module QiniuNg
           resp.body['etag']
         end
 
-        def complete_parts(list, key, upload_token, upload_id, meta: {}, https: nil, **options)
+        def complete_parts(list, key, upload_token, upload_id,
+                           meta: {}, filename: nil, mime_type: nil, params: nil, https: nil, **options)
+          filename = 'fileName' if filename.nil? || filename.empty?
           headers = { authorization: "UpToken #{upload_token}", content_type: 'text/plain' }
-          meta.each { |k, v| headers[:"x-qn-meta-#{k}"] = v }
-          body = { parts: list.map { |hash| { Etag: hash[:etag], PartNumber: hash[:part_num] } } }
+          body = {
+            parts: list.map { |hash| { etag: hash[:etag], partNumber: hash[:part_num] } },
+            fname: filename, metadata: meta, mimeType: mime_type,
+            customVars: params.each_with_object({}) { |(k, v), h| h["x:#{k}"] = v }
+          }
           resp = @http_client.post(
             "/buckets/#{@bucket.name}/objects/#{encode(key)}/uploads/#{upload_id}", up_urls(https),
             headers: headers, body: Config.default_json_marshaler.call(body),
@@ -139,11 +142,7 @@ module QiniuNg
         end
 
         def encode(key)
-          Base64.urlsafe_encode64(key)
-        end
-
-        def unuse(*_args)
-          nil
+          key.nil? ? '~' : Base64.urlsafe_encode64(key)
         end
 
         # 分块上传记录

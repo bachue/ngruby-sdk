@@ -24,13 +24,20 @@ RSpec.describe QiniuNg::Storage::Uploader do
     it 'should upload file directly' do
       entry = bucket.entry("test-image-#{Time.now.usec}.png")
       path = temp_file_from_url('https://www.baidu.com/img/bd_logo1.png')
+      upload_token = entry.upload_token do |policy|
+        policy.set_return(body: '{"hash":$(etag),"key":$(key),"fname":$(fname)' \
+                                ',"param_key1":$(x:param_key1),"param_key2":$(x:param_key2)}')
+      end
       begin
         result = uploader.sync_upload_file(path,
-                                           upload_token: entry.upload_token,
+                                           upload_token: upload_token, key: entry.key, filename: 'bd_logo1.png',
                                            params: { param_key1: 'param_value1', param_key2: 'param_value2' },
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
+        expect(result['fname']).to eq 'bd_logo1.png'
+        expect(result['param_key1']).to eq 'param_value1'
+        expect(result['param_key2']).to eq 'param_value2'
         response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
@@ -48,12 +55,20 @@ RSpec.describe QiniuNg::Storage::Uploader do
       entry = bucket.entry("test-image-#{Time.now.usec}.png")
       path = temp_file_from_url('https://www.baidu.com/img/bd_logo1.png')
       stream = File.open(path, 'rb')
+      upload_token = bucket.upload_token(key_prefix: 'test-image-') do |policy|
+        policy.set_return(body: '{"hash":$(etag),"key":$(key),"fname":$(fname)' \
+                                ',"param_key1":$(x:param_key1),"param_key2":$(x:param_key2)}')
+      end
       begin
         result = uploader.sync_upload_stream(stream,
-                                             key: entry.key,
-                                             upload_token: bucket.upload_token(key_prefix: 'test-image-'))
+                                             upload_token: upload_token, key: entry.key, filename: 'bd_logo1.png',
+                                             params: { param_key1: 'param_value1', param_key2: 'param_value2' },
+                                             meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
+        expect(result['fname']).to eq 'bd_logo1.png'
+        expect(result['param_key1']).to eq 'param_value1'
+        expect(result['param_key2']).to eq 'param_value2'
         response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'image/png'
@@ -62,6 +77,27 @@ RSpec.describe QiniuNg::Storage::Uploader do
       ensure
         stream.close
         entry.try_delete
+        File.unlink(path)
+      end
+    end
+
+    it 'should upload file without key' do
+      path = temp_file_from_url('https://www.baidu.com/img/bd_logo1.png')
+      begin
+        result = uploader.sync_upload_file(path,
+                                           upload_token: bucket.upload_token, filename: 'bd_logo1.png',
+                                           params: { param_key1: 'param_value1', param_key2: 'param_value2' },
+                                           meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
+        expect(result.hash).not_to be_empty
+        response = head(bucket.entry(result.key).download_url.refresh)
+        expect(response).to be_success
+        expect(response.headers[:content_type]).to eq 'image/png'
+        expect(response.headers[:content_length]).to eq File.size(path).to_s
+        expect(response.headers[:etag]).to eq %("#{result.hash}")
+        expect(response.headers['x-qn-meta-meta_key1']).to eq 'meta_value1'
+        expect(response.headers['x-qn-meta-meta_key2']).to eq 'meta_value2'
+      ensure
+        bucket.entry(result.key).try_delete
         File.unlink(path)
       end
     end
@@ -164,47 +200,32 @@ RSpec.describe QiniuNg::Storage::Uploader do
     it 'should upload file directly' do
       entry = bucket.entry("9mb-#{Time.now.usec}")
       path = create_temp_file(kilo_size: 9 * 1024)
+      upload_token = entry.upload_token do |policy|
+        policy.set_return(body: '{"hash":$(etag),"key":$(key),"fname":$(fname)' \
+                                ',"param_key1":$(x:param_key1),"param_key2":$(x:param_key2)}')
+      end
       begin
         result = uploader.sync_upload_file(path,
-                                           upload_token: entry.upload_token,
+                                           upload_token: upload_token, key: entry.key, filename: '9m',
                                            params: { param_key1: 'param_value1', param_key2: 'param_value2' },
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
+        expect(result['fname']).to eq '9m'
+        expect(result['param_key1']).to eq 'param_value1'
+        expect(result['param_key2']).to eq 'param_value2'
         response = head(entry.download_url.refresh)
         expect(response).to be_success
         expect(response.headers[:content_type]).to eq 'application/octet-stream'
         expect(response.headers[:content_length]).to eq File.size(path).to_s
         expect(response.headers[:etag]).to eq %("#{result.hash}")
-        expect(response.headers['x-qn-meta-meta-key1']).to eq 'meta_value1'
-        expect(response.headers['x-qn-meta-meta-key2']).to eq 'meta_value2'
+        expect(response.headers['x-qn-meta-meta_key1']).to eq 'meta_value1'
+        expect(response.headers['x-qn-meta-meta_key2']).to eq 'meta_value2'
       ensure
         entry.try_delete
         File.unlink(path)
       end
     end
-
-    # it 'should upload stream' do
-    #   entry = bucket.entry("15mb-#{Time.now.usec}")
-    #   path = create_temp_file(kilo_size: 15 * 1024)
-    #   stream = File.open(path, 'rb')
-    #   begin
-    #     result = uploader.sync_upload_stream(stream,
-    #                                          key: entry.key,
-    #                                          upload_token: bucket.upload_token(key_prefix: '15mb-'))
-    #     expect(result.hash).not_to be_empty
-    #     expect(result.key).to eq entry.key
-    #     response = head(entry.download_url.refresh)
-    #     expect(response).to be_success
-    #     expect(response.headers[:content_type]).to eq 'application/octet-stream'
-    #     expect(response.headers[:content_length]).to eq File.size(path).to_s
-    #     expect(response.headers[:etag]).to eq %("#{result.hash}")
-    #   ensure
-    #     stream.close
-    #     entry.try_delete
-    #     File.unlink(path)
-    #   end
-    # end
 
     describe do
       entry = nil
@@ -241,7 +262,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_raise(RuntimeError)
         expect do
           uploader.sync_upload_file(path,
-                                    upload_token: entry.upload_token, disable_checksum: true,
+                                    key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                     recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         end.to raise_error(RuntimeError)
 
@@ -252,7 +273,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { hash: 'fakehash', key: entry.key }.to_json)
         result = uploader.sync_upload_file(path,
-                                           upload_token: entry.upload_token, disable_checksum: true,
+                                           key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                            recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
@@ -272,7 +293,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_raise(RuntimeError)
         expect do
           uploader.sync_upload_file(path,
-                                    upload_token: entry.upload_token, disable_checksum: true,
+                                    key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                     recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         end.to raise_error(RuntimeError)
 
@@ -280,7 +301,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { hash: 'fakehash', key: entry.key }.to_json)
         result = uploader.sync_upload_file(path,
-                                           upload_token: entry.upload_token, disable_checksum: true,
+                                           key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                            recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
@@ -301,7 +322,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { hash: 'fakehash', key: entry.key }.to_json)
         result = uploader.sync_upload_file(path,
-                                           upload_token: entry.upload_token, disable_checksum: true,
+                                           key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                            params: { param_key1: 'param_value1', param_key2: 'param_value2' },
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
@@ -331,7 +352,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                      body: '{')
         expect do
           uploader.sync_upload_file(path,
-                                    upload_token: entry.upload_token, disable_checksum: true,
+                                    key: entry.key, upload_token: entry.upload_token, disable_checksum: true,
                                     params: { param_key1: 'param_value1', param_key2: 'param_value2' },
                                     meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         end.to raise_error(Faraday::ParsingError)
@@ -355,7 +376,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { etag: '123' }.to_json)
         expect do
-          uploader.sync_upload_file(path, upload_token: entry.upload_token,
+          uploader.sync_upload_file(path, key: entry.key, upload_token: entry.upload_token,
                                           recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         end.to raise_error(QiniuNg::Storage::Uploader::ChecksumError)
         stub_request(:put, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1")
@@ -365,7 +386,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { etag: '456' }.to_json)
         expect do
-          uploader.sync_upload_file(path, upload_token: entry.upload_token,
+          uploader.sync_upload_file(path, key: entry.key, upload_token: entry.upload_token,
                                           recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         end.to raise_error(QiniuNg::Storage::Uploader::ChecksumError)
         stub_request(:put, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2")
@@ -377,13 +398,13 @@ RSpec.describe QiniuNg::Storage::Uploader do
         stub_request(:post, "http://rs.qiniu.com/delete/#{Base64.urlsafe_encode64("#{bucket.name}:#{entry.key}")}")
           .to_return(headers: { 'Content-Type': 'application/json' }, body: {}.to_json)
         expect do
-          uploader.sync_upload_file(path, upload_token: entry.upload_token,
+          uploader.sync_upload_file(path, key: entry.key, upload_token: entry.upload_token,
                                           recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
         end.to raise_error(QiniuNg::Storage::Uploader::ChecksumError)
         stub_request(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc")
           .to_return(headers: { 'Content-Type': 'application/json' },
                      body: { hash: QiniuNg::Etag.from_file_path(path), key: entry.key }.to_json)
-        uploader.sync_upload_file(path, upload_token: entry.upload_token,
+        uploader.sync_upload_file(path, key: entry.key, upload_token: entry.upload_token,
                                         recorder: QiniuNg::Storage::Recorder::FileRecorder.new)
       end
     end
@@ -410,7 +431,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: QiniuNg::Etag.from_file_path(path), key: entry.key }.to_json)
       begin
-        bucket.upload(filepath: path, upload_token: entry.upload_token)
+        bucket.upload(filepath: path, key: entry.key, upload_token: entry.upload_token)
       ensure
         File.unlink(path)
       end
@@ -433,7 +454,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: 'fakehash', key: entry.key }.to_json)
       begin
-        bucket.upload(filepath: path, upload_token: entry.upload_token, disable_checksum: true)
+        bucket.upload(filepath: path, key: entry.key, upload_token: entry.upload_token, disable_checksum: true)
       ensure
         File.unlink(path)
       end
@@ -453,7 +474,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: 'fakehash', key: entry.key }.to_json)
       begin
-        bucket.upload(filepath: path, upload_token: entry.upload_token,
+        bucket.upload(filepath: path, key: entry.key, upload_token: entry.upload_token,
                       resumable_policy: :always, disable_checksum: true)
       ensure
         File.unlink(path)
@@ -467,7 +488,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: { hash: QiniuNg::Etag.from_file_path(path), key: entry.key }.to_json)
       begin
-        bucket.upload(filepath: path, upload_token: entry.upload_token, resumable_policy: :never)
+        bucket.upload(filepath: path, key: entry.key, upload_token: entry.upload_token, resumable_policy: :never)
       ensure
         File.unlink(path)
       end

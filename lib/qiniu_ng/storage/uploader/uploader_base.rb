@@ -52,14 +52,6 @@ module QiniuNg
 
         private
 
-        def extract_key_from_upload_token(upload_token)
-          upload_token = UploadToken.from_token(upload_token) if upload_token.is_a?(String)
-          upload_policy = upload_token.policy
-          raise ArgumentError, 'missing keyword: key' if upload_policy.save_key.nil? && upload_policy.prefixal_scope?
-
-          upload_policy.save_key || upload_policy.key
-        end
-
         def up_urls(https)
           https = Config.use_https if https.nil?
           @bucket.zone.up_urls(https).dup
