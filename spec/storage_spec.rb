@@ -424,6 +424,27 @@ RSpec.describe QiniuNg::Storage do
     end
   end
 
+  describe QiniuNg::Storage::TimestampAntiLeechURL do
+    entry = nil
+
+    before :all do
+      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+      entry = client.bucket('z2-bucket', domains: 'z2-bucket.kodo-test.qiniu-solutions.com').entry('1m')
+    end
+
+    it 'should not access entry by public url' do
+      expect(head(entry.download_url).status).to eq 403
+    end
+
+    it 'should not access entry by private url' do
+      expect(head(entry.download_url.private).status).to eq 403
+    end
+
+    it 'should access entry by timestamp anti leech url' do
+      expect(head(entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key))).to be_success
+    end
+  end
+
   describe QiniuNg::Storage::UploadToken do
     it 'should create upload_token from upload_policy, or from token' do
       dummy_access_key = 'abcdefghklmnopq'

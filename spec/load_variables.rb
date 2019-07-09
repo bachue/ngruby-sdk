@@ -3,7 +3,7 @@
 require 'safe_yaml'
 
 module Variables
-  %i[access_key secret_key].each do |variable_name|
+  %i[access_key secret_key z2_encrypt_key].each do |variable_name|
     define_method(variable_name) do
       variable_value = ENV[variable_name.to_s]
       variable_value ||= begin

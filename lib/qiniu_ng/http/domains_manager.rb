@@ -33,14 +33,7 @@ module QiniuNg
       private
 
       def normalize_domain(domain)
-        domain = if domain.start_with?('http://')
-                   domain.sub(%r{^http://}, '')
-                 elsif domain.start_with?('https://')
-                   domain.sub(%r{^https://}, '')
-                 else
-                   domain
-                 end
-        domain.sub(%r{^([^/]+)(/.*)?$}, '\1')
+        domain.sub(%r{^(\w+://)?([^/]+)(/.*)?$}, '\2')
       end
     end
   end

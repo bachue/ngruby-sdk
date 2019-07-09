@@ -13,10 +13,13 @@ module QiniuNg
         @http_client_v1 = http_client_v1
         @http_client_v2 = http_client_v2
         @auth = auth
+
         @zone = zone.freeze
         @zone_lock = Concurrent::ReadWriteLock.new
-        @domains = domains.freeze
+
+        @domains = normalize_domains(domains).freeze
         @domains_lock = Concurrent::ReadWriteLock.new
+
         @uploader = nil
         @uploader_lock = Concurrent::ReadWriteLock.new
       end
@@ -58,7 +61,8 @@ module QiniuNg
       end
 
       def domains=(domains)
-        @domains_lock.with_write_lock { @domains = domains.freeze }
+        domains = normalize_domains(domains).freeze
+        @domains_lock.with_write_lock { @domains = domains }
       end
 
       def set_image(source_url, uc_url: nil, source_host: nil, https: nil, **options)
@@ -305,6 +309,11 @@ module QiniuNg
 
       def get_uc_url(https)
         Common::Zone.uc_url(https)
+      end
+
+      def normalize_domains(domains)
+        domains = [domains] unless domains.nil? || domains.is_a?(Array)
+        domains&.map { |domain| domain.sub(%r{^\w+://}, '') }
       end
     end
   end

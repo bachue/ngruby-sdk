@@ -16,7 +16,7 @@ module QiniuNg
           conn.response :json, content_type: /\bjson$/
           conn.response :raise_error
           conn.response :qiniu_raise_error
-          conn.headers.update(user_agent: "QiniuNg SDK v#{VERSION}/#{RUBY_DESCRIPTION}")
+          conn.headers.update(user_agent: "QiniuRubyNg/v#{VERSION}/#{RUBY_DESCRIPTION}")
           Config.default_faraday_config.call(conn)
         end
       end
