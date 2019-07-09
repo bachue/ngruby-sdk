@@ -92,6 +92,18 @@ module QiniuNg
         end
       end
 
+      def cdn_access_logs(time:, domains:, fusion_url: nil, https: nil, **options)
+        domains = domains.is_a?(Array) ? domains.dup : [domains]
+        req_body = { day: time.strftime('%Y-%m-%d'), domains: domains.join(';') }
+        resp = @http_client_v2.post('/v2/tune/log/list', fusion_url || get_fusion_url(https),
+                                    idempotent: true, headers: { content_type: 'application/json' },
+                                    body: Config.default_json_marshaler.call(req_body),
+                                    **options)
+        raise QueryError, response_values(resp) unless resp.body['code'] == 200
+
+        LogFiles.new(resp.body['data'])
+      end
+
       private
 
       def response_values(response)

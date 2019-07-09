@@ -5,7 +5,7 @@ require 'webrick'
 module QiniuNg
   module Storage
     # 七牛文件的公开下载地址
-    class PublicURL < String
+    class PublicURL < URL
       attr_reader :domain, :key, :filename, :fop
       def initialize(domain, key, auth, https: nil, filename: nil, fop: nil)
         @domain = domain
@@ -45,10 +45,6 @@ module QiniuNg
         self
       end
 
-      def inspect
-        "#<#{self.class.name} #{self}>"
-      end
-
       private
 
       def generate_public_url
@@ -57,7 +53,7 @@ module QiniuNg
         params = []
         params << [@fop] unless @fop.nil? || @fop.empty?
         params << ['attname', @filename] unless @filename.nil? || @filename.empty?
-        params << ['t', @random] unless @random.nil? || @random.zero?
+        params << ['tt', @random] unless @random.nil? || @random.zero?
         url += "?#{Faraday::Utils.build_query(params)}" unless params.empty?
         replace(url)
       end

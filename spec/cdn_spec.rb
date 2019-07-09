@@ -95,4 +95,13 @@ RSpec.describe QiniuNg::CDN do
     expect(logs.values_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com').keys).to match_array(%w[china oversea])
     expect(logs.values_at(Time.now).keys).to match_array(%w[z0-bucket.kodo-test.qiniu-solutions.com])
   end
+
+  it 'should query access log files' do
+    t = Time.now - Duration.new(days: 30).to_i
+    while t < Time.now
+      logs = client.cdn_access_logs(time: t, domains: 'z0-bucket.kodo-test.qiniu-solutions.com')
+      logs['z0-bucket.kodo-test.qiniu-solutions.com']&.each { |log_file| head(log_file.url) }
+      t += Duration.new(days: 1).to_i
+    end
+  end
 end

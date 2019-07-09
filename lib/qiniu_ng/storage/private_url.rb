@@ -5,7 +5,7 @@ require 'forwardable'
 module QiniuNg
   module Storage
     # 七牛文件的私有下载地址
-    class PrivateURL < String
+    class PrivateURL < URL
       extend Forwardable
       def initialize(public_url, auth, lifetime, deadline)
         @public_url = public_url
@@ -16,10 +16,6 @@ module QiniuNg
       end
 
       def_delegators :@public_url, :domain, :key, :filename, :fop
-
-      def inspect
-        "#<#{self.class.name} #{self}>"
-      end
 
       def filename=(filename)
         @public_url.filename = filename

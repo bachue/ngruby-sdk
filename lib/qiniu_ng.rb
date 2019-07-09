@@ -37,6 +37,7 @@ require 'qiniu_ng/storage/bucket'
 require 'qiniu_ng/storage/entry'
 require 'qiniu_ng/storage/op'
 require 'qiniu_ng/storage/batch_operations'
+require 'qiniu_ng/storage/url'
 require 'qiniu_ng/storage/public_url'
 require 'qiniu_ng/storage/private_url'
 require 'qiniu_ng/storage/upload_token'
@@ -49,6 +50,8 @@ require 'qiniu_ng/cdn/error'
 require 'qiniu_ng/cdn/manager'
 require 'qiniu_ng/cdn/refresh_result'
 require 'qiniu_ng/cdn/prefetch_result'
+require 'qiniu_ng/cdn/log_file'
+require 'qiniu_ng/cdn/log_files'
 
 # 下一代七牛 Ruby SDK
 module QiniuNg
