@@ -159,7 +159,7 @@ module QiniuNg
           Duration.new(day: @delete_after_days) unless @delete_after_days.nil?
         end
 
-        def save_as(key, force: true)
+        def save_as(key, force: false)
           @save_key = key
           @force_save_key = force
         end
