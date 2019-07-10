@@ -28,7 +28,7 @@ RSpec.describe QiniuNg::Storage do
     end
 
     after :all do
-      bucket.drop
+      client.drop_bucket(bucket.name)
     end
 
     it 'should get bucket domains' do

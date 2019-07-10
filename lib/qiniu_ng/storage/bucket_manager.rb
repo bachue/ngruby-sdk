@@ -23,12 +23,6 @@ module QiniuNg
         bucket(bucket_name)
       end
 
-      def drop_bucket(bucket_name, rs_zone: nil, https: nil, **options)
-        @http_client_v1.post("/drop/#{bucket_name}", rs_url(rs_zone, https), **options)
-        nil
-      end
-      alias delete_bucket drop_bucket
-
       def bucket(bucket_name, zone: nil, domains: nil)
         Bucket.new(bucket_name, zone, @http_client_v1, @http_client_v2, @auth, domains)
       end

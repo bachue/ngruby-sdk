@@ -41,12 +41,6 @@ module QiniuNg
         @zone_lock.with_write_lock { @zone = zone.freeze }
       end
 
-      def drop(rs_zone: nil, https: nil, **options)
-        BucketManager.new(@http_client_v1, @http_client_v2, @auth)
-                     .drop_bucket(@bucket_name, rs_zone: rs_zone, https: https, **options)
-      end
-      alias delete drop
-
       def domains(api_zone: nil, https: nil, **options)
         domains = @domains_lock.with_read_lock { @domains }
         return domains if domains
