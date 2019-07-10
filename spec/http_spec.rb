@@ -77,6 +77,7 @@ RSpec.describe QiniuNg::HTTP do
           expect(manager.frozen?('https://up.qiniup.com/')).to be false
           sleep(1)
           expect(manager.frozen?('https://up.qiniup.com/')).to be false
+          sleep(1)
           expect(manager.frozen?('https://upload.qiniup.com/def/fgh.xyz')).to be false
         end
       end

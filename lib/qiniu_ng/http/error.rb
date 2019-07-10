@@ -25,6 +25,9 @@ module QiniuNg
     class FunctionError < ServerError
     end
 
+    class ServerRetryableError < ServerError
+    end
+
     class FileModified < ClientError
     end
 

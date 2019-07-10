@@ -32,13 +32,15 @@ module QiniuNg
         def on_complete(env)
           case env[:status]
           when 419
-            raise UserDisabled, response_values(env)
+            raise UserDisabledError, response_values(env)
           when 573
-            raise OutOfLimit, response_values(env)
+            raise OutOfLimitError, response_values(env)
           when 579
             raise CallbackFailed, response_values(env)
           when 599
             raise FunctionError, response_values(env)
+          when 500..600
+            raise ServerRetryableError, response_values(env)
           when 608
             raise FileModified, response_values(env)
           when 612

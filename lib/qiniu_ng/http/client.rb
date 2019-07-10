@@ -23,7 +23,7 @@ module QiniuNg
       Client.new(faraday_connection, auth: auth, auth_version: auth_version, domains_manager: domains_manager)
     end
 
-    RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, NeedToRetry,
+    RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, ServerRetryableError, NeedToRetry,
                             Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].freeze
     IDEMPOTENT_METHODS = %i[delete get head options put].freeze
 
