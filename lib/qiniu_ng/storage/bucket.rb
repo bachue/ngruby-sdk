@@ -214,8 +214,16 @@ module QiniuNg
         UploadToken.from_policy(policy, @auth)
       end
 
-      def batch
-        BatchOperations.new(self, @http_client_v1, @http_client_v2, @auth)
+      def batch(raise_if_partial_ok: false, **options)
+        op = BatchOperations.new(self, @http_client_v1, @http_client_v2, @auth, raise_if_partial_ok)
+        return op unless block_given?
+
+        yield op
+        op.do(**options)
+      end
+
+      def batch!(**options, &block)
+        batch(raise_if_partial_ok: true, **options, &block)
       end
 
       def life_cycle_rules
@@ -266,6 +274,11 @@ module QiniuNg
         resp_body['size'] = nil if resp_body['size'].negative?
         resp_body['count'] = nil if resp_body['count'].negative?
         Quota.new(resp_body['size'], resp_body['count'])
+      end
+
+      def inspect
+        "#<#{self.class.name} @bucket_name=#{@bucket_name.inspect} @auth=#{@auth.inspect}" \
+        " @zone=#{@zone.inspect} @domains=#{@domains.inspect}>"
       end
 
       private

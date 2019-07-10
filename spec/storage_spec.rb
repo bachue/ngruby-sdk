@@ -363,11 +363,7 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should get all stats of a bucket' do
       files = %w[4k 16k 1m].freeze
-      batch = client.bucket('z0-bucket').batch
-      files.each do |file|
-        batch = batch.stat(file)
-      end
-      results = batch.do
+      results = client.bucket('z0-bucket').batch { |b| files.each { |file| b.stat(file) } }
       expect(results.select(&:success?).size).to eq files.size
       expect(results.reject(&:success?).size).to be_zero
       expect(results.map { |result| result.response.file_size }).to eq(
@@ -375,13 +371,34 @@ RSpec.describe QiniuNg::Storage do
       )
     end
 
+    it 'could get all stats of files from multiple buckets' do
+      files = %w[4k 16k 1m].freeze
+      bucket = client.bucket('z0-bucket')
+      results = client.batch(zone: bucket.zone) { |b| files.each { |file| b.stat(file, bucket: bucket) } }
+      expect(results.select(&:success?).size).to eq files.size
+      expect(results.reject(&:success?).size).to be_zero
+      expect(results.map { |result| result.response.file_size }).to eq(
+        [4 * (1 << 10), 16 * (1 << 10), 1 * (1 << 20)]
+      )
+    end
+
+    it 'should raise error if partial operations are failed' do
+      files = %w[4k 16k 1m 5m].freeze
+      bucket = client.bucket('z0-bucket')
+      bucket.batch { |b| files.each { |file| b.stat(file) } }
+      client.batch(zone: bucket.zone) { |b| files.each { |file| b.stat(file, bucket: bucket) } }
+      expect do
+        bucket.batch! { |b| files.each { |file| b.stat(file) } }
+      end.to raise_error(QiniuNg::HTTP::PartialOK)
+      expect do
+        client.batch!(zone: bucket.zone) { |b| files.each { |file| b.stat(file, bucket: bucket) } }
+      end.to raise_error(QiniuNg::HTTP::PartialOK)
+    end
+
     it 'should do batch operations more than limits' do
       size = (QiniuNg::Config.batch_max_size * 2.5).to_i
-      batch = client.bucket('z0-bucket').batch
-      size.times do
-        batch = batch.stat('16k')
-      end
-      expect(batch.do.size).to eq size
+      results = client.bucket('z0-bucket').batch { |b| size.times { b.stat('16k') } }
+      expect(results.size).to eq size
     end
   end
 

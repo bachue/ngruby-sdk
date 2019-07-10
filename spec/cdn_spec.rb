@@ -66,7 +66,7 @@ RSpec.describe QiniuNg::CDN do
       expect(result.query.only_failed.to_a).to be_empty
       expect(processing + successful).to be >= 3
     ensure
-      bucket.batch.tap { |b| entries.each { |entry| b.delete(entry.key) } }.do
+      bucket.batch { |b| entries.each { |e| b.delete(e.key) } }
     end
   end
 

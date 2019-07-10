@@ -4,13 +4,13 @@ module QiniuNg
   module Storage
     # 七牛文件的批量操作
     class BatchOperations
-      def initialize(default_bucket, http_client_v1, http_client_v2, auth)
+      def initialize(default_bucket, http_client_v1, http_client_v2, auth, raise_if_partial_ok)
         @default_bucket = default_bucket
-        @default_zone = default_bucket.zone
         @http_client_v1 = http_client_v1
         @http_client_v2 = http_client_v2
         @auth = auth
         @ops = []
+        @raise_if_partial_ok = raise_if_partial_ok
       end
 
       def stat(key, bucket: @default_bucket)
@@ -128,15 +128,20 @@ module QiniuNg
         self
       end
 
-      def do(zone: @default_zone, https: nil, **options)
+      def do(zone: @default_bucket&.zone, https: nil, **options)
+        raise ArgumentError, 'zone must not be nil' if zone.nil?
+
         results = []
         ops = @ops
         until ops.size.zero?
           current_ops = ops[0...Config.batch_max_size]
           ops = ops[Config.batch_max_size..-1] || []
-          results += @http_client_v1.post('/batch', rs_url(zone, https),
-                                          body: Faraday::Utils.build_query(current_ops.map { |op| ['op', op.to_s] }),
-                                          **options).body
+          resp = @http_client_v1.post('/batch', rs_url(zone, https),
+                                      body: Faraday::Utils.build_query(current_ops.map { |op| ['op', op.to_s] }),
+                                      **options)
+          raise HTTP::PartialOK, response_values(resp) if resp.status == 298 && @raise_if_partial_ok
+
+          results += resp.body
         end
         Results.new(@ops, results)
       end
@@ -183,6 +188,10 @@ module QiniuNg
       def rs_url(zone, https)
         https = Config.use_https if https.nil?
         zone.rs_url(https)
+      end
+
+      def response_values(response)
+        { status: response.status, headers: response.headers, body: response.body }
       end
     end
   end

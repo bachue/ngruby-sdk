@@ -46,6 +46,9 @@ module QiniuNg
     class InvalidContext < ClientError
     end
 
+    class PartialOK < ClientError
+    end
+
     class NeedToRetry < Faraday::Error
     end
 

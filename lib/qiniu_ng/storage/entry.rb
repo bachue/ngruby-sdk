@@ -117,15 +117,25 @@ module QiniuNg
         self
       end
 
-      def download_url(domain: nil, https: nil, **options)
+      def download_url(domain: nil, https: nil, filename: nil, fop: nil, **options)
         domain = @bucket.domains(https: https, **options).last if domain.nil? || domain.empty?
-        PublicURL.new(domain, @key, @auth, https: https) if domain
+        PublicURL.new(domain, @key, @auth, filename: filename, fop: fop, https: https) if domain
       end
 
       def upload_token
         policy = Model::UploadPolicy.new(bucket: @bucket.name, key: @key)
         yield policy if block_given?
         UploadToken.from_policy(policy, @auth)
+      end
+
+      def pfop(fop, pipeline:, notify_url: nil, force: nil, api_zone: nil, https: nil, **options)
+        Processing::OperationManager.new(@http_client_v1).pfop(self, fop, pipeline: pipeline, notify_url: notify_url,
+                                                                          force: force, api_zone: api_zone,
+                                                                          https: https, **options)
+      end
+
+      def inspect
+        "#<#{self.class.name} bucket.name=#{@bucket.name.inspect} @key=#{@key.inspect}>"
       end
 
       private
