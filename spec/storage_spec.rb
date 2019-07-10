@@ -61,63 +61,71 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should add rules to life cycle rules' do
       rules = bucket.life_cycle_rules
-      expect(rules.all).to be_empty
+      expect(rules.to_a).to be_empty
       rules.new(name: 'test_rule1').delete_after(days: 7).to_line_after(days: 3).create!
       rules.new(name: 'test_rule2').start_with('temp').delete_after(days: 3).always_to_line.create!
-      expect(rules.all.size).to eq 2
-      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(rules.to_a.size).to eq 2
+      test_rule1 = rules.find { |rule| rule.name == 'test_rule1' }
       expect(test_rule1.prefix).to be_empty
       expect(test_rule1.delete_after_days).to eq 7
       expect(test_rule1.to_line_after_days).to eq 3
       expect(test_rule1).not_to be_always_to_line
-      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      test_rule2 = rules.find { |rule| rule.name == 'test_rule2' }
       expect(test_rule2.prefix).to eq 'temp'
       expect(test_rule2.delete_after_days).to eq 3
       expect(test_rule2).to be_always_to_line
       rules.new(name: 'test_rule2').start_with('fake').delete_after(days: 3).always_to_line.replace!
-      expect(rules.all.size).to eq 2
-      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(rules.to_a.size).to eq 2
+      test_rule1 = rules.find { |rule| rule.name == 'test_rule1' }
       expect(test_rule1.prefix).to be_empty
       expect(test_rule1.delete_after_days).to eq 7
       expect(test_rule1.to_line_after_days).to eq 3
       expect(test_rule1).not_to be_always_to_line
-      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      test_rule2 = rules.find { |rule| rule.name == 'test_rule2' }
       expect(test_rule2.prefix).to eq 'fake'
       expect(test_rule2.delete_after_days).to eq 3
       expect(test_rule2).to be_always_to_line
       rules.delete(name: 'test_rule2')
-      expect(rules.all.size).to eq 1
-      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      expect(rules.to_a.size).to eq 1
+      test_rule1 = rules.find { |rule| rule.name == 'test_rule1' }
       expect(test_rule1.prefix).to be_empty
       expect(test_rule1.delete_after_days).to eq 7
       expect(test_rule1.to_line_after_days).to eq 3
       expect(test_rule1).not_to be_always_to_line
       rules.delete(name: 'test_rule1')
-      expect(rules.all).to be_empty
+      expect(rules.to_a).to be_empty
     end
 
     it 'should add rules to bucket event rules' do
       rules = bucket.bucket_event_rules
-      expect(rules.all).to be_empty
+      expect(rules.to_a).to be_empty
       event_types1 = [QiniuNg::Storage::Model::BucketEventType::PUT, QiniuNg::Storage::Model::BucketEventType::MKFILE]
-      rules.new(name: 'test_rule1').listen_on(event_types1).callback('http://www.test1.com').create!
+      rules.new(name: 'test_rule1')
+           .listen_on(event_types1)
+           .callback('http://www.test1.com')
+           .create!
       event_types2 = [QiniuNg::Storage::Model::BucketEventType::COPY, QiniuNg::Storage::Model::BucketEventType::MOVE]
-      rules.new(name: 'test_rule2').listen_on(event_types2).callback('http://www.test2.com', host: 'www.test2.com').start_with('prefix-').end_with('.mp3').create!
-      expect(rules.all.size).to eq 2
-      test_rule1 = rules.all.detect { |rule| rule.name == 'test_rule1' }
+      rules.new(name: 'test_rule2')
+           .listen_on(event_types2)
+           .callback(%w[http://www.test21.com http://www.test22.com], host: 'www.test2.com')
+           .start_with('prefix-')
+           .end_with('.mp3')
+           .create!
+      expect(rules.to_a.size).to eq 2
+      test_rule1 = rules.find { |rule| rule.name == 'test_rule1' }
       expect(test_rule1.prefix).to be_empty
       expect(test_rule1.suffix).to be_empty
       expect(test_rule1.events).to match_array(event_types1)
       expect(test_rule1.callback_urls).to eq ['http://www.test1.com']
       expect(test_rule1.callback_host).to be_empty
-      test_rule2 = rules.all.detect { |rule| rule.name == 'test_rule2' }
+      test_rule2 = rules.find { |rule| rule.name == 'test_rule2' }
       expect(test_rule2.prefix).to eq 'prefix-'
       expect(test_rule2.suffix).to eq '.mp3'
       expect(test_rule2.events).to match_array(event_types2)
-      expect(test_rule2.callback_urls).to eq %w[http://www.test2.com]
+      expect(test_rule2.callback_urls).to eq %w[http://www.test21.com http://www.test22.com]
       expect(test_rule2.callback_host).to eq 'www.test2.com'
       rules.delete(name: 'test_rule1')
-      expect(rules.all.size).to eq 1
+      expect(rules.to_a.size).to eq 1
     end
 
     it 'should set / get cors rules' do
@@ -125,11 +133,9 @@ RSpec.describe QiniuNg::Storage do
       new_rule1 = cors_rules.new(%w[http://www.test1.com http://www.test2.com], %w[GET DELETE]).cache_max_age(days: 365)
       new_rule2 = cors_rules.new(%w[http://www.test3.com http://www.test4.com], %w[POST PUT]).cache_max_age(days: 365)
       cors_rules.set([new_rule1, new_rule2])
-      rules = cors_rules.all
-      expect(rules.size).to eq 2
+      expect(cors_rules.to_a.size).to eq 2
       cors_rules.clear
-      rules = cors_rules.all
-      expect(rules).to be_empty
+      expect(cors_rules.to_a).to be_empty
     end
 
     it 'should enable / disable original protection' do
@@ -345,8 +351,11 @@ RSpec.describe QiniuNg::Storage do
         entry = bucket.entry("16k-#{Time.now.usec}")
         begin
           result = entry.fetch_from(src_url, async: true)
-          expect { result }.to eventually be_done
-          expect(head(entry.download_url.refresh)).to be_success
+          expect(result.id).not_to be_empty
+          if result.queue_length < 50
+            expect { result }.to eventually be_done
+            expect(head(entry.download_url.refresh)).to be_success
+          end
         ensure
           entry.try_delete
         end
@@ -406,8 +415,7 @@ RSpec.describe QiniuNg::Storage do
     entry = nil
 
     before :all do
-      domains_manager = QiniuNg::HTTP::DomainsManager.new
-      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key, domains_manager: domains_manager)
+      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
       entry = client.bucket('z0-bucket').entry('1m')
     end
 

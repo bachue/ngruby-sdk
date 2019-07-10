@@ -4,10 +4,25 @@ require 'digest'
 
 module QiniuNg
   module Utils
-    # 七牛认证相关
+    # 七牛 Etag 计算实用工具
+    #
+    # @see https://developer.qiniu.com/kodo/manual/1231/appendix#3
     class Etag
-      # 七牛 Etag 计算器
+      # 七牛 Etag 流计算器
+      #
+      # @example
+      #   actual_etag = String.new
+      #   reader = QiniuNg::Etag::Reader.new(reader, etag)
+      #   reader.read
+      #   expect(expected_etag).to eq actual_etag
       class Reader
+        # 初始化流计算器
+        #
+        # @example
+        #   reader = QiniuNg::Etag::Reader.new(reader, etag)
+        #
+        # @param [#read] io 数据流来源
+        # @param [String] etag 存放计算得到的 Etag 结果，注意，该字符串必须不能被冻结
         def initialize(io, etag)
           @io = io
           @etag = etag
@@ -18,6 +33,11 @@ module QiniuNg
           define_singleton_method(:path) { io.path } if io.respond_to?(:path)
         end
 
+        # 调用给定的 io 的 #read 方法，同时计算 Etag
+        #
+        # @param [Integer] length 读取的数据尺寸上限，单位为字节。如果传入 nil，将读取所有数据直到 io.eof? 为 true。如果传入 0，将总是返回一个空字符串
+        # @param [String] outbuf 用于接受读到的数据
+        # @return [String, nil] 返回读取到的数据
         def read(length = nil, outbuf = nil)
           outbuf = outbuf ? outbuf.replace('') : ''
           if length.nil?
@@ -49,14 +69,38 @@ module QiniuNg
       end
 
       class << self
+        # 根据指定的字符串计算 Etag
+        #
+        # @param [String] data 用于计算 Etag 的字符串
+        # @return [String] 返回的 Etag
         def from_data(data)
           from_io StringIO.new(data)
         end
+        alias from_str from_data
 
+        # 对指定的文件路径计算 Etag
+        #
+        # @param [Pathname] path 用于计算 Etag 的文件路径
+        # @return [String] 返回的 Etag
         def from_file_path(path)
           File.open(path, 'rb') { |io| from_file(io) }
         end
 
+        # 对指定的数据流中的数据计算 Etag
+        #
+        # 注意，该方法会调用 io#read 来消费数据流中的数据，直到消费完毕为止
+        #
+        # 用户可能需要在该方法被调用后关闭 io，否则可能引发内存泄漏
+        #
+        # @example
+        #   etag = begin
+        #            QiniuNg::Etag.from_io(stream)
+        #          ensure
+        #            stream.close
+        #          end
+        #
+        # @param [#read] io 用于计算 Etag 的数据流
+        # @return [String] 返回的 Etag
         def from_io(io)
           io.binmode
 
@@ -69,6 +113,7 @@ module QiniuNg
         end
         alias from_file from_io
 
+        # @!visibility private
         def encode_sha1s(sha1s)
           case sha1s.size
           when 0
@@ -80,6 +125,7 @@ module QiniuNg
           end
         end
 
+        # @!visibility private
         def sha1(data)
           Digest::SHA1.digest(data)
         end

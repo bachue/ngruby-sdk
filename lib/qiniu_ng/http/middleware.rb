@@ -3,7 +3,7 @@
 module QiniuNg
   # HTTP 协议相关
   module HTTP
-    # 七牛 HTTP 中间件
+    # @!visibility private
     module Middleware
       # 七牛请求签名中间件
       class Auth < Faraday::Middleware

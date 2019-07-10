@@ -12,8 +12,8 @@ module QiniuNg
       class RefreshQueryError < Faraday::Error
       end
 
-      # CDN 查询异常
-      class BandwidthQueryError < Faraday::Error
+      # CDN 日志查询异常
+      class LogQueryError < Faraday::Error
       end
     end
   end

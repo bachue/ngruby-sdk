@@ -3,7 +3,8 @@
 module QiniuNg
   # HTTP 协议相关
   module HTTP
-    def self.client(auth: nil, auth_version: nil, domains_manager:)
+    # @!visibility private
+    def self.client(auth: nil, auth_version: nil, domains_manager: Config.default_domains_manager)
       faraday_connection = begin
         opts = Config.default_faraday_options
         opts = opts.call if opts.respond_to?(:call)
@@ -23,11 +24,13 @@ module QiniuNg
       Client.new(faraday_connection, auth: auth, auth_version: auth_version, domains_manager: domains_manager)
     end
 
+    # 可重试的异常
     RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, ServerRetryableError, NeedToRetry,
                             Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].freeze
+    # 幂等的 HTTP 方法
     IDEMPOTENT_METHODS = %i[delete get head options put].freeze
 
-    # HTTP 客户端
+    # @!visibility private
     class Client
       def initialize(faraday_connection, domains_manager:, auth: nil, auth_version: nil)
         @faraday_connection = faraday_connection

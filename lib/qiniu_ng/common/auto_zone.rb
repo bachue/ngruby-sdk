@@ -4,8 +4,9 @@ require 'faraday'
 
 module QiniuNg
   module Common
-    # 该类主要用来根据用户提供的 AccessKey 和 Bucket 来自动获取有效的 Zone 实例
+    # 该类主要用来根据用户提供的 AccessKey 和 Bucket 名称来自动获取有效的区域实例
     class AutoZone
+      # @!visibility private
       def initialize
         @client = HTTP.client(domains_manager: HTTP::DomainsManager.new)
         @infer_domains_map = {
@@ -17,6 +18,15 @@ module QiniuNg
         }
       end
 
+      # 查询区域
+      # @example
+      #   zone = QiniuNg::Zone.auto.query(access_key: '<Qiniu AccessKey>', bucket: '<Bucket Name>')
+      #
+      # @param [String] access_key 七牛 AccessKey
+      # @param [String] bucket 七牛 Bucket 名称
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [QiniuNg::Zone] 返回包含查询结果的区域
       def query(access_key:, bucket:, https: nil, **options)
         body = @client.get('/v2/query', api_url(https), params: { ak: access_key, bucket: bucket }, **options).body
 

@@ -4,12 +4,14 @@ require 'forwardable'
 
 module QiniuNg
   module Storage
-    # 七牛文件的下载地址
+    # @abstract 七牛文件的下载地址
     class URL < String
+      # @!visibility private
       def initialize(url)
         replace(url)
       end
 
+      # @!visibility private
       def inspect
         "#<#{self.class.name} #{self}>"
       end

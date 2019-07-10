@@ -2,8 +2,9 @@
 
 module QiniuNg
   module Storage
-    # 七牛文件的批量操作
+    # 七牛文件的批处理操作
     class BatchOperations
+      # @!visibility private
       def initialize(default_bucket, http_client_v1, http_client_v2, auth, raise_if_partial_ok)
         @default_bucket = default_bucket
         @http_client_v1 = http_client_v1
@@ -13,6 +14,12 @@ module QiniuNg
         @raise_if_partial_ok = raise_if_partial_ok
       end
 
+      # 获取文件元信息
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def stat(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -22,6 +29,12 @@ module QiniuNg
         self
       end
 
+      # 禁用文件
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def disable!(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -31,6 +44,12 @@ module QiniuNg
         self
       end
 
+      # 启用文件
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def enable!(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -40,6 +59,13 @@ module QiniuNg
         self
       end
 
+      # 设置文件生命周期，该文件将在生命周期结束后被自动删除
+      #
+      # @param [String] key 文件名
+      # @param [Integer] days 文件生命周期
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def set_lifetime(key, bucket: @default_bucket, days:)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -49,6 +75,12 @@ module QiniuNg
         self
       end
 
+      # 设置文件存储类型为标准存储
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def normal_storage!(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -58,6 +90,12 @@ module QiniuNg
         self
       end
 
+      # 设置文件存储类型为低频存储
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def infrequent_storage!(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -67,6 +105,13 @@ module QiniuNg
         self
       end
 
+      # 设置文件的 MIME 类型
+      #
+      # @param [String] key 文件名
+      # @param [String] mime_type 文件 MIME 类型
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def change_mime_type(key, mime_type, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'mime_type must not be nil' if mime_type.nil?
@@ -77,6 +122,13 @@ module QiniuNg
         self
       end
 
+      # 设置文件的 HTTP Header 信息
+      #
+      # @param [String] key 文件名
+      # @param [Hash] meta 文件的 HTTP Header 信息
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def change_meta(key, meta, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'meta must not be nil' if mime_type.nil?
@@ -87,6 +139,14 @@ module QiniuNg
         self
       end
 
+      # 重命名文件
+      #
+      # @param [String] src_key 源文件名
+      # @param [String] dest_key 目标文件名
+      # @param [Boolean] force 是否覆盖，当目标文件名已经存在时
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def rename_to(src_key, dest_key, force: false, bucket: @default_bucket)
         raise ArgumentError, 'src_key must not be nil' if src_key.nil?
         raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
@@ -97,6 +157,15 @@ module QiniuNg
         self
       end
 
+      # 移动文件
+      #
+      # @param [String] src_key 源文件名
+      # @param [String] dest_key 目标文件名
+      # @param [QiniuNg::Storage::Bucket] src_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [QiniuNg::Storage::Bucket] dest_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [Boolean] force 是否覆盖，当目标文件名在目标存储空间中已经存在时
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def move_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
         raise ArgumentError, 'src_key must not be nil' if src_key.nil?
         raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
@@ -108,6 +177,15 @@ module QiniuNg
         self
       end
 
+      # 复制文件
+      #
+      # @param [String] src_key 源文件名
+      # @param [String] dest_key 目标文件名
+      # @param [QiniuNg::Storage::Bucket] src_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [QiniuNg::Storage::Bucket] dest_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [Boolean] force 是否覆盖，当目标文件名在目标存储空间中已经存在时
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def copy_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
         raise ArgumentError, 'src_key must not be nil' if src_key.nil?
         raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
@@ -119,6 +197,12 @@ module QiniuNg
         self
       end
 
+      # 删除文件
+      #
+      # @param [String] key 文件名
+      # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @return [QiniuNg::Storage::BatchOperations] 返回上下文
+      # @raise [ArgumentError] key 或 bucket 为 nil
       def delete(key, bucket: @default_bucket)
         raise ArgumentError, 'key must not be nil' if key.nil?
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
@@ -128,6 +212,13 @@ module QiniuNg
         self
       end
 
+      # 发送批处理操作请求
+      #
+      # @param [QiniuNg::Zone] zone 存储空间所在区域，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [QiniuNg::Storage::BatchOperations::Results] 返回批处理操作结果
+      # @raise [ArgumentError] zone 为 nil
       def do(zone: @default_bucket&.zone, https: nil, **options)
         raise ArgumentError, 'zone must not be nil' if zone.nil?
 
@@ -149,14 +240,24 @@ module QiniuNg
       # 批量操作结果
       class Results
         # 单个操作结果
+        # @!attribute [r] op
+        #   @return [String] 操作名称
+        # @!attribute [r] code
+        #   @return [String] 操作结果代码
+        # @!attribute [r] response
+        #   @return [Integer] 操作结果
         class Result
           attr_reader :op, :code, :response
+
+          # @!visibility private
           def initialize(operation, code, response)
             @op = operation
             @code = code
             @response = operation.parse(response) if operation.respond_to?(:parse)
           end
 
+          # 操作是否成功
+          # @return [Boolean] 操作是否成功
           def success?
             (200...400).include?(@code)
           end
@@ -164,12 +265,15 @@ module QiniuNg
 
         include Enumerable
 
+        # @!visibility private
         def initialize(ops, results)
           @results = ops.each_with_index.map do |op, index|
             Result.new(op, results[index]['code'], results[index]['data'])
           end
         end
 
+        # 获取操作结果迭代器
+        # @return [Enumerator] 返回迭代器
         def each
           if block_given?
             @results.each { |result| yield result }
@@ -178,6 +282,8 @@ module QiniuNg
           end
         end
 
+        # 获取操作结果数量
+        # @return [Integer] 返回操作结果数量
         def size
           @results.size
         end

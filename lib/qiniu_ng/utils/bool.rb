@@ -2,7 +2,7 @@
 
 module QiniuNg
   module Utils
-    # 七牛布尔值转换库
+    # @!visibility private
     module Bool
       extend self
 

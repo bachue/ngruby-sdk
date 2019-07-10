@@ -6,7 +6,7 @@ module QiniuNg
   module Storage
     # 上传控制器
     class Uploader
-      # 表单上传
+      # @!visibility private
       class FormUploader < UploaderBase
         def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {},
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)

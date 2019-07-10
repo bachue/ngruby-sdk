@@ -8,7 +8,12 @@ module QiniuNg
     class Log
       extend Forwardable
       include Enumerable
+
+      attr_reader :times, :data
+
       def initialize(times, data)
+        @times = times
+        @data = data
         @logs = times.each_with_index.each_with_object([]) do |(time, index), a|
           a << {
             time: time,

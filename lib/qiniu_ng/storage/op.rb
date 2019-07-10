@@ -4,32 +4,48 @@ require 'base64'
 
 module QiniuNg
   module Storage
-    # 七牛空间中的文件项
+    # 存储空间中的文件操作
     class Op
+      # @!visibility private
       def initialize(entry)
         @entry = entry
       end
 
+      # @!visibility private
       def to_s
         raise NotImplementedError
       end
 
+      # @!visibility private
       def parse(_response)
         nil
       end
 
       # 获取空间中的文件属性
       class Stat < Op
+        # @!visibility private
         def to_s
           "/stat/#{encoded_entry}"
         end
 
+        # @!visibility private
         def parse(response)
           Result.new response
         end
 
         # 空间中的文件属性
+        # @!attribute [r] file_size
+        #   @return [Integer] 文件大小，单位为字节
+        # @!attribute [r] etag
+        #   @return [String] 文件 Etag
+        # @!attribute [r] mime_type
+        #   @return [String] 文件 MIME 类型
+        # @!attribute [r] put_at
+        #   @return [Time] 文件创建时间
+        # @!attribute [r] meta
+        #   @return [Hash] 文件的 HTTP Header 信息
         class Result
+          # @!visibility private
           def initialize(hash)
             @hash = {
               file_size: hash['fsize'],
@@ -42,14 +58,21 @@ module QiniuNg
             }
           end
 
+          # @!visibility private
           def [](key)
             @hash[key.to_sym]
           end
 
+          # 文件是否使用低频存储
+          #
+          # @return [Boolean] 文件是否使用低频存储
           def infrequent_storage?
             @hash[:storage_type] == :infrequent
           end
 
+          # 文件是否使用标准存储
+          #
+          # @return [Boolean] 文件是否使用标准存储
           def normal_storage?
             @hash[:storage_type] == :normal
           end
@@ -62,7 +85,7 @@ module QiniuNg
         end
       end
 
-      # 修改空间中的文件状态
+      # @!visibility private
       class ChangeStatus < Op
         def initialize(entry, disabled:)
           super(entry)
@@ -74,7 +97,7 @@ module QiniuNg
         end
       end
 
-      # 修改空间中的文件生命周期
+      # @!visibility private
       class SetLifetime < Op
         def initialize(entry, days:)
           super(entry)
@@ -86,7 +109,7 @@ module QiniuNg
         end
       end
 
-      # 修改空间中的文件类型（普通存储或低频存储）
+      # @!visibility private
       class ChangeType < Op
         def initialize(entry, type:)
           super(entry)
@@ -98,7 +121,7 @@ module QiniuNg
         end
       end
 
-      # 修改空间中的文件 MIME 类型
+      # @!visibility private
       class ChangeMIMEType < Op
         def initialize(entry, mime_type:)
           super(entry)
@@ -110,7 +133,7 @@ module QiniuNg
         end
       end
 
-      # 修改空间中的文件元信息
+      # @!visibility private
       class ChangeMeta < Op
         def initialize(entry, meta:)
           super(entry)
@@ -125,7 +148,7 @@ module QiniuNg
         end
       end
 
-      # 移动 / 重命名空间中的文件
+      # @!visibility private
       class Move < Op
         def initialize(entry, bucket:, key:, force: false)
           super(entry)
@@ -139,7 +162,7 @@ module QiniuNg
         end
       end
 
-      # 复制空间中的文件
+      # @!visibility private
       class Copy < Op
         def initialize(entry, bucket:, key:, force: false)
           super(entry)
@@ -153,7 +176,7 @@ module QiniuNg
         end
       end
 
-      # 删除空间中的文件
+      # @!visibility private
       class Delete < Op
         def to_s
           "/delete/#{encoded_entry}"

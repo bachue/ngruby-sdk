@@ -4,7 +4,7 @@ require 'forwardable'
 
 module QiniuNg
   module HTTP
-    # 定义 HTTP 请求的日志信息和常规方法
+    # @!visibility private
     class Response
       extend Forwardable
 

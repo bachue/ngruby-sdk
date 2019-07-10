@@ -6,8 +6,13 @@ require 'forwardable'
 module QiniuNg
   module Storage
     # 七牛文件的时间戳防盗链下载地址
+    #
+    # 该类是 String 的子类，因此可以被当成 String 直接使用，不必调用 #to_s 方法。
+    #
     class TimestampAntiLeechURL < URL
       extend Forwardable
+
+      # @!visibility private
       def initialize(public_url, encrypt_key, lifetime, deadline)
         @public_url = public_url
         @encrypt_key = encrypt_key
@@ -28,18 +33,33 @@ module QiniuNg
         generate_timestamp_anti_leech_url!
       end
 
+      # 设置下载地址的过期时间
+      #
+      # @param [Time] deadline 下载地址过期时间
       def deadline=(deadline)
         @deadline = deadline
         @lifetime = nil
         generate_timestamp_anti_leech_url!
       end
 
+      # 设置下载地址的有效期
+      #
+      # @param [Integer, Hash] lifetime 下载地址有效期。
+      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
       def lifetime=(lifetime)
         @lifetime = lifetime
         @deadline = nil
         generate_timestamp_anti_leech_url!
       end
 
+      # 设置下载地址的下载后的文件名和数据处理参数
+      #
+      # @param [String] fop 数据处理参数
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+      # @param [Integer, Hash] lifetime 下载地址有效期。
+      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @return [QiniuNg::Storage::PrivateURL] 返回上下文
       def set(fop: nil, filename: nil, lifetime: nil)
         @public_url.set(fop: fop, filename: filename)
         self.lifetime = lifetime unless lifetime.nil?
@@ -47,6 +67,9 @@ module QiniuNg
         self
       end
 
+      # 为下载地址带一个随机参数，可以绕过缓存
+      #
+      # @return [QiniuNg::Storage::PrivateURL] 返回上下文
       def refresh
         @public_url.refresh
         generate_timestamp_anti_leech_url!

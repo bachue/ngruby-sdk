@@ -10,6 +10,7 @@ RSpec.describe QiniuNg::Processing do
   end
 
   it 'should process file by pfop' do
+    pending('dora has something wrong, waiting for fix')
     bucket.entry('test-video.mp4')
   end
 end

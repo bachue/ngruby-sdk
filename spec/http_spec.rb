@@ -3,7 +3,7 @@
 RSpec.describe QiniuNg::HTTP do
   describe QiniuNg::HTTP::Client do
     it 'should create qiniu_ng http response for faraday response' do
-      resp = QiniuNg::HTTP.client(domains_manager: QiniuNg::HTTP::DomainsManager.new)
+      resp = QiniuNg::HTTP.client
                           .get('/v1/query', 'https://uc.qbox.me', params: { ak: access_key, bucket: 'z0-bucket' })
       expect(resp).to be_finished
       expect(resp.reason_phrase).to eq('OK')
@@ -32,18 +32,14 @@ RSpec.describe QiniuNg::HTTP do
     it 'should raise error for qiniu status code' do
       WebMock::API.stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 631, body: '{}')
       expect do
-        domains_manager = QiniuNg::HTTP::DomainsManager.new
-        QiniuNg.new_client(access_key: access_key, secret_key: secret_key, domains_manager: domains_manager)
-               .bucket('unexisted').zone
+        QiniuNg.new_client(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
       end.to raise_error(QiniuNg::HTTP::BucketNotFound)
     end
 
     it 'should raise error for qiniu status code' do
       WebMock::API.stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 579, body: '{}')
       expect do
-        domains_manager = QiniuNg::HTTP::DomainsManager.new
-        QiniuNg.new_client(access_key: access_key, secret_key: secret_key, domains_manager: domains_manager)
-               .bucket('unexisted').zone
+        QiniuNg.new_client(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
       end.to raise_error(QiniuNg::HTTP::CallbackFailed)
     end
   end

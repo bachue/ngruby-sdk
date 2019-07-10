@@ -81,9 +81,20 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(h[:mimeLimit]).to eq('video/*;image/*')
     end
 
+    it 'could set callback' do
+      policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test')
+                                                    .set_callback(%w[http://www.qiniu1.com http://www.qiniu2.com])
+      expect(policy.callback_urls).to contain_exactly('http://www.qiniu1.com', 'http://www.qiniu2.com')
+      h = policy.to_h
+      expect(h[:callbackUrl]).to eq('http://www.qiniu1.com;http://www.qiniu2.com')
+    end
+
     it 'should be able to convert it to json and convert it back' do
       policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test', key: 'filename')
-      policy.set_token_lifetime(seconds: 30).detect_mime!.infrequent_storage!.limit_content_type('video/*')
+      policy.set_token_lifetime(seconds: 30)
+            .detect_mime!.infrequent_storage!
+            .limit_content_type('video/*')
+            .set_callback(%w[http://www.qiniu1.com http://www.qiniu2.com])
       new_policy = QiniuNg::Storage::Model::UploadPolicy.from_json(policy.to_json)
       expect(new_policy.scope).to eq 'test:filename'
       expect(new_policy.bucket).to eq 'test'
@@ -97,6 +108,7 @@ RSpec.describe QiniuNg::Storage::Model do
       expect(new_policy.token_deadline).to be_within(5).of(Time.now + 30)
       expect(new_policy.end_user).to be_nil
       expect(new_policy.content_type_limit).to eq ['video/*']
+      expect(new_policy.callback_urls).to contain_exactly('http://www.qiniu1.com', 'http://www.qiniu2.com')
       expect(new_policy.file_lifetime).to be_nil
 
       policy = QiniuNg::Storage::Model::UploadPolicy.new(bucket: 'test')

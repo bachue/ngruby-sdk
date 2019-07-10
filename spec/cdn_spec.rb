@@ -72,7 +72,7 @@ RSpec.describe QiniuNg::CDN do
 
   it 'should query bandwidth logs' do
     logs = client.cdn_bandwidth_log(start_time: Time.now - Duration.new(days: 30).to_i, end_time: Time.now,
-                                    granularity: :hour, domains: 'z0-bucket.kodo-test.qiniu-solutions.com')
+                                    granularity: :day, domains: 'http://z0-bucket.kodo-test.qiniu-solutions.com')
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
     yesterday = Time.now - Duration.new(days: 1).to_i
@@ -85,7 +85,7 @@ RSpec.describe QiniuNg::CDN do
 
   it 'should query flux logs' do
     logs = client.cdn_flux_log(start_time: Time.now - Duration.new(days: 30).to_i, end_time: Time.now,
-                               granularity: :hour, domains: 'z0-bucket.kodo-test.qiniu-solutions.com')
+                               granularity: :day, domains: ['z0-bucket.kodo-test.qiniu-solutions.com'])
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
     yesterday = Time.now - Duration.new(days: 1).to_i

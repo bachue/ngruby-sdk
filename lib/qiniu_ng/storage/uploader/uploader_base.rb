@@ -2,15 +2,23 @@
 
 module QiniuNg
   module Storage
-    # 上传模块
+    # 上传控制器
     class Uploader
+      # 上传结果
+      # @!attribute [r] hash
+      #   @return [String] 上传文件的 Etag
+      # @!attribute [r] key
+      #   @return [String] 上传文件的文件名
       Result = Struct.new(:hash, :key)
+
+      # @!visibility private
       DEFAULT_MIME = 'application/octet-stream'
 
+      # 上传数据校验出错
       class ChecksumError < Faraday::Error
       end
 
-      # 上传父类
+      # @!visibility private
       class UploaderBase
         def initialize(bucket, http_client)
           if self.class.name == UploaderBase.name

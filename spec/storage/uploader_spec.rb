@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe QiniuNg::Storage::Uploader do
-  domains_manager = nil
   http_client = nil
   bucket = nil
   entry = nil
 
   before :all do
-    domains_manager = QiniuNg::HTTP::DomainsManager.new
     auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
-    http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1, domains_manager: domains_manager)
+    http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
     bucket = QiniuNg::Storage::BucketManager.new(http_client, nil, auth).bucket('z0-bucket')
   end
 
   after :each do
-    domains_manager.unfreeze_all!
+    QiniuNg::Config.default_domains_manager.unfreeze_all!
   end
 
   describe QiniuNg::Storage::Uploader::FormUploader do
