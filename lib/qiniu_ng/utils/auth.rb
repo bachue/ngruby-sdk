@@ -105,7 +105,7 @@ module QiniuNg
 
       # @!visibility private
       def sign_download_url_with_lifetime(base_url, lifetime:)
-        lifetime = Duration.new(lifetime) if lifetime.is_a?(Hash)
+        lifetime = Utils::Duration.new(lifetime) if lifetime.is_a?(Hash)
         deadline = [Time.now.to_i + lifetime.to_i, (1 << 32) - 1].min
         sign_download_url_with_deadline(base_url, deadline: deadline)
       end

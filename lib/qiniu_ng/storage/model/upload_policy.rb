@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'duration'
-
 module QiniuNg
   module Storage
     module Model
@@ -118,11 +116,11 @@ module QiniuNg
         #           end
         #   entry.bucket.upload(filepath: '/path/to/file', upload_token: token)
         #
-        # @param [Integer, Hash] args 上传凭证有效期，可以用 Hash 表示
-        #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+        # @param [Integer, Hash, QiniuNg::Duration] args 上传凭证有效期，可以用 Hash 表示
+        #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
         # @return [QiniuNg::Storage::Model::UploadPolicy] 返回上下文
         def set_token_lifetime(*args)
-          self.token_lifetime = Duration.new(*args)
+          self.token_lifetime = Utils::Duration.new(*args)
           self
         end
         # rubocop:enable Naming/AccessorMethodName
@@ -134,9 +132,9 @@ module QiniuNg
         # 此时，如果再调用 #token_lifetime，得到的结果几乎总是小于先前设置的有效期长度，
         # 因为该结果是由上传凭证中的过期时间减去当前时间得到的。
         #
-        # @return [Duration, nil] 返回有效期长度，如果为 nil 表示从未设置过有效期
+        # @return [QiniuNg::Duration, nil] 返回有效期长度，如果为 nil 表示从未设置过有效期
         def token_lifetime
-          Duration.new(seconds: Time.at(@deadline) - Time.now) unless @deadline.nil?
+          Utils::Duration.new(seconds: Time.at(@deadline) - Time.now) unless @deadline.nil?
         end
 
         # 设置上传凭证过期时间
@@ -310,9 +308,9 @@ module QiniuNg
         # rubocop:enable Naming/AccessorMethodName
 
         # 获取上传文件的生命周期
-        # @return [Duration] 上传文件的生命周期，如果为 nil 表示从未设置过文件的生命周期
+        # @return [QiniuNg::Duration] 上传文件的生命周期，如果为 nil 表示从未设置过文件的生命周期
         def file_lifetime
-          Duration.new(day: @delete_after_days) unless @delete_after_days.nil?
+          Utils::Duration.new(day: @delete_after_days) unless @delete_after_days.nil?
         end
 
         # 设置上传文件的文件名

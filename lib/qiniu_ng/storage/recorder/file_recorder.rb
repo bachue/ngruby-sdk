@@ -2,7 +2,6 @@
 
 require 'base64'
 require 'digest/sha1'
-require 'duration'
 require 'fileutils'
 require 'pathname'
 
@@ -76,7 +75,7 @@ module QiniuNg
         private
 
         def out_of_date?(file)
-          file.mtime + Duration.new(days: 5).to_i < Time.now
+          file.mtime + Utils::Duration.new(days: 5).to_i < Time.now
         end
       end
     end

@@ -539,13 +539,13 @@ module QiniuNg
       # @example 输入语义化的 Hash 参数表示时间
       #   bucket.set_cache_max_age(day: 1)
       #
-      # @param [Integer, Hash] args 时间长度，可以用 Hash 表示，
-      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @param [Integer, Hash, QiniuNg::Duration] args 时间长度，可以用 Hash 表示，
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @param [String] uc_url UC 所在服务器地址，一般无需填写
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
       def set_cache_max_age(args, uc_url: nil, https: nil, **options)
-        max_age = Duration.new(args) if args.is_a?(Hash)
+        max_age = Utils::Duration.new(args) if args.is_a?(Hash)
         params = { bucket: @bucket_name, maxAge: max_age.to_i }
         @http_client_v1.post('/maxAge', uc_url || get_uc_url(https), params: params, **options)
         nil
@@ -556,10 +556,10 @@ module QiniuNg
       # @param [String] uc_url UC 所在服务器地址，一般无需填写
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [Duration, nil] 返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值
+      # @return [QiniuNg::Duration, nil] 返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值
       def cache_max_age(uc_url: nil, https: nil, **options)
         max_age_secs = info(uc_url: uc_url, https: https, **options)['max_age']
-        Duration.new(seconds: max_age_secs) if max_age_secs&.positive?
+        Utils::Duration.new(seconds: max_age_secs) if max_age_secs&.positive?
       end
 
       # 设置存储空间的配额限制
@@ -574,7 +574,7 @@ module QiniuNg
       # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [Duration, nil] 返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值
+      # @return [QiniuNg::Duration, nil] 返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值
       def set_quota(size: 0, count: 0, api_zone: nil, https: nil, **options)
         size = -1 if size.nil?
         count = -1 if count.nil?

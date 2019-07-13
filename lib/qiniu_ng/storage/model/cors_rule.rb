@@ -67,10 +67,10 @@ module QiniuNg
         # @example
         #   new_rule1 = cors_rules.new(%w[http://www.t1.com http://www.t2.com], %w[GET DELETE]).cache_max_age(days: 365)
         #
-        # @param [Integer, Hash] max_age 时间长度，可以用 Hash 表示，
-        #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+        # @param [Integer, Hash, QiniuNg::Duration] max_age 时间长度，可以用 Hash 表示，
+        #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
         def cache_max_age(max_age)
-          max_age = Duration.new(max_age) if max_age.is_a?(Hash)
+          max_age = Utils::Duration.new(max_age) if max_age.is_a?(Hash)
           @max_age = max_age&.to_i
           self
         end

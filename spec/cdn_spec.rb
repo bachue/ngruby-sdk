@@ -71,11 +71,11 @@ RSpec.describe QiniuNg::CDN do
   end
 
   it 'should query bandwidth logs' do
-    logs = client.cdn_bandwidth_log(start_time: Time.now - Duration.new(days: 30).to_i, end_time: Time.now,
+    logs = client.cdn_bandwidth_log(start_time: Time.now - QiniuNg::Duration.new(days: 30).to_i, end_time: Time.now,
                                     granularity: :day, domains: 'http://z0-bucket.kodo-test.qiniu-solutions.com')
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
-    yesterday = Time.now - Duration.new(days: 1).to_i
+    yesterday = Time.now - QiniuNg::Duration.new(days: 1).to_i
     expect(logs.value_at(yesterday, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(yesterday, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
 
@@ -84,11 +84,11 @@ RSpec.describe QiniuNg::CDN do
   end
 
   it 'should query flux logs' do
-    logs = client.cdn_flux_log(start_time: Time.now - Duration.new(days: 30).to_i, end_time: Time.now,
+    logs = client.cdn_flux_log(start_time: Time.now - QiniuNg::Duration.new(days: 30).to_i, end_time: Time.now,
                                granularity: :day, domains: ['z0-bucket.kodo-test.qiniu-solutions.com'])
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
-    yesterday = Time.now - Duration.new(days: 1).to_i
+    yesterday = Time.now - QiniuNg::Duration.new(days: 1).to_i
     expect(logs.value_at(yesterday, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(yesterday, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
 
@@ -97,11 +97,11 @@ RSpec.describe QiniuNg::CDN do
   end
 
   it 'should query access log files' do
-    t = Time.now - Duration.new(days: 30).to_i
+    t = Time.now - QiniuNg::Duration.new(days: 30).to_i
     while t < Time.now
       logs = client.cdn_access_logs(time: t, domains: 'z0-bucket.kodo-test.qiniu-solutions.com')
       logs['z0-bucket.kodo-test.qiniu-solutions.com']&.each { |log_file| head(log_file.url) }
-      t += Duration.new(days: 1).to_i
+      t += QiniuNg::Duration.new(days: 1).to_i
     end
   end
 end

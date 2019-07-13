@@ -172,7 +172,7 @@ module QiniuNg
           end
 
           def active?(file_size)
-            ok = @created_at > Time.now - Duration.new(days: 5).to_i &&
+            ok = @created_at > Time.now - Utils::Duration.new(days: 5).to_i &&
                  !@upload_id.nil? && !@upload_id.empty? &&
                  !@etag_idxes.nil? && !@etag_idxes.empty? &&
                  @uploaded_size.positive? && !file_size.nil? && @uploaded_size <= file_size

@@ -51,8 +51,8 @@ module QiniuNg
 
       # 设置下载地址的有效期
       #
-      # @param [Integer, Hash] lifetime 下载地址有效期。
-      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期。
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       def lifetime=(lifetime)
         @lifetime = lifetime
         @deadline = nil
@@ -64,8 +64,8 @@ module QiniuNg
       # @param [String] fop 数据处理参数
       #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
-      # @param [Integer, Hash] lifetime 下载地址有效期。
-      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期。
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @return [QiniuNg::Storage::PrivateURL] 返回上下文
       def set(fop: nil, filename: nil, lifetime: nil)
         @public_url.set(fop: fop, filename: filename)

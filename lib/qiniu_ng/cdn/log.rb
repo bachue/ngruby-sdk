@@ -29,7 +29,7 @@ module QiniuNg
       def values_at(time, domain = nil, region = nil)
         log_entry = @logs.each_with_index.detect do |h, i|
                       next_time = @logs.dig(i + 1, :time)
-                      return true if next_time.nil?
+                      next true if next_time.nil?
 
                       Time.parse(h[:time]) <= time && Time.parse(next_time) > time
                     end&.first

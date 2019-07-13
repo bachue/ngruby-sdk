@@ -72,10 +72,10 @@ module QiniuNg
       # 为私有空间生成下载地址
       #
       # @example
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url.private
+      #   client.bucket('<Bucket Name>').entry('<key>').download_url.private(lifetime: { hour: 1 })
       #
-      # @param [Integer, Hash] lifetime 下载地址有效期，与 duration 参数不要同时使用
-      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
       # @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
       def private(lifetime: nil, deadline: nil)
@@ -90,8 +90,8 @@ module QiniuNg
       #
       # @param [String] encrypt_key CDN Key
       #   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
-      # @param [Integer, Hash] lifetime 下载地址有效期，与 duration 参数不要同时使用
-      #   参数细节可以参考 {Duration}[https://www.rubydoc.info/gems/ruby-duration/Duration] 库文档
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
       # @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
       def timestamp_anti_leech(encrypt_key:, lifetime: nil, deadline: nil)
