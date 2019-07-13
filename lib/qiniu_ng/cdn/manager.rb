@@ -32,18 +32,26 @@ module QiniuNg
       #
       # 注意，每天刷新请求次数都有限额，请谨慎调用本 API。
       #
+      # @example
+      #   requests = client.cdn_refresh(urls: entries.map(&:download_url))
+      #   requests.each do |request_id, request|
+      #     request.results.each do |result|
+      #       expect(result.failure?).to be false
+      #     end
+      #   end
+      #
       # @param [Array<String>, String] urls 刷新的 URL 列表
       # @param [Array<String>, String] prefixes 刷新的 URL 目录列表，需要以 "/" 结尾
       # @param [String] fusion_url Fusion 所在服务器地址，一般无需填写
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [Hash<String, QiniuNg::CDN::RefreshResult>] 返回刷新结果集合，
+      # @return [Hash<String, QiniuNg::CDN::RefreshRequest>] 返回刷新结果集合，
       #   由于 API 对单次刷新的 URL 和列表个数都有一定限制，因此 SDK 会在参数个数超过限制时分多次请求。因此可能会得到多个刷新结果。
       #   刷新结果将以 Hash 形式返回，Key 为刷新请求得到的 RequestID，而 Value 为刷新结果
       def cdn_refresh(urls: [], prefixes: [], fusion_url: nil, https: nil, **options)
         refresh_urls = urls.is_a?(Array) ? urls.dup : [urls].compact
         refresh_dirs = prefixes.is_a?(Array) ? prefixes.dup : [prefixes].compact
-        results = {}
+        requests = {}
         until refresh_urls.empty? && refresh_dirs.empty?
           req_body = {
             urls: refresh_urls.shift(MAX_API_REFRESH_URL_COUNT),
@@ -53,7 +61,7 @@ module QiniuNg
                                            idempotent: true, headers: { content_type: 'application/json' },
                                            body: Config.default_json_marshaler.call(req_body),
                                            **options).body
-          results[resp_body['requestId']] = RefreshResult.new(
+          requests[resp_body['requestId']] = RefreshRequest.new(
             request_id: resp_body['requestId'],
             code: resp_body['code'],
             description: resp_body['error'],
@@ -66,7 +74,7 @@ module QiniuNg
             http_client: @http_client_v2
           )
         end
-        results
+        requests
       end
 
       # 预取文件，提前将新上传的文件由 CDN 拉取到 CDN 缓存节点
@@ -75,30 +83,38 @@ module QiniuNg
       #
       # 注意，每天预取请求次数都有限额，请谨慎调用本 API。
       #
+      # @example
+      #   requests = client.cdn_prefetch(entries.map(&:download_url))
+      #   requests.each do |request_id, request|
+      #     request.results.each do |result|
+      #       expect(result.failure?).to be false
+      #     end
+      #   end
+      #
       # @param [Array<String>, String] urls 预取的 URL 列表
       # @param [String] fusion_url Fusion 所在服务器地址，一般无需填写
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [Hash<String, QiniuNg::CDN::PrefetchResult>] 返回预取结果集合，
-      #   由于 API 对单次预取的 URL 和列表个数都有一定限制，因此 SDK 会在参数个数超过限制时分多次请求。因此可能会得到多个预取结果。
-      #   预取结果将以 Hash 形式返回，Key 为预取请求得到的 RequestID，而 Value 为预取结果
+      # @return [Hash<String, QiniuNg::CDN::PrefetchRequest>] 返回预取请求集合，
+      #   由于 API 对单次预取的 URL 和列表个数都有一定限制，因此 SDK 会在参数个数超过限制时分多次请求。因此可能会得到多个预取请求。
+      #   预取请求将以 Hash 形式返回，Key 为预取请求得到的 RequestID，而 Value 为预取请求
       def cdn_prefetch(urls, fusion_url: nil, https: nil, **options)
         prefetch_urls = urls.is_a?(Array) ? urls.dup : [urls].compact
-        results = {}
+        requests = {}
         until prefetch_urls.empty?
           req_body = { urls: prefetch_urls.shift(MAX_API_PREFETCH_URL_COUNT) }
           resp_body = @http_client_v2.post('/v2/tune/prefetch', fusion_url || get_fusion_url(https),
                                            idempotent: true, headers: { content_type: 'application/json' },
                                            body: Config.default_json_marshaler.call(req_body),
                                            **options).body
-          results[resp_body['requestId']] = PrefetchResult.new(
+          requests[resp_body['requestId']] = PrefetchRequest.new(
             request_id: resp_body['requestId'], code: resp_body['code'], description: resp_body['error'],
             invalid_urls: resp_body['invalidUrls'] || [],
             quota_perday: resp_body['quotaDay'], surplus_today: resp_body['surplusDay'],
             http_client: @http_client_v2
           )
         end
-        results
+        requests
       end
 
       # rubocop:disable Metrics/LineLength

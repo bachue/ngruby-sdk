@@ -12,31 +12,31 @@ RSpec.describe QiniuNg::CDN do
   it 'should refresh 3 urls' do
     entry_names = %w[4k 16k 1m]
     urls = entry_names.map { |entry_name| bucket.entry(entry_name).download_url }
-    results = client.cdn_refresh(urls: urls)
-    expect(results.size).to eq 1
-    result = results.values.first
-    expect(result).to be_ok
-    expect(result.description).to eq 'success'
-    expect(result.invalid_urls).to be_empty
-    expect(result.invalid_prefixes).to be_empty
-    expect(result.urls_quota_perday).to be > 0
-    expect(result.urls_surplus_today).to be > 0
-    expect(result.prefixes_quota_perday).to be > 0
-    expect(result.prefixes_surplus_today).to be > 0
+    requests = client.cdn_refresh(urls: urls)
+    expect(requests.size).to eq 1
+    request = requests.values.first
+    expect(request).to be_ok
+    expect(request.description).to eq 'success'
+    expect(request.invalid_urls).to be_empty
+    expect(request.invalid_prefixes).to be_empty
+    expect(request.urls_quota_perday).to be > 0
+    expect(request.urls_surplus_today).to be > 0
+    expect(request.prefixes_quota_perday).to be > 0
+    expect(request.prefixes_surplus_today).to be > 0
 
     processing = 0
     successful = 0
-    result.query.only_processing.each do |query_result|
+    request.results.only_processing.each do |query_result|
       expect(query_result.state).to eq 'processing'
       expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
       processing += 1
     end
-    result.query.only_successful.each do |query_result|
+    request.results.only_successful.each do |query_result|
       expect(query_result.state).to eq 'success'
       expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
       successful += 1
     end
-    expect(result.query.only_failed.to_a).to be_empty
+    expect(request.results.only_failed.to_a).to be_empty
     expect(processing + successful).to be >= 3
   end
 
@@ -47,23 +47,23 @@ RSpec.describe QiniuNg::CDN do
       entries.each_with_index do |entry, i|
         bucket.upload(filepath: paths[i], upload_token: entry.upload_token)
       end
-      results = client.cdn_prefetch(entries.map(&:download_url))
-      expect(results.size).to eq 1
-      result = results.values.first
-      expect(result).to be_ok
+      requests = client.cdn_prefetch(entries.map(&:download_url))
+      expect(requests.size).to eq 1
+      request = requests.values.first
+      expect(request).to be_ok
       processing = 0
       successful = 0
-      result.query.only_processing.each do |query_result|
+      request.results.only_processing.each do |query_result|
         expect(query_result.state).to eq 'processing'
         expect(entries.any? { |entry| query_result.url.end_with?(entry.key) }).to be true
         processing += 1
       end
-      result.query.only_successful.each do |query_result|
+      request.results.only_successful.each do |query_result|
         expect(query_result.state).to eq 'success'
         expect(entries.any? { |entry| query_result.url.end_with?(entry.key) }).to be true
         successful += 1
       end
-      expect(result.query.only_failed.to_a).to be_empty
+      expect(request.results.only_failed.to_a).to be_empty
       expect(processing + successful).to be >= 3
     ensure
       bucket.batch { |b| entries.each { |e| b.delete(e.key) } }
@@ -73,6 +73,8 @@ RSpec.describe QiniuNg::CDN do
   it 'should query bandwidth logs' do
     logs = client.cdn_bandwidth_log(start_time: Time.now - QiniuNg::Duration.new(days: 30).to_i, end_time: Time.now,
                                     granularity: :day, domains: 'http://z0-bucket.kodo-test.qiniu-solutions.com')
+    expect(logs.times).to be_a(Array)
+    expect(logs.data).to have_key('z0-bucket.kodo-test.qiniu-solutions.com')
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
     yesterday = Time.now - QiniuNg::Duration.new(days: 1).to_i
@@ -86,6 +88,8 @@ RSpec.describe QiniuNg::CDN do
   it 'should query flux logs' do
     logs = client.cdn_flux_log(start_time: Time.now - QiniuNg::Duration.new(days: 30).to_i, end_time: Time.now,
                                granularity: :day, domains: ['z0-bucket.kodo-test.qiniu-solutions.com'])
+    expect(logs.times).to be_a(Array)
+    expect(logs.data).to have_key('z0-bucket.kodo-test.qiniu-solutions.com')
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :china)).to be_a Integer
     expect(logs.value_at(Time.now, 'z0-bucket.kodo-test.qiniu-solutions.com', :oversea)).to be_a Integer
     yesterday = Time.now - QiniuNg::Duration.new(days: 1).to_i

@@ -3,62 +3,40 @@
 module QiniuNg
   module Common
     # 多区域上传域名
+    # @!attribute [r] region
+    #   @return [String] 区域代号
+    # @!attribute [r] up_http_urls
+    #   @return [Array<String>] UP 地址集合（HTTP 协议）
+    # @!attribute [r] up_https_urls
+    #   @return [Array<String>] UP 地址集合（HTTPS 协议）
+    # @!attribute [r] io_http_urls
+    #   @return [Array<String>] IO 地址集合（HTTP 协议）
+    # @!attribute [r] io_https_urls
+    #   @return [Array<String>] IO 地址集合（HTTPS 协议）
+    # @!attribute [r] rs_http_url
+    #   @return [String] RS 地址（HTTP 协议）
+    # @!attribute [r] rs_https_url
+    #   @return [String] RS 地址（HTTPS 协议）
+    # @!attribute [r] rsf_http_url
+    #   @return [String] RSF 地址（HTTP 协议）
+    # @!attribute [r] rsf_https_url
+    #   @return [String] RSF 地址（HTTPS 协议）
+    # @!attribute [r] api_http_url
+    #   @return [String] API 地址（HTTP 协议）
+    # @!attribute [r] api_https_url
+    #   @return [String] API 地址（HTTPS 协议）
     class Zone
-      # 区域代号
-      #
-      # @return [String]
       attr_reader :region
-
       alias name region
-
-      # UP 地址集合（HTTP 协议）
-      #
-      # @return [Array<String>]
       attr_reader :up_http_urls
-
-      # UP 地址集合（HTTPS 协议）
-      #
-      # @return [Array<String>]
       attr_reader :up_https_urls
-
-      # IO 地址集合（HTTP 协议）
-      #
-      # @return [Array<String>]
       attr_reader :io_http_urls
-
-      # IO 地址集合（HTTP 协议）
-      #
-      # @return [Array<String>]
       attr_reader :io_https_urls
-
-      # RS 地址（HTTP 协议）
-      #
-      # @return [String]
       attr_reader :rs_http_url
-
-      # RS 地址（HTTPS 协议）
-      #
-      # @return [String]
       attr_reader :rs_https_url
-
-      # RSF 地址（HTTP 协议）
-      #
-      # @return [String]
       attr_reader :rsf_http_url
-
-      # RSF 地址（HTTPS 协议）
-      #
-      # @return [String]
       attr_reader :rsf_https_url
-
-      # API 地址（HTTP 协议）
-      #
-      # @return [String]
       attr_reader :api_http_url
-
-      # API 地址（HTTPS 协议）
-      #
-      # @return [String]
       attr_reader :api_https_url
 
       # 初始化一个区域

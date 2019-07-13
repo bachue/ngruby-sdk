@@ -2,7 +2,7 @@
 
 module QiniuNg
   module CDN
-    # 带宽粒度
+    # @!visibility private
     class Granularity
       include Ruby::Enum
 
