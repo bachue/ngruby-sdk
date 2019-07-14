@@ -19,6 +19,7 @@ module QiniuNg
     #   @return [Integer] 当日剩余的预取 URL 限额
     class PrefetchRequest
       attr_reader :request_id, :code, :description, :invalid_urls, :quota_perday, :surplus_today
+      alias id request_id
 
       # @!visibility private
       def initialize(request_id:, code:, description:, invalid_urls:, quota_perday:, surplus_today:, http_client:)

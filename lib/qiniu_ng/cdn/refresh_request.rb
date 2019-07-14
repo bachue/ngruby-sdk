@@ -25,6 +25,7 @@ module QiniuNg
     class RefreshRequest
       attr_reader :request_id, :code, :description, :invalid_urls, :invalid_prefixes, :urls_quota_perday,
                   :urls_surplus_today, :prefixes_quota_perday, :prefixes_surplus_today
+      alias id request_id
 
       # @!visibility private
       def initialize(request_id:, code:, description:, invalid_urls:, invalid_prefixes:, urls_quota_perday:,

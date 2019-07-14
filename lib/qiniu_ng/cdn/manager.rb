@@ -77,6 +77,22 @@ module QiniuNg
         requests
       end
 
+      # 查询 CDN 刷新结果
+      #
+      # @example
+      #   client.query_cdn_refresh_results(request_id).each do |result|
+      #     expect(result.failure?).to be false
+      #   end
+      #
+      # @param [String] request_id 刷新请求 ID
+      # @param [String] fusion_url Fusion 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [QiniuNg::CDN::RefreshRequest::QueryBuilder] 刷新结果查询条件构建器
+      def query_cdn_refresh_results(request_id, fusion_url: nil, https: nil, **options)
+        RefreshRequest::QueryBuilder.new(@http_client_v2, request_id, fusion_url: fusion_url, https: https, **options)
+      end
+
       # 预取文件，提前将新上传的文件由 CDN 拉取到 CDN 缓存节点
       #
       # 请给出资源 URL 完整的绝对路径，由 http:// 或 https:// 开始
@@ -115,6 +131,22 @@ module QiniuNg
           )
         end
         requests
+      end
+
+      # 查询 CDN 预取结果
+      #
+      # @example
+      #   client.query_cdn_prefetch_results(request_id).each do |result|
+      #     expect(result.failure?).to be false
+      #   end
+      #
+      # @param [String] request_id 预取请求 ID
+      # @param [String] fusion_url Fusion 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [QiniuNg::CDN::PrefetchRequest::QueryBuilder] 预取结果查询条件构建器
+      def query_cdn_prefetch_results(request_id, fusion_url: nil, https: nil, **options)
+        PrefetchRequest::QueryBuilder.new(@http_client_v2, request_id, fusion_url: fusion_url, https: https, **options)
       end
 
       # rubocop:disable Metrics/LineLength

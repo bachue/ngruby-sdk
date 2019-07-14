@@ -27,16 +27,32 @@ RSpec.describe QiniuNg::CDN do
     processing = 0
     successful = 0
     request.results.only_processing.each do |query_result|
-      expect(query_result.state).to eq 'processing'
+      expect(query_result).to be_processing
       expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
       processing += 1
     end
     request.results.only_successful.each do |query_result|
-      expect(query_result.state).to eq 'success'
+      expect(query_result).to be_successful
       expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
       successful += 1
     end
     expect(request.results.only_failed.to_a).to be_empty
+    expect(processing + successful).to be >= 3
+
+    processing = 0
+    successful = 0
+    request_id = request.id
+    client.query_cdn_refresh_results(request_id).each do |query_result|
+      expect(query_result).to be_processing
+      expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
+      processing += 1
+    end
+    client.query_cdn_refresh_results(request_id).only_successful.each do |query_result|
+      expect(query_result).to be_successful
+      expect(entry_names.any? { |entry_name| query_result.url.end_with?(entry_name) }).to be true
+      successful += 1
+    end
+    expect(client.query_cdn_refresh_results(request_id).only_failed.to_a).to be_empty
     expect(processing + successful).to be >= 3
   end
 
@@ -64,6 +80,22 @@ RSpec.describe QiniuNg::CDN do
         successful += 1
       end
       expect(request.results.only_failed.to_a).to be_empty
+      expect(processing + successful).to be >= 3
+
+      processing = 0
+      successful = 0
+      request_id = request.id
+      client.query_cdn_prefetch_results(request_id).each do |query_result|
+        expect(query_result).to be_processing
+        expect(entries.any? { |entry| query_result.url.end_with?(entry.key) }).to be true
+        processing += 1
+      end
+      client.query_cdn_prefetch_results(request_id).only_successful.each do |query_result|
+        expect(query_result).to be_successful
+        expect(entries.any? { |entry| query_result.url.end_with?(entry.key) }).to be true
+        successful += 1
+      end
+      expect(client.query_cdn_prefetch_results(request_id).only_failed.to_a).to be_empty
       expect(processing + successful).to be >= 3
     ensure
       bucket.batch { |b| entries.each { |e| b.delete(e.key) } }
