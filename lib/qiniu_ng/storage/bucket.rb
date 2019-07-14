@@ -258,6 +258,23 @@ module QiniuNg
         Entry.new(self, key, @http_client_v1, @http_client_v2, @auth)
       end
 
+      # 获取异步抓取任务结果
+      #
+      # 根据异步抓取任务 ID 获取结果
+      #
+      # @example
+      #   job = client.bucket('<Bucket Name>').entry('key').async_fetch_from('<URL>', md5: '<Resource MD5>')
+      #   saved_async_fetch_job_id = job.id
+      #
+      #   job = bucket.query_async_fetch_result(saved_async_fetch_job_id)
+      #   expect(job.done?).to be true
+      #
+      # @param [String] id 异步抓取任务 ID
+      # @return [QiniuNg::Storage::Model::AsyncFetchJob] 返回异步抓取任务
+      def query_async_fetch_result(id)
+        Model::AsyncFetchJob.new(self, @http_client_v2, id)
+      end
+
       # 遍历存储空间中的文件，获取迭代器
       #
       # @example

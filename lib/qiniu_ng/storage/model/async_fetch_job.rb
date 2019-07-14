@@ -6,7 +6,7 @@ module QiniuNg
       # 异步抓取任务标识符
       # @!attribute [r] id
       #   @return [String] 异步抓取任务 ID
-      class AsyncFetchResult
+      class AsyncFetchJob
         # @!visibility private
         def initialize(bucket, http_client_v2, id)
           @bucket = bucket

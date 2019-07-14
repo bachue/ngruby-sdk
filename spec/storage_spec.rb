@@ -345,15 +345,18 @@ RSpec.describe QiniuNg::Storage do
       end
 
       it 'should fetch the entry from the url async' do
-        src_entry = client.bucket('z1-bucket').entry('1m')
+        src_bucket = client.bucket('z1-bucket')
+        src_entry = src_bucket.entry('1m')
         src_url = src_entry.download_url.private
         expect(head(src_url)).to be_success
         entry = bucket.entry("16k-#{Time.now.usec}")
         begin
-          result = entry.fetch_from(src_url, async: true)
-          expect(result.id).not_to be_empty
-          if result.queue_length < 50
-            expect { result }.to eventually be_done
+          job = entry.fetch_from(src_url, async: true)
+          expect(job.id).not_to be_empty
+          expect(job.queue_length).to be_a(Integer)
+          job = bucket.query_async_fetch_result(job.id)
+          if job.queue_length < 50
+            expect { job }.to eventually be_done
             expect(head(entry.download_url.refresh)).to be_success
           end
         ensure

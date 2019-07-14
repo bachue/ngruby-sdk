@@ -189,7 +189,7 @@ module QiniuNg
       # @param [Boolean] async 是否使用异步抓取（推荐尽可能使用异步抓取，将会有效提高抓取效率）
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [QiniuNg::Storage::Model::FetchedEntry, QiniuNg::Storage::Model::AsyncFetchResult] 返回抓取结果
+      # @return [QiniuNg::Storage::Model::FetchedEntry, QiniuNg::Storage::Model::AsyncFetchJob] 返回抓取结果或异步抓取任务
       def fetch_from(url, async: false, https: nil, **options)
         return async_fetch_from(url, https: https, **options) if async
 
@@ -199,6 +199,14 @@ module QiniuNg
       end
 
       # 从指定 URL 中异步抓取文件
+      #
+      # @example
+      #   job = client.bucket('<Bucket Name>').entry('key').async_fetch_from('<URL>', md5: '<Resource MD5>')
+      #   expect(job.done?).to be false
+      #   saved_async_fetch_job_id = job.id
+      #
+      #   job = bucket.query_async_fetch_result(saved_async_fetch_job_id)
+      #   expect(job.done?).to be true
       #
       # @param [String] url 从指定的 URL 抓取文件
       # @param [String] md5 目标文件的 MD5 值，由云存储校验抓取结果是否正确
@@ -211,7 +219,7 @@ module QiniuNg
       #   {参考文档}[https://developer.qiniu.com/kodo/manual/1206/put-policy#put-policy-callback-body-type]
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @param [Hash] options 额外的 Faraday 参数
-      # @return [QiniuNg::Storage::Model::AsyncFetchResult] 返回异步抓取结果
+      # @return [QiniuNg::Storage::Model::AsyncFetchJob] 返回异步抓取任务
       def async_fetch_from(url, md5: nil, https: nil, callback_url: nil, callback_host: nil,
                            callback_body: nil, callback_body_type: nil, **options)
         req_body = {
@@ -222,7 +230,7 @@ module QiniuNg
                                          headers: { content_type: 'application/json' },
                                          body: Config.default_json_marshaler.call(req_body),
                                          **options).body
-        Model::AsyncFetchResult.new(@bucket, @http_client_v2, resp_body['id'])
+        Model::AsyncFetchJob.new(@bucket, @http_client_v2, resp_body['id'])
       end
 
       # 生成文件的下载地址

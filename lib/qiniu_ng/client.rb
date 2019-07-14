@@ -73,5 +73,10 @@ module QiniuNg
     def batch!(zone:, https: nil, **options, &block)
       batch(zone: zone, raise_if_partial_ok: true, https: https, **options, &block)
     end
+
+    # @!visibility private
+    def inspect
+      "#<#{self.class.name} @auth=#{@auth.inspect}>"
+    end
   end
 end
