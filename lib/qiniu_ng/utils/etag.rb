@@ -27,10 +27,27 @@ module QiniuNg
           @io = io
           @etag = etag
           @have_read = 0
-          @buffer = StringIO.new
-          @buffer.binmode
+          @buffer = String.new
           @sha1s = []
-          define_singleton_method(:path) { io.path } if io.respond_to?(:path)
+          %i[path eof? close closed?].select { |method| io.respond_to?(method) }
+                                     .each { |method| define_singleton_method(method) { io.public_send(method) } }
+          if io.respond_to?(:each_chunk)
+            define_singleton_method(:each_chunk) do |&block|
+              @io.each_chunk do |chunk|
+                update_buffer_and_calculate_etag(chunk)
+                block.call(chunk)
+              end
+            end
+          end
+
+          return unless io.respond_to?(:readpartial)
+
+          define_singleton_method(:readpartial) do |length, outbuf|
+            outbuf = outbuf ? outbuf.replace('') : String.new
+            @io.readpartial(length, outbuf)
+            update_buffer_and_calculate_etag(outbuf)
+            outbuf
+          end
         end
 
         # 调用给定的 io 的 #read 方法，同时计算 Etag
@@ -39,28 +56,35 @@ module QiniuNg
         # @param [String] outbuf 用于接受读到的数据
         # @return [String, nil] 返回读取到的数据
         def read(length = nil, outbuf = nil)
-          outbuf = outbuf ? outbuf.replace('') : ''
+          outbuf = outbuf ? outbuf.replace('') : String.new
           if length.nil?
             @io.read(nil, outbuf)
             @etag.replace(Etag.from_data(data))
           elsif length.positive?
             @io.read(length, outbuf)
-            @buffer.seek(0, :END)
-            @buffer.write(outbuf)
-            @buffer.rewind
-            @sha1s << sha1(@buffer.read(QiniuNg::BLOCK_SIZE)) while @buffer.size >= QiniuNg::BLOCK_SIZE
-            if @io.eof?
-              @sha1s << sha1(@buffer.read)
-              @etag.replace(encode_sha1s(@sha1s))
-            end
+            update_buffer_and_calculate_etag(outbuf)
           end
           outbuf
         end
 
+        # @!visibility private
+        def replace_by_io(io)
+          @io = io
+        end
+
         private
 
-        def encode_sha1s
-          Etag.encode_sha1s(@sha1s)
+        def update_buffer_and_calculate_etag(chunk)
+          @buffer << chunk
+          while @buffer.size >= QiniuNg::BLOCK_SIZE
+            @sha1s << sha1(@buffer[0...QiniuNg::BLOCK_SIZE])
+            @buffer.replace(@buffer[QiniuNg::BLOCK_SIZE..-1])
+          end
+          return unless @io.eof?
+
+          @sha1s << sha1(@buffer) unless @buffer.empty?
+          @buffer = String.new
+          @etag.replace(Etag.encode_sha1s(@sha1s))
         end
 
         def sha1(data)

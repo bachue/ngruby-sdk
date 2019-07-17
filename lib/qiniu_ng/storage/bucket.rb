@@ -42,6 +42,7 @@ module QiniuNg
       def name
         @bucket_name
       end
+      alias to_s name
 
       # 获取存储空间所在区域实例
       #

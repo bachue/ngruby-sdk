@@ -93,6 +93,13 @@ module QiniuNg
           replace(@auth.sign_download_url_with_lifetime(@public_url, lifetime: lifetime))
         end
       end
+
+      def freeze_current_domain_and_try_another_one
+        result = super
+        return nil if result.nil?
+
+        generate_private_url!
+      end
     end
   end
 end

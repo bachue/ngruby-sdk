@@ -25,10 +25,9 @@ module SpecHelpers
   end
 
   def temp_file_from_url(url)
-    temp_file = File.open(Pathname.new('/tmp').join(File.basename(url)), 'wb')
-    temp_file << get(url).body
+    temp_file = File.open(Pathname.new('/tmp').join(File.basename(url)), 'w')
+    temp_file.close
+    QiniuNg::Storage::URL.new(url).download_to(temp_file.path)
     temp_file.path
-  ensure
-    temp_file&.close
   end
 end

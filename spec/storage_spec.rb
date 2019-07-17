@@ -419,7 +419,7 @@ RSpec.describe QiniuNg::Storage do
 
     before :all do
       client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-      entry = client.bucket('z0-bucket').entry('1m')
+      entry = client.bucket('z0-bucket').entry('64m')
     end
 
     it 'should access entry by public url' do
@@ -433,6 +433,12 @@ RSpec.describe QiniuNg::Storage do
     it 'should set filename' do
       expect(entry.download_url.set(filename: 'test.bin')).to be_include('attname=test.bin')
     end
+
+    it 'should download file' do
+      filepath = create_temp_file(kilo_size: 0)
+      entry.download_url.download_to(filepath)
+      expect(File.size(filepath)).to eq(1 << 26)
+    end
   end
 
   describe QiniuNg::Storage::PrivateURL do
@@ -440,7 +446,7 @@ RSpec.describe QiniuNg::Storage do
 
     before :all do
       client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-      entry = client.bucket('z1-bucket').entry('1m')
+      entry = client.bucket('z1-bucket').entry('64m')
     end
 
     it 'should not access entry by public url' do
@@ -450,6 +456,12 @@ RSpec.describe QiniuNg::Storage do
     it 'should access entry by private url' do
       expect(head(entry.download_url.private)).to be_success
     end
+
+    it 'should download file' do
+      filepath = create_temp_file(kilo_size: 0)
+      entry.download_url.private.download_to(filepath)
+      expect(File.size(filepath)).to eq(1 << 26)
+    end
   end
 
   describe QiniuNg::Storage::TimestampAntiLeechURL do
@@ -457,7 +469,7 @@ RSpec.describe QiniuNg::Storage do
 
     before :all do
       client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-      entry = client.bucket('z2-bucket', domains: 'z2-bucket.kodo-test.qiniu-solutions.com').entry('1m')
+      entry = client.bucket('z2-bucket', domains: 'z2-bucket.kodo-test.qiniu-solutions.com').entry('64m')
     end
 
     it 'should not access entry by public url' do
@@ -470,6 +482,46 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should access entry by timestamp anti leech url' do
       expect(head(entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key))).to be_success
+    end
+
+    it 'should download file' do
+      filepath = create_temp_file(kilo_size: 0)
+      entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(filepath)
+      expect(File.size(filepath)).to eq(1 << 26)
+    end
+  end
+
+  describe QiniuNg::Storage::DownloadManager do
+    entry = nil
+
+    before :all do
+      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+      bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong, domains: %w[www.test1.com www.test2.com])
+      entry = bucket.entry('1m')
+    end
+
+    before :all do
+      WebMock.enable!
+    end
+
+    after :all do
+      WebMock.disable!
+    end
+
+    after :each do
+      WebMock.reset!
+      QiniuNg::Config.default_domains_manager.unfreeze_all!
+    end
+
+    it 'should try multiple times and try another domains' do
+      stub_request(:get, 'http://www.test2.com/1m').to_timeout
+      stub_request(:get, 'http://www.test1.com/1m').to_timeout
+      filepath = create_temp_file(kilo_size: 0)
+      expect do
+        entry.download_url.download_to(filepath, max_retry: 5)
+      end.to raise_error(Down::TimeoutError)
+      assert_requested(:get, 'http://www.test2.com/1m', times: 6)
+      assert_requested(:get, 'http://www.test1.com/1m', times: 6)
     end
   end
 

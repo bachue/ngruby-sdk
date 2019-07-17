@@ -95,6 +95,13 @@ module QiniuNg
           replace("#{url_prefix}#{path}?sign=#{signed_data}&t=#{deadline_hex}")
         end
       end
+
+      def freeze_current_domain_and_try_another_one
+        result = super
+        return nil if result.nil?
+
+        generate_private_url!
+      end
     end
   end
 end

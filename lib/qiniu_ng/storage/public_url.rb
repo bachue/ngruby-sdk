@@ -22,8 +22,8 @@ module QiniuNg
     #                     .download_url
     #                     .timestamp_anti_leech(encrypt_key: '<EncryptKey>'))
     #
-    # @!attribute [r] domain
-    #   @return [String] 下载地址中的域名
+    # @!attribute [r] domains
+    #   @return [Array<String>] 下载地址中的域名列表
     # @!attribute [r] key
     #   @return [String] 文件名
     # @!attribute filename
@@ -32,11 +32,12 @@ module QiniuNg
     #   @return [String] 数据处理参数。
     #     {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
     class PublicURL < URL
-      attr_reader :domain, :key, :filename, :fop
+      attr_reader :domains, :key, :filename, :fop
 
       # @!visibility private
-      def initialize(domain, key, auth, https: nil, filename: nil, fop: nil)
-        @domain = domain
+      def initialize(domains, key, auth, https: nil, filename: nil, fop: nil)
+        @domains = domains
+        @current_domain = nil
         @key = key
         @auth = auth
         @https = https.nil? ? Config.use_https : https
@@ -114,8 +115,14 @@ module QiniuNg
       end
 
       def generate_public_url_without_path
+        raise HTTP::NoURLAvailable if frozen?
+
+        current_domain = @domains.find { |domain| !Config.default_domains_manager.frozen?(domain) }
+        raise HTTP::NoURLAvailable if current_domain.nil?
+
+        @current_domain = current_domain
         url = @https ? 'https://' : 'http://'
-        url += @domain
+        url += current_domain
         url
       end
 
@@ -127,6 +134,14 @@ module QiniuNg
         params << ['tt', @random] unless @random.nil? || @random.zero?
         path += "?#{Faraday::Utils.build_query(params)}" unless params.empty?
         path
+      end
+
+      def freeze_current_domain_and_try_another_one
+        Config.default_domains_manager.freeze(@current_domain) if @current_domain
+
+        generate_public_url!
+      rescue HTTP::NoURLAvailable
+        nil
       end
     end
   end

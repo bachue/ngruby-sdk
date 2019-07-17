@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'yard', '~> 0.9'
   spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
   spec.add_runtime_dependency 'digest-crc', '~> 0.4'
+  spec.add_runtime_dependency 'down', '~> 4.8'
   spec.add_runtime_dependency 'faraday', '~> 0.15'
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.13'
   spec.add_runtime_dependency 'ruby-enum', '~> 0.7'

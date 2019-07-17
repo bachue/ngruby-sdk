@@ -30,14 +30,14 @@ RSpec.describe QiniuNg::HTTP do
     end
 
     it 'should raise error for qiniu status code' do
-      WebMock::API.stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 631, body: '{}')
+      stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 631, body: '{}')
       expect do
         QiniuNg.new_client(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
       end.to raise_error(QiniuNg::HTTP::BucketNotFound)
     end
 
     it 'should raise error for qiniu status code' do
-      WebMock::API.stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 579, body: '{}')
+      stub_request(:get, "http://api.qiniu.com/v2/query?ak=#{access_key}&bucket=unexisted").to_return(status: 579, body: '{}')
       expect do
         QiniuNg.new_client(access_key: access_key, secret_key: secret_key).bucket('unexisted').zone
       end.to raise_error(QiniuNg::HTTP::CallbackFailed)

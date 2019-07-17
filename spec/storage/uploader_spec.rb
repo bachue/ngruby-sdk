@@ -8,7 +8,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
   before :all do
     auth = QiniuNg::Auth.new(access_key: access_key, secret_key: secret_key)
     http_client = QiniuNg::HTTP.client(auth: auth, auth_version: 1)
-    bucket = QiniuNg::Storage::BucketManager.new(http_client, nil, auth).bucket('z0-bucket')
+    bucket = QiniuNg::Storage::BucketManager.new(http_client, nil, auth).bucket('z0-bucket', zone: QiniuNg::Zone.huadong)
   end
 
   after :each do
@@ -68,7 +68,6 @@ RSpec.describe QiniuNg::Storage::Uploader do
 
     describe 'features' do
       before :all do
-        bucket.zone = QiniuNg::Zone.huadong
         WebMock.enable!
       end
 
@@ -213,8 +212,6 @@ RSpec.describe QiniuNg::Storage::Uploader do
       path = nil
 
       before :all do
-        bucket.zone = QiniuNg::Zone.huadong
-
         WebMock.enable!
       end
 
