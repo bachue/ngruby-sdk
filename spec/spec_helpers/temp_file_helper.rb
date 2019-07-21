@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'tempfile'
+require 'fileutils'
 require 'pathname'
 
 module SpecHelpers
@@ -19,7 +19,12 @@ module SpecHelpers
       rest -= to_write
       written += to_write
     end
-    temp_file.path
+    if block_given?
+      yield temp_file.path
+      FileUtils.rm_f(temp_file.path)
+    else
+      temp_file.path
+    end
   ensure
     temp_file&.close
   end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'fileutils'
+
 RSpec.describe QiniuNg::Storage do
   describe QiniuNg::Storage::BucketManager do
     it 'should get all bucket names' do
@@ -435,9 +437,10 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      filepath = create_temp_file(kilo_size: 0)
-      entry.download_url.download_to(filepath)
-      expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |filepath|
+        entry.download_url.download_to(filepath)
+        expect(File.size(filepath)).to eq(1 << 26)
+      end
     end
   end
 
@@ -458,9 +461,10 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      filepath = create_temp_file(kilo_size: 0)
-      entry.download_url.private.download_to(filepath)
-      expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |filepath|
+        entry.download_url.private.download_to(filepath)
+        expect(File.size(filepath)).to eq(1 << 26)
+      end
     end
   end
 
@@ -485,43 +489,89 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      filepath = create_temp_file(kilo_size: 0)
-      entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(filepath)
-      expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |filepath|
+        entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(filepath)
+        expect(File.size(filepath)).to eq(1 << 26)
+      end
     end
   end
 
   describe QiniuNg::Storage::DownloadManager do
     entry = nil
 
-    before :all do
-      client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-      bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong, domains: %w[www.test1.com www.test2.com])
-      entry = bucket.entry('1m')
-    end
-
-    before :all do
-      WebMock.enable!
-    end
-
-    after :all do
-      WebMock.disable!
-    end
-
     after :each do
-      WebMock.reset!
       QiniuNg::Config.default_domains_manager.unfreeze_all!
     end
 
-    it 'should try multiple times and try another domains' do
-      stub_request(:get, 'http://www.test2.com/1m').to_timeout
-      stub_request(:get, 'http://www.test1.com/1m').to_timeout
-      filepath = create_temp_file(kilo_size: 0)
-      expect do
-        entry.download_url.download_to(filepath, max_retry: 5)
-      end.to raise_error(Down::TimeoutError)
-      assert_requested(:get, 'http://www.test2.com/1m', times: 6)
-      assert_requested(:get, 'http://www.test1.com/1m', times: 6)
+    describe do
+      before :all do
+        client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+        bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong, domains: %w[www.test1.com www.test2.com])
+        entry = bucket.entry('1m')
+        WebMock.enable!
+      end
+
+      after :all do
+        WebMock.disable!
+      end
+
+      after :each do
+        WebMock.reset!
+      end
+
+      it 'should try multiple times and try another domains' do
+        stub_request(:get, 'http://www.test2.com/1m').to_timeout
+        stub_request(:get, 'http://www.test1.com/1m').to_timeout
+        expect do
+          entry.download_url.download_to('/dev/null', max_retry: 5)
+        end.to raise_error(Down::TimeoutError)
+        assert_requested(:get, 'http://www.test2.com/1m', times: 6)
+        assert_requested(:get, 'http://www.test1.com/1m', times: 6)
+      end
+    end
+
+    describe do
+      before :all do
+        client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+        bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong, domains: %w[localhost:8089 localhost:8088])
+        entry = bucket.entry('1m')
+      end
+
+      it 'should download the file' do
+        pid = start_server(port: 8088, size: 1 << 32, etag: 'ABCDEFG')
+        sleep(0.5)
+        thread = Thread.start do
+          sleep(0.5)
+          Process.kill('INT', pid)
+          old_pid = pid
+          sleep(0.5)
+          pid = start_server(port: 8088, size: 1 << 32, etag: 'ABCDEFG')
+          sleep(0.5)
+          Process.kill('KILL', old_pid)
+          sleep(0.5)
+          Process.kill('INT', pid)
+          old_pid = pid
+          sleep(0.5)
+          pid = start_server(port: 8089, size: 1 << 32, etag: 'ABCDEFG')
+          sleep(0.5)
+          Process.kill('KILL', old_pid)
+          sleep(0.5)
+          Process.kill('INT', pid)
+          old_pid = pid
+          sleep(0.5)
+          pid = start_server(port: 8089, size: 1 << 32, etag: 'AAAAAAA')
+          sleep(0.5)
+          Process.kill('KILL', old_pid)
+        end
+        begin
+          expect do
+            entry.download_url.download_to('/dev/null', max_retry: 1)
+          end.to raise_error(QiniuNg::Storage::DownloadManager::EtagChanged)
+        ensure
+          thread.kill if thread.alive?
+          Process.kill('KILL', pid)
+        end
+      end
     end
   end
 

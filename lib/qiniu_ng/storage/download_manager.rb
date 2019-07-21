@@ -14,11 +14,16 @@ module QiniuNg
       class EtagChanged < Faraday::Error
       end
 
+      # 下载提前结束，文件尺寸错误
+      class EOFError < Faraday::Error
+      end
+
       # 对七牛存储的文件提供流式读取器
       class Reader
         extend Forwardable
         # @!visibility private
-        RETRYABLE_EXCEPTIONS = [Down::ResponseError, Down::ConnectionError, Down::TimeoutError, Down::SSLError].freeze
+        RETRYABLE_EXCEPTIONS = [Down::ResponseError, Down::ConnectionError, Down::TimeoutError,
+                                Down::SSLError, EOFError].freeze
 
         # 构造方法
         #
@@ -36,8 +41,12 @@ module QiniuNg
           @options = options
           @backup_url_proc = backup_url_proc
           @headers = { 'User-Agent' => "QiniuRubyNg::Down/v#{VERSION}/#{RUBY_DESCRIPTION}" }
+          @will_receive_size = nil
           if @range
-            @headers['Range'] = "bytes=#{@range.begin}-#{@range.max if @range&.end&.> 0}"
+            started_at = @range.begin
+            ended_at = @range.max if @range&.end&.> 0
+            @headers['Range'] = "bytes=#{started_at}-#{ended_at}"
+            @will_receive_size = ended_at - started_at + 1 if started_at && ended_at
             disable_checksum = true
           end
           @have_read = 0
@@ -58,6 +67,7 @@ module QiniuNg
                   retry
                 end
           @io.instance_variable_set(:@closed, nil)
+          @will_receive_size = @io.size if @will_receive_size.nil?
           @expected_etag = nil
           @actual_etag = nil
           return if disable_checksum
@@ -82,7 +92,7 @@ module QiniuNg
         def read(length = nil, outbuf = nil)
           outbuf = outbuf ? outbuf.replace('') : String.new
           ret = with_autoretry { @io.read(length, outbuf).tap { |chunk| @have_read += chunk.bytesize } }
-          validate_etag!
+          validate_etag! if @will_receive_size == @have_read
           ret
         end
 
@@ -103,7 +113,7 @@ module QiniuNg
         def readpartial(length, outbuf = nil)
           outbuf = outbuf ? outbuf.replace('') : String.new
           ret = with_autoretry { @io.readpartial(length, outbuf).tap { |chunk| @have_read += chunk.bytesize } }
-          validate_etag!
+          validate_etag! if @will_receive_size == @have_read
           ret
         end
 
@@ -124,8 +134,9 @@ module QiniuNg
               @have_read += chunk.bytesize
               progress&.call(have_read, @io.size)
             end
+            raise EOFError unless @will_receive_size == @have_read
           end
-          validate_etag!
+          validate_etag! if @will_receive_size == @have_read
           nil
         end
 
