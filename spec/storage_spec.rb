@@ -437,9 +437,9 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      create_temp_file(kilo_size: 0) do |filepath|
-        entry.download_url.download_to(filepath)
-        expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |file|
+        entry.download_url.download_to(file.path)
+        expect(File.size(file.path)).to eq(1 << 26)
       end
     end
   end
@@ -461,9 +461,9 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      create_temp_file(kilo_size: 0) do |filepath|
-        entry.download_url.private.download_to(filepath)
-        expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |file|
+        entry.download_url.private.download_to(file.path)
+        expect(File.size(file.path)).to eq(1 << 26)
       end
     end
   end
@@ -489,9 +489,9 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should download file' do
-      create_temp_file(kilo_size: 0) do |filepath|
-        entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(filepath)
-        expect(File.size(filepath)).to eq(1 << 26)
+      create_temp_file(kilo_size: 0) do |file|
+        entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(file.path)
+        expect(File.size(file.path)).to eq(1 << 26)
       end
     end
   end
@@ -501,6 +501,26 @@ RSpec.describe QiniuNg::Storage do
 
     after :each do
       QiniuNg::Config.default_domains_manager.unfreeze_all!
+    end
+
+    describe do
+      before :all do
+        client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
+        bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong)
+        entry = bucket.entry('64m')
+      end
+
+      it 'should get data by multiple read' do
+        reader = entry.download_url.reader
+        create_temp_file(kilo_size: 0) do |file|
+          (64 / 4).times do
+            expect(file.write(reader.read(1 << 22))).to eq(1 << 22)
+          end
+          file.flush
+          expect(File.size(file.path)).to eq entry.stat.file_size
+          expect(QiniuNg::Utils::Etag.from_file_path(file.path)).to eq entry.stat.etag
+        end
+      end
     end
 
     describe do
@@ -517,6 +537,25 @@ RSpec.describe QiniuNg::Storage do
 
       after :each do
         WebMock.reset!
+      end
+
+      it 'should validate etag even for reader' do
+        file = File.open(create_temp_file(kilo_size: 1024), 'r')
+        begin
+          stub_request(:get, 'http://www.test2.com/1m')
+            .to_return(headers: {Etag: '"AAAAA"', 'X-Reqid': 'abc', 'Content-Length': 1 << 20}, body: file)
+          reader = entry.download_url.reader
+          create_temp_file(kilo_size: 0) do |file|
+            expect(file.write(reader.read(1 << 19))).to eq(1 << 19)
+          end
+          create_temp_file(kilo_size: 0) do |file|
+            expect { reader.read(1 << 19) }.to raise_error(QiniuNg::Storage::DownloadManager::ChecksumError)
+          end
+        ensure
+          reader&.close
+          file.close
+          FileUtils.rm_f(file)
+        end
       end
 
       it 'should try multiple times and try another domains' do

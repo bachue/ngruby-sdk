@@ -20,7 +20,7 @@ module SpecHelpers
       written += to_write
     end
     if block_given?
-      yield temp_file.path
+      yield temp_file
       FileUtils.rm_f(temp_file.path)
     else
       temp_file.path

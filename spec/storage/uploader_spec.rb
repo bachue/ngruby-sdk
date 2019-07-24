@@ -66,7 +66,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
       end
     end
 
-    describe 'features' do
+    describe do
       before :all do
         WebMock.enable!
       end
@@ -206,7 +206,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
     #   end
     # end
 
-    describe 'features' do
+    describe do
       entry = nil
       encoded_key = nil
       path = nil

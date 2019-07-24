@@ -289,12 +289,12 @@ module QiniuNg
       # @param [Hash] options 额外的 Faraday 参数
       # @return [Enumerable] 返回一个{迭代器}[https://ruby-doc.org/core-2.6/Enumerable.html]实例
       def files(rsf_zone: nil, prefix: nil, limit: nil, marker: nil, https: nil, **options)
-        FilesEnumerable.new(@http_client_v1, @http_client_v2, @auth,
-                            self, prefix, limit, marker, rsf_zone, https, options)
+        FilesIterator.new(@http_client_v1, @http_client_v2, @auth,
+                          self, prefix, limit, marker, rsf_zone, https, options)
       end
 
       # @!visibility private
-      class FilesEnumerable
+      class FilesIterator
         include Enumerable
 
         def initialize(http_client_v1, http_client_v2, auth, bucket, prefix, limit, marker, rsf_zone, https, options)
