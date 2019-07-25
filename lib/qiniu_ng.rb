@@ -59,6 +59,10 @@ require 'qiniu_ng/cdn/refresh_request'
 require 'qiniu_ng/cdn/prefetch_request'
 require 'qiniu_ng/cdn/log_file'
 require 'qiniu_ng/cdn/log_files'
+require 'qiniu_ng/streaming/manager'
+require 'qiniu_ng/streaming/hub'
+require 'qiniu_ng/streaming/stream'
+require 'qiniu_ng/streaming/url'
 
 # 下一代七牛 Ruby SDK
 #

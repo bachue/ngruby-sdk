@@ -543,14 +543,12 @@ RSpec.describe QiniuNg::Storage do
         file = File.open(create_temp_file(kilo_size: 1024), 'r')
         begin
           stub_request(:get, 'http://www.test2.com/1m')
-            .to_return(headers: {Etag: '"AAAAA"', 'X-Reqid': 'abc', 'Content-Length': 1 << 20}, body: file)
+            .to_return(headers: { Etag: '"AAAAA"', 'X-Reqid': 'abc', 'Content-Length': 1 << 20 }, body: file)
           reader = entry.download_url.reader
-          create_temp_file(kilo_size: 0) do |file|
-            expect(file.write(reader.read(1 << 19))).to eq(1 << 19)
+          create_temp_file(kilo_size: 0) do |f|
+            expect(f.write(reader.read(1 << 19))).to eq(1 << 19)
           end
-          create_temp_file(kilo_size: 0) do |file|
-            expect { reader.read(1 << 19) }.to raise_error(QiniuNg::Storage::DownloadManager::ChecksumError)
-          end
+          expect { reader.read(1 << 19) }.to raise_error(QiniuNg::Storage::DownloadManager::ChecksumError)
         ensure
           reader&.close
           file.close

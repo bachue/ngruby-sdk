@@ -47,6 +47,10 @@ module QiniuNg
     class ResourceExists < ClientError
     end
 
+    # 流不处于直播中
+    class NotLiveStream < ClientError
+    end
+
     # 存储空间过多
     class TooManyBuckets < ClientError
     end

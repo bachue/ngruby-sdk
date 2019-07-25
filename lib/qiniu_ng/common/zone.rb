@@ -255,6 +255,11 @@ module QiniuNg
         def fusion_url(https)
           Utils::Bool.to_bool(https) ? 'https://fusion.qiniuapi.com' : 'http://fusion.qiniuapi.com'
         end
+
+        # @!visibility private
+        def pili_url(https)
+          Utils::Bool.to_bool(https) ? 'https://pili.qiniuapi.com' : 'http://pili.qiniuapi.com'
+        end
       end
 
       private

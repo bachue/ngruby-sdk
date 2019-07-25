@@ -203,7 +203,7 @@ module QiniuNg
           end
 
           def sync(record)
-            @recorder&.set(@record_key, record.to_json) if @record_key
+            @recorder&.set(@record_key, Config.default_json_marshaler.call(record)) if @record_key
           end
         end
       end

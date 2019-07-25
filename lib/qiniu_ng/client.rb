@@ -5,6 +5,7 @@ require 'forwardable'
 require 'qiniu_ng/storage/bucket_manager'
 require 'qiniu_ng/processing/operation_manager'
 require 'qiniu_ng/cdn/manager'
+require 'qiniu_ng/streaming/manager'
 
 module QiniuNg
   # 七牛 SDK 客户端
@@ -20,11 +21,13 @@ module QiniuNg
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @http_client_with_auth_v2, auth)
       @operation_manager = Processing::OperationManager.new(@http_client_with_auth_v1)
       @cdn_manager = CDN::Manager.new(@http_client_with_auth_v2)
+      @streaming_manager = Streaming::Manager.new(@http_client_with_auth_v2, auth)
     end
 
     def_delegators :@bucket_manager, *Storage::BucketManager.public_instance_methods(false)
     def_delegators :@operation_manager, *Processing::OperationManager.public_instance_methods(false)
     def_delegators :@cdn_manager, *CDN::Manager.public_instance_methods(false)
+    def_delegators :@streaming_manager, *Streaming::Manager.public_instance_methods(false)
 
     # 发送文件批处理操作
     # @example
