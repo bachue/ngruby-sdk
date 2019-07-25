@@ -13,6 +13,10 @@ module QiniuNg
       end
 
       # 获取一个直播空间
+      #
+      # @param [String] hub_name 空间名称
+      # @param [String] domain 空间域名
+      # @return [Hub] 返回一个七牛直播空间
       def hub(hub_name, domain:)
         Hub.new(hub_name, @http_client_v2, @auth, domain)
       end

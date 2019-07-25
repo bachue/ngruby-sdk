@@ -63,12 +63,13 @@ RSpec.describe QiniuNg::Streaming do
       stub_request(:get, "http://pili.qiniuapi.com/v2/hubs/#{hub.name}/streams/#{Base64.urlsafe_encode64('stream')}/live")
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: {
-                     startAt: 1463577162, clientIP: '172.21.1.106:53349', bps: 73827, fps: { audio: 38, video: 23, data: 0}
+                     startAt: 1_463_577_162, clientIP: '172.21.1.106:53349',
+                     bps: 73_827, fps: { audio: 38, video: 23, data: 0 }
                    }.to_json)
       live_info = hub.stream('stream').live_info
-      expect(live_info.started_at).to eq Time.at(1463577162)
+      expect(live_info.started_at).to eq Time.at(1_463_577_162)
       expect(live_info.client_ip).to eq '172.21.1.106:53349'
-      expect(live_info.bps).to eq 73827
+      expect(live_info.bps).to eq 73_827
       expect(live_info.fps['audio']).to eq 38
       expect(live_info.fps['video']).to eq 23
       expect(live_info.fps['data']).to eq 0
@@ -79,14 +80,14 @@ RSpec.describe QiniuNg::Streaming do
         .to_return(headers: { 'Content-Type': 'application/json' },
                    body: {
                      items: [{
-                       key: 'stream1', startAt: 1463577162, clientIP: '172.21.1.106:53349',
-                       bps: 73827, fps: { audio: 38, video: 23, data: 0}
+                       key: 'stream1', startAt: 1_463_577_162, clientIP: '172.21.1.106:53349',
+                       bps: 73_827, fps: { audio: 38, video: 23, data: 0 }
                      }]
                    }.to_json)
       live_info = hub.live_info('stream1', 'stream2')
-      expect(live_info['stream1'].started_at).to eq Time.at(1463577162)
+      expect(live_info['stream1'].started_at).to eq Time.at(1_463_577_162)
       expect(live_info['stream1'].client_ip).to eq '172.21.1.106:53349'
-      expect(live_info['stream1'].bps).to eq 73827
+      expect(live_info['stream1'].bps).to eq 73_827
       expect(live_info['stream1'].fps['audio']).to eq 38
       expect(live_info['stream1'].fps['video']).to eq 23
       expect(live_info['stream1'].fps['data']).to eq 0
@@ -96,13 +97,13 @@ RSpec.describe QiniuNg::Streaming do
     it 'should return get history activities' do
       stub_request(:get, "http://pili.qiniuapi.com/v2/hubs/#{hub.name}/streams/#{Base64.urlsafe_encode64('stream')}/historyactivity")
         .to_return(headers: { 'Content-Type': 'application/json' },
-                   body: { items: [{ start: 1463577162, end: 1463577171 }, { start: 1463382401, end: 1463382793 }] }.to_json)
+                   body: { items: [{ start: 1_463_577_162, end: 1_463_577_171 }, { start: 1_463_382_401, end: 1_463_382_793 }] }.to_json)
       activities = hub.stream('stream').history_activities
       expect(activities.size).to eq 2
-      expect(activities[0].first).to eq Time.at(1463577162)
-      expect(activities[0].last).to eq Time.at(1463577171)
-      expect(activities[1].first).to eq Time.at(1463382401)
-      expect(activities[1].last).to eq Time.at(1463382793)
+      expect(activities[0].first).to eq Time.at(1_463_577_162)
+      expect(activities[0].last).to eq Time.at(1_463_577_171)
+      expect(activities[1].first).to eq Time.at(1_463_382_401)
+      expect(activities[1].last).to eq Time.at(1_463_382_793)
     end
 
     it 'should generate urls' do
@@ -111,7 +112,7 @@ RSpec.describe QiniuNg::Streaming do
         eq 'rtmp://pili-publish.avr-zhourong.qiniu-solutions.com/avr-pili/stream'
       )
       expect(stream.rtmp_publish_url.private).to(
-        be_start_with 'rtmp://pili-publish.avr-zhourong.qiniu-solutions.com/avr-pili/stream?e='
+        be_start_with('rtmp://pili-publish.avr-zhourong.qiniu-solutions.com/avr-pili/stream?e=')
       )
       expect(stream.rtmp_play_url).to(
         eq 'rtmp://pili-live-rtmp.avr-zhourong.qiniu-solutions.com/avr-pili/stream'

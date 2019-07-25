@@ -3,7 +3,15 @@
 module QiniuNg
   module Streaming
     # 七牛直播空间
+    #
+    # @example
+    #   client = QiniuNg.new_client(access_key: '<Qiniu AccessKey>', secret_key: '<Qiniu SecretKey>')
+    #   streams = client.hub('<Hub Name>', domain: '<Hub Domain>').streams
+    #
+    # @!attribute [r] name
+    #   @return [String] 直播空间名称
     class Hub
+      attr_reader :name
       # @!visibility private
       def initialize(hub, http_client_v2, auth, domain)
         @name = hub
@@ -11,14 +19,20 @@ module QiniuNg
         @http_client_v2 = http_client_v2
         @domain = domain
       end
-      attr_reader :name
 
       # 获取直播流
+      #
+      # @param [String] key 直播流名称
+      # @return [Stream] 返回直播流
       def stream(key)
         Stream.new(key, self, @http_client_v2, @auth, @domain)
       end
 
       # 创建直播流
+      #
+      # @param [String] key 直播流名称
+      # @raise [QiniuNg::HTTP::ResourceExists] 直播流已经存在
+      # @return [Stream] 返回直播流
       def create_stream(key, pili_url: nil, https: nil, **options)
         @http_client_v2.post("/v2/hubs/#{@name}/streams", pili_url || get_pili_url(https),
                              headers: { content_type: 'application/json' },
@@ -28,6 +42,10 @@ module QiniuNg
       end
 
       # 批量查询直播实时信息
+      #
+      # @param [Array<String>] stream_keys 提供需要查询的直播流
+      # @return [Hash<String, Stream::LiveInfo>] 返回直播流实时信息，Key 为直播流名称，Value 为直播流实时信息。
+      #   并非所有在 stream_keys 中的直播流都会返回在结果中，如果该直播流当时没有处于直播状态，则不会返回
       def live_info(*stream_keys, pili_url: nil, https: nil, **options)
         return {} if stream_keys.empty?
 
@@ -42,6 +60,17 @@ module QiniuNg
       end
 
       # 列出所有直播流
+      #
+      # @example
+      #   client = QiniuNg.new_client(access_key: '<Qiniu AccessKey>', secret_key: '<Qiniu SecretKey>')
+      #   streams = client.hub('<Hub Name>', domain: '<Hub Domain>').streams
+      #
+      # @param [Boolean] live_only 是否正处于直播状态
+      # @param [String] prefix 匹配直播流前缀
+      # @param [String] pili_url Pili 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [Enumerable] 返回一个{迭代器}[https://ruby-doc.org/core-2.6/Enumerable.html]实例
       def streams(live_only: false, prefix: nil, pili_url: nil, limit: nil, marker: nil, https: nil, **options)
         StreamsIterator.new(self, @http_client_v2, live_only, prefix, limit, marker, pili_url, https, options)
       end
