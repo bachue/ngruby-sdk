@@ -90,7 +90,7 @@ module QiniuNg
       end
 
       # @!visibility private
-      def sign_download_url_with_deadline(base_url, deadline:)
+      def sign_download_url_with_deadline(base_url, deadline:, only_path: false)
         url = base_url
         url += if url.include?('?')
                  '&e='
@@ -98,16 +98,18 @@ module QiniuNg
                  '?e='
                end
         url += deadline.to_i.to_s
-        token = sign(url.encode('UTF-8'))
+        to_sign = url
+        to_sign = url.sub(%r{^\w+://[^/]+/}, '/') if only_path
+        token = sign(to_sign.encode('UTF-8'))
         url += '&token=' + token
         url
       end
 
       # @!visibility private
-      def sign_download_url_with_lifetime(base_url, lifetime:)
+      def sign_download_url_with_lifetime(base_url, lifetime:, only_path: false)
         lifetime = Utils::Duration.new(lifetime) if lifetime.is_a?(Hash)
         deadline = [Time.now.to_i + lifetime.to_i, (1 << 32) - 1].min
-        sign_download_url_with_deadline(base_url, deadline: deadline)
+        sign_download_url_with_deadline(base_url, deadline: deadline, only_path: only_path)
       end
 
       # @!visibility private

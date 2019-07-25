@@ -84,11 +84,11 @@ module QiniuNg
                                    @lifetime = Utils::Duration.new(@lifetime) if @lifetime.is_a?(Hash)
                                    @lifetime.to_i
                                  end
-        deadline_hex = @deadline.to_i.to_s(16)
+        deadline_hex = @deadline.to_i.to_s(16).downcase
         url_prefix = @public_url.send(:generate_public_url_without_path)
         path = @public_url.send(:generate_public_url_without_domain)
         to_sign_data = "#{@encrypt_key}#{path.encode('UTF-8')}#{deadline_hex}"
-        signed_data = Digest::MD5.hexdigest(to_sign_data)
+        signed_data = Digest::MD5.hexdigest(to_sign_data).downcase
         if path.include?('?')
           replace("#{url_prefix}#{path}&sign=#{signed_data}&t=#{deadline_hex}")
         else

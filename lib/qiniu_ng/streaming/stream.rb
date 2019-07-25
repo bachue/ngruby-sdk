@@ -132,7 +132,7 @@ module QiniuNg
       # @!attribute [r] bps
       #   @return [Integer] 当前码率
       # @!attribute [r] fps
-      #   @return [Hash<String, Integer>] 返回包含帧率信息的 Hash，包含 audio 音频帧率，video 视频帧率，data 数据帧率
+      #   @return [LiveInfo::FPS] 返回帧率信息
       class LiveInfo
         attr_reader :started_at, :client_ip, :bps, :fps
 
@@ -141,7 +141,25 @@ module QiniuNg
           @started_at = Time.at(hash['startAt']).freeze
           @client_ip = hash['clientIP'].freeze
           @bps = hash['bps']
-          @fps = hash['fps'].freeze
+          @fps = FPS.new(hash['fps']).freeze
+        end
+
+        # 帧率信息
+        # @!attribute [r] audio
+        #   @return [Integer] 音频帧率
+        # @!attribute [r] video
+        #   @return [Integer] 视频帧率
+        # @!attribute [r] data
+        #   @return [Integer] 数据帧率
+        class FPS
+          attr_reader :audio, :video, :data
+
+          # @!visibility private
+          def initialize(hash)
+            @audio = hash['audio']
+            @video = hash['video']
+            @data = hash['data']
+          end
         end
       end
 
@@ -211,30 +229,30 @@ module QiniuNg
 
       # RTMP 播放地址
       #
-      # @return [URL] RTMP 播放地址
+      # @return [PlayURL] RTMP 播放地址
       def rtmp_play_url
-        URL.new('rtmp', rtmp_play_domain, @hub.name, @key)
+        URL::PlayURL.new('rtmp', rtmp_play_domain, @hub.name, @key)
       end
 
       # HLS 播放地址
       #
-      # @return [URL] HLS 播放地址
+      # @return [URL::PlayURL] HLS 播放地址
       def hls_play_url
-        URL.new('http', hls_play_domain, @hub.name, "#{@key}.m3u8")
+        URL::PlayURL.new('http', hls_play_domain, @hub.name, "#{@key}.m3u8")
       end
 
       # HDL (HTTP-FLV) 播放地址
       #
-      # @return [URL] HDL (HTTP-FLV) 播放地址
+      # @return [URL::PlayURL] HDL (HTTP-FLV) 播放地址
       def hdl_play_url
-        URL.new('http', hdl_play_domain, @hub.name, "#{@key}.flv")
+        URL::PlayURL.new('http', hdl_play_domain, @hub.name, "#{@key}.flv")
       end
 
       # 直播封面地址
       #
-      # @return [URL] 直播封面地址
+      # @return [URL::PlayURL] 直播封面地址
       def snapshot_url
-        URL.new('http', snapshot_domain, @hub.name, "#{@key}.jpg")
+        URL::PlayURL.new('http', snapshot_domain, @hub.name, "#{@key}.jpg")
       end
 
       # @!visibility private
