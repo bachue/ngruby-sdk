@@ -87,11 +87,13 @@ module QiniuNg
 
       # @!visibility private
       class ChangeStatus < Op
+        # @!visibility private
         def initialize(entry, disabled:)
           super(entry)
           @disabled = Utils::Bool.to_int(disabled)
         end
 
+        # @!visibility private
         def to_s
           "/chstatus/#{encoded_entry}/status/#{@disabled}"
         end
@@ -99,11 +101,13 @@ module QiniuNg
 
       # @!visibility private
       class SetLifetime < Op
+        # @!visibility private
         def initialize(entry, days:)
           super(entry)
           @delete_after_days = days
         end
 
+        # @!visibility private
         def to_s
           "/deleteAfterDays/#{encoded_entry}/#{@delete_after_days}"
         end
@@ -111,11 +115,13 @@ module QiniuNg
 
       # @!visibility private
       class ChangeType < Op
+        # @!visibility private
         def initialize(entry, type:)
           super(entry)
           @type = type.to_i
         end
 
+        # @!visibility private
         def to_s
           "/chtype/#{encoded_entry}/type/#{@type}"
         end
@@ -123,11 +129,13 @@ module QiniuNg
 
       # @!visibility private
       class ChangeMIMEType < Op
+        # @!visibility private
         def initialize(entry, mime_type:)
           super(entry)
           @mime_type = mime_type
         end
 
+        # @!visibility private
         def to_s
           "/chgm/#{encoded_entry}/mime/#{Base64.urlsafe_encode64(@mime_type)}"
         end
@@ -135,11 +143,13 @@ module QiniuNg
 
       # @!visibility private
       class ChangeMeta < Op
+        # @!visibility private
         def initialize(entry, meta:)
           super(entry)
           @meta = meta
         end
 
+        # @!visibility private
         def to_s
           str = "/chgm/#{encoded_entry}"
           @meta.each do |key, value|
@@ -150,6 +160,7 @@ module QiniuNg
 
       # @!visibility private
       class Move < Op
+        # @!visibility private
         def initialize(entry, bucket:, key:, force: false)
           super(entry)
           @bucket = bucket
@@ -157,6 +168,7 @@ module QiniuNg
           @force = Utils::Bool.to_bool(force)
         end
 
+        # @!visibility private
         def to_s
           "/move/#{encoded_entry}/#{encode_entry(@bucket, @key)}/force/#{@force}"
         end
@@ -164,6 +176,7 @@ module QiniuNg
 
       # @!visibility private
       class Copy < Op
+        # @!visibility private
         def initialize(entry, bucket:, key:, force: false)
           super(entry)
           @bucket = bucket
@@ -171,6 +184,7 @@ module QiniuNg
           @force = Utils::Bool.to_bool(force)
         end
 
+        # @!visibility private
         def to_s
           "/copy/#{encoded_entry}/#{encode_entry(@bucket, @key)}/force/#{@force}"
         end
@@ -178,6 +192,7 @@ module QiniuNg
 
       # @!visibility private
       class Delete < Op
+        # @!visibility private
         def to_s
           "/delete/#{encoded_entry}"
         end

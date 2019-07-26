@@ -8,6 +8,7 @@ module QiniuNg
     class Uploader
       # @!visibility private
       class FormUploader < UploaderBase
+        # @!visibility private
         def sync_upload_file(filepath, key: nil, upload_token:, params: {}, meta: {},
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
           crc32 = crc32_of_file(filepath) unless disable_checksum
@@ -26,6 +27,7 @@ module QiniuNg
           Result.new(resp.body['hash'], resp.body['key'])
         end
 
+        # @!visibility private
         def sync_upload_stream(stream, key: nil, upload_token:, params: {}, meta: {}, mime_type: DEFAULT_MIME,
                                disable_checksum: false, crc32: nil, etag: nil, https: nil, **options)
           if disable_checksum

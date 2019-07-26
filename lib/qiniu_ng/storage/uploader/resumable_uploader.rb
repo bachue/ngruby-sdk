@@ -9,6 +9,7 @@ module QiniuNg
     class Uploader
       # @!visibility private
       class ResumableUploader < UploaderBase
+        # @!visibility private
         def initialize(bucket, http_client, block_size: Config.default_upload_block_size)
           raise ArgumengError, 'block_size must be multiples of 4 MB' unless (block_size % (1 << 22)).zero?
 
@@ -17,6 +18,7 @@ module QiniuNg
           @block_size = block_size.freeze
         end
 
+        # @!visibility private
         def sync_upload_file(filepath,
                              key: nil, upload_token:, params: {}, meta: {}, recorder: nil,
                              mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
@@ -30,6 +32,7 @@ module QiniuNg
           end
         end
 
+        # @!visibility private
         def sync_upload_stream(stream,
                                key: nil, upload_token:, params: {}, meta: {}, recorder: nil, upload_recorder: nil,
                                size: nil, mime_type: DEFAULT_MIME, disable_checksum: false, https: nil, **options)
@@ -144,6 +147,7 @@ module QiniuNg
         # 分块上传记录
         class Record
           attr_reader :upload_id, :created_at, :etag_idxes, :uploaded_size
+          # @!visibility private
           def initialize(upload_id, etag_idxes, uploaded_size: 0, created_at: Time.now)
             @upload_id = upload_id
             @etag_idxes = etag_idxes || []
@@ -151,6 +155,7 @@ module QiniuNg
             @created_at = created_at
           end
 
+          # @!visibility private
           def self.from_json(json)
             hash = Config.default_json_unmarshaler.call(json)
             etag_idxes = hash['etag_idxes'].each_with_object([]) do |ei, obj|
@@ -162,6 +167,7 @@ module QiniuNg
                 uploaded_size: hash['uploaded_size'], created_at: Time.at(hash['created_at']))
           end
 
+          # @!visibility private
           def to_json(*args)
             hash = { upload_id: @upload_id, uploaded_size: @uploaded_size, created_at: @created_at.to_i }
             hash[:etag_idxes] = @etag_idxes.each_with_object([]) do |ei, obj|
@@ -171,6 +177,7 @@ module QiniuNg
             Config.default_json_marshaler.call(hash, *args)
           end
 
+          # @!visibility private
           def active?(file_size)
             ok = @created_at > Time.now - Utils::Duration.new(days: 5).to_i &&
                  !@upload_id.nil? && !@upload_id.empty? &&
@@ -182,6 +189,7 @@ module QiniuNg
 
         # 分块上传记录仪
         class UploadRecorder
+          # @!visibility private
           def initialize(recorder, bucket: nil, key: nil, file: nil)
             if recorder
               @recorder = recorder
@@ -192,16 +200,19 @@ module QiniuNg
             end
           end
 
+          # @!visibility private
           def load
             Record.from_json(@recorder&.get(@record_key)) if @record_key
           rescue StandardError
             nil
           end
 
+          # @!visibility private
           def del
             @recorder&.del(@record_key) if @record_key
           end
 
+          # @!visibility private
           def sync(record)
             @recorder&.set(@record_key, Config.default_json_marshaler.call(record)) if @record_key
           end

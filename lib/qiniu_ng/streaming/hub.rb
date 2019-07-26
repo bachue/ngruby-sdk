@@ -79,6 +79,7 @@ module QiniuNg
       class StreamsIterator
         include Enumerable
 
+        # @!visibility private
         def initialize(hub, http_client_v2, live_only, prefix, limit, marker, pili_url, https, options)
           @hub = hub
           @http_client_v2 = http_client_v2
@@ -91,6 +92,7 @@ module QiniuNg
           @options = options
         end
 
+        # @!visibility private
         def each
           return enumerator unless block_given?
 

@@ -6,6 +6,7 @@ module QiniuNg
     module Bool
       extend self
 
+      # @!visibility private
       def to_bool(bool, omitempty: false)
         b = from(bool)
         return b if b
@@ -13,6 +14,7 @@ module QiniuNg
         omitempty ? nil : b
       end
 
+      # @!visibility private
       def to_int(bool, omitempty: false)
         v = from(bool) ? 1 : 0
         return v if v == 1

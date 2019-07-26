@@ -23,11 +23,16 @@ module QiniuNg
 
       def_delegators :@public_url, :domain, :key, :filename, :fop
 
+      # 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+      # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       def filename=(filename)
         @public_url.filename = filename
         generate_timestamp_anti_leech_url!
       end
 
+      # 设置数据处理参数
+      # @param [String] fop 数据处理参数
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       def fop=(fop)
         @public_url.fop = fop
         generate_timestamp_anti_leech_url!

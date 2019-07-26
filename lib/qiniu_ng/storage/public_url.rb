@@ -47,11 +47,16 @@ module QiniuNg
         generate_public_url!
       end
 
+      # 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+      # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       def filename=(filename)
         @filename = filename
         generate_public_url!
       end
 
+      # 设置数据处理参数
+      # @param [String] fop 数据处理参数
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       def fop=(fop)
         @fop = fop
         generate_public_url!

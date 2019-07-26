@@ -5,6 +5,7 @@ module QiniuNg
   module Common
     # @!visibility private
     module Constant
+      # @!visibility private
       BLOCK_SIZE = 1 << 22
     end
 

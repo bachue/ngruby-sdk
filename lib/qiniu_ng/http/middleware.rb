@@ -7,12 +7,14 @@ module QiniuNg
     module Middleware
       # 七牛请求签名中间件
       class Auth < Faraday::Middleware
+        # @!visibility private
         def initialize(app, auth:, version:)
           super(app)
           @auth = auth
           @version = version
         end
 
+        # @!visibility private
         def call(env)
           unless @auth.nil? || @version.nil?
             env.request_headers[:authorization] ||= @auth.authorization_for_request(
@@ -29,6 +31,7 @@ module QiniuNg
 
       # 七牛 HTTP 错误处理中间件
       class RaiseError < Faraday::Response::Middleware
+        # @!visibility private
         def on_complete(env)
           case env[:status]
           when 419

@@ -321,6 +321,7 @@ module QiniuNg
           @options = options
         end
 
+        # @!visibility private
         def each
           return enumerator unless block_given?
 
