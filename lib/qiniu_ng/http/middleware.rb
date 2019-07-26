@@ -48,7 +48,7 @@ module QiniuNg
           when 614
             raise ResourceExists, response_values(env)
           when 619
-            raise NotLiveStream, response_values(env)
+            raise NoData, response_values(env)
           when 630
             raise TooManyBuckets, response_values(env)
           when 631

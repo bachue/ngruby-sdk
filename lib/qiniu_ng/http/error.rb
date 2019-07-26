@@ -47,8 +47,8 @@ module QiniuNg
     class ResourceExists < ClientError
     end
 
-    # 流不处于直播中
-    class NotLiveStream < ClientError
+    # 流不处于直播中，或该时间点上没有直播数据
+    class NoData < ClientError
     end
 
     # 存储空间过多

@@ -276,6 +276,17 @@ module QiniuNg
         Model::AsyncFetchJob.new(self, @http_client_v2, id)
       end
 
+      # 获取文件处理结果
+      #
+      # 根据异步抓取任务 ID 获取结果
+      #
+      # @param [String, QiniuNg::Processing::PersistentID] persistent_id 持久化 ID
+      # @return [QiniuNg::Processing::PfopResults] 持久化结果
+      def query_processing_result(persistent_id, api_zone: nil, https: nil, **options)
+        Processing::PersistentID.new(persistent_id.to_s, @http_client_v1, self)
+                                .get(api_zone: api_zone, https: https, **options)
+      end
+
       # 遍历存储空间中的文件，获取迭代器
       #
       # @example

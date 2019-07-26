@@ -1,5 +1,6 @@
 # frozen_string_literal: true
- require 'base64'
+
+require 'base64'
 
 module QiniuNg
   module Streaming
@@ -120,7 +121,7 @@ module QiniuNg
         path = "/v2/hubs/#{@hub.name}/streams/#{Base64.urlsafe_encode64(@key)}/live"
         resp_body = @http_client_v2.get(path, pili_url || get_pili_url(https), **options).body
         LiveInfo.new(resp_body)
-      rescue HTTP::NotLiveStream
+      rescue HTTP::NoData
         nil
       end
 
@@ -179,6 +180,94 @@ module QiniuNg
         params['end'] = to.to_i if to&.to_i&.> 0
         resp_body = @http_client_v2.get(path, pili_url || get_pili_url(https), params: params, **options).body
         resp_body['items'].map { |item| [Time.at(item['start']), Time.at(item['end'])].freeze }.freeze
+      end
+
+      # 录制直播回放
+      #
+      # @param [String] key 保存的文件名，不指定系统会随机生成
+      # @param [Time] from 要保存的直播的起始时间，如果为 nil 或不填，则表示不限制起始时间
+      # @param [Time] to 要保存的直播的结束时间，如果为 nil 或不填，则表示当前时间
+      # @param [Symbol, String] format 保存的文件格式，默认为 m3u8，如果需要指定其他格式，将会启用异步处理
+      # @param [String] pipeline 当使用异步处理时，使用的数据处理私有队列名称
+      #   {参考文档}[https://developer.qiniu.com/kodo/manual/1206/put-policy#put-policy-persistentPipeline]
+      # @param [String] notify_url 当使用异步处理时，保存成功回调通知地址
+      #   {参考文档}[https://developer.qiniu.com/kodo/manual/1206/put-policy#putpolicy-persistentNotifyUrl]
+      # @param [Integer] expire_after_days 文件生命周期，单位为天。默认永久保存
+      # @param [String] pili_url Pili 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @raise [QiniuNg::HTTP::ResourceNotFound] 找不到直播流
+      # @raise [QiniuNg::HTTP::NoData] 该时间点上没有直播数据
+      # @return [SaveAsResult] 返回录制结果
+      def save_as(key: nil, from: nil, to: nil, format: :m3u8,
+                  pipeline: nil, notify_url: nil, expire_after_days: nil,
+                  pili_url: nil, https: nil, **options)
+        path = "/v2/hubs/#{@hub.name}/streams/#{Base64.urlsafe_encode64(@key)}/saveas"
+        req_body = {
+          fname: key, start: from&.to_i, to: to&.to_i, format: format,
+          pipeline: pipeline, notify: notify_url, expireDays: expire_after_days
+        }.compact
+        resp_body = @http_client_v2.post(path, pili_url || get_pili_url(https),
+                                         headers: { content_type: 'application/json' },
+                                         body: Config.default_json_marshaler.call(req_body),
+                                         **options).body
+        SaveAsResult.new(resp_body).freeze
+      end
+      alias saveas save_as
+
+      # 录制直播回放结果
+      #
+      # @!attribute [r] key
+      #   @return [String] 保存后在存储空间里的文件名
+      # @!attribute [r] persistent_id
+      #   @return [String] 持久化异步处理任务 ID
+      class SaveAsResult
+        attr_reader :key, :persistent_id
+
+        # @!visibility private
+        def initialize(hash)
+          @key = hash['fname']
+          @persistent_id = hash['persistentID']
+        end
+      end
+
+      # 保存直播截图
+      #
+      # @param [String] key 保存的文件名，不指定系统会随机生成
+      # @param [Time] time 要保存截图的时间点，如果为 nil 或不填，则表示不限制起始时间
+      # @param [String, Symbol] format 要保存的文件格式，默认为 JPG
+      # @param [Integer] expire_after_days 文件生命周期，单位为天。默认永久保存
+      # @param [Integer] delete_after_days 与 expire_after_days 语义相同。仅使用任意一个参数即可，不必同时使用
+      # @param [String] pili_url Pili 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @raise [QiniuNg::HTTP::ResourceNotFound] 找不到直播流
+      # @raise [Faraday::ClientError] 该时间点上没有视频
+      # @return [SnapshotResult] 返回录制结果
+      def snapshot(key: nil, time: nil, format: :jpg, expire_after_days: nil, delete_after_days: nil,
+                   pili_url: nil, https: nil, **options)
+        path = "/v2/hubs/#{@hub.name}/streams/#{Base64.urlsafe_encode64(@key)}/snapshot"
+        req_body = {
+          fname: key, time: time&.to_i, format: format, deleteAfterDays: delete_after_days || expire_after_days
+        }.compact
+        resp_body = @http_client_v2.post(path, pili_url || get_pili_url(https),
+                                         headers: { content_type: 'application/json' },
+                                         body: Config.default_json_marshaler.call(req_body),
+                                         **options).body
+        SnapshotResult.new(resp_body).freeze
+      end
+
+      # 保存直播截图结果
+      #
+      # @!attribute [r] key
+      #   @return [String] 保存后在存储空间里的文件名
+      class SnapshotResult
+        attr_reader :key
+
+        # @!visibility private
+        def initialize(hash)
+          @key = hash['fname']
+        end
       end
 
       # RTMP 推流域名

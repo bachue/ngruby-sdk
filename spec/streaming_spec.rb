@@ -70,9 +70,9 @@ RSpec.describe QiniuNg::Streaming do
       expect(live_info.started_at).to eq Time.at(1_463_577_162)
       expect(live_info.client_ip).to eq '172.21.1.106:53349'
       expect(live_info.bps).to eq 73_827
-      expect(live_info.fps['audio']).to eq 38
-      expect(live_info.fps['video']).to eq 23
-      expect(live_info.fps['data']).to eq 0
+      expect(live_info.fps.audio).to eq 38
+      expect(live_info.fps.video).to eq 23
+      expect(live_info.fps.data).to eq 0
     end
 
     it 'should return live info of multiple streams' do
@@ -88,9 +88,9 @@ RSpec.describe QiniuNg::Streaming do
       expect(live_info['stream1'].started_at).to eq Time.at(1_463_577_162)
       expect(live_info['stream1'].client_ip).to eq '172.21.1.106:53349'
       expect(live_info['stream1'].bps).to eq 73_827
-      expect(live_info['stream1'].fps['audio']).to eq 38
-      expect(live_info['stream1'].fps['video']).to eq 23
-      expect(live_info['stream1'].fps['data']).to eq 0
+      expect(live_info['stream1'].fps.audio).to eq 38
+      expect(live_info['stream1'].fps.video).to eq 23
+      expect(live_info['stream1'].fps.data).to eq 0
       expect(live_info).not_to have_key('stream2')
     end
 
