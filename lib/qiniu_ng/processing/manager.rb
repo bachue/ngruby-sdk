@@ -5,7 +5,7 @@ module QiniuNg
     # 七牛文件处理管理
     #
     # 该类所有方法都已被委托给 QiniuNg::Client 直接调用
-    class OperationManager
+    class Manager
       # @!visibility private
       def initialize(http_client_v1)
         @http_client_v1 = http_client_v1

@@ -47,6 +47,14 @@ module QiniuNg
     class ResourceExists < ClientError
     end
 
+    # 实时音视频房间不存在
+    class RoomIsNotActive < ClientError
+    end
+
+    # 直播空间和实时音视频应用不匹配
+    class HubNotMatch < ClientError
+    end
+
     # 流不处于直播中，或该时间点上没有直播数据
     class NoData < ClientError
     end

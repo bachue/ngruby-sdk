@@ -20,6 +20,26 @@ module QiniuNg
         @domain = domain
       end
 
+      # 创建实时音视频直播应用
+      #
+      # @param [String] title RTC 应用名称
+      # @param [Integer] max_users 连麦房间支持的最大在线人数
+      # @param [Boolean] auto_kick 是否启用自动踢人。
+      #   表示同一个身份的客户端，一旦新的连麦请求可以成功，旧连接将被关闭
+      # @param [String] rtc_url RTC 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @raise [QiniuNg::HTTP::HubNotMatch] 应用和直播空间不匹配
+      # @return [QiniuNg::RTC::App] 返回 RTC 应用
+      def create_rtc_app(title: nil, max_users: nil, auto_kick: true, rtc_url: nil, https: nil, **options)
+        req_body = { hub: @name, title: title, maxUsers: max_users, noAutoKickUser: !auto_kick }.compact
+        resp_body = @http_client_v2.post('/v3/apps', rtc_url || get_rtc_url(https),
+                                         headers: { content_type: 'application/json' },
+                                         body: Config.default_json_marshaler.call(req_body),
+                                         **options).body
+        RTC::App.new(resp_body, @http_client_v2, @auth)
+      end
+
       # 获取直播流
       #
       # @param [String] key 直播流名称
@@ -141,6 +161,10 @@ module QiniuNg
 
       def get_pili_url(https)
         Common::Zone.pili_url(https)
+      end
+
+      def get_rtc_url(https)
+        Common::Zone.rtc_url(https)
       end
     end
   end

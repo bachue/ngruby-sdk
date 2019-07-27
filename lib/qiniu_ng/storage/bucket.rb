@@ -308,6 +308,7 @@ module QiniuNg
       class FilesIterator
         include Enumerable
 
+        # @!visibility private
         def initialize(http_client_v1, http_client_v2, auth, bucket, prefix, limit, marker, rsf_zone, https, options)
           @http_client_v1 = http_client_v1
           @http_client_v2 = http_client_v2

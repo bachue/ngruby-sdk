@@ -50,6 +50,10 @@ module QiniuNg
             raise ResourceNotFound, response_values(env)
           when 614
             raise ResourceExists, response_values(env)
+          when 615
+            raise RoomIsNotActive, response_values(env)
+          when 616
+            raise HubNotMatch, response_values(env)
           when 619
             raise NoData, response_values(env)
           when 630

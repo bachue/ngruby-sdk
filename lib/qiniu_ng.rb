@@ -46,7 +46,7 @@ require 'qiniu_ng/storage/upload_token'
 require 'qiniu_ng/storage/life_cycle_rules'
 require 'qiniu_ng/storage/bucket_event_rules'
 require 'qiniu_ng/storage/cors_rules'
-require 'qiniu_ng/processing/operation_manager'
+require 'qiniu_ng/processing/manager'
 require 'qiniu_ng/processing/persistent_id'
 require 'qiniu_ng/processing/pfop_result'
 require 'qiniu_ng/processing/pfop_results'
@@ -63,6 +63,9 @@ require 'qiniu_ng/streaming/manager'
 require 'qiniu_ng/streaming/hub'
 require 'qiniu_ng/streaming/stream'
 require 'qiniu_ng/streaming/url'
+require 'qiniu_ng/rtc/manager'
+require 'qiniu_ng/rtc/app'
+require 'qiniu_ng/rtc/room'
 
 # 下一代七牛 Ruby SDK
 #

@@ -260,6 +260,11 @@ module QiniuNg
         def pili_url(https)
           Utils::Bool.to_bool(https) ? 'https://pili.qiniuapi.com' : 'http://pili.qiniuapi.com'
         end
+
+        # @!visibility private
+        def rtc_url(https)
+          Utils::Bool.to_bool(https) ? 'https://rtc.qiniuapi.com' : 'http://rtc.qiniuapi.com'
+        end
       end
 
       private

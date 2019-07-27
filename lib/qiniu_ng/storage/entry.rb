@@ -285,9 +285,9 @@ module QiniuNg
       # @param [Hash] options 额外的 Faraday 参数
       # @return [QiniuNg::Processing::PersistentID] 返回持久化处理 ID
       def pfop(fop, pipeline:, notify_url: nil, force: nil, api_zone: nil, https: nil, **options)
-        Processing::OperationManager.new(@http_client_v1).pfop(self, fop, pipeline: pipeline, notify_url: notify_url,
-                                                                          force: force, api_zone: api_zone,
-                                                                          https: https, **options)
+        Processing::Manager.new(@http_client_v1).pfop(self, fop, pipeline: pipeline, notify_url: notify_url,
+                                                                 force: force, api_zone: api_zone,
+                                                                 https: https, **options)
       end
 
       # @!visibility private
