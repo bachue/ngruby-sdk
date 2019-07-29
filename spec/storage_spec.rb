@@ -432,6 +432,10 @@ RSpec.describe QiniuNg::Storage do
       expect(head(entry.download_url.set(fop: 'qhash/md5'))).to be_success
     end
 
+    it 'should set style' do
+      expect(entry.download_url.set(style: 'small')).to be_include('/64m-small')
+    end
+
     it 'should set filename' do
       expect(entry.download_url.set(filename: 'test.bin')).to be_include('attname=test.bin')
     end
@@ -527,6 +531,7 @@ RSpec.describe QiniuNg::Storage do
       before :all do
         client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
         bucket = client.bucket('z0-bucket', zone: QiniuNg::Zone.huadong, domains: %w[www.test1.com www.test2.com])
+        bucket.style_separator # Just cache bucket.info
         entry = bucket.entry('1m')
         WebMock.enable!
       end

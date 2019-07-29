@@ -34,6 +34,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.71'
   spec.add_development_dependency 'webmock', '~> 3.6'
   spec.add_development_dependency 'yard', '~> 0.9'
+  spec.add_runtime_dependency 'activerecord', '~> 5.0'
+  spec.add_runtime_dependency 'carrierwave', '~> 1.0'
   spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
   spec.add_runtime_dependency 'digest-crc', '~> 0.4'
   spec.add_runtime_dependency 'down', '~> 4.8'
@@ -41,6 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.13'
   spec.add_runtime_dependency 'ruby-enum', '~> 0.7'
   spec.add_runtime_dependency 'safe_yaml', '~> 1.0'
+  spec.add_runtime_dependency 'sqlite3', '~> 1.4'
   if RUBY_PLATFORM == 'java'
     spec.add_runtime_dependency 'jruby-openssl', '~> 0.10'
   else

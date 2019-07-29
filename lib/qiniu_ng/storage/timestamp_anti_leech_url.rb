@@ -31,10 +31,18 @@ module QiniuNg
       end
 
       # 设置数据处理参数
-      # @param [String] fop 数据处理参数
+      # @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
       #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       def fop=(fop)
         @public_url.fop = fop
+        generate_timestamp_anti_leech_url!
+      end
+
+      # 设置数据处理样式
+      # @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      def style=(style)
+        @public_url.style = style
         generate_timestamp_anti_leech_url!
       end
 
@@ -59,14 +67,16 @@ module QiniuNg
 
       # 设置下载地址的下载后的文件名和数据处理参数
       #
-      # @param [String] fop 数据处理参数
+      # @param [String] fop 数据处理参数，不要与 style 同时设置。
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [String] style 数据处理样式，不要与 fop 同时设置。
       #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期。
       #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @return [QiniuNg::Storage::PrivateURL] 返回上下文
-      def set(fop: nil, filename: nil, lifetime: nil)
-        @public_url.set(fop: fop, filename: filename)
+      def set(fop: nil, style: nil, filename: nil, lifetime: nil)
+        @public_url.set(fop: fop, style: style, filename: filename)
         self.lifetime = lifetime unless lifetime.nil?
         generate_timestamp_anti_leech_url!
         self

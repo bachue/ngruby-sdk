@@ -20,6 +20,9 @@ module QiniuNg
         @http_client_v1 = http_client_v1
         @http_client_v2 = http_client_v2
         @auth = auth
+        @info_cache = nil
+        @info_cache_expire_at = nil
+        @info_lock = Concurrent::ReadWriteLock.new
 
         @zone = zone.freeze
         @zone_lock = Concurrent::ReadWriteLock.new
@@ -130,6 +133,7 @@ module QiniuNg
         path = "/image/#{@bucket_name}/from/#{encoded_url}"
         path += "/host/#{Base64.urlsafe_encode64(source_host)}" unless source_host.nil? || source_host.empty?
         @http_client_v1.post(path, uc_url || get_uc_url(https), **options)
+        expire_info!
         nil
       end
 
@@ -145,6 +149,7 @@ module QiniuNg
       # @param [Hash] options 额外的 Faraday 参数
       def unset_image(uc_url: nil, https: nil, **options)
         @http_client_v1.post("/unimage/#{@bucket_name}", uc_url || get_uc_url(https), **options)
+        expire_info!
         nil
       end
 
@@ -206,6 +211,18 @@ module QiniuNg
       # @return [Boolean] 是否为私有空间
       def private?(uc_url: nil, https: nil, **options)
         info(uc_url: uc_url, https: https, **options)['private'] == 1
+      end
+
+      # 数据处理样式分隔符
+      #
+      # @see https://developer.qiniu.com/dora/manual/1204/processing-mechanism
+      #
+      # @param [String] uc_url UC 所在服务器地址，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [String] 返回样式分隔符
+      def style_separator(uc_url: nil, https: nil, **options)
+        info(uc_url: uc_url, https: https, **options)['separator'].freeze
       end
 
       # 开启存储空间的默认首页功能
@@ -381,7 +398,7 @@ module QiniuNg
       # @return [QiniuNg::Storage::Uploader] 返回存储空间的上传器
       def uploader(block_size: Config.default_upload_block_size)
         uploader = @uploader_lock.with_read_lock { @uploader }
-        return uploader unless uploader.nil?
+        return uploader if uploader&.block_size == block_size
 
         @uploader_lock.with_write_lock do
           @uploader ||= Uploader.new(self, @http_client_v1, block_size: block_size)
@@ -644,6 +661,7 @@ module QiniuNg
         no_index_page = Utils::Bool.to_int(!enabled)
         params = { bucket: @bucket_name, noIndexPage: no_index_page }
         @http_client_v1.post('/noIndexPage', uc_url || get_uc_url(https), params: params, **options)
+        expire_info!
         nil
       end
 
@@ -651,18 +669,40 @@ module QiniuNg
         private_access = Utils::Bool.to_int(private_access)
         params = { bucket: @bucket_name, private: private_access }
         @http_client_v1.post('/private', uc_url || get_uc_url(https), params: params, **options)
+        expire_info!
         nil
       end
 
       def set_original_protection(enabled, uc_url: nil, https: nil, **options)
         enabled = Utils::Bool.to_int(enabled)
         @http_client_v1.post("/accessMode/#{@bucket_name}/mode/#{enabled}", uc_url || get_uc_url(https), **options)
+        expire_info!
         nil
       end
 
       def info(uc_url: nil, https: nil, **options)
-        @http_client_v1.get('/v2/bucketInfo', uc_url || get_uc_url(https), params: { bucket: @bucket_name },
-                                                                           **options).body
+        info = @info_lock.with_read_lock { @info_cache if @info_cache_expire_at&.> Time.now }
+        return info if info
+
+        @info_lock.with_write_lock do
+          if @info_cache_expire_at&.> Time.now
+            @info_cache = nil
+            @info_cache_expire_at = nil
+          end
+          @info_cache ||= @http_client_v1.get('/v2/bucketInfo', uc_url || get_uc_url(https),
+                                              params: { bucket: @bucket_name },
+                                              **options).body
+          @info_cache_expire_at ||= Time.now + Utils::Duration.new(day: 1).to_i
+        end
+        @info_cache
+      end
+
+      def expire_info!
+        @info_lock.with_write_lock do
+          @info_cache = nil
+          @info_cache_expire_at = nil
+        end
+        nil
       end
 
       def get_api_url(api_zone, https)

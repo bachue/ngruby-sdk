@@ -4,8 +4,10 @@ module QiniuNg
   module Storage
     # 上传控制器
     class Uploader
+      attr_accessor :block_size
       # @!visibility private
       def initialize(bucket, http_client, block_size: Config.default_upload_block_size)
+        @block_size = block_size
         @form_uploader = FormUploader.new(bucket, http_client)
         @resumable_uploader = ResumableUploader.new(bucket, http_client, block_size: block_size)
       end
@@ -28,27 +30,30 @@ module QiniuNg
       # @param [String] mime_type 指定文件的 MIME 类型
       # @param [Boolean] disable_checksum 是否禁用上传校验（不推荐禁用）
       # @param [Symbol] resumable_policy 分片上传策略。
-      #   默认为 :auto，表示当文件大于 QiniuNg::Config.upload_threshold 时使用分片上传，否则使用表单上传。
+      #   默认为 :auto，表示当文件大于 upload_threshold 时使用分片上传，否则使用表单上传。
       #   如果设置为 :always，表示总是使用分片上传。
       #   如果设置为 :never，表示总是使用表单上传。
       #   注意，如果是上传数据流而非文件，将总是采用分片上传的方式。
+      # @param [Integer] upload_threshold 配合 resumable_policy 决定上传策略
       # @param [Bool] https 批处理操作是否使用 HTTPS 协议发送
       # @param [Hash] options 额外的 Faraday 参数
       # @raise [QiniuNg::Storage::Uploader::ChecksumError] 校验和出错
       # @return [QiniuNg::Storage::Uploader::Result] 返回上传结果
       def upload(filepath: nil, stream: nil, key: nil, upload_token:, params: {}, meta: {},
                  recorder: Recorder::FileRecorder.new, mime_type: DEFAULT_MIME, disable_checksum: false,
-                 resumable_policy: :auto, https: nil, **options)
+                 upload_threshold: Config.upload_threshold, resumable_policy: :auto, https: nil, **options)
         if !filepath || resumable_policy == :always ||
-           resumable_policy != :never && File.size(filepath) > Config.upload_threshold
+           resumable_policy != :never && File.size(filepath) > upload_threshold
           if filepath
             @resumable_uploader.sync_upload_file(filepath, key: key, upload_token: upload_token, params: params,
                                                            meta: meta, recorder: recorder, mime_type: mime_type,
                                                            disable_checksum: disable_checksum, https: https, **options)
-          else
+          elsif stream
             @resumable_uploader.sync_upload_stream(stream, key: key, upload_token: upload_token, params: params,
                                                            meta: meta, recorder: recorder, mime_type: mime_type,
                                                            disable_checksum: disable_checksum, https: https, **options)
+          else
+            raise ArgumentError, 'either filepath or stream must be specified to upload'
           end
         else
           @form_uploader.sync_upload_file(filepath, key: key, upload_token: upload_token, params: params, meta: meta,

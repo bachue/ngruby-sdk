@@ -29,20 +29,25 @@ module QiniuNg
     # @!attribute filename
     #   @return [String] 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
     # @!attribute fop
-    #   @return [String] 数据处理参数。
+    #   @return [String] 数据处理参数，与 style 不要同时设置。
+    #     {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+    # @!attribute style
+    #   @return [String] 数据处理样式，与 fop 不要同时设置。
     #     {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
     class PublicURL < URL
       attr_reader :domains, :key, :filename, :fop
 
       # @!visibility private
-      def initialize(domains, key, auth, https: nil, filename: nil, fop: nil)
+      def initialize(domains, key, auth, style_separator:, https: nil, filename: nil, fop: nil, style: nil)
         @domains = domains
         @current_domain = nil
         @key = key
         @auth = auth
+        @style_separator = style_separator
         @https = https.nil? ? Config.use_https : https
         @filename = filename
         @fop = fop
+        @style = style
         @random = nil
         generate_public_url!
       end
@@ -55,22 +60,35 @@ module QiniuNg
       end
 
       # 设置数据处理参数
-      # @param [String] fop 数据处理参数
+      # @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
       #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       def fop=(fop)
         @fop = fop
+        @style = nil
+        generate_public_url!
+      end
+
+      # 设置数据处理样式
+      # @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      def style=(style)
+        @fop = nil
+        @style = style
         generate_public_url!
       end
 
       # 设置下载地址的下载后的文件名和数据处理参数
       #
-      # @param [String] fop 数据处理参数
+      # @param [String] fop 数据处理参数，不要与 style 同时设置。
+      #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [String] style 数据处理样式，不要与 fop 同时设置。
       #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       # @return [QiniuNg::Storage::PublicURL] 返回上下文
-      def set(fop: nil, filename: nil)
+      def set(fop: nil, style: nil, filename: nil)
         @filename = filename unless filename.nil?
         @fop = fop unless fop.nil?
+        @style = style unless style.nil?
         generate_public_url!
         self
       end
@@ -134,7 +152,11 @@ module QiniuNg
       def generate_public_url_without_domain
         path = '/' + WEBrick::HTTPUtils.escape(@key)
         params = []
-        params << [@fop] unless @fop.nil? || @fop.empty?
+        if !@fop.nil? && !@fop.empty?
+          params << [@fop]
+        elsif !@style.nil? && !@style.empty?
+          path += @style_separator + WEBrick::HTTPUtils.escape(@style)
+        end
         params << ['attname', @filename] unless @filename.nil? || @filename.empty?
         params << ['tt', @random] unless @random.nil? || @random.zero?
         path += "?#{Faraday::Utils.build_query(params)}" unless params.empty?

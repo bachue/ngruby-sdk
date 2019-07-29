@@ -26,6 +26,7 @@ Metrics/PerceivedComplexity:
 Metrics/CyclomaticComplexity:
   Enabled: false
 Metrics/BlockLength:
+  Max: 100
   Exclude:
     - "**/*.gemspec"
     - "**/*_spec.rb"

@@ -242,17 +242,24 @@ module QiniuNg
       # @example 为 CDN 生成带有时间戳鉴权的下载地址
       #   client.bucket('<Bucket Name>').entry('<key>').download_url.timestamp_anti_leech(encrypt_key: '<EncryptKey>')
       #
+      # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
+      # @param [String] uc_url UC 所在服务器地址，一般无需填写
       # @param [Array<String>, String] domains 下载域名列表。默认将使用存储空间绑定的下载域名列表
       # @param [String] filename 下载到本地后的文件名，该参数仅对由浏览器打开的地址有效
       # @param [String] fop 数据处理参数。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @return [QiniuNg::Storage::PublicURL, nil] 返回文件的下载地址，如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
-      def download_url(domains: nil, https: nil, filename: nil, fop: nil, **options)
+      def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil, filename: nil, fop: nil, **options)
         if domains.nil? || domains.empty?
-          domains = @bucket.domains(https: https, **options).reverse
+          domains = @bucket.domains(api_zone: api_zone, https: https, **options).reverse
         elsif !domains.is_a?(Array)
           domains = [domains].compact
         end
-        PublicURL.new(domains, @key, @auth, filename: filename, fop: fop, https: https) unless domains.empty?
+
+        return if domains.empty?
+
+        PublicURL.new(domains, @key, @auth,
+                      style_separator: @bucket.style_separator(uc_url: uc_url, https: https, **options),
+                      filename: filename, fop: fop, https: https)
       end
 
       # 生成用于上传该文件的上传凭证

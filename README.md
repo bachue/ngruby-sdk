@@ -17,7 +17,7 @@
 
 您可能使用过先前七牛发布的另一个 [Ruby SDK](https://github.com/qiniu/ruby-sdk.git)，该 Ruby SDK 已经停止维护。请在条件允许的情况下，尽快改用本 SDK。
 
-本 SDK 相比于旧的 [Ruby SDK](https://github.com/qiniu/ruby-sdk.git)，重新设计了所有 API，并拥有更强大的功能。
+本 SDK 相比于旧的 [Ruby SDK](https://github.com/qiniu/ruby-sdk.git)，重新设计了所有 API，拥有更强大的功能，并对 Carrierwave, ActiveStorage 等开源工具进行了集成。
 
 本 SDK 与旧的 [Ruby SDK](https://github.com/qiniu/ruby-sdk.git) 在 API 上不兼容，但可以共存。
 

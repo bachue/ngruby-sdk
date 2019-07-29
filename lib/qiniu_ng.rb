@@ -239,3 +239,5 @@ module QiniuNg
     conn.adapter Faraday.default_adapter
   end
 end
+
+require 'qiniu_ng/thirdparty'
