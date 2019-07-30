@@ -26,6 +26,18 @@ module QiniuNg
       end
       def_delegators :@entry, :to_s, :encode
 
+      # 文件是否存在
+      #
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @return [Boolean] 文件是否存在
+      def exists?(https: nil, **options)
+        stat(https: https, **options)
+        true
+      rescue HTTP::ResourceNotFound
+        false
+      end
+
       # 获取文件元信息
       #
       # @param [Boolean] https 是否使用 HTTPS 协议
@@ -247,8 +259,11 @@ module QiniuNg
       # @param [Array<String>, String] domains 下载域名列表。默认将使用存储空间绑定的下载域名列表
       # @param [String] filename 下载到本地后的文件名，该参数仅对由浏览器打开的地址有效
       # @param [String] fop 数据处理参数。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [String] style 数据处理样式。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [Boolean] https 是否使用 HTTPS 协议
       # @return [QiniuNg::Storage::PublicURL, nil] 返回文件的下载地址，如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
-      def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil, filename: nil, fop: nil, **options)
+      def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
+                       filename: nil, fop: nil, style: nil, **options)
         if domains.nil? || domains.empty?
           domains = @bucket.domains(api_zone: api_zone, https: https, **options).reverse
         elsif !domains.is_a?(Array)
@@ -259,7 +274,7 @@ module QiniuNg
 
         PublicURL.new(domains, @key, @auth,
                       style_separator: @bucket.style_separator(uc_url: uc_url, https: https, **options),
-                      filename: filename, fop: fop, https: https)
+                      filename: filename, fop: fop, style: style, https: https)
       end
 
       # 生成用于上传该文件的上传凭证
@@ -297,12 +312,34 @@ module QiniuNg
                                                                  https: https, **options)
       end
 
+      # 获取文件的 MD5
+      # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
+      # @param [String] uc_url UC 所在服务器地址，一般无需填写
+      # @param [Array<String>, String] domains 下载域名列表。默认将使用存储空间绑定的下载域名列表
+      def md5(api_zone: nil, uc_url: nil, domains: nil, https: nil, **options)
+        qhash(:md5, api_zone: api_zone, uc_url: uc_url, domains: domains, https: https, **options)
+      end
+
+      # 获取文件的 SHA1
+      # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
+      # @param [String] uc_url UC 所在服务器地址，一般无需填写
+      # @param [Array<String>, String] domains 下载域名列表。默认将使用存储空间绑定的下载域名列表
+      def sha1(api_zone: nil, uc_url: nil, domains: nil, https: nil, **options)
+        qhash(:sha1, api_zone: api_zone, uc_url: uc_url, domains: domains, https: https, **options)
+      end
+
       # @!visibility private
       def inspect
         "#<#{self.class.name} bucket.name=#{@bucket.name.inspect} @key=#{@key.inspect}>"
       end
 
       private
+
+      def qhash(algorithm, api_zone: nil, uc_url: nil, domains: nil, https: nil, **options)
+        url = download_url(fop: "qhash/#{algorithm}", api_zone: api_zone, uc_url: uc_url,
+                           domains: domains, https: https, **options)
+        Config.default_json_unmarshaler.call(url.reader(disable_checksum: true).read)['hash']
+      end
 
       def rs_url(https)
         https = Config.use_https if https.nil?

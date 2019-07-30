@@ -27,15 +27,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 2.0'
+  spec.add_development_dependency 'carrierwave', '~> 1.0'
   spec.add_development_dependency 'coveralls', '~> 0.8'
+  spec.add_development_dependency 'rails', '~> 5.0'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.8'
   spec.add_development_dependency 'rspec-eventually', '~> 0.1'
   spec.add_development_dependency 'rubocop', '~> 0.71'
   spec.add_development_dependency 'webmock', '~> 3.6'
   spec.add_development_dependency 'yard', '~> 0.9'
-  spec.add_runtime_dependency 'activerecord', '~> 5.0'
-  spec.add_runtime_dependency 'carrierwave', '~> 1.0'
   spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
   spec.add_runtime_dependency 'digest-crc', '~> 0.4'
   spec.add_runtime_dependency 'down', '~> 4.8'

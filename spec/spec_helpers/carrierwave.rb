@@ -4,8 +4,6 @@ require 'active_record'
 require 'carrierwave'
 require 'carrierwave/orm/activerecord'
 
-ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
-
 module CarrierWaveTestForQiniuNg
   class TestUploader < ::CarrierWave::Uploader::Base
     def store_dir
@@ -18,6 +16,10 @@ module CarrierWaveTestForQiniuNg
   end
 
   module_function
+
+  def connect_to_db
+    ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
+  end
 
   def setup_db
     ActiveRecord::Schema.define(version: 1) do

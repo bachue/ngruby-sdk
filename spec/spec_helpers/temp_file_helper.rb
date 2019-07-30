@@ -9,7 +9,7 @@ module SpecHelpers
     fake_data = ('A' + 'b' * 4093 + "\r\n").freeze
     filename = "qiniu_#{kilo_size}k"
     filename += "_t#{thread_id}" if thread_id
-    temp_file = File.open(Pathname.new('/tmp').join(filename), 'wb')
+    temp_file = File.open(Pathname.new('/tmp').join(filename), 'wb+')
     written = 0
     size = kilo_size * 1024
     rest = size

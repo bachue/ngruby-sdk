@@ -7,7 +7,7 @@ require 'forwardable'
 
 module CarrierWave
   module Storage
-    # QiniuNg 的 CarrierWave 插件，支持将 CarrierWave 中的数据上传至七牛云
+    # QiniuNg 的 CarrierWave 插件，支持通过 CarrierWave 的 API 将文件上传至七牛云
     #
     # @example 在 Rails 中的 config/initializers/carrierwave.rb 配置七牛云
     #   CarrierWave.configure do |config|
@@ -35,7 +35,31 @@ module CarrierWave
     #   u.avatar.url(style: 'small')                  # 获取带有样式的下载地址
     #   u.avatar.url(fop: 'imageView/2/h/200')        # 获取带有数据处理的下载地址
     #   u.avatar.url.download_to('<Local File Path>') # 下载上传的文件到本地
-    class QiniuNg < ::CarrierWave::Storage::File
+    #
+    # @example CarrierWave.configure 中可以支持的配置项
+    #   qiniu_access_key: 七牛 Access Key，必填
+    #   qiniu_secret_key: 七牛 Secret Key，必填
+    #   qiniu_bucket_name: 七牛存储空间名称，必填
+    #   qiniu_bucket_zone: 七牛存储空间所在区域，需要传入 QiniuNg::Zone 的实例，选填
+    #   qiniu_bucket_domains: 七牛存储空间的下载域名列表，选填
+    #   qiniu_use_https: 是否使用 HTTPS 访问 API，选填
+    #   qiniu_overwritable: 如果文件在存储空间中已经存在，是否覆盖文件，选填
+    #   qiniu_upload_block_size: 当使用分片方式上传文件时，设置每个分片的尺寸。单位为字节。该尺寸必须是 4 MB 的整数倍，选填
+    #   qiniu_upload_token_expires_in: 七牛上传凭证有效期，选填
+    #   qiniu_auto_detect_mime: 是否自动侦测上传文件的 MIME 类型，选填
+    #   qiniu_infrequent_storage: 是否使用低频存储，选填
+    #   qiniu_expire_after_days: 设置上传文件的生命周期，单位为天，选填
+    #   qiniu_delete_after_days: 与 qiniu_expire_after_days 作用完全相同，仅需要设置任意一个即可，选填
+    #   qiniu_callback_urls: 回调业务服务器的 URL 列表，选填
+    #   qiniu_callback_host: 回调 HOST，选填
+    #   qiniu_callback_body: 回调请求的内容，选填
+    #   qiniu_callback_body_type: 回调请求的内容类型，默认为 application/x-www-form-urlencoded，选填
+    #   qiniu_persistent_ops: 预转持久化处理指令列表，选填
+    #   qiniu_persistent_notify_url: 预转持久化处理完毕后回调业务服务器的 URL，选填
+    #   qiniu_persistent_pipeline: 转码队列名，选填
+    #   qiniu_url_expires_in: 下载地址有效期，选填
+    #   qiniu_cdn_timestamp_anti_leech_encrypt_key: 七牛 CDN Key，选填
+    class QiniuNg < CarrierWave::Storage::File
       # @!visibility private
       module Configuration
         # 由于 CarrierWave 依赖 ActiveSupport，因此可以在组件内部直接调用 ActiveSupport 方法
@@ -136,9 +160,8 @@ module CarrierWave
         end
 
         # @!visibility private
-        def download_url(key, style: nil, fop: nil)
-          url = @bucket.entry(key).download_url
-          url = url.set(style: style, fop: fop) unless style.nil? && fop.nil?
+        def download_url(key, style: nil, fop: nil, https: false)
+          url = @bucket.entry(key).download_url(style: style, fop: fop, https: https)
           if @cdn_timestamp_anti_leech_encrypt_key
             url = url.timestamp_anti_leech(encrypt_key: @cdn_timestamp_anti_leech_encrypt_key,
                                            lifetime: @url_expires_in)
@@ -210,18 +233,24 @@ module CarrierWave
                                cdn_timestamp_anti_leech_encrypt_key: uploader.qiniu_cdn_timestamp_anti_leech_encrypt_key
         end
 
+        # rubocop:disable Metrics/LineLength
+
         # 获取七牛文件的下载地址
         #
         # @param [String] fop 数据处理参数，不要与 style 同时设置。
         #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
         # @param [String] style 数据处理样式，不要与 fop 同时设置。
         #   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+        # @param [Boolean] https 是否使用 HTTPS 协议
         # @return [QiniuNg::Storage::PublicURL, QiniuNg::Storage::PrivateURL, QiniuNg::Storage::TimestampAntiLeechURL, nil]
         #   返回文件的下载地址，将会自动根据配置返回正确的下载地址。如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
-        def url(style: nil, fop: nil)
-          @client.download_url(@key, style: style, fop: fop)
+        def url(style: nil, fop: nil, https: false)
+          @client.download_url(@key, style: style, fop: fop, https: https)
         end
         alias path url
+
+        # rubocop:enable Metrics/LineLength
+        # rubocop:disable Naming/PredicateName
 
         # #path 返回 Pathname 还是 String
         #
@@ -229,6 +258,8 @@ module CarrierWave
         def is_path?
           false
         end
+
+        # rubocop:enable Naming/PredicateName
 
         # 获取 QiniuNg::Storage::Entry 实例
         #

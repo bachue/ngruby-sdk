@@ -45,7 +45,7 @@ module QiniuNg
         @auth = auth
         @style_separator = style_separator
         @https = https.nil? ? Config.use_https : https
-        @filename = filename
+        @filename = filename.to_s
         @fop = fop
         @style = style
         @random = nil
@@ -55,7 +55,7 @@ module QiniuNg
       # 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       def filename=(filename)
-        @filename = filename
+        @filename = filename.to_s
         generate_public_url!
       end
 
@@ -86,7 +86,7 @@ module QiniuNg
       # @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
       # @return [QiniuNg::Storage::PublicURL] 返回上下文
       def set(fop: nil, style: nil, filename: nil)
-        @filename = filename unless filename.nil?
+        @filename = filename.to_s unless filename.nil?
         @fop = fop unless fop.nil?
         @style = style unless style.nil?
         generate_public_url!

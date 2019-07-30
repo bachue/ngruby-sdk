@@ -237,8 +237,8 @@ module QiniuNg
         #
         # @param [String] urls 回调业务服务器的 URL 列表
         # @param [String] host 回调 HOST
-        # @param [String] body 回调请求的内容。
-        # @param [String] body_type 回调请求的内容类型，默认为 application/x-www-form-urlencoded。
+        # @param [String] body 回调请求的内容
+        # @param [String] body_type 回调请求的内容类型，默认为 application/x-www-form-urlencoded
         #
         # @see https://developer.qiniu.com/kodo/manual/1206/put-policy#put-policy-callback-url
         # @return [QiniuNg::Storage::Model::UploadPolicy] 返回上下文

@@ -59,7 +59,7 @@ module QiniuNg
           outbuf = outbuf ? outbuf.replace('') : String.new
           if length.nil?
             @io.read(nil, outbuf)
-            @etag.replace(Etag.from_data(data))
+            @etag.replace(Etag.from_data(outbuf))
           elsif length.positive?
             @io.read(length, outbuf)
             update_buffer_and_calculate_etag(outbuf)

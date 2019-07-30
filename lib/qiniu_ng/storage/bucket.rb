@@ -398,7 +398,7 @@ module QiniuNg
       # @return [QiniuNg::Storage::Uploader] 返回存储空间的上传器
       def uploader(block_size: Config.default_upload_block_size)
         uploader = @uploader_lock.with_read_lock { @uploader }
-        return uploader if uploader&.block_size == block_size
+        return uploader if block_size && uploader&.block_size == block_size
 
         @uploader_lock.with_write_lock do
           @uploader ||= Uploader.new(self, @http_client_v1, block_size: block_size)
