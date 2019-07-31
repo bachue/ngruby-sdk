@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: QiniuNg
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "QiniuNg";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (Q)</a> &raquo;
+    
+    
+    <span class="title">QiniuNg</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: QiniuNg
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="QiniuNg/Common.html" title="QiniuNg::Common (module)">Common</a></span>, <span class='object_link'><a href="QiniuNg/Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/qiniu_ng.rb<span class="defines">,<br />
+  lib/qiniu_ng/client.rb,<br /> lib/qiniu_ng/cdn/log.rb,<br /> lib/qiniu_ng/rtc/app.rb,<br /> lib/qiniu_ng/version.rb,<br /> lib/qiniu_ng/rtc/room.rb,<br /> lib/qiniu_ng/cdn/error.rb,<br /> lib/qiniu_ng/http/error.rb,<br /> lib/qiniu_ng/storage/op.rb,<br /> lib/qiniu_ng/utils/auth.rb,<br /> lib/qiniu_ng/utils/bool.rb,<br /> lib/qiniu_ng/utils/etag.rb,<br /> lib/qiniu_ng/cdn/manager.rb,<br /> lib/qiniu_ng/common/zone.rb,<br /> lib/qiniu_ng/http/client.rb,<br /> lib/qiniu_ng/rtc/manager.rb,<br /> lib/qiniu_ng/storage/url.rb,<br /> lib/qiniu_ng/cdn/log_file.rb,<br /> lib/qiniu_ng/cdn/log_files.rb,<br /> lib/qiniu_ng/http/response.rb,<br /> lib/qiniu_ng/storage/entry.rb,<br /> lib/qiniu_ng/streaming/hub.rb,<br /> lib/qiniu_ng/streaming/url.rb,<br /> lib/qiniu_ng/storage/bucket.rb,<br /> lib/qiniu_ng/utils/duration.rb,<br /> lib/qiniu_ng/cdn/granularity.rb,<br /> lib/qiniu_ng/common/constant.rb,<br /> lib/qiniu_ng/http/middleware.rb,<br /> lib/qiniu_ng/common/auto_zone.rb,<br /> lib/qiniu_ng/storage/uploader.rb,<br /> lib/qiniu_ng/streaming/stream.rb,<br /> lib/qiniu_ng/streaming/manager.rb,<br /> lib/qiniu_ng/processing/manager.rb,<br /> lib/qiniu_ng/storage/cors_rules.rb,<br /> lib/qiniu_ng/storage/public_url.rb,<br /> lib/qiniu_ng/cdn/refresh_request.rb,<br /> lib/qiniu_ng/storage/model/entry.rb,<br /> lib/qiniu_ng/storage/private_url.rb,<br /> lib/qiniu_ng/cdn/prefetch_request.rb,<br /> lib/qiniu_ng/http/domains_manager.rb,<br /> lib/qiniu_ng/storage/upload_token.rb,<br /> lib/qiniu_ng/processing/pfop_result.rb,<br /> lib/qiniu_ng/processing/pfop_status.rb,<br /> lib/qiniu_ng/storage/bucket_manager.rb,<br /> lib/qiniu_ng/processing/pfop_results.rb,<br /> lib/qiniu_ng/storage/model/cors_rule.rb,<br /> lib/qiniu_ng/processing/persistent_id.rb,<br /> lib/qiniu_ng/storage/batch_operations.rb,<br /> lib/qiniu_ng/storage/download_manager.rb,<br /> lib/qiniu_ng/storage/life_cycle_rules.rb,<br /> lib/qiniu_ng/storage/bucket_event_rules.rb,<br /> lib/qiniu_ng/storage/model/listed_entry.rb,<br /> lib/qiniu_ng/storage/model/storage_type.rb,<br /> lib/qiniu_ng/storage/model/fetched_entry.rb,<br /> lib/qiniu_ng/storage/model/upload_policy.rb,<br /> lib/qiniu_ng/storage/model/async_fetch_job.rb,<br /> lib/qiniu_ng/storage/model/life_cycle_rule.rb,<br /> lib/qiniu_ng/storage/recorder/file_recorder.rb,<br /> lib/qiniu_ng/storage/uploader/form_uploader.rb,<br /> lib/qiniu_ng/storage/uploader/uploader_base.rb,<br /> lib/qiniu_ng/storage/model/bucket_event_rule.rb,<br /> lib/qiniu_ng/storage/model/bucket_event_type.rb,<br /> lib/qiniu_ng/storage/timestamp_anti_leech_url.rb,<br /> lib/qiniu_ng/storage/uploader/resumable_uploader.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>下一代七牛 Ruby SDK</p>
+
+<p>这是 QiniuNg-Ruby 的主要名字空间。用于配置全局设置，以及创建七牛客户端</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>全局配置七牛客户端</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='const'>QiniuNg</span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='label'>use_https:</span> <span class='kw'>true</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>创建七牛客户端</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'>QiniuNg</span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="QiniuNg/CDN.html" title="QiniuNg::CDN (module)">CDN</a></span>, <span class='object_link'><a href="QiniuNg/Common.html" title="QiniuNg::Common (module)">Common</a></span>, <span class='object_link'><a href="QiniuNg/HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span>, <span class='object_link'><a href="QiniuNg/Processing.html" title="QiniuNg::Processing (module)">Processing</a></span>, <span class='object_link'><a href="QiniuNg/RTC.html" title="QiniuNg::RTC (module)">RTC</a></span>, <span class='object_link'><a href="QiniuNg/Storage.html" title="QiniuNg::Storage (module)">Storage</a></span>, <span class='object_link'><a href="QiniuNg/Streaming.html" title="QiniuNg::Streaming (module)">Streaming</a></span>, <span class='object_link'><a href="QiniuNg/Utils.html" title="QiniuNg::Utils (module)">Utils</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="QiniuNg/Client.html" title="QiniuNg::Client (class)">Client</a></span>, <span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>QiniuNg 版本</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>0.1.0</span><span class='tstring_end'>&#39;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#config-class_method" title="config (class method)">.<strong>config</strong>(use_https: nil, batch_max_size: nil, upload_threshold: nil, upload_token_lifetime: nil, download_url_lifetime: nil, upload_block_size: nil, file_recorder_path: nil, http_request_retries: nil, http_request_retry_delay: nil, json_marshaler: nil, json_unmarshaler: nil, domains_manager: nil, **opts) {|conn| ... } &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>更新全局配置.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_client-class_method" title="new_client (class method)">.<strong>new_client</strong>(access_key:, secret_key:, domains_manager: Config.default_domains_manager)  &#x21d2; QiniuNg::Client </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>创建新的七牛客户端.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="config-class_method">
+  
+    .<strong>config</strong>(use_https: nil, batch_max_size: nil, upload_threshold: nil, upload_token_lifetime: nil, download_url_lifetime: nil, upload_block_size: nil, file_recorder_path: nil, http_request_retries: nil, http_request_retry_delay: nil, json_marshaler: nil, json_unmarshaler: nil, domains_manager: nil, **opts) {|conn| ... } &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>更新全局配置</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lparen'>(</span><span class='label'>use_https:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_conn'>conn</span><span class='op'>|</span>
+  <span class='id identifier rubyid_conn'>conn</span><span class='period'>.</span><span class='id identifier rubyid_adapter'>adapter</span> <span class='symbol'>:typhoeus</span> <span class='comment'># 设置 Faraday 适配器为 Typhoeus
+</span><span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>use_https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS，默认为 false</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>batch_max_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作的单次最大处理数量，如果批处理操作中操作数大于该值，将自动被分割为多次批处理操作，默认值为 1000</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>upload_threshold</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>如果上传文件尺寸大于该值，将自动使用分片上传，否则，使用表单上传。单位为字节。默认为 4 MB</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>upload_token_lifetime</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>分片上传时，每个分片的尺寸。单位为秒。默认为 1 小时</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>download_url_lifetime</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>默认生成的下载地址的有效期。单位为秒。默认为 1 小时</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>upload_block_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>分片上传时，每个分片的尺寸。单位为字节。默认为 4 MB</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>file_recorder_path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>分片上传时，用于保存上传信息的目录。如果给定的目录地址不存在，将会自动创建。默认为 /tmp/qiniu_ng</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>http_request_retries</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>默认 HTTP 请求在失败后的重试次数，当且仅当 HTTP 请求幂等时才会重试。默认为 3 次</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>http_request_retry_delay</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>默认 HTTP 请求在重试前的等待间隔时间。单位为秒。默认为 0.5 秒</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>json_marshaler</span>
+      
+      
+        <span class='type'>(<tt>Lambda</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>JSON 编码器。默认使用 JSON.generate 生成 JSON 数据</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>json_unmarshaler</span>
+      
+      
+        <span class='type'>(<tt>Lambda</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>JSON 解码器。默认使用 JSON.parse 解析 JSON 数据</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>domains_manager</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QiniuNg/HTTP/DomainsManager.html" title="QiniuNg::HTTP::DomainsManager (class)">QiniuNg::HTTP::DomainsManager</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>域名管理器</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>conn</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>配置 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>conn</span>
+      
+      
+        <span class='type'>(<tt>Faraday::Connection</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_config'>config</span><span class='lparen'>(</span><span class='label'>use_https:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>batch_max_size:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>upload_threshold:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>upload_token_lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>download_url_lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>upload_block_size:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>file_recorder_path:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>http_request_retries:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>http_request_retry_delay:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>json_marshaler:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>json_unmarshaler:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='label'>domains_manager:</span> <span class='kw'>nil</span><span class='comma'>,</span>
+                <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="QiniuNg/Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_use_https'>use_https</span> <span class='kw'>unless</span> <span class='id identifier rubyid_use_https'>use_https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_batch_max_size'><span class='object_link'><a href="QiniuNg/Config.html#batch_max_size-class_method" title="QiniuNg::Config.batch_max_size (method)">batch_max_size</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_batch_max_size'>batch_max_size</span> <span class='kw'>unless</span> <span class='id identifier rubyid_batch_max_size'>batch_max_size</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_upload_threshold'><span class='object_link'><a href="QiniuNg/Config.html#upload_threshold-class_method" title="QiniuNg::Config.upload_threshold (method)">upload_threshold</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_upload_threshold'>upload_threshold</span> <span class='kw'>unless</span> <span class='id identifier rubyid_upload_threshold'>upload_threshold</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_file_recorder_path'><span class='object_link'><a href="QiniuNg/Config.html#default_file_recorder_path-class_method" title="QiniuNg::Config.default_file_recorder_path (method)">default_file_recorder_path</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_file_recorder_path'>file_recorder_path</span> <span class='kw'>unless</span> <span class='id identifier rubyid_file_recorder_path'>file_recorder_path</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_upload_token_lifetime'><span class='object_link'><a href="QiniuNg/Config.html#default_upload_token_lifetime-class_method" title="QiniuNg::Config.default_upload_token_lifetime (method)">default_upload_token_lifetime</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_upload_token_lifetime'>upload_token_lifetime</span> <span class='kw'>unless</span> <span class='id identifier rubyid_upload_token_lifetime'>upload_token_lifetime</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_download_url_lifetime'><span class='object_link'><a href="QiniuNg/Config.html#default_download_url_lifetime-class_method" title="QiniuNg::Config.default_download_url_lifetime (method)">default_download_url_lifetime</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_download_url_lifetime'>download_url_lifetime</span> <span class='kw'>unless</span> <span class='id identifier rubyid_download_url_lifetime'>download_url_lifetime</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_upload_block_size'><span class='object_link'><a href="QiniuNg/Config.html#default_upload_block_size-class_method" title="QiniuNg::Config.default_upload_block_size (method)">default_upload_block_size</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_upload_block_size'>upload_block_size</span> <span class='kw'>unless</span> <span class='id identifier rubyid_upload_block_size'>upload_block_size</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_http_request_retries'><span class='object_link'><a href="QiniuNg/Config.html#default_http_request_retries-class_method" title="QiniuNg::Config.default_http_request_retries (method)">default_http_request_retries</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_http_request_retries'>http_request_retries</span> <span class='kw'>unless</span> <span class='id identifier rubyid_http_request_retries'>http_request_retries</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_http_request_retry_delay'><span class='object_link'><a href="QiniuNg/Config.html#default_http_request_retry_delay-class_method" title="QiniuNg::Config.default_http_request_retry_delay (method)">default_http_request_retry_delay</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_http_request_retry_delay'>http_request_retry_delay</span> <span class='kw'>unless</span> <span class='id identifier rubyid_http_request_retry_delay'>http_request_retry_delay</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_json_marshaler'><span class='object_link'><a href="QiniuNg/Config.html#default_json_marshaler-class_method" title="QiniuNg::Config.default_json_marshaler (method)">default_json_marshaler</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_json_marshaler'>json_marshaler</span> <span class='kw'>unless</span> <span class='id identifier rubyid_json_marshaler'>json_marshaler</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_json_unmarshaler'><span class='object_link'><a href="QiniuNg/Config.html#default_json_unmarshaler-class_method" title="QiniuNg::Config.default_json_unmarshaler (method)">default_json_unmarshaler</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_json_unmarshaler'>json_unmarshaler</span> <span class='kw'>unless</span> <span class='id identifier rubyid_json_unmarshaler'>json_unmarshaler</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="QiniuNg/Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_domains_manager'>domains_manager</span> <span class='kw'>unless</span> <span class='id identifier rubyid_domains_manager'>domains_manager</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_faraday_options'><span class='object_link'><a href="QiniuNg/Config.html#default_faraday_options-class_method" title="QiniuNg::Config.default_faraday_options (method)">default_faraday_options</a></span></span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span> <span class='kw'>unless</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_faraday_config'>default_faraday_config</span> <span class='op'>=</span> <span class='id identifier rubyid_block'>block</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new_client-class_method">
+  
+    .<strong>new_client</strong>(access_key:, secret_key:, domains_manager: Config.default_domains_manager)  &#x21d2; <tt><span class='object_link'><a href="QiniuNg/Client.html" title="QiniuNg::Client (class)">QiniuNg::Client</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>创建新的七牛客户端</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'>new_client</span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>access_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>七牛 Access Key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>secret_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>七牛 Secret Key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>domains_manager</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QiniuNg/HTTP/DomainsManager.html" title="QiniuNg::HTTP::DomainsManager (class)">QiniuNg::HTTP::DomainsManager</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>域名管理器</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="QiniuNg/Client.html" title="QiniuNg::Client (class)">QiniuNg::Client</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>新建的七牛客户端</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166
+167
+168</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 165</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new_client'>new_client</span><span class='lparen'>(</span><span class='label'>access_key:</span><span class='comma'>,</span> <span class='label'>secret_key:</span><span class='comma'>,</span> <span class='label'>domains_manager:</span> <span class='const'><span class='object_link'><a href="QiniuNg/Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="QiniuNg/Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_auth'>auth</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="QiniuNg/Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="QiniuNg/Utils/Auth.html" title="QiniuNg::Utils::Auth (class)">Auth</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="QiniuNg/Utils/Auth.html#initialize-instance_method" title="QiniuNg::Utils::Auth#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='id identifier rubyid_secret_key'>secret_key</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="QiniuNg/Client.html" title="QiniuNg::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>domains_manager:</span> <span class='id identifier rubyid_domains_manager'>domains_manager</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Jul 31 10:27:56 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.1).
+</div>
+
+    </div>
+  </body>
+</html>

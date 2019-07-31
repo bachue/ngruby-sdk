@@ -1,0 +1,2501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: QiniuNg::Storage::PublicURL
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "QiniuNg::Storage::PublicURL";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (P)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Storage.html" title="QiniuNg::Storage (module)">Storage</a></span></span>
+     &raquo; 
+    <span class="title">PublicURL</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: QiniuNg::Storage::PublicURL
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">String</li>
+          
+            <li class="next"><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></li>
+          
+            <li class="next">QiniuNg::Storage::PublicURL</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/qiniu_ng/storage/public_url.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>七牛文件的公开下载地址</p>
+
+<p>该类是 String 的子类，因此可以被当成 String 直接使用，不必调用 #to_s 方法。</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>下载公开空间中的文件</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='const'>Faraday</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>下载私有空间中的文件</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='const'>Faraday</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>下载 CDN 中 生成带有时间戳鉴权的文件</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='const'>Faraday</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span>
+                  <span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;EncryptKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#domains-instance_method" title="#domains (instance method)">#<strong>domains</strong>  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>下载地址中的域名列表.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filename-instance_method" title="#filename (instance method)">#<strong>filename</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>文件下载后的文件名。该参数仅对由浏览器打开的地址有效.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fop-instance_method" title="#fop (instance method)">#<strong>fop</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>数据处理参数，与 style 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a>.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key-instance_method" title="#key (instance method)">#<strong>key</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>文件名.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#style-instance_method" title="#style (instance method)">#<strong>style</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>数据处理样式，与 fop 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a>.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#private-instance_method" title="#private (instance method)">#<strong>private</strong>(lifetime: nil, deadline: nil)  &#x21d2; QiniuNg::Storage::PrivateURL </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>为私有空间生成下载地址.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#refresh-instance_method" title="#refresh (instance method)">#<strong>refresh</strong>  &#x21d2; QiniuNg::Storage::PublicURL </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>为下载地址带一个随机参数，可以绕过缓存.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set-instance_method" title="#set (instance method)">#<strong>set</strong>(fop: nil, style: nil, filename: nil)  &#x21d2; QiniuNg::Storage::PublicURL </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置下载地址的下载后的文件名和数据处理参数.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#timestamp_anti_leech-instance_method" title="#timestamp_anti_leech (instance method)">#<strong>timestamp_anti_leech</strong>(encrypt_key:, lifetime: nil, deadline: nil)  &#x21d2; QiniuNg::Storage::TimestampAntiLeechURL </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>为 CDN 生成带有时间戳鉴权的下载地址.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="URL.html#download_to-instance_method" title="QiniuNg::Storage::URL#download_to (method)">#download_to</a></span>, <span class='object_link'><a href="URL.html#reader-instance_method" title="QiniuNg::Storage::URL#reader (method)">#reader</a></span></p>
+
+  
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="domains-instance_method">
+  
+    #<strong>domains</strong>  &#x21d2; <tt>Array&lt;String&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns 下载地址中的域名列表</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址中的域名列表</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 37</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">PublicURL</a></span></span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:domains</span><span class='comma'>,</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:filename</span><span class='comma'>,</span> <span class='symbol'>:fop</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>style_separator:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span>
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
+    <span class='ivar'>@style_separator</span> <span class='op'>=</span> <span class='id identifier rubyid_style_separator'>style_separator</span>
+    <span class='ivar'>@https</span> <span class='op'>=</span> <span class='id identifier rubyid_https'>https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="../Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>:</span> <span class='id identifier rubyid_https'>https</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_filename='>filename=</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理参数
+</span>  <span class='comment'># @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_fop='>fop=</span><span class='lparen'>(</span><span class='id identifier rubyid_fop'>fop</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理样式
+</span>  <span class='comment'># @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_style='>style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置下载地址的下载后的文件名和数据处理参数
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] fop 数据处理参数，不要与 style 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] style 数据处理样式，不要与 fop 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为私有空间生成下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.private(lifetime: { hour: 1 })
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为 CDN 生成带有时间戳鉴权的下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.timestamp_anti_leech(encrypt_key: &#39;&lt;EncryptKey&gt;&#39;)
+</span>  <span class='comment'># @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] encrypt_key CDN Key
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为下载地址带一个随机参数，可以绕过缓存
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span> <span class='op'>+</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frozen?'>frozen?</span>
+
+    <span class='id identifier rubyid_current_domain'>current_domain</span> <span class='op'>=</span> <span class='ivar'>@domains</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_domain'>domain</span><span class='op'>|</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_frozen?'><span class='object_link'><a href="../HTTP/DomainsManager.html#frozen%3F-instance_method" title="QiniuNg::HTTP::DomainsManager#frozen? (method)">frozen?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_current_domain'>current_domain</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@https</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='ivar'>@fop</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='ivar'>@style_separator</span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@style</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attname</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@random</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_path'>path</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_freeze_current_domain_and_try_another_one'>freeze_current_domain_and_try_another_one</span>
+    <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'><span class='object_link'><a href="../HTTP/DomainsManager.html#freeze-instance_method" title="QiniuNg::HTTP::DomainsManager#freeze (method)">freeze</a></span></span><span class='lparen'>(</span><span class='ivar'>@current_domain</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@current_domain</span>
+
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="filename=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="filename-instance_method">
+  
+    #<strong>filename</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns 文件下载后的文件名。该参数仅对由浏览器打开的地址有效</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件下载后的文件名。该参数仅对由浏览器打开的地址有效</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 37</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">PublicURL</a></span></span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:domains</span><span class='comma'>,</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:filename</span><span class='comma'>,</span> <span class='symbol'>:fop</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>style_separator:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span>
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
+    <span class='ivar'>@style_separator</span> <span class='op'>=</span> <span class='id identifier rubyid_style_separator'>style_separator</span>
+    <span class='ivar'>@https</span> <span class='op'>=</span> <span class='id identifier rubyid_https'>https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="../Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>:</span> <span class='id identifier rubyid_https'>https</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_filename='>filename=</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理参数
+</span>  <span class='comment'># @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_fop='>fop=</span><span class='lparen'>(</span><span class='id identifier rubyid_fop'>fop</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理样式
+</span>  <span class='comment'># @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_style='>style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置下载地址的下载后的文件名和数据处理参数
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] fop 数据处理参数，不要与 style 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] style 数据处理样式，不要与 fop 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为私有空间生成下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.private(lifetime: { hour: 1 })
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为 CDN 生成带有时间戳鉴权的下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.timestamp_anti_leech(encrypt_key: &#39;&lt;EncryptKey&gt;&#39;)
+</span>  <span class='comment'># @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] encrypt_key CDN Key
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为下载地址带一个随机参数，可以绕过缓存
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span> <span class='op'>+</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frozen?'>frozen?</span>
+
+    <span class='id identifier rubyid_current_domain'>current_domain</span> <span class='op'>=</span> <span class='ivar'>@domains</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_domain'>domain</span><span class='op'>|</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_frozen?'><span class='object_link'><a href="../HTTP/DomainsManager.html#frozen%3F-instance_method" title="QiniuNg::HTTP::DomainsManager#frozen? (method)">frozen?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_current_domain'>current_domain</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@https</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='ivar'>@fop</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='ivar'>@style_separator</span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@style</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attname</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@random</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_path'>path</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_freeze_current_domain_and_try_another_one'>freeze_current_domain_and_try_another_one</span>
+    <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'><span class='object_link'><a href="../HTTP/DomainsManager.html#freeze-instance_method" title="QiniuNg::HTTP::DomainsManager#freeze (method)">freeze</a></span></span><span class='lparen'>(</span><span class='ivar'>@current_domain</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@current_domain</span>
+
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="fop=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="fop-instance_method">
+  
+    #<strong>fop</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns 数据处理参数，与 style 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理参数，与 style 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 37</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">PublicURL</a></span></span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:domains</span><span class='comma'>,</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:filename</span><span class='comma'>,</span> <span class='symbol'>:fop</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>style_separator:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span>
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
+    <span class='ivar'>@style_separator</span> <span class='op'>=</span> <span class='id identifier rubyid_style_separator'>style_separator</span>
+    <span class='ivar'>@https</span> <span class='op'>=</span> <span class='id identifier rubyid_https'>https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="../Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>:</span> <span class='id identifier rubyid_https'>https</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_filename='>filename=</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理参数
+</span>  <span class='comment'># @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_fop='>fop=</span><span class='lparen'>(</span><span class='id identifier rubyid_fop'>fop</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理样式
+</span>  <span class='comment'># @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_style='>style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置下载地址的下载后的文件名和数据处理参数
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] fop 数据处理参数，不要与 style 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] style 数据处理样式，不要与 fop 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为私有空间生成下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.private(lifetime: { hour: 1 })
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为 CDN 生成带有时间戳鉴权的下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.timestamp_anti_leech(encrypt_key: &#39;&lt;EncryptKey&gt;&#39;)
+</span>  <span class='comment'># @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] encrypt_key CDN Key
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为下载地址带一个随机参数，可以绕过缓存
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span> <span class='op'>+</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frozen?'>frozen?</span>
+
+    <span class='id identifier rubyid_current_domain'>current_domain</span> <span class='op'>=</span> <span class='ivar'>@domains</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_domain'>domain</span><span class='op'>|</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_frozen?'><span class='object_link'><a href="../HTTP/DomainsManager.html#frozen%3F-instance_method" title="QiniuNg::HTTP::DomainsManager#frozen? (method)">frozen?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_current_domain'>current_domain</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@https</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='ivar'>@fop</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='ivar'>@style_separator</span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@style</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attname</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@random</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_path'>path</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_freeze_current_domain_and_try_another_one'>freeze_current_domain_and_try_another_one</span>
+    <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'><span class='object_link'><a href="../HTTP/DomainsManager.html#freeze-instance_method" title="QiniuNg::HTTP::DomainsManager#freeze (method)">freeze</a></span></span><span class='lparen'>(</span><span class='ivar'>@current_domain</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@current_domain</span>
+
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="key-instance_method">
+  
+    #<strong>key</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns 文件名</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件名</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 37</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">PublicURL</a></span></span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:domains</span><span class='comma'>,</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:filename</span><span class='comma'>,</span> <span class='symbol'>:fop</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>style_separator:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span>
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
+    <span class='ivar'>@style_separator</span> <span class='op'>=</span> <span class='id identifier rubyid_style_separator'>style_separator</span>
+    <span class='ivar'>@https</span> <span class='op'>=</span> <span class='id identifier rubyid_https'>https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="../Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>:</span> <span class='id identifier rubyid_https'>https</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_filename='>filename=</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理参数
+</span>  <span class='comment'># @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_fop='>fop=</span><span class='lparen'>(</span><span class='id identifier rubyid_fop'>fop</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理样式
+</span>  <span class='comment'># @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_style='>style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置下载地址的下载后的文件名和数据处理参数
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] fop 数据处理参数，不要与 style 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] style 数据处理样式，不要与 fop 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为私有空间生成下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.private(lifetime: { hour: 1 })
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为 CDN 生成带有时间戳鉴权的下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.timestamp_anti_leech(encrypt_key: &#39;&lt;EncryptKey&gt;&#39;)
+</span>  <span class='comment'># @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] encrypt_key CDN Key
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为下载地址带一个随机参数，可以绕过缓存
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span> <span class='op'>+</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frozen?'>frozen?</span>
+
+    <span class='id identifier rubyid_current_domain'>current_domain</span> <span class='op'>=</span> <span class='ivar'>@domains</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_domain'>domain</span><span class='op'>|</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_frozen?'><span class='object_link'><a href="../HTTP/DomainsManager.html#frozen%3F-instance_method" title="QiniuNg::HTTP::DomainsManager#frozen? (method)">frozen?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_current_domain'>current_domain</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@https</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='ivar'>@fop</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='ivar'>@style_separator</span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@style</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attname</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@random</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_path'>path</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_freeze_current_domain_and_try_another_one'>freeze_current_domain_and_try_another_one</span>
+    <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'><span class='object_link'><a href="../HTTP/DomainsManager.html#freeze-instance_method" title="QiniuNg::HTTP::DomainsManager#freeze (method)">freeze</a></span></span><span class='lparen'>(</span><span class='ivar'>@current_domain</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@current_domain</span>
+
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="style=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="style-instance_method">
+  
+    #<strong>style</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns 数据处理样式，与 fop 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理样式，与 fop 不要同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 37</span>
+
+<span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">PublicURL</a></span></span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="URL.html" title="QiniuNg::Storage::URL (class)">URL</a></span></span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:domains</span><span class='comma'>,</span> <span class='symbol'>:key</span><span class='comma'>,</span> <span class='symbol'>:filename</span><span class='comma'>,</span> <span class='symbol'>:fop</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='label'>style_separator:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span>
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
+    <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
+    <span class='ivar'>@style_separator</span> <span class='op'>=</span> <span class='id identifier rubyid_style_separator'>style_separator</span>
+    <span class='ivar'>@https</span> <span class='op'>=</span> <span class='id identifier rubyid_https'>https</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_use_https'><span class='object_link'><a href="../Config.html#use_https-class_method" title="QiniuNg::Config.use_https (method)">use_https</a></span></span> <span class='op'>:</span> <span class='id identifier rubyid_https'>https</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_filename='>filename=</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理参数
+</span>  <span class='comment'># @param [String] fop 数据处理参数，设置该参数将使 style 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_fop='>fop=</span><span class='lparen'>(</span><span class='id identifier rubyid_fop'>fop</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置数据处理样式
+</span>  <span class='comment'># @param [String] style 数据处理样式，设置该参数将使 fop 设置被移除。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_style='>style=</span><span class='lparen'>(</span><span class='id identifier rubyid_style'>style</span><span class='rparen'>)</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 设置下载地址的下载后的文件名和数据处理参数
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] fop 数据处理参数，不要与 style 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] style 数据处理样式，不要与 fop 同时设置。
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+</span>  <span class='comment'># @param [String] filename 文件下载后的文件名。该参数仅对由浏览器打开的地址有效
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为私有空间生成下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.private(lifetime: { hour: 1 })
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::PrivateURL] 返回私有空间的文件下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为 CDN 生成带有时间戳鉴权的下载地址
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @example
+</span>  <span class='comment'>#   client.bucket(&#39;&lt;Bucket Name&gt;&#39;).entry(&#39;&lt;key&gt;&#39;).download_url.timestamp_anti_leech(encrypt_key: &#39;&lt;EncryptKey&gt;&#39;)
+</span>  <span class='comment'># @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] encrypt_key CDN Key
+</span>  <span class='comment'>#   {参考文档}[https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention]
+</span>  <span class='comment'># @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+</span>  <span class='comment'>#   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+</span>  <span class='comment'># @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+</span>  <span class='comment'># @return [QiniuNg::Storage::TimestampAntiLeechURL] 返回带有时间戳鉴权的下载地址
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># 为下载地址带一个随机参数，可以绕过缓存
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [QiniuNg::Storage::PublicURL] 返回上下文
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+    <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='kw'>self</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_private'>private</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+    <span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span> <span class='op'>+</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_path'>generate_public_url_without_path</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_frozen?'>frozen?</span>
+
+    <span class='id identifier rubyid_current_domain'>current_domain</span> <span class='op'>=</span> <span class='ivar'>@domains</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_domain'>domain</span><span class='op'>|</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_frozen?'><span class='object_link'><a href="../HTTP/DomainsManager.html#frozen%3F-instance_method" title="QiniuNg::HTTP::DomainsManager#frozen? (method)">frozen?</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_current_domain'>current_domain</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+    <span class='ivar'>@current_domain</span> <span class='op'>=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='ivar'>@https</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>+=</span> <span class='id identifier rubyid_current_domain'>current_domain</span>
+    <span class='id identifier rubyid_url'>url</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_generate_public_url_without_domain'>generate_public_url_without_domain</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@key</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@fop</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='ivar'>@fop</span><span class='rbracket'>]</span>
+    <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@style</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='ivar'>@style_separator</span> <span class='op'>+</span> <span class='const'>WEBrick</span><span class='op'>::</span><span class='const'>HTTPUtils</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='ivar'>@style</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>attname</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@filename</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tt</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@random</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@random</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+    <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_build_query'>build_query</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_path'>path</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_freeze_current_domain_and_try_another_one'>freeze_current_domain_and_try_another_one</span>
+    <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_domains_manager'><span class='object_link'><a href="../Config.html#default_domains_manager-class_method" title="QiniuNg::Config.default_domains_manager (method)">default_domains_manager</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'><span class='object_link'><a href="../HTTP/DomainsManager.html#freeze-instance_method" title="QiniuNg::HTTP::DomainsManager#freeze (method)">freeze</a></span></span><span class='lparen'>(</span><span class='ivar'>@current_domain</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@current_domain</span>
+
+    <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/NoURLAvailable.html" title="QiniuNg::HTTP::NoURLAvailable (class)">NoURLAvailable</a></span></span>
+    <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="private-instance_method">
+  
+    #<strong>private</strong>(lifetime: nil, deadline: nil)  &#x21d2; <tt><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">QiniuNg::Storage::PrivateURL</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>为私有空间生成下载地址</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='lbrace'>{</span> <span class='label'>hour:</span> <span class='int'>1</span> <span class='rbrace'>}</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>lifetime</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Hash</tt>, <tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址有效期，与 deadline 参数不要同时使用 参数细节可以参考 QiniuNg::Utils::Duration#initialize</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>deadline</span>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址过期时间，与 lifetime 参数不要同时使用</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">QiniuNg::Storage::PrivateURL</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回私有空间的文件下载地址</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 105</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_private'>private</span><span class='lparen'>(</span><span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">PrivateURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="refresh-instance_method">
+  
+    #<strong>refresh</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>为下载地址带一个随机参数，可以绕过缓存</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='ivar'>@random</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='period'>.</span><span class='id identifier rubyid_usec'>usec</span>
+  <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set-instance_method">
+  
+    #<strong>set</strong>(fop: nil, style: nil, filename: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置下载地址的下载后的文件名和数据处理参数</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>fop</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理参数，不要与 style 同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>style</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理样式，不要与 fop 同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件下载后的文件名。该参数仅对由浏览器打开的地址有效</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>unless</span> <span class='id identifier rubyid_filename'>filename</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='ivar'>@fop</span> <span class='op'>=</span> <span class='id identifier rubyid_fop'>fop</span> <span class='kw'>unless</span> <span class='id identifier rubyid_fop'>fop</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='ivar'>@style</span> <span class='op'>=</span> <span class='id identifier rubyid_style'>style</span> <span class='kw'>unless</span> <span class='id identifier rubyid_style'>style</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_generate_public_url!'>generate_public_url!</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="timestamp_anti_leech-instance_method">
+  
+    #<strong>timestamp_anti_leech</strong>(encrypt_key:, lifetime: nil, deadline: nil)  &#x21d2; <tt><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">QiniuNg::Storage::TimestampAntiLeechURL</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>为 CDN 生成带有时间戳鉴权的下载地址</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;EncryptKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>encrypt_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>CDN Key <a href="https://developer.qiniu.com/fusion/kb/1670/timestamp-hotlinking-prevention">参考文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>lifetime</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Hash</tt>, <tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址有效期，与 deadline 参数不要同时使用 参数细节可以参考 QiniuNg::Utils::Duration#initialize</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>deadline</span>
+      
+      
+        <span class='type'>(<tt>Time</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址过期时间，与 lifetime 参数不要同时使用</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">QiniuNg::Storage::TimestampAntiLeechURL</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回带有时间戳鉴权的下载地址</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://developer.qiniu.com/kodo/manual/1657/download-anti-leech" target="_parent" title="https://developer.qiniu.com/kodo/manual/1657/download-anti-leech">https://developer.qiniu.com/kodo/manual/1657/download-anti-leech</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/public_url.rb', line 121</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span><span class='comma'>,</span> <span class='label'>lifetime:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>deadline:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">TimestampAntiLeechURL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_encrypt_key'>encrypt_key</span><span class='comma'>,</span> <span class='id identifier rubyid_lifetime'>lifetime</span><span class='comma'>,</span> <span class='id identifier rubyid_deadline'>deadline</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Jul 31 10:28:17 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.1).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -14,4 +14,4 @@ script:
       bundle exec rspec -f d -b
     fi
   - bundle exec rubocop -f c --fail-level A
-  - bundle exec yard doc --fail-on-warning
+  - bundle exec rake docs

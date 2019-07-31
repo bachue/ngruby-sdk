@@ -1,0 +1,4896 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: QiniuNg::Storage::Bucket
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "QiniuNg::Storage::Bucket";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (B)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Storage.html" title="QiniuNg::Storage (module)">Storage</a></span></span>
+     &raquo; 
+    <span class="title">Bucket</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: QiniuNg::Storage::Bucket
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">QiniuNg::Storage::Bucket</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>Forwardable</dd>
+  </dl>
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/qiniu_ng/storage/bucket.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>七牛存储空间</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket_on_huabei'>bucket_on_huabei</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>zone:</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">Zone</a></span></span><span class='period'>.</span><span class='id identifier rubyid_huabei'><span class='object_link'><a href="../Common/Zone.html#huabei-class_method" title="QiniuNg::Common::Zone.huabei (method)">huabei</a></span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Bucket/ImageInfo.html" title="QiniuNg::Storage::Bucket::ImageInfo (class)">ImageInfo</a></span>, <span class='object_link'><a href="Bucket/Quota.html" title="QiniuNg::Storage::Bucket::Quota (class)">Quota</a></span>
+    
+  
+</p>
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#batch-instance_method" title="#batch (instance method)">#<strong>batch</strong>(raise_if_partial_ok: false, https: nil, **options) {|batch| ... } &#x21d2; QiniuNg::Storage::BatchOperations::Results </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>对存储空间内的文件发送批处理操作.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#batch!-instance_method" title="#batch! (instance method)">#<strong>batch!</strong>(https: nil, **options) {|batch| ... } &#x21d2; QiniuNg::Storage::BatchOperations::Results </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>对存储空间内的文件发送批处理操作，如果部分操作发生异常，将会抛出 QiniuNg::HTTP::PartialOK 异常.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bucket_event_rules-instance_method" title="#bucket_event_rules (instance method)">#<strong>bucket_event_rules</strong>  &#x21d2; QiniuNg::Storage::BucketEventRules </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的事件规则实例.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cache_max_age-instance_method" title="#cache_max_age (instance method)">#<strong>cache_max_age</strong>(uc_url: nil, https: nil, **options)  &#x21d2; QiniuNg::Duration<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的 Cache-Control Max-Age 属性.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cors_rules-instance_method" title="#cors_rules (instance method)">#<strong>cors_rules</strong>  &#x21d2; QiniuNg::Storage::CORSRules </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的跨域规则实例.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_index_page-instance_method" title="#disable_index_page (instance method)">#<strong>disable_index_page</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>关闭存储空间的默认首页功能.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#disable_original_protection-instance_method" title="#disable_original_protection (instance method)">#<strong>disable_original_protection</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>禁用存储空间的源站保护.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#domains-instance_method" title="#domains (instance method)">#<strong>domains</strong>(api_zone: nil, https: nil, **options)  &#x21d2; Array&lt;String&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的下载域名列表.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#domains=-instance_method" title="#domains= (instance method)">#<strong>domains=</strong>(domains)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间下载域名列表.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_index_page-instance_method" title="#enable_index_page (instance method)">#<strong>enable_index_page</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>开启存储空间的默认首页功能.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_original_protection-instance_method" title="#enable_original_protection (instance method)">#<strong>enable_original_protection</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>启用存储空间的源站保护.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entry-instance_method" title="#entry (instance method)">#<strong>entry</strong>(key)  &#x21d2; QiniuNg::Storage::Entry </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间中的一个文件实例.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#files-instance_method" title="#files (instance method)">#<strong>files</strong>(rsf_zone: nil, prefix: nil, limit: nil, marker: nil, https: nil, **options)  &#x21d2; Enumerable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>遍历存储空间中的文件，获取迭代器.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_index_page%3F-instance_method" title="#has_index_page? (instance method)">#<strong>has_index_page?</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>判断存储空间的默认首页功能是否打开.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image-instance_method" title="#image (instance method)">#<strong>image</strong>(uc_url: nil, https: nil, **options)  &#x21d2; QiniuNg::Storage::Bucket::ImageInfo<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的镜像存储设置.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#life_cycle_rules-instance_method" title="#life_cycle_rules (instance method)">#<strong>life_cycle_rules</strong>  &#x21d2; QiniuNg::Storage::LifeCycleRules </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的生命周期规则实例.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name-instance_method" title="#name (instance method)">#<strong>name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #to_s)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间名称.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#private!-instance_method" title="#private! (instance method)">#<strong>private!</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间为私有空间.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#private%3F-instance_method" title="#private? (instance method)">#<strong>private?</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>判断存储空间是否是私有空间.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#public!-instance_method" title="#public! (instance method)">#<strong>public!</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间为公开空间.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_async_fetch_result-instance_method" title="#query_async_fetch_result (instance method)">#<strong>query_async_fetch_result</strong>(id)  &#x21d2; QiniuNg::Storage::Model::AsyncFetchJob </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取异步抓取任务结果.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_processing_result-instance_method" title="#query_processing_result (instance method)">#<strong>query_processing_result</strong>(persistent_id, api_zone: nil, https: nil, **options)  &#x21d2; QiniuNg::Processing::PfopResults </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取文件处理结果.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quota-instance_method" title="#quota (instance method)">#<strong>quota</strong>(api_zone: nil, https: nil, **options)  &#x21d2; QiniuNg::Storage::Bucket::Quota </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的配额限制.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_cache_max_age-instance_method" title="#set_cache_max_age (instance method)">#<strong>set_cache_max_age</strong>(args, uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>修改存储空间的 Cache-Control Max-Age 属性.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_image-instance_method" title="#set_image (instance method)">#<strong>set_image</strong>(source_url, uc_url: nil, source_host: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间的镜像存储.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_quota-instance_method" title="#set_quota (instance method)">#<strong>set_quota</strong>(size: 0, count: 0, api_zone: nil, https: nil, **options)  &#x21d2; QiniuNg::Duration<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间的配额限制.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#style_separator-instance_method" title="#style_separator (instance method)">#<strong>style_separator</strong>(uc_url: nil, https: nil, **options)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>数据处理样式分隔符.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unset_image-instance_method" title="#unset_image (instance method)">#<strong>unset_image</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>取消存储空间的镜像存储设置.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_token-instance_method" title="#upload_token (instance method)">#<strong>upload_token</strong>(key: nil, key_prefix: nil) {|policy| ... } &#x21d2; QiniuNg::Storage::UploadToken </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>生成存储空间的上传凭证.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_token_for_bucket-instance_method" title="#upload_token_for_bucket (instance method)">#<strong>upload_token_for_bucket</strong> {|policy| ... } &#x21d2; QiniuNg::Storage::UploadToken </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>生成存储空间的上传凭证.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_token_for_key-instance_method" title="#upload_token_for_key (instance method)">#<strong>upload_token_for_key</strong>(key) {|policy| ... } &#x21d2; QiniuNg::Storage::UploadToken </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>生成存储空间的上传凭证，仅能由于上传指定文件名的文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_token_for_key_prefix-instance_method" title="#upload_token_for_key_prefix (instance method)">#<strong>upload_token_for_key_prefix</strong>(key_prefix) {|policy| ... } &#x21d2; QiniuNg::Storage::UploadToken </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>生成存储空间的上传凭证，仅能由于上传指定文件名前缀的文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uploader-instance_method" title="#uploader (instance method)">#<strong>uploader</strong>(block_size: Config.default_upload_block_size)  &#x21d2; QiniuNg::Storage::Uploader </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间的上传器，用于上传文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zone-instance_method" title="#zone (instance method)">#<strong>zone</strong>  &#x21d2; QiniuNg::Zone </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间所在区域实例.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#zone=-instance_method" title="#zone= (instance method)">#<strong>zone=</strong>(zone)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>设置存储空间所在区域实例.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="batch-instance_method">
+  
+    #<strong>batch</strong>(raise_if_partial_ok: false, https: nil, **options) {|batch| ... } &#x21d2; <tt><span class='object_link'><a href="BatchOperations/Results.html" title="QiniuNg::Storage::BatchOperations::Results (class)">QiniuNg::Storage::BatchOperations::Results</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>对存储空间内的文件发送批处理操作</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_batch'>batch</span><span class='op'>|</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key1</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key2</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key3</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+          <span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>raise_if_partial_ok</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'>Bool</span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>如果部分操作发生错误，是否会抛出异常</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'>Bool</span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作是否使用 HTTPS 协议发送</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="#batch-instance_method" title="QiniuNg::Storage::Bucket#batch (method)">batch</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>作为批处理操作的上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>batch</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BatchOperations.html" title="QiniuNg::Storage::BatchOperations (class)">QiniuNg::Storage::BatchOperations</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作的上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BatchOperations/Results.html" title="QiniuNg::Storage::BatchOperations::Results (class)">QiniuNg::Storage::BatchOperations::Results</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作结果</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+498
+499
+500
+501
+502
+503
+504</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 498</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_batch'>batch</span><span class='lparen'>(</span><span class='label'>raise_if_partial_ok:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_op'>op</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="BatchOperations.html" title="QiniuNg::Storage::BatchOperations (class)">BatchOperations</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='id identifier rubyid_raise_if_partial_ok'>raise_if_partial_ok</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_op'>op</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='kw'>yield</span> <span class='id identifier rubyid_op'>op</span>
+  <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_do'>do</span><span class='lparen'>(</span><span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="batch!-instance_method">
+  
+    #<strong>batch!</strong>(https: nil, **options) {|batch| ... } &#x21d2; <tt><span class='object_link'><a href="BatchOperations/Results.html" title="QiniuNg::Storage::BatchOperations::Results (class)">QiniuNg::Storage::BatchOperations::Results</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>对存储空间内的文件发送批处理操作，如果部分操作发生异常，将会抛出 QiniuNg::HTTP::PartialOK 异常</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_batch!'>batch!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_batch'>batch</span><span class='op'>|</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key1</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key2</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+            <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key3</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+          <span class='kw'>end</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'>Bool</span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作是否使用 HTTPS 协议发送</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="#batch-instance_method" title="QiniuNg::Storage::Bucket#batch (method)">batch</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>作为批处理操作的上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>batch</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BatchOperations.html" title="QiniuNg::Storage::BatchOperations (class)">QiniuNg::Storage::BatchOperations</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作的上下文</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BatchOperations/Results.html" title="QiniuNg::Storage::BatchOperations::Results (class)">QiniuNg::Storage::BatchOperations::Results</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>批处理操作结果</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../HTTP/PartialOK.html" title="QiniuNg::HTTP::PartialOK (class)">QiniuNg::HTTP::PartialOK</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>如果部分操作发生异常</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+520
+521
+522</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 520</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_batch!'>batch!</span><span class='lparen'>(</span><span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_batch'>batch</span><span class='lparen'>(</span><span class='label'>raise_if_partial_ok:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="bucket_event_rules-instance_method">
+  
+    #<strong>bucket_event_rules</strong>  &#x21d2; <tt><span class='object_link'><a href="BucketEventRules.html" title="QiniuNg::Storage::BucketEventRules (class)">QiniuNg::Storage::BucketEventRules</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的事件规则实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_rules'>rules</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_bucket_event_rules'>bucket_event_rules</span>
+<span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="BucketEventRules.html" title="QiniuNg::Storage::BucketEventRules (class)">QiniuNg::Storage::BucketEventRules</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>事件规则实例</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+542
+543
+544</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 542</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bucket_event_rules'>bucket_event_rules</span>
+  <span class='const'><span class='object_link'><a href="BucketEventRules.html" title="QiniuNg::Storage::BucketEventRules (class)">BucketEventRules</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="BucketEventRules.html#new-instance_method" title="QiniuNg::Storage::BucketEventRules#new (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cache_max_age-instance_method">
+  
+    #<strong>cache_max_age</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的 Cache-Control Max-Age 属性</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+608
+609
+610
+611</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 608</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cache_max_age'>cache_max_age</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_max_age_secs'>max_age_secs</span> <span class='op'>=</span> <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>max_age</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">Duration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Utils/Duration.html#initialize-instance_method" title="QiniuNg::Utils::Duration#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>seconds:</span> <span class='id identifier rubyid_max_age_secs'>max_age_secs</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_max_age_secs'>max_age_secs</span><span class='op'>&amp;.</span><span class='id identifier rubyid_positive?'>positive?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cors_rules-instance_method">
+  
+    #<strong>cors_rules</strong>  &#x21d2; <tt><span class='object_link'><a href="CORSRules.html" title="QiniuNg::Storage::CORSRules (class)">QiniuNg::Storage::CORSRules</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的跨域规则实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_rules'>rules</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_cors_rules'>cors_rules</span>
+<span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="CORSRules.html" title="QiniuNg::Storage::CORSRules (class)">QiniuNg::Storage::CORSRules</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>跨域规则实例</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+553
+554
+555</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 553</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cors_rules'>cors_rules</span>
+  <span class='const'><span class='object_link'><a href="CORSRules.html" title="QiniuNg::Storage::CORSRules (class)">CORSRules</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="CORSRules.html#new-instance_method" title="QiniuNg::Storage::CORSRules#new (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_index_page-instance_method">
+  
+    #<strong>disable_index_page</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>关闭存储空间的默认首页功能</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_disable_index_page'>disable_index_page</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_index_page'>disable_index_page</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_index_page'>set_index_page</span><span class='lparen'>(</span><span class='kw'>false</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_original_protection-instance_method">
+  
+    #<strong>disable_original_protection</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>禁用存储空间的源站保护</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_disable_original_protection'>disable_original_protection</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+577
+578
+579</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 577</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_original_protection'>disable_original_protection</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_original_protection'>set_original_protection</span><span class='lparen'>(</span><span class='kw'>false</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="domains-instance_method">
+  
+    #<strong>domains</strong>(api_zone: nil, https: nil, **options)  &#x21d2; <tt>Array&lt;String&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的下载域名列表</p>
+
+<p>如果在初始化 Bucket 时设置下载域名，该方法将会返回设置的下载域名列表。否则，将会获取所有绑定在七牛存储空间上的下载域名列表</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>domains:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>download.qiniuapp.com</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_domains'>domains</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_match_array'>match_array</span><span class='lparen'>(</span><span class='qwords_beg'>%w[</span><span class='tstring_content'>download.qiniuapp.com</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>api_zone</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>API 所在区域，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;String&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回下载域名列表</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_domains'>domains</span><span class='lparen'>(</span><span class='label'>api_zone:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_domains'>domains</span> <span class='op'>=</span> <span class='ivar'>@domains_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_read_lock'>with_read_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@domains</span> <span class='rbrace'>}</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_domains'>domains</span> <span class='kw'>if</span> <span class='id identifier rubyid_domains'>domains</span>
+
+  <span class='ivar'>@domains_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='kw'>do</span>
+    <span class='ivar'>@domains</span> <span class='op'>||=</span> <span class='kw'>begin</span>
+      <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>tbl:</span> <span class='ivar'>@bucket_name</span> <span class='rbrace'>}</span>
+      <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/v6/domain/list</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_get_api_url'>get_api_url</span><span class='lparen'>(</span><span class='id identifier rubyid_api_zone'>api_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>params:</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@domains</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="domains=-instance_method">
+  
+    #<strong>domains=</strong>(domains)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间下载域名列表</p>
+
+<p>该方法不会改变绑定在七牛存储空间上的域名列表</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_domains'>domains</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>download.qiniuapp.com</span><span class='tstring_end'>]</span></span></code></pre>
+    
+  </div>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_domains='>domains=</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_domains'>domains</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_domains'>normalize_domains</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+  <span class='ivar'>@domains_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_index_page-instance_method">
+  
+    #<strong>enable_index_page</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>开启存储空间的默认首页功能</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_enable_index_page'>enable_index_page</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+237
+238
+239</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 237</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_index_page'>enable_index_page</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_index_page'>set_index_page</span><span class='lparen'>(</span><span class='kw'>true</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_original_protection-instance_method">
+  
+    #<strong>enable_original_protection</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>启用存储空间的源站保护</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_enable_original_protection'>enable_original_protection</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+565
+566
+567</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 565</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_original_protection'>enable_original_protection</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_set_original_protection'>set_original_protection</span><span class='lparen'>(</span><span class='kw'>true</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="entry-instance_method">
+  
+    #<strong>entry</strong>(key)  &#x21d2; <tt><span class='object_link'><a href="Entry.html" title="QiniuNg::Storage::Entry (class)">QiniuNg::Storage::Entry</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间中的一个文件实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件名称</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Entry.html" title="QiniuNg::Storage::Entry (class)">QiniuNg::Storage::Entry</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间中的一个文件实例</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+275
+276
+277</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 275</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Entry.html" title="QiniuNg::Storage::Entry (class)">Entry</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="files-instance_method">
+  
+    #<strong>files</strong>(rsf_zone: nil, prefix: nil, limit: nil, marker: nil, https: nil, **options)  &#x21d2; <tt>Enumerable</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>遍历存储空间中的文件，获取迭代器</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span> <span class='rbrace'>}</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>仅返回文件名前缀为指定字符串的文件</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>限制最多返回的文件数量，默认为无上限</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>marker</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>设置遍历文件使用的标记，该标记必须合法</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回一个<a href="https://ruby-doc.org/core-2.6/Enumerable.html">迭代器</a>实例</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+319
+320
+321
+322</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 319</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_files'>files</span><span class='lparen'>(</span><span class='label'>rsf_zone:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>limit:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>marker:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'>FilesIterator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span>
+                    <span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_limit'>limit</span><span class='comma'>,</span> <span class='id identifier rubyid_marker'>marker</span><span class='comma'>,</span> <span class='id identifier rubyid_rsf_zone'>rsf_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_index_page?-instance_method">
+  
+    #<strong>has_index_page?</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>判断存储空间的默认首页功能是否打开</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_has_index_page?'>has_index_page?</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+263
+264
+265</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 263</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_index_page?'>has_index_page?</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>no_index_page</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="image-instance_method">
+  
+    #<strong>image</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt><span class='object_link'><a href="Bucket/ImageInfo.html" title="QiniuNg::Storage::Bucket::ImageInfo (class)">QiniuNg::Storage::Bucket::ImageInfo</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的镜像存储设置</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Bucket/ImageInfo.html" title="QiniuNg::Storage::Bucket::ImageInfo (class)">QiniuNg::Storage::Bucket::ImageInfo</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>镜像存储设置，如果没有设置过则返回 nil</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 169</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_image'>image</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Bucket/ImageInfo.html" title="QiniuNg::Storage::Bucket::ImageInfo (class)">ImageInfo</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>source</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>host</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>source</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="life_cycle_rules-instance_method">
+  
+    #<strong>life_cycle_rules</strong>  &#x21d2; <tt><span class='object_link'><a href="LifeCycleRules.html" title="QiniuNg::Storage::LifeCycleRules (class)">QiniuNg::Storage::LifeCycleRules</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的生命周期规则实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_rules'>rules</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_life_cycle_rules'>life_cycle_rules</span>
+<span class='id identifier rubyid_rules'>rules</span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="LifeCycleRules.html" title="QiniuNg::Storage::LifeCycleRules (class)">QiniuNg::Storage::LifeCycleRules</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>生命周期规则实例</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+531
+532
+533</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 531</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_life_cycle_rules'>life_cycle_rules</span>
+  <span class='const'><span class='object_link'><a href="LifeCycleRules.html" title="QiniuNg::Storage::LifeCycleRules (class)">LifeCycleRules</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="LifeCycleRules.html#new-instance_method" title="QiniuNg::Storage::LifeCycleRules#new (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name-instance_method">
+  
+    #<strong>name</strong>  &#x21d2; <tt>String</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='to_s-instance_method'>to_s</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间名称</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_create_bucket'>create_bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>zone:</span> <span class='symbol'>:z2</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>name 存储空间名称</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@bucket_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="private!-instance_method">
+  
+    #<strong>private!</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间为私有空间</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_private!'>private!</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_private!'>private!</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update_acl'>update_acl</span><span class='lparen'>(</span><span class='label'>private_access:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="private?-instance_method">
+  
+    #<strong>private?</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>判断存储空间是否是私有空间</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_is_private'>is_private</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_private?'>private?</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否为私有空间</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_private?'>private?</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>private</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='int'>1</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="public!-instance_method">
+  
+    #<strong>public!</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间为公开空间</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_public!'>public!</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_public!'>public!</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update_acl'>update_acl</span><span class='lparen'>(</span><span class='label'>private_access:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="query_async_fetch_result-instance_method">
+  
+    #<strong>query_async_fetch_result</strong>(id)  &#x21d2; <tt><span class='object_link'><a href="Model/AsyncFetchJob.html" title="QiniuNg::Storage::Model::AsyncFetchJob (class)">QiniuNg::Storage::Model::AsyncFetchJob</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取异步抓取任务结果</p>
+
+<p>根据异步抓取任务 ID 获取结果</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_job'>job</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_async_fetch_from'>async_fetch_from</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;URL&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>md5:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Resource MD5&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_saved_async_fetch_job_id'>saved_async_fetch_job_id</span> <span class='op'>=</span> <span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+
+<span class='id identifier rubyid_job'>job</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_query_async_fetch_result'>query_async_fetch_result</span><span class='lparen'>(</span><span class='id identifier rubyid_saved_async_fetch_job_id'>saved_async_fetch_job_id</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='period'>.</span><span class='id identifier rubyid_done?'>done?</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_be'>be</span> <span class='kw'>true</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>异步抓取任务 ID</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/AsyncFetchJob.html" title="QiniuNg::Storage::Model::AsyncFetchJob (class)">QiniuNg::Storage::Model::AsyncFetchJob</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回异步抓取任务</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 292</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_query_async_fetch_result'>query_async_fetch_result</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Model.html" title="QiniuNg::Storage::Model (module)">Model</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Model/AsyncFetchJob.html" title="QiniuNg::Storage::Model::AsyncFetchJob (class)">AsyncFetchJob</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="query_processing_result-instance_method">
+  
+    #<strong>query_processing_result</strong>(persistent_id, api_zone: nil, https: nil, **options)  &#x21d2; <tt><span class='object_link'><a href="../Processing/PfopResults.html" title="QiniuNg::Processing::PfopResults (class)">QiniuNg::Processing::PfopResults</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取文件处理结果</p>
+
+<p>根据异步抓取任务 ID 获取结果</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>persistent_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt><span class='object_link'><a href="../Processing/PersistentID.html" title="QiniuNg::Processing::PersistentID (class)">QiniuNg::Processing::PersistentID</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>持久化 ID</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Processing/PfopResults.html" title="QiniuNg::Processing::PfopResults (class)">QiniuNg::Processing::PfopResults</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>持久化结果</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+302
+303
+304
+305</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 302</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_query_processing_result'>query_processing_result</span><span class='lparen'>(</span><span class='id identifier rubyid_persistent_id'>persistent_id</span><span class='comma'>,</span> <span class='label'>api_zone:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../Processing.html" title="QiniuNg::Processing (module)">Processing</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Processing/PersistentID.html" title="QiniuNg::Processing::PersistentID (class)">PersistentID</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_persistent_id'>persistent_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
+                          <span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='label'>api_zone:</span> <span class='id identifier rubyid_api_zone'>api_zone</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="quota-instance_method">
+  
+    #<strong>quota</strong>(api_zone: nil, https: nil, **options)  &#x21d2; <tt><span class='object_link'><a href="Bucket/Quota.html" title="QiniuNg::Storage::Bucket::Quota (class)">QiniuNg::Storage::Bucket::Quota</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的配额限制</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>api_zone</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>API 所在区域，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Bucket/Quota.html" title="QiniuNg::Storage::Bucket::Quota (class)">QiniuNg::Storage::Bucket::Quota</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的配额信息</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+644
+645
+646
+647
+648
+649
+650</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 644</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_quota'>quota</span><span class='lparen'>(</span><span class='label'>api_zone:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_resp_body'>resp_body</span> <span class='op'>=</span> <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/getbucketquota/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@bucket_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                                  <span class='id identifier rubyid_get_api_url'>get_api_url</span><span class='lparen'>(</span><span class='id identifier rubyid_api_zone'>api_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>size</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>size</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_negative?'>negative?</span>
+  <span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>count</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>count</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_negative?'>negative?</span>
+  <span class='const'><span class='object_link'><a href="Bucket/Quota.html" title="QiniuNg::Storage::Bucket::Quota (class)">Quota</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>size</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>count</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_cache_max_age-instance_method">
+  
+    #<strong>set_cache_max_age</strong>(args, uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>修改存储空间的 Cache-Control Max-Age 属性</p>
+
+<p>如果输入 0 或负数表示设置为默认值，365 天</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>直接输入缓存时间，单位为秒。</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_set_cache_max_age'>set_cache_max_age</span><span class='lparen'>(</span><span class='int'>86400</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>输入语义化的 Hash 参数表示时间</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_set_cache_max_age'>set_cache_max_age</span><span class='lparen'>(</span><span class='label'>day:</span> <span class='int'>1</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Hash</tt>, <tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>时间长度，可以用 Hash 表示， 参数细节可以参考 QiniuNg::Utils::Duration#initialize</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+595
+596
+597
+598
+599
+600</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 595</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_cache_max_age'>set_cache_max_age</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_max_age'>max_age</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">Duration</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Utils/Duration.html#initialize-instance_method" title="QiniuNg::Utils::Duration#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>bucket:</span> <span class='ivar'>@bucket_name</span><span class='comma'>,</span> <span class='label'>maxAge:</span> <span class='id identifier rubyid_max_age'>max_age</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/maxAge</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_uc_url'>uc_url</span> <span class='op'>||</span> <span class='id identifier rubyid_get_uc_url'>get_uc_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>params:</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_image-instance_method">
+  
+    #<strong>set_image</strong>(source_url, uc_url: nil, source_host: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间的镜像存储</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_set_image'>set_image</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://mars-assets.qnssl.com</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>source_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>镜像源地址</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>source_host</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>回源 HOST 地址 <a href="https://developer.qiniu.com/fusion/kb/4064/understanding-and-setting-up-the-way-back-to-the-source-host">参数文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_image'>set_image</span><span class='lparen'>(</span><span class='id identifier rubyid_source_url'>source_url</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>source_host:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_encoded_url'>encoded_url</span> <span class='op'>=</span> <span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_urlsafe_encode64'>urlsafe_encode64</span><span class='lparen'>(</span><span class='id identifier rubyid_source_url'>source_url</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_path'>path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/image/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@bucket_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/from/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_encoded_url'>encoded_url</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_path'>path</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/host/</span><span class='embexpr_beg'>#{</span><span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_urlsafe_encode64'>urlsafe_encode64</span><span class='lparen'>(</span><span class='id identifier rubyid_source_host'>source_host</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_source_host'>source_host</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_source_host'>source_host</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_uc_url'>uc_url</span> <span class='op'>||</span> <span class='id identifier rubyid_get_uc_url'>get_uc_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_expire_info!'>expire_info!</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_quota-instance_method">
+  
+    #<strong>set_quota</strong>(size: 0, count: 0, api_zone: nil, https: nil, **options)  &#x21d2; <tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间的配额限制</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>设置空间存储量配额</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_set_quota'>set_quota</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>1</span> <span class='op'>&lt;&lt;</span> <span class='int'>30</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>设置空间文件数配额</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_set_quota'>set_quota</span><span class='lparen'>(</span><span class='label'>count:</span> <span class='int'>100</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>设置空间存储量配额，单位为字节。如果设置为 nil 表示取消该配额。默认为不修改该配额</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>count</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>设置空间文件书配额，单位为个。如果设置为 nil 表示取消该配额。默认为不修改该配额</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api_zone</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>API 所在区域，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的 Cache-Control Max-Age 属性。如果返回 nil 则表示为默认值</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+626
+627
+628
+629
+630
+631
+632</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 626</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_quota'>set_quota</span><span class='lparen'>(</span><span class='label'>size:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>count:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>api_zone:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span> <span class='kw'>if</span> <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_count'>count</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span> <span class='kw'>if</span> <span class='id identifier rubyid_count'>count</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/setbucketquota/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@bucket_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/size/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_content'>/count/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_count'>count</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+                       <span class='id identifier rubyid_get_api_url'>get_api_url</span><span class='lparen'>(</span><span class='id identifier rubyid_api_zone'>api_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="style_separator-instance_method">
+  
+    #<strong>style_separator</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>数据处理样式分隔符</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回样式分隔符</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism" target="_parent" title="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">https://developer.qiniu.com/dora/manual/1204/processing-mechanism</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 224</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_style_separator'>style_separator</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_info'>info</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='id identifier rubyid_uc_url'>uc_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>separator</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unset_image-instance_method">
+  
+    #<strong>unset_image</strong>(uc_url: nil, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>取消存储空间的镜像存储设置</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_unset_image'>unset_image</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>uc_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>UC 所在服务器地址，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 150</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unset_image'>unset_image</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/unimage/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@bucket_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_uc_url'>uc_url</span> <span class='op'>||</span> <span class='id identifier rubyid_get_uc_url'>get_uc_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_expire_info!'>expire_info!</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_token-instance_method">
+  
+    #<strong>upload_token</strong>(key: nil, key_prefix: nil) {|policy| ... } &#x21d2; <tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>生成存储空间的上传凭证</p>
+
+<p>该方法如果不传入任何参数，效果同 #upload_token_for_bucket； 如果传入 key 参数，效果同 #upload_token_for_key(key)； 如果传入 key_prefix 参数，效果同 #upload_token_for_key_prefix(key_prefix)；</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>获取仅能被用来上传文件名为指定字符串的文件。该参数与 key_prefix 不要同时使用</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>key_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>获取仅能被用来上传文件名的前缀为指定字符串的文件。该参数与 key 不要同时使用</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>policy</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>在生成上传凭证前对生成的上传策略进行修改</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>policy</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">QiniuNg::Storage::Model::UploadPolicy</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>生成的上传策略</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的上传凭证</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://developer.qiniu.com/kodo/manual/1208/upload-token" target="_parent" title="https://developer.qiniu.com/kodo/manual/1208/upload-token">https://developer.qiniu.com/kodo/manual/1208/upload-token</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+424
+425
+426
+427
+428
+429</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 424</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_token'>upload_token</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>key_prefix:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_upload_token_for_key'>upload_token_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_upload_token_for_key_prefix'>upload_token_for_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='id identifier rubyid_upload_token_for_bucket'>upload_token_for_bucket</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_token_for_bucket-instance_method">
+  
+    #<strong>upload_token_for_bucket</strong> {|policy| ... } &#x21d2; <tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>生成存储空间的上传凭证</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>token = bucket.upload_token_for_bucket do |policy|
+          policy.set_token_lifetime(day: 1) }
+        end
+bucket.upload(filepath: &#39;/path/to/file&#39;, upload_token: token)</code></pre>
+    
+  </div>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>policy</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>在生成上传凭证前对生成的上传策略进行修改</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>policy</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">QiniuNg::Storage::Model::UploadPolicy</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>生成的上传策略</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的上传凭证</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+442
+443
+444
+445
+446</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 442</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_token_for_bucket'>upload_token_for_bucket</span>
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Model.html" title="QiniuNg::Storage::Model (module)">Model</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">UploadPolicy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>bucket:</span> <span class='ivar'>@bucket_name</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span> <span class='id identifier rubyid_policy'>policy</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='const'><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">UploadToken</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_policy'><span class='object_link'><a href="UploadToken.html#from_policy-class_method" title="QiniuNg::Storage::UploadToken.from_policy (method)">from_policy</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_token_for_key-instance_method">
+  
+    #<strong>upload_token_for_key</strong>(key) {|policy| ... } &#x21d2; <tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>生成存储空间的上传凭证，仅能由于上传指定文件名的文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token_for_key'>upload_token_for_key</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key1</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+          <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_token_lifetime'>set_token_lifetime</span><span class='lparen'>(</span><span class='label'>day:</span> <span class='int'>1</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>upload_token:</span> <span class='id identifier rubyid_token'>token</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>限制上传的文件名</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>policy</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>在生成上传凭证前对生成的上传策略进行修改</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>policy</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">QiniuNg::Storage::Model::UploadPolicy</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>生成的上传策略</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的上传凭证</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+460
+461
+462
+463
+464</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 460</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_token_for_key'>upload_token_for_key</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Model.html" title="QiniuNg::Storage::Model (module)">Model</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">UploadPolicy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>bucket:</span> <span class='ivar'>@bucket_name</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span> <span class='id identifier rubyid_policy'>policy</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='const'><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">UploadToken</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_policy'><span class='object_link'><a href="UploadToken.html#from_policy-class_method" title="QiniuNg::Storage::UploadToken.from_policy (method)">from_policy</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_token_for_key_prefix-instance_method">
+  
+    #<strong>upload_token_for_key_prefix</strong>(key_prefix) {|policy| ... } &#x21d2; <tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>生成存储空间的上传凭证，仅能由于上传指定文件名前缀的文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token_for_key_prefix'>upload_token_for_key_prefix</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_token_lifetime'>set_token_lifetime</span><span class='lparen'>(</span><span class='label'>day:</span> <span class='int'>1</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>upload_token:</span> <span class='id identifier rubyid_token'>token</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>限制上传的文件名的前缀</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>policy</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>在生成上传凭证前对生成的上传策略进行修改</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>policy</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">QiniuNg::Storage::Model::UploadPolicy</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>生成的上传策略</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">QiniuNg::Storage::UploadToken</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的上传凭证</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+478
+479
+480
+481
+482</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 478</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_token_for_key_prefix'>upload_token_for_key_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Model.html" title="QiniuNg::Storage::Model (module)">Model</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Model/UploadPolicy.html" title="QiniuNg::Storage::Model::UploadPolicy (class)">UploadPolicy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>bucket:</span> <span class='ivar'>@bucket_name</span><span class='comma'>,</span> <span class='label'>key_prefix:</span> <span class='id identifier rubyid_key_prefix'>key_prefix</span><span class='rparen'>)</span>
+  <span class='kw'>yield</span> <span class='id identifier rubyid_policy'>policy</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+  <span class='const'><span class='object_link'><a href="UploadToken.html" title="QiniuNg::Storage::UploadToken (class)">UploadToken</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_policy'><span class='object_link'><a href="UploadToken.html#from_policy-class_method" title="QiniuNg::Storage::UploadToken.from_policy (method)">from_policy</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="uploader-instance_method">
+  
+    #<strong>uploader</strong>(block_size: Config.default_upload_block_size)  &#x21d2; <tt><span class='object_link'><a href="Uploader.html" title="QiniuNg::Storage::Uploader (class)">QiniuNg::Storage::Uploader</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间的上传器，用于上传文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_uploader'>uploader</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span><span class='rparen'>)</span></code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Uploader 中的所有方法都已经被委托给 Bucket 直接调用，因此上面一行代码也可以被重写为</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>block_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>当使用分片方式上传文件时，设置每个分片的尺寸。单位为字节。该尺寸必须是 4 MB 的整数倍，默认为使用全局设置中的分片尺寸</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Uploader.html" title="QiniuNg::Storage::Uploader (class)">QiniuNg::Storage::Uploader</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间的上传器</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+399
+400
+401
+402
+403
+404
+405
+406</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 399</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_uploader'>uploader</span><span class='lparen'>(</span><span class='label'>block_size:</span> <span class='const'><span class='object_link'><a href="../Config.html" title="QiniuNg::Config (class)">Config</a></span></span><span class='period'>.</span><span class='id identifier rubyid_default_upload_block_size'><span class='object_link'><a href="../Config.html#default_upload_block_size-class_method" title="QiniuNg::Config.default_upload_block_size (method)">default_upload_block_size</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_uploader'>uploader</span> <span class='op'>=</span> <span class='ivar'>@uploader_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_read_lock'>with_read_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@uploader</span> <span class='rbrace'>}</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_uploader'>uploader</span> <span class='kw'>if</span> <span class='id identifier rubyid_block_size'>block_size</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_uploader'>uploader</span><span class='op'>&amp;.</span><span class='id identifier rubyid_block_size'>block_size</span> <span class='op'>==</span> <span class='id identifier rubyid_block_size'>block_size</span>
+
+  <span class='ivar'>@uploader_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='kw'>do</span>
+    <span class='ivar'>@uploader</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="Uploader.html" title="QiniuNg::Storage::Uploader (class)">Uploader</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='label'>block_size:</span> <span class='id identifier rubyid_block_size'>block_size</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zone-instance_method">
+  
+    #<strong>zone</strong>  &#x21d2; <tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间所在区域实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_create_bucket'>create_bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>zone:</span> <span class='symbol'>:z2</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_expect'>expect</span><span class='lparen'>(</span><span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_eq'>eq</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>存储空间区域</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_zone'>zone</span>
+  <span class='id identifier rubyid_zone'>zone</span> <span class='op'>=</span> <span class='ivar'>@zone_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_read_lock'>with_read_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@zone</span> <span class='rbrace'>}</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_zone'>zone</span> <span class='kw'>if</span> <span class='id identifier rubyid_zone'>zone</span>
+
+  <span class='ivar'>@zone_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='kw'>do</span>
+    <span class='ivar'>@zone</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../Common.html" title="QiniuNg::Common (module)">Common</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">Zone</a></span></span><span class='period'>.</span><span class='id identifier rubyid_auto'><span class='object_link'><a href="../Common/Zone.html#auto-class_method" title="QiniuNg::Common::Zone.auto (method)">auto</a></span></span><span class='period'>.</span><span class='id identifier rubyid_query'><span class='object_link'><a href="../Common/AutoZone.html#query-instance_method" title="QiniuNg::Common::AutoZone#query (method)">query</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='ivar'>@auth</span><span class='period'>.</span><span class='id identifier rubyid_access_key'>access_key</span><span class='comma'>,</span> <span class='label'>bucket:</span> <span class='ivar'>@bucket_name</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="zone=-instance_method">
+  
+    #<strong>zone=</strong>(zone)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>设置存储空间所在区域实例</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_client'>client</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="../../QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">Zone</a></span></span><span class='period'>.</span><span class='id identifier rubyid_huabei'><span class='object_link'><a href="../Common/Zone.html#huabei-class_method" title="QiniuNg::Common::Zone.huabei (method)">huabei</a></span></span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>zone</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>存储空间区域</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 75</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_zone='>zone=</span><span class='lparen'>(</span><span class='id identifier rubyid_zone'>zone</span><span class='rparen'>)</span>
+  <span class='ivar'>@zone_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@zone</span> <span class='op'>=</span> <span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Jul 31 10:28:12 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.1).
+</div>
+
+    </div>
+  </body>
+</html>

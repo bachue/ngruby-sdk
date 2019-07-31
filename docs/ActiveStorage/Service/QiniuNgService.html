@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ActiveStorage::Service::QiniuNgService
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "ActiveStorage::Service::QiniuNgService";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (Q)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../ActiveStorage.html" title="ActiveStorage (module)">ActiveStorage</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Service.html" title="ActiveStorage::Service (class)">Service</a></span></span>
+     &raquo; 
+    <span class="title">QiniuNgService</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ActiveStorage::Service::QiniuNgService
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="../Service.html" title="ActiveStorage::Service (class)">ActiveStorage::Service</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Service.html" title="ActiveStorage::Service (class)">ActiveStorage::Service</a></span></li>
+          
+            <li class="next">ActiveStorage::Service::QiniuNgService</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/qiniu_ng/storage/thirdparty/active_storage.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>QiniuNg 的 ActiveStorage 插件，支持通过 ActiveStorage API 将文件上传至七牛云</p>
+
+<p><a href="https://developer.qiniu.com/kodo/manual/1671/region-endpoint">区域代号参考文档</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>在 config/storage.yml 中配置七牛云</p>
+</div></p>
+      
+      <pre class="example code"><code>qiniu_ng:
+  service: QiniuNg
+  access_key: &#39;&lt;Qiniu AccessKey&gt;&#39;
+  secret_key: &#39;&lt;Qiniu SecretKey&gt;&#39;
+  bucket: &#39;&lt;Qiniu BucketName&gt;&#39;</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>可以支持的配置选项</p>
+</div></p>
+      
+      <pre class="example code"><code>access_key: 七牛 Access Key，必填
+secret_key: 七牛 Secret Key，必填
+bucket: 七牛存储空间名称，必填
+bucket_zone: 七牛存储空间所在区域，需要传入区域代号，选填
+bucket_domains: 七牛存储空间的下载域名列表，选填
+use_https: 是否使用 HTTPS 访问 API，选填
+https_download_url: 是否生成 HTTPS 协议的文件下载地址，选填
+overwritable: 如果文件在存储空间中已经存在，是否覆盖文件，选填
+upload_block_size: 当使用分片方式上传文件时，设置每个分片的尺寸。单位为字节。该尺寸必须是 4 MB 的整数倍，选填
+upload_token_expires_in: 七牛上传凭证有效期，选填
+auto_detect_mime: 是否自动侦测上传文件的 MIME 类型，选填
+infrequent_storage: 是否使用低频存储，选填
+expire_after_days: 设置上传文件的生命周期，单位为天，选填
+delete_after_days: 与 qiniu_expire_after_days 作用完全相同，仅需要设置任意一个即可，选填
+callback_urls: 回调业务服务器的 URL 列表，选填
+callback_host: 回调 HOST，选填
+callback_body: 回调请求的内容，选填
+callback_body_type: 回调请求的内容类型，默认为 application/x-www-form-urlencoded，选填
+persistent_ops: 预转持久化处理指令列表，选填
+persistent_notify_url: 预转持久化处理完毕后回调业务服务器的 URL，选填
+persistent_pipeline: 转码队列名，选填
+cdn_timestamp_anti_leech_encrypt_key: 七牛 CDN Key，选填</code></pre>
+    
+  </div>
+
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-instance_method" title="#delete (instance method)">#<strong>delete</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>从云存储删除文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_prefixed-instance_method" title="#delete_prefixed (instance method)">#<strong>delete_prefixed</strong>(prefix)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>从云存储删除带有指定前缀的文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download-instance_method" title="#download (instance method)">#<strong>download</strong>(key) {|chunk| ... } &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>从云存储下载文件内容.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#download_chunk-instance_method" title="#download_chunk (instance method)">#<strong>download_chunk</strong>(key, range) {|chunk| ... } &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>从云存储下载文件部分内容.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exist%3F-instance_method" title="#exist? (instance method)">#<strong>exist?</strong>(key)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>在云存储上是否存在该文件.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(key, io, checksum: nil, content_type: nil, **_options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>上传 IO 至云存储.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#url-instance_method" title="#url (instance method)">#<strong>url</strong>(key, expires_in: nil, fop: nil, style: nil, filename:, **options)  &#x21d2; QiniuNg::Storage::PublicURL, ... </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取七牛文件的下载地址.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="delete-instance_method">
+  
+    #<strong>delete</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>从云存储删除文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>要删除的文件名</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:delete</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_entry_for'>entry_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_prefixed-instance_method">
+  
+    #<strong>delete_prefixed</strong>(prefix)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>从云存储删除带有指定前缀的文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>要删除的文件名称前缀</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_prefixed'>delete_prefixed</span><span class='lparen'>(</span><span class='id identifier rubyid_prefix'>prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:delete_prefixed</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='id identifier rubyid_prefix'>prefix</span> <span class='kw'>do</span>
+    <span class='ivar'>@bucket</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_batch'>batch</span><span class='op'>|</span>
+      <span class='ivar'>@bucket</span><span class='period'>.</span><span class='id identifier rubyid_files'>files</span><span class='lparen'>(</span><span class='label'>prefix:</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+        <span class='id identifier rubyid_batch'>batch</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download-instance_method">
+  
+    #<strong>download</strong>(key) {|chunk| ... } &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>从云存储下载文件内容</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件名</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>chunk</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>传入 Block 获取文件内容分片</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>chunk</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件内容分片</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件内容</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_download'>download</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+    <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:streaming_download</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:download</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_read_full'>read_full</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="download_chunk-instance_method">
+  
+    #<strong>download_chunk</strong>(key, range) {|chunk| ... } &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>从云存储下载文件部分内容</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件名</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>range</span>
+      
+      
+        <span class='type'>(<tt>Range</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载范围</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>chunk</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>传入 Block 获取文件内容分片</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>chunk</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件内容分片</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件内容</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_download_chunk'>download_chunk</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_range'>range</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:download_chunk</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>range:</span> <span class='id identifier rubyid_range'>range</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_read_full'>read_full</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>range:</span> <span class='id identifier rubyid_range'>range</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="exist?-instance_method">
+  
+    #<strong>exist?</strong>(key)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>在云存储上是否存在该文件</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件名</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否存在该文件</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_exist?'>exist?</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:exist</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_payload'>payload</span><span class='op'>|</span>
+    <span class='id identifier rubyid_answer'>answer</span> <span class='op'>=</span> <span class='id identifier rubyid_entry_for'>entry_for</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
+    <span class='id identifier rubyid_payload'>payload</span><span class='lbracket'>[</span><span class='symbol'>:exist</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_answer'>answer</span>
+    <span class='id identifier rubyid_answer'>answer</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload-instance_method">
+  
+    #<strong>upload</strong>(key, io, checksum: nil, content_type: nil, **_options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>上传 IO 至云存储</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>上传至七牛后的文件名</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>io</span>
+      
+      
+        <span class='type'>(<tt>#read</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件流</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>checksum</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件内容的 MD5 值（经过 Base64 编码）</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>content_type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>文件 MIME 类型</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_io'>io</span><span class='comma'>,</span> <span class='label'>checksum:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>content_type:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid__options'>_options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:upload</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>checksum:</span> <span class='id identifier rubyid_checksum'>checksum</span> <span class='kw'>do</span>
+    <span class='ivar'>@uploader</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>stream:</span> <span class='id identifier rubyid_io'>io</span><span class='comma'>,</span> <span class='label'>mime_type:</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='comma'>,</span>
+                     <span class='label'>upload_token:</span> <span class='id identifier rubyid_make_upload_token'>make_upload_token</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>content_type:</span> <span class='id identifier rubyid_content_type'>content_type</span><span class='rparen'>)</span><span class='comma'>,</span>
+                     <span class='label'>https:</span> <span class='ivar'>@use_https</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_verify_md5!'>verify_md5!</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_checksum'>checksum</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_checksum'>checksum</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="url-instance_method">
+  
+    #<strong>url</strong>(key, expires_in: nil, fop: nil, style: nil, filename:, **options)  &#x21d2; <tt><span class='object_link'><a href="../../QiniuNg/Storage/PublicURL.html" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt>, ... 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取七牛文件的下载地址</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>fop</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理参数，不要与 style 同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>style</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>数据处理样式，不要与 fop 同时设置。 <a href="https://developer.qiniu.com/dora/manual/1204/processing-mechanism">参考文档</a></p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>expires_in</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>Hash</tt>, <tt><span class='object_link'><a href="../../QiniuNg/Utils/Duration.html" title="QiniuNg::Utils::Duration (class)">QiniuNg::Duration</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>下载地址有效期</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../QiniuNg/Storage/PublicURL.html" title="QiniuNg::Storage::PublicURL (class)">QiniuNg::Storage::PublicURL</a></span></tt>, <tt><span class='object_link'><a href="../../QiniuNg/Storage/PrivateURL.html" title="QiniuNg::Storage::PrivateURL (class)">QiniuNg::Storage::PrivateURL</a></span></tt>, <tt><span class='object_link'><a href="../../QiniuNg/Storage/TimestampAntiLeechURL.html" title="QiniuNg::Storage::TimestampAntiLeechURL (class)">QiniuNg::Storage::TimestampAntiLeechURL</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回文件的下载地址，将会自动根据配置返回正确的下载地址。如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/active_storage.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>expires_in:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>fop:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>filename:</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_instrument'>instrument</span> <span class='symbol'>:url</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_payload'>payload</span><span class='op'>|</span>
+    <span class='id identifier rubyid_generated_url'>generated_url</span> <span class='op'>=</span> <span class='id identifier rubyid_generate_url'>generate_url</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>expires_in:</span> <span class='id identifier rubyid_expires_in'>expires_in</span><span class='comma'>,</span>
+                                      <span class='label'>fop:</span> <span class='id identifier rubyid_fop'>fop</span><span class='comma'>,</span> <span class='label'>style:</span> <span class='id identifier rubyid_style'>style</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_payload'>payload</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_generated_url'>generated_url</span>
+    <span class='id identifier rubyid_generated_url'>generated_url</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Jul 31 10:28:41 2019 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20 (ruby-2.6.1).
+</div>
+
+    </div>
+  </body>
+</html>
