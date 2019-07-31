@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['zhourong@qiniu.com', 'sdk@qiniu.com', 'support@qiniu.com']
 
   spec.summary       = 'New Generation Qiniu Resource Storage SDK'
-  spec.description   = "see:\nhttps://github.com/bachue/ngruby-sdk\n"
-  spec.homepage      = 'https://github.com/bachue/ngruby-sdk'
+  spec.description   = "see:\nhttps://github.com/bachue/ruby-ng-sdk\n"
+  spec.homepage      = 'https://github.com/bachue/ruby-ng-sdk'
   spec.license       = 'MIT'
   spec.metadata['yard.run']  = 'yri'
   spec.required_ruby_version = '~> 2.3'
