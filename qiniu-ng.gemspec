@@ -15,6 +15,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/bachue/ruby-ng-sdk'
   spec.license       = 'MIT'
   spec.metadata['yard.run']  = 'yri'
+  spec.metadata['source_code_uri']  = 'https://github.com/bachue/ruby-ng-sdk'
+  spec.metadata['bug_tracker_uri']  = 'https://github.com/bachue/ruby-ng-sdk/issues'
+  spec.metadata['documentation_uri']  = 'https://bachue.github.io/ruby-ng-sdk/'
   spec.required_ruby_version = '~> 2.3'
 
   # Specify which files should be added to the gem when it is released.
