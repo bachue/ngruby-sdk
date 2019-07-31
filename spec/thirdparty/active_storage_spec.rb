@@ -4,15 +4,15 @@ require 'active_support/core_ext/securerandom'
 
 RSpec.describe ActiveStorage::Service::QiniuNgService do
   service = nil
-  configuration = {
-    qiniu_ng: {
-      service: 'QiniuNg',
-      access_key: access_key,
-      secret_key: secret_key,
-      bucket: 'z0-bucket'
-    }
-  }.freeze
   before :all do
+    configuration = {
+      qiniu_ng: {
+        service: 'QiniuNg',
+        access_key: access_key,
+        secret_key: secret_key,
+        bucket: 'z0-bucket'
+      }
+    }.freeze
     service = ActiveStorage::Service.configure(:qiniu_ng, configuration)
   end
 

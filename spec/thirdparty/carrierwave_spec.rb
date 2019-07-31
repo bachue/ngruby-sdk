@@ -34,7 +34,7 @@ RSpec.describe CarrierWave::Storage::QiniuNg do
           expect(::QiniuNg::Etag.from_file_path(f.path)).to eq etag_expected
         end
       ensure
-        tar.test.delete
+        tar.test.file.delete
       end
     end
   end

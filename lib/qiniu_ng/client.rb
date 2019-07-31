@@ -31,6 +31,7 @@ module QiniuNg
     def_delegators :@cdn_manager, *CDN::Manager.public_instance_methods(false)
     def_delegators :@pili_manager, *Streaming::Manager.public_instance_methods(false)
     def_delegators :@rtc_manager, *RTC::Manager.public_instance_methods(false)
+    def_delegators :@auth, :callback_valid?
 
     # 发送文件批处理操作
     # @example

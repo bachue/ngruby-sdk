@@ -346,7 +346,7 @@ module CarrierWave
 
         def file_info
           @client.entry(@key).stat
-        rescue QiniuNg::HTTP::ResourceNotFound
+        rescue ::QiniuNg::HTTP::ResourceNotFound
           nil
         end
 
@@ -377,7 +377,7 @@ module CarrierWave
       # @param [String] key 文件标识符
       # @return [CarrierWave::Storage::QiniuNg::File] 返回文件实例
       def retrieve!(key)
-        CarrierWave::Storage::QiniuNg::File.new(uploader, uploader.store_path(key))
+        ::CarrierWave::Storage::QiniuNg::File.new(uploader, uploader.store_path(key))
       end
     end
   end

@@ -227,7 +227,7 @@ module QiniuNg
         #
         # @see https://developer.qiniu.com/kodo/manual/1206/put-policy#put-policy-return-url
         # @return [QiniuNg::Storage::Model::UploadPolicy] 返回上下文
-        def set_return(url, body: nil)
+        def set_return(url: nil, body: nil)
           @return_url = url
           @return_body = body
           self
@@ -347,7 +347,7 @@ module QiniuNg
           end
           policy.token_deadline = hash['deadline']
           policy.end_user = hash['endUser']
-          policy.set_return(hash['returnUrl'], body: hash['returnBody'])
+          policy.set_return(url: hash['returnUrl'], body: hash['returnBody'])
                 .set_callback(hash['callbackUrl']&.split(';'),
                               host: hash['callbackHost'],
                               body: hash['callbackBody'],

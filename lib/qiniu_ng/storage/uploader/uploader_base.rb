@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module Storage
     # 上传控制器
@@ -9,7 +11,26 @@ module QiniuNg
       #   @return [String] 上传文件的 Etag
       # @!attribute [r] key
       #   @return [String] 上传文件的文件名
-      Result = Struct.new(:hash, :key)
+      class Result
+        extend Forwardable
+        include Enumerable
+        attr_reader :hash, :key
+
+        # @!visibility private
+        def initialize(resp_body)
+          @hash = resp_body['hash'].freeze
+          @key = resp_body['key'].freeze
+          @h = resp_body.freeze
+        end
+
+        def_delegators :@h, :[], :each, :inspect
+
+        # 获取返回结果
+        # @return [Hash] 获取返回结果
+        def to_h
+          @h
+        end
+      end
 
       # @!visibility private
       DEFAULT_MIME = 'application/octet-stream'

@@ -77,11 +77,13 @@ module QiniuNg
         private
 
         def validate_parts_checksum(key, actual, etag_idxes, https: nil, **options)
+          return if actual.nil?
+
           sha1s = etag_idxes.map { |ei| ei[:sha1] }
           return if sha1s.detect(&:nil?) || Utils::Etag.encode_sha1s(sha1s) == actual
 
           begin
-            @bucket.entry(key).delete(https: https, **options)
+            @bucket.entry(key).delete(https: https, **options) if key
           ensure
             raise ChecksumError
           end
@@ -123,7 +125,7 @@ module QiniuNg
             retry_if: ->(s, h, b, e) { need_retry(s, h, b, e, upload_token.policy) },
             idempotent: true, **options
           )
-          Result.new(resp.body['hash'], resp.body['key'])
+          Result.new(resp.body)
         end
 
         def delete_parts(key, upload_token, upload_id, https: nil, **options)

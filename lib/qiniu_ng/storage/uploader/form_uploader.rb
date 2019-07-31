@@ -24,7 +24,7 @@ module QiniuNg
           unless disable_checksum
             validate_etag(resp.body['key'], resp.body['hash'], etag_of_file(filepath), https: https, **options)
           end
-          Result.new(resp.body['hash'], resp.body['key'])
+          Result.new(resp.body)
         end
 
         # @!visibility private
@@ -49,15 +49,16 @@ module QiniuNg
                                                             params: params, meta: meta, crc32: crc32),
                                    **options)
           validate_etag(resp.body['key'], resp.body['hash'], etag, https: https, **options) unless etag.nil?
-          Result.new(resp.body['hash'], resp.body['key'])
+          Result.new(resp.body)
         end
 
         private
 
         def validate_etag(key, actual, expected, https: nil, **options)
+          return if actual.nil? || expected.nil?
           return if expected == actual
 
-          @bucket.entry(key).delete(https: https, **options)
+          @bucket.entry(key).delete(https: https, **options) if key
           raise ChecksumError
         end
 
