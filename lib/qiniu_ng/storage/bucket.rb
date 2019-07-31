@@ -367,7 +367,7 @@ module QiniuNg
                 entry = Entry.new(@bucket, item['key'], @http_client_v1, @http_client_v2, @auth)
                 yielder << Model::ListedEntry.new(
                   entry, mime_type: item['mimeType'], hash: item['hash'], file_size: item['fsize'],
-                         created_at: Time.at(0, item['putTime'].to_f / 10), end_user: item['endUser'],
+                         put_at: Time.at(0, item['putTime'].to_f / 10), end_user: item['endUser'],
                          storage_type: item['type'], status: item['status']
                 )
                 @got += 1

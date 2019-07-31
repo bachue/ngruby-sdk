@@ -18,22 +18,22 @@ module QiniuNg
       #   @return [String] 文件的 MIME 类型
       # @!attribute [r] file_size
       #   @return [Integer] 文件大小，单位为字节
-      # @!attribute [r] created_at
+      # @!attribute [r] put_at
       #   @return [Time] 文件创建时间
       class ListedEntry
         extend Forwardable
-        attr_reader :hash, :mime_type, :file_size, :created_at
+        attr_reader :hash, :mime_type, :file_size, :put_at
 
         # @!visibility private
         attr_reader :end_user, :storage_type, :status
 
         # @!visibility private
-        def initialize(entry, mime_type:, hash:, file_size:, created_at:, end_user:, storage_type:, status:)
+        def initialize(entry, mime_type:, hash:, file_size:, put_at:, end_user:, storage_type:, status:)
           @entry = entry
           @mime_type = mime_type.freeze
           @hash = hash.freeze
           @file_size = file_size.freeze
-          @created_at = created_at.freeze
+          @put_at = put_at.freeze
           @end_user = end_user
           @storage_type = storage_type
           @status = status
@@ -74,7 +74,7 @@ module QiniuNg
         def inspect
           "#<#{self.class.name} bucket_name=#{bucket_name.inspect} key=#{@entry.key.inspect}" \
             " @hash=#{@hash.inspect} @mime_type=#{@mime_type.inspect} @file_size=#{@file_size.inspect}" \
-            " @created_at=#{@created_at.inspect} @end_user=#{@end_user.inspect}" \
+            " @put_at=#{@put_at.inspect} @end_user=#{@end_user.inspect}" \
             " @storage_type=#{@storage_type.inspect} @status=#{@status.inspect}>"
         end
       end

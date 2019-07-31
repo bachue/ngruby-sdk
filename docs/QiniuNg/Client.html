@@ -352,17 +352,17 @@
       <pre class="lines">
 
 
-52
 53
 54
 55
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/client.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/client.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_batch'>batch</span><span class='lparen'>(</span><span class='label'>zone:</span><span class='comma'>,</span> <span class='label'>raise_if_partial_ok:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_op'>op</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Storage.html" title="QiniuNg::Storage (module)">Storage</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Storage/BatchOperations.html" title="QiniuNg::Storage::BatchOperations (class)">BatchOperations</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='ivar'>@http_client_with_auth_v1</span><span class='comma'>,</span> <span class='ivar'>@http_client_with_auth_v2</span><span class='comma'>,</span>
@@ -543,12 +543,12 @@
       <pre class="lines">
 
 
-79
 80
-81</pre>
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/client.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/client.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_batch!'>batch!</span><span class='lparen'>(</span><span class='label'>zone:</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_batch'>batch</span><span class='lparen'>(</span><span class='label'>zone:</span> <span class='id identifier rubyid_zone'>zone</span><span class='comma'>,</span> <span class='label'>raise_if_partial_ok:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -563,7 +563,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 10:27:57 2019 by
+  Generated on Wed Jul 31 16:08:44 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

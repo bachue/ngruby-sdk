@@ -85,6 +85,11 @@
 
   
   
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>Forwardable</dd>
+  </dl>
+  
   
   
   
@@ -220,9 +225,35 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#failed%3F-instance_method" title="#failed? (instance method)">#<strong>failed?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>操作是否失败.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#success%3F-instance_method" title="#success? (instance method)">#<strong>success?</strong>  &#x21d2; Boolean </a>
     
 
+    
+      (also: #successful?)
     
   </span>
   
@@ -244,6 +275,49 @@
     </ul>
   
 
+
+  <div id="method_missing_details" class="method_details_list">
+  <h2>Dynamic Method Handling</h2>
+  <p class="notice this">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
+    
+  </p>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="method_missing-instance_method">
+  
+    #<strong>method_missing</strong>(method, *args, &amp;block)  &#x21d2; <tt>Object</tt>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+270
+271
+272
+273
+274</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 270</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
+
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
 
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
@@ -294,6 +368,10 @@
       <pre class="lines">
 
 
+245
+246
+247
+248
 249
 250
 251
@@ -309,25 +387,51 @@
 261
 262
 263
-264</pre>
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 245</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::BatchOperations::Results::Result (class)">Result</a></span></span>
+  <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:op</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:response</span>
 
   <span class='comment'># @!visibility private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_operation'>operation</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
     <span class='ivar'>@op</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span>
     <span class='ivar'>@code</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span>
-    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:parse</span><span class='rparen'>)</span>
+    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># 操作是否成功
 </span>  <span class='comment'># @return [Boolean] 操作是否成功
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_success?'>success?</span>
     <span class='lparen'>(</span><span class='int'>200</span><span class='op'>...</span><span class='int'>400</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@code</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>alias</span> <span class='id identifier rubyid_successful?'>successful?</span> <span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='comment'># 操作是否失败
+</span>  <span class='comment'># @return [Boolean] 操作是否成功
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_failed?'>failed?</span>
+    <span class='op'>!</span><span class='id identifier rubyid_success?'>success?</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
+
+    <span class='kw'>super</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -381,6 +485,10 @@
       <pre class="lines">
 
 
+245
+246
+247
+248
 249
 250
 251
@@ -396,25 +504,51 @@
 261
 262
 263
-264</pre>
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 245</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::BatchOperations::Results::Result (class)">Result</a></span></span>
+  <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:op</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:response</span>
 
   <span class='comment'># @!visibility private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_operation'>operation</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
     <span class='ivar'>@op</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span>
     <span class='ivar'>@code</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span>
-    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:parse</span><span class='rparen'>)</span>
+    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># 操作是否成功
 </span>  <span class='comment'># @return [Boolean] 操作是否成功
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_success?'>success?</span>
     <span class='lparen'>(</span><span class='int'>200</span><span class='op'>...</span><span class='int'>400</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@code</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>alias</span> <span class='id identifier rubyid_successful?'>successful?</span> <span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='comment'># 操作是否失败
+</span>  <span class='comment'># @return [Boolean] 操作是否成功
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_failed?'>failed?</span>
+    <span class='op'>!</span><span class='id identifier rubyid_success?'>success?</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
+
+    <span class='kw'>super</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -468,6 +602,10 @@
       <pre class="lines">
 
 
+245
+246
+247
+248
 249
 250
 251
@@ -483,25 +621,51 @@
 261
 262
 263
-264</pre>
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 245</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Storage::BatchOperations::Results::Result (class)">Result</a></span></span>
+  <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:op</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:response</span>
 
   <span class='comment'># @!visibility private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_operation'>operation</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
     <span class='ivar'>@op</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span>
     <span class='ivar'>@code</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span>
-    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:parse</span><span class='rparen'>)</span>
+    <span class='ivar'>@response</span> <span class='op'>=</span> <span class='id identifier rubyid_operation'>operation</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># 操作是否成功
 </span>  <span class='comment'># @return [Boolean] 操作是否成功
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_success?'>success?</span>
     <span class='lparen'>(</span><span class='int'>200</span><span class='op'>...</span><span class='int'>400</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@code</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>alias</span> <span class='id identifier rubyid_successful?'>successful?</span> <span class='id identifier rubyid_success?'>success?</span>
+
+  <span class='comment'># 操作是否失败
+</span>  <span class='comment'># @return [Boolean] 操作是否成功
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_failed?'>failed?</span>
+    <span class='op'>!</span><span class='id identifier rubyid_success?'>success?</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># @!visibility private
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@response</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span>
+
+    <span class='kw'>super</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -517,11 +681,74 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="success?-instance_method">
+  <h3 class="signature first" id="failed?-instance_method">
+  
+    #<strong>failed?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>操作是否失败</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>操作是否成功</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_failed?'>failed?</span>
+  <span class='op'>!</span><span class='id identifier rubyid_success?'>success?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="success?-instance_method">
   
     #<strong>success?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='successful?-instance_method'>successful?</span></span>
+    </span>
   
 
   
@@ -560,12 +787,12 @@
       <pre class="lines">
 
 
-261
-262
-263</pre>
+258
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/batch_operations.rb', line 258</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_success?'>success?</span>
   <span class='lparen'>(</span><span class='int'>200</span><span class='op'>...</span><span class='int'>400</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@code</span><span class='rparen'>)</span>
@@ -580,7 +807,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 10:28:28 2019 by
+  Generated on Wed Jul 31 16:09:09 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

@@ -17,8 +17,19 @@ module QiniuNg
       end
 
       # @!visibility private
-      def parse(_response)
-        nil
+      def parse(response)
+        BatchOperationResult.new(response)
+      end
+
+      # 通用操作属性
+      # @!attribute [r] error
+      #   @return [String] 错误信息
+      class BatchOperationResult
+        attr_reader :error
+        # @!visibility private
+        def initialize(hash)
+          @error = hash&.dig('error')
+        end
       end
 
       # 获取空间中的文件属性
@@ -44,10 +55,13 @@ module QiniuNg
         #   @return [Time] 文件创建时间
         # @!attribute [r] meta
         #   @return [Hash] 文件的 HTTP Header 信息
+        # @!attribute [r] error
+        #   @return [String] 错误信息
         class Result
           # @!visibility private
           def initialize(hash)
             @hash = {
+              error: hash['error'],
               file_size: hash['fsize'],
               etag: hash['hash'],
               md5: hash['md5'],
@@ -77,7 +91,7 @@ module QiniuNg
             @hash[:storage_type] == :normal
           end
 
-          %i[file_size etag md5 mime_type put_at storage_type meta].each do |key|
+          %i[file_size etag md5 mime_type put_at storage_type meta error].each do |key|
             define_method(key) { @hash[key] }
           end
           alias content_type mime_type

@@ -9,7 +9,7 @@ module CarrierWave
   module Storage
     # QiniuNg 的 CarrierWave 插件，支持通过 CarrierWave 的 API 将文件上传至七牛云
     #
-    # @example 在 Rails 中的 config/initializers/carrierwave.rb 配置七牛云
+    # @example 在 Rails 中的 config/initializers/carrierwave.rb 配置七牛作为存储后端
     #   CarrierWave.configure do |config|
     #     config.storage = :qiniu_ng
     #     config.qiniu_access_key = '<Qiniu AccessKey>'
@@ -27,14 +27,14 @@ module CarrierWave
     #     mount_uploader :avatar, AvatarUploader
     #   end
     #
-    # @example 通过 ActiveRecord 向七牛云上传数据
-    #   u = User.new
-    #   u.avatar = params[:file]                      # 将用户上传的文件赋值给 avatar 字段
-    #   u.save!                                       # 保存数据到数据库，并将用户上传的文件上传至七牛云
-    #   u.avatar.url                                  # 获取上传文件的下载地址
-    #   u.avatar.url(style: 'small')                  # 获取带有样式的下载地址
-    #   u.avatar.url(fop: 'imageView/2/h/200')        # 获取带有数据处理的下载地址
-    #   u.avatar.url.download_to('<Local File Path>') # 下载上传的文件到本地
+    # @example 通过 ActiveRecord 向七牛云上传 / 下载数据
+    #   user = User.new
+    #   user.avatar = params[:file]                      # 将用户上传的文件赋值给 avatar 字段
+    #   user.save!                                       # 保存数据到数据库，并将用户上传的文件上传至七牛云
+    #   user.avatar.url                                  # 获取上传文件的下载地址
+    #   user.avatar.url(style: 'small')                  # 获取带有样式的下载地址
+    #   user.avatar.url(fop: 'imageView/2/h/200')        # 获取带有数据处理的下载地址
+    #   user.avatar.url.download_to('<Local File Path>') # 下载上传的文件到本地
     #
     # @example CarrierWave.configure 中可以支持的配置项
     #   qiniu_access_key: 七牛 Access Key，必填

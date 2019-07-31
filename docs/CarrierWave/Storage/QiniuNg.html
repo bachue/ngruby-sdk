@@ -116,7 +116,7 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>在 Rails 中的 config/initializers/carrierwave.rb 配置七牛云</p>
+<p>在 Rails 中的 config/initializers/carrierwave.rb 配置七牛作为存储后端</p>
 </div></p>
       
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="../../CarrierWave.html" title="CarrierWave (module)">CarrierWave</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
@@ -146,16 +146,16 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>通过 ActiveRecord 向七牛云上传数据</p>
+<p>通过 ActiveRecord 向七牛云上传 / 下载数据</p>
 </div></p>
       
-      <pre class="example code"><code><span class='id identifier rubyid_u'>u</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span>                      <span class='comment'># 将用户上传的文件赋值给 avatar 字段
-</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_save!'>save!</span>                                       <span class='comment'># 保存数据到数据库，并将用户上传的文件上传至七牛云
-</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>                                  <span class='comment'># 获取上传文件的下载地址
-</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>style:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>small</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>                  <span class='comment'># 获取带有样式的下载地址
-</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>imageView/2/h/200</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>        <span class='comment'># 获取带有数据处理的下载地址
-</span><span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Local File Path&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载上传的文件到本地</span></code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span>                      <span class='comment'># 将用户上传的文件赋值给 avatar 字段
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_save!'>save!</span>                                       <span class='comment'># 保存数据到数据库，并将用户上传的文件上传至七牛云
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>                                  <span class='comment'># 获取上传文件的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>style:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>small</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>                  <span class='comment'># 获取带有样式的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>imageView/2/h/200</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>        <span class='comment'># 获取带有数据处理的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Local File Path&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载上传的文件到本地</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
@@ -343,7 +343,7 @@ qiniu_cdn_timestamp_anti_leech_encrypt_key: 七牛 CDN Key，选填</code></pre>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/thirdparty/carrierwave.rb', line 379</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_retrieve!'>retrieve!</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="../../CarrierWave.html" title="CarrierWave (module)">CarrierWave</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Storage.html" title="CarrierWave::Storage (module)">Storage</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="CarrierWave::Storage::QiniuNg (class)">QiniuNg</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="QiniuNg/File.html" title="CarrierWave::Storage::QiniuNg::File (class)">File</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uploader'>uploader</span><span class='comma'>,</span> <span class='id identifier rubyid_uploader'>uploader</span><span class='period'>.</span><span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='op'>::</span><span class='const'><span class='object_link'><a href="../../CarrierWave.html" title="CarrierWave (module)">CarrierWave</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Storage.html" title="CarrierWave::Storage (module)">Storage</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="CarrierWave::Storage::QiniuNg (class)">QiniuNg</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="QiniuNg/File.html" title="CarrierWave::Storage::QiniuNg::File (class)">File</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_uploader'>uploader</span><span class='comma'>,</span> <span class='id identifier rubyid_uploader'>uploader</span><span class='period'>.</span><span class='id identifier rubyid_store_path'>store_path</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -440,7 +440,7 @@ qiniu_cdn_timestamp_anti_leech_encrypt_key: 七牛 CDN Key，选填</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 10:28:39 2019 by
+  Generated on Wed Jul 31 16:09:17 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

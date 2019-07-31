@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-E6-96-B0-E4-B8-80-E4-BB-A3+Qiniu+SDK+for+Ruby">新一代 Qiniu SDK for Ruby</h1>
 
-<p><a href="https://codeclimate.com/github/bachue/ngruby-sdk"><img src="https://codeclimate.com/github/bachue/ngruby-sdk.svg"></a> <a href="https://travis-ci.org/bachue/ngruby-sdk"><img src="https://api.travis-ci.org/bachue/ngruby-sdk.svg?branch=master"></a> <a href="https://coveralls.io/r/bachue/ngruby-sdk?branch=master"><img src="https://coveralls.io/repos/bachue/ngruby-sdk/badge.svg?branch=master"></a></p>
+<p><a href="https://codeclimate.com/github/bachue/ngruby-sdk"><img src="https://codeclimate.com/github/bachue/ngruby-sdk.svg"></a> <a href="https://travis-ci.org/bachue/ngruby-sdk"><img src="https://api.travis-ci.com/bachue/ruby-ng-sdk.svg?branch=master"></a> <a href="https://coveralls.io/r/bachue/ngruby-sdk?branch=master"><img src="https://coveralls.io/repos/bachue/ngruby-sdk/badge.svg?branch=master"></a></p>
 
 <h2 id="label-E5-85-B3-E4-BA-8E">关于</h2>
 
@@ -125,10 +125,371 @@
 <ul><li>
 <p><a href="http://www.opensource.org/licenses/MIT">www.opensource.org/licenses/MIT</a></p>
 </li></ul>
+
+<h2 id="label-E5-85-A5-E9-97-A8-E6-8C-87-E5-8D-97">入门指南</h2>
+
+<h3 id="label-E9-85-8D-E7-BD-AE">配置</h3>
+
+<p>在应用初始化期间，您需要创建七牛客户端，并考虑将其设置为全局变量以便于在之后持续使用该客户端。</p>
+
+<p>如果您使用的是 Rails，可以创建一个初始化脚本来初始化七牛客户端：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='op'>/</span><span class='id identifier rubyid_initializers'>initializers</span><span class='op'>/</span><span class='id identifier rubyid_qiniu'>qiniu</span><span class='period'>.</span><span class='id identifier rubyid_rb'>rb</span>
+</code></pre>
+
+<p>初始化客户端的代码如下：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<p>该客户端在整个应用中仅需初始化一次即可。</p>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E5-AD-98-E5-82-A8">对象存储</h3>
+
+<h4 id="label-E4-B8-8A-E4-BC-A0-E6-B5-81-E7-A8-8B">上传流程</h4>
+
+<p>文件上传分为客户端上传（主要是指网页端和移动端等面向终端用户的场景）和服务端上传两种场景，具体可以参考文档<a href="https://developer.qiniu.com/kodo/manual/1205/programming-model">业务流程</a>。</p>
+
+<p>服务端SDK在上传方面主要提供两种功能，一种是生成客户端上传所需要的上传凭证，另外一种是直接上传文件到云端。</p>
+
+<h4 id="label-E5-AE-A2-E6-88-B7-E7-AB-AF-E4-B8-8A-E4-BC-A0-E5-87-AD-E8-AF-81">客户端上传凭证</h4>
+
+<p>客户端（移动端或者Web端）上传文件的时候，需要从客户自己的业务服务器获取上传凭证，而这些上传凭证是通过服务端的SDK来生成的，然后通过客户自己的业务 API 分发给客户端使用。 根据上传的业务需求不同，七牛云 Ruby SDK 支持丰富的上传凭证生成方式。</p>
+
+<h5 id="label-E7-AE-80-E5-8D-95-E4-B8-8A-E4-BC-A0-E7-9A-84-E5-87-AD-E8-AF-81">简单上传的凭证</h5>
+
+<p>最简单的上传凭证只需要 <code>Bucket Name</code> 就可以。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<h5 id="label-E8-A6-86-E7-9B-96-E4-B8-8A-E4-BC-A0-E7-9A-84-E5-87-AD-E8-AF-81">覆盖上传的凭证</h5>
+
+<p>覆盖上传除了需要简单上传所需要的信息之外，还需要想进行覆盖的文件名称，这个文件名称同时可是客户端上传代码中指定的文件名，两者必须一致。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<h5 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E4-B8-8A-E4-BC-A0-E5-9B-9E-E5-A4-8D-E7-9A-84-E5-87-AD-E8-AF-81">自定义上传回复的凭证</h5>
+
+<p>默认情况下，文件上传到七牛之后，在没有设置 <code>returnBody</code> 或者 回调 相关的参数情况下，七牛返回给上传端的回复格式为 <code>hash</code> 和 <code>key</code>，例如：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hash</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ftgm-CkWePC9fzMBTRNmPMhGBcSV</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>qiniu.jpg</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+</code></pre>
+
+<p>有时候我们希望能自定义这个返回的JSON格式的内容，可以通过设置 <code>returnBody</code> 参数来实现，在 <code>returnBody</code> 中，我们可以使用支持的<a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">魔法变量}[https://developer.qiniu.com/kodo/manual/1235/vars#magicvar]和
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_return'>set_return</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<p>则文件上传到七牛之后，收到的回复内容如下：</p>
+
+<pre class="code ruby"><code class="ruby">&quot;key&quot;:&quot;qiniu.jpg&quot;,&quot;hash&quot;:&quot;Ftgm-CkWePC9fzMBTRNmPMhGBcSV&quot;,&quot;bucket&quot;:&quot;if-bc&quot;,&quot;fsize&quot;:39335
+</code></pre>
+
+<h5 id="label-E5-B8-A6-E5-9B-9E-E8-B0-83-E4-B8-9A-E5-8A-A1-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-9A-84-E5-87-AD-E8-AF-81">带回调业务服务器的凭证</h5>
+
+<p>上面生成的自定义上传回复的上传凭证适用于上传端（无论是客户端还是服务端）和七牛服务器之间进行直接交互的情况下。 在客户端上传的场景之下，有时候客户端需要在文件上传到七牛之后，从业务服务器获取相关的信息，这个时候就要用到七牛的上传回调及相关回调参数的设置。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_callback'>set_callback</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://api.example.com/qiniu/upload/callback</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+                      <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+                      <span class='label'>body_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/json</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<p>在使用了上传回调的情况下，客户端收到的回复就是业务服务器响应七牛的 JSON 格式内容。</p>
+
+<p>通常情况下，我们建议使用 <code>application/json</code> 格式来设置 <code>callbackBody</code>，保持数据格式的统一性。 实际情况下，<code>callbackBody</code> 也支持 <code>application/x-www-form-urlencoded</code> 格式来组织内容，这个主要看业务服务器在接收到 <code>callbackBody</code> 的内容时如何解析。例如：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_callback'>set_callback</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://api.example.com/qiniu/upload/callback</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+                      <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key=$(key)&amp;hash=$(etag)&amp;bucket=$(bucket)&amp;fsize=$(fsize)</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<h5 id="label-E7-BB-BC-E5-90-88-E4-B8-8A-E4-BC-A0-E5-87-AD-E8-AF-81">综合上传凭证</h5>
+
+<p>上面的生成上传凭证的方法，都是通过设置<a href="https://bachue.github.io/ruby-ng-sdk/QiniuNg/Storage/Model/UploadPolicy.html">上传策略}[https://developer.qiniu.com/kodo/manual/1206/put-policy]相关的参数来支持的，这些参数可以通过不同的组合方式来满足不同的业务需求，可以灵活地组织你所需要的上传凭证。点击{这里</a>阅读详细的 API 文档。</p>
+
+<h4 id="label-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-9B-B4-E4-BC-A0">服务器直传</h4>
+
+<p>服务端直传是指客户利用七牛服务端 SDK 从服务端直接上传文件到七牛云，交互的双方一般都在机房里面，所以服务端可以自己生成上传凭证，然后利用 SDK 中的上传 API 进行上传，最后从七牛云获取上传的结果，这个过程中由于双方都是业务服务器，所以很少利用到上传回调的功能，而是直接自定义 <code>returnBody</code> 来获取自定义的回复内容。</p>
+
+<h5 id="label-E6-96-87-E4-BB-B6-E4-B8-8A-E4-BC-A0">文件上传</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span> <span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/home/qiniu/test.png</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+              <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key in Bucket&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>           <span class='comment'># 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
+</span>              <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='comment'># 可以不调用 #to_s 方法
+</span></code></pre>
+
+<h5 id="label-IO+-E6-B5-81-E4-B8-8A-E4-BC-A0">IO 流上传</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span> <span class='label'>stream:</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello qiniu cloud</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='comment'># 这里只需要 IO 流实现 #read 方法即可
+</span>              <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key in Bucket&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='comment'># 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
+</span>              <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='comment'># 可以不调用 #to_s 方法
+</span></code></pre>
+
+<h5 id="label-E8-A7-A3-E6-9E-90-E8-87-AA-E5-AE-9A-E4-B9-89-E5-9B-9E-E5-A4-8D-E5-86-85-E5-AE-B9">解析自定义回复内容</h5>
+
+<p>对于服务器端上传的情况，不建议您修改 <code>returnBody</code> 中的默认的 <code>key</code> 和 <code>hash</code> 两个参数，否则会导致 Ruby SDK 无法对上传结果进行校验。 也不要将 <code>returnBody</code> 的类型改为 JSON 以外的类型，否则将导致 Ruby SDK 抛出异常。</p>
+
+<p>而对于您向 <code>returnBody</code> 增加了更多参数的情况：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_return'>set_return</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)}</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+</code></pre>
+
+<p>可以通过调用 <code>bucket#upload</code> 的返回值的 <code>#[]</code> 方法来得到结果。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span> <span class='label'>filepath:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/home/qiniu/test.png</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+                       <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key in Bucket&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>           <span class='comment'># 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
+</span>                       <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='comment'># 可以不调用 #to_s 方法
+</span><span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bucket</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fsize</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+</code></pre>
+
+<h5 id="label-E4-B8-9A-E5-8A-A1-E6-9C-8D-E5-8A-A1-E5-99-A8-E9-AA-8C-E8-AF-81-E4-B8-83-E7-89-9B-E5-9B-9E-E8-B0-83">业务服务器验证七牛回调</h5>
+
+<p>在上传策略里面设置了上传回调相关参数的时候，七牛在文件上传到服务器之后，会主动地向 <code>callbackUrl</code> 发送POST请求的回调，回调的内容为 <code>callbackBody</code> 模版所定义的内容， 如果这个模版里面引用了<a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">魔法变量}[https://developer.qiniu.com/kodo/manual/1235/vars#magicvar]或者{自定义变量</a>，那么这些变量会被自动填充对应的值，然后在发送给业务服务器。</p>
+
+<p>业务服务器在收到来自七牛的回调请求的时候，可以根据请求头部的 <code>Authorization</code> 字段来进行验证，查看该请求是否是来自七牛的未经篡改的请求。具体可以参考七牛的 <code>回调鉴权</code>。</p>
+
+<p>以 Rails Controller 为例：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>def</span> <span class='id identifier rubyid_callback'>callback</span>
+  <span class='kw'>unless</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_callback_valid?'>callback_valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Authorization</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+                                 <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_original_url'>original_url</span><span class='comma'>,</span>
+                                 <span class='label'>content_type:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+                                 <span class='label'>body:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_raw_post'>raw_post</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_render'>render</span> <span class='label'>status:</span> <span class='symbol'>:unauthorized</span><span class='comma'>,</span> <span class='label'>json:</span> <span class='lbrace'>{</span> <span class='label'>error:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Bad Authorization Token</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='comment'># Continue
+</span><span class='kw'>end</span>
+</code></pre>
+
+<h4 id="label-E4-B8-8B-E8-BD-BD-E6-96-87-E4-BB-B6">下载文件</h4>
+
+<p>文件下载分为公开空间的文件下载和私有空间的文件下载。</p>
+
+<h5 id="label-E5-85-AC-E5-BC-80-E7-A9-BA-E9-97-B4-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">公开空间的下载地址</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span>
+</code></pre>
+
+<h5 id="label-E7-A7-81-E6-9C-89-E7-A9-BA-E9-97-B4-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">私有空间的下载地址</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span>
+</code></pre>
+
+<h5 id="label-E4-B8-8B-E8-BD-BD-E4-BA-91-E5-AD-98-E5-82-A8-E6-96-87-E4-BB-B6-E5-88-B0-E6-9C-AC-E5-9C-B0">下载云存储文件到本地</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/path/on/disk</span><span class='tstring_end'>&#39;</span></span>
+<span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/path/on/disk</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h4 id="label-E8-B5-84-E6-BA-90-E7-AE-A1-E7-90-86">资源管理</h4>
+
+<h5 id="label-E8-8E-B7-E5-8F-96-E6-96-87-E4-BB-B6-E4-BF-A1-E6-81-AF">获取文件信息</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stat'>stat</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_stat'>stat</span><span class='period'>.</span><span class='id identifier rubyid_file_size'>file_size</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_stat'>stat</span><span class='period'>.</span><span class='id identifier rubyid_etag'>etag</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_stat'>stat</span><span class='period'>.</span><span class='id identifier rubyid_mime_type'>mime_type</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_stat'>stat</span><span class='period'>.</span><span class='id identifier rubyid_put_at'>put_at</span>
+</code></pre>
+
+<h5 id="label-E4-BF-AE-E6-94-B9-E6-96-87-E4-BB-B6-E7-B1-BB-E5-9E-8B">修改文件类型</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_change_mime_type'>change_mime_type</span> <span class='id identifier rubyid_new_mime_type'>new_mime_type</span>
+</code></pre>
+
+<h5 id="label-E7-A7-BB-E5-8A-A8-E6-88-96-E9-87-8D-E5-91-BD-E5-90-8D-E6-96-87-E4-BB-B6">移动或重命名文件</h5>
+
+<p>移动操作本身支持移动文件到相同，不同空间中，在移动的同时也可以支持文件重命名。唯一的限制条件是，移动的源空间和目标空间必须在同一个机房。</p>
+
+<p>如果目标文件已存在，可以设置强制覆盖参数 <code>force</code> 来覆盖那个文件的内容。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rename_to'>rename_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Key&gt;</span><span class='tstring_end'>&#39;</span></span>
+<span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_move_to'>move_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;New Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>force:</span> <span class='kw'>true</span>
+</code></pre>
+
+<h5 id="label-E5-A4-8D-E5-88-B6-E6-96-87-E4-BB-B6">复制文件</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_copy_to'>copy_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Key&gt;</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h5 id="label-E5-88-A0-E9-99-A4-E6-96-87-E4-BB-B6">删除文件</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
+</code></pre>
+
+<h5 id="label-E8-AE-BE-E7-BD-AE-E6-88-96-E6-9B-B4-E6-96-B0-E6-96-87-E4-BB-B6-E7-9A-84-E7-94-9F-E5-AD-98-E6-97-B6-E9-97-B4">设置或更新文件的生存时间</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_set_lifetime'>set_lifetime</span> <span class='label'>days:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Lifetime&gt;</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h5 id="label-E8-8E-B7-E5-8F-96-E7-A9-BA-E9-97-B4-E6-96-87-E4-BB-B6-E5-88-97-E8-A1-A8">获取空间文件列表</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_files'>files</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_key'>key</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_mime_type'>mime_type</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_file_size'>file_size</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_put_at'>put_at</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h5 id="label-E6-8A-93-E5-8F-96-E7-BD-91-E7-BB-9C-E8-B5-84-E6-BA-90-E5-88-B0-E7-A9-BA-E9-97-B4">抓取网络资源到空间</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_remote_src_url'>remote_src_url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://devtools.qiniu.com/qiniu.png</span><span class='tstring_end'>&#39;</span></span>
+<span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_fetch_from'>fetch_from</span> <span class='id identifier rubyid_remote_src_url'>remote_src_url</span>
+</code></pre>
+
+<h4 id="label-E8-B5-84-E6-BA-90-E7-AE-A1-E7-90-86-E6-89-B9-E9-87-8F-E6-93-8D-E4-BD-9C">资源管理批量操作</h4>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E8-8E-B7-E5-8F-96-E6-96-87-E4-BB-B6-E4-BF-A1-E6-81-AF">批量获取文件信息</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_result'>result</span><span class='op'>|</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_error'>error</span> <span class='kw'>unless</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_success?'>success?</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_hash'>hash</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_mime_type'>mime_type</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_file_size'>file_size</span>
+  <span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_put_at'>put_at</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E4-BF-AE-E6-94-B9-E6-96-87-E4-BB-B6-E7-B1-BB-E5-9E-8B">批量修改文件类型</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_change_mime_type'>change_mime_type</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>video/mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_change_mime_type'>change_mime_type</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>video/mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_change_mime_type'>change_mime_type</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>video/mp4</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='symbol'>:failed?</span>
+</code></pre>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E5-88-A0-E9-99-A4-E6-96-87-E4-BB-B6">批量删除文件</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='symbol'>:failed?</span>
+</code></pre>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E7-A7-BB-E5-8A-A8-E6-88-96-E9-87-8D-E5-91-BD-E5-90-8D-E6-96-87-E4-BB-B6">批量移动或重命名文件</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_move'>move</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1_move.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_move'>move</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2_move.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_move'>move</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3_move.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='symbol'>:failed?</span>
+</code></pre>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E5-A4-8D-E5-88-B6-E6-96-87-E4-BB-B6">批量复制文件</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1_copy.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2_copy.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3_copy.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='symbol'>:failed?</span>
+</code></pre>
+
+<h5 id="label-E6-89-B9-E9-87-8F-E6-B7-B7-E5-90-88-E6-8C-87-E4-BB-A4-E6-93-8D-E4-BD-9C">批量混合指令操作</h5>
+
+<p>其实 <code>batch</code> 接口支持混合指令的处理，不过为了方便解析请求的回复，一般不推荐这样做。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_batch'>batch</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_b'>b</span><span class='op'>|</span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_stat'>stat</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>1.mp4</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_copy'>copy</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>2_copy.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_move'>move</span> <span class='label'>from:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3_copy.mp4</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>to_bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Target Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span>
+            <span class='id identifier rubyid_b'>b</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>4.mp4</span><span class='tstring_end'>&#39;</span></span>
+          <span class='kw'>end</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>&amp;</span><span class='symbol'>:failed?</span>
+</code></pre>
+
+<h4 id="label-E6-9B-B4-E6-96-B0-E9-95-9C-E5-83-8F-E5-AD-98-E5-82-A8-E7-A9-BA-E9-97-B4-E4-B8-AD-E6-96-87-E4-BB-B6-E5-86-85-E5-AE-B9">更新镜像存储空间中文件内容</h4>
+
+<p>对于配置了镜像存储的空间，如果镜像源站更新了文件内容，则默认情况下，七牛不会再主动从客户镜像源站同步新的副本。 这个时候就需要利用这个 <code>prefetch</code> 接口来主动地将空间中的文件和更新后的源站副本进行同步。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_prefetch'>prefetch</span>
+</code></pre>
+
+<h4 id="label-E4-B8-8E-E7-AC-AC-E4-B8-89-E6-96-B9-E6-8F-92-E4-BB-B6-E9-9B-86-E6-88-90">与第三方插件集成</h4>
+
+<h5 id="label-E4-B8-8E+CarrierWave+-E9-9B-86-E6-88-90">与 CarrierWave 集成</h5>
+<ul><li>
+<p>首先，在 Rails 中的 <code>config/initializers/carrierwave.rb</code> 配置七牛作为存储后端</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="CarrierWave.html" title="CarrierWave (module)">CarrierWave</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_storage'>storage</span> <span class='op'>=</span> <span class='symbol'>:qiniu_ng</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_qiniu_access_key'>qiniu_access_key</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_qiniu_secret_key'>qiniu_secret_key</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_qiniu_bucket_name'>qiniu_bucket_name</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu BucketName&gt;</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span>
+</code></pre>
+<ul><li>
+<p>生成需要用到的 Uploader 类</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>AvatarUploader</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="CarrierWave.html" title="CarrierWave (module)">CarrierWave</a></span></span><span class='op'>::</span><span class='const'>Uploader</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_storage'>storage</span> <span class='symbol'>:qiniu_ng</span>        <span class='comment'># 设置后端存储为七牛云
+</span><span class='kw'>end</span>
+</code></pre>
+<ul><li>
+<p>生成使用 Uploader 类的 ActiveRecord 类</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>ActiveRecord</span><span class='op'>::</span><span class='const'>Base</span>
+  <span class='id identifier rubyid_mount_uploader'>mount_uploader</span> <span class='symbol'>:avatar</span><span class='comma'>,</span> <span class='const'>AvatarUploader</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul><li>
+<p>通过 ActiveRecord 向七牛云上传 / 下载数据</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span>                             <span class='comment'># 将用户上传的文件赋值给 avatar 字段
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_save!'>save!</span>                                              <span class='comment'># 保存数据到数据库，并将用户上传的文件上传至七牛云
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>                                         <span class='comment'># 获取上传文件的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>style:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>small</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>                         <span class='comment'># 获取带有样式的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>imageView/2/h/200</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>               <span class='comment'># 获取带有数据处理的下载地址
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/file/path/on/disk</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载上传的文件到本地
+</span></code></pre>
+
+<h3 id="label-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86">数据处理</h3>
+
+<h3 id="label-CDN">CDN</h3>
+
+<h3 id="label-E7-9B-B4-E6-92-AD">直播</h3>
+
+<h3 id="label-E8-BF-9E-E9-BA-A6">连麦</h3>
+
+<h3 id="label-E4-BA-91-E7-9F-AD-E4-BF-A1">云短信</h3>
+
+<p>开发中</p>
+
+<h3 id="label-E9-AB-98-E7-BA-A7-E5-88-9D-E5-A7-8B-E5-8C-96-E9-85-8D-E7-BD-AE">高级初始化配置</h3>
 </div></div>
 
       <div id="footer">
-  Generated on Wed Jul 31 10:27:56 2019 by
+  Generated on Wed Jul 31 16:08:41 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

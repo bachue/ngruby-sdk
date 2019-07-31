@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module Storage
     # 七牛文件的批处理操作
@@ -141,59 +143,53 @@ module QiniuNg
 
       # 重命名文件
       #
-      # @param [String] src_key 源文件名
-      # @param [String] dest_key 目标文件名
+      # @param [String] from 源文件名
+      # @param [String] to 目标文件名
       # @param [Boolean] force 是否覆盖，当目标文件名已经存在时
       # @param [QiniuNg::Storage::Bucket] bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
       # @return [QiniuNg::Storage::BatchOperations] 返回上下文
       # @raise [ArgumentError] key 或 bucket 为 nil
-      def rename_to(src_key, dest_key, force: false, bucket: @default_bucket)
-        raise ArgumentError, 'src_key must not be nil' if src_key.nil?
-        raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
+      def rename(from:, to:, force: false, bucket: @default_bucket)
         raise ArgumentError, 'bucket must not be nil' if bucket.nil?
 
-        entry = Entry.new(bucket, src_key, @http_client_v1, @http_client_v2, @auth)
-        @ops << Op::Move.new(entry, bucket: bucket, key: dest_key, force: force)
+        entry = Entry.new(bucket, from, @http_client_v1, @http_client_v2, @auth)
+        @ops << Op::Move.new(entry, bucket: bucket, key: to, force: force)
         self
       end
 
       # 移动文件
       #
-      # @param [String] src_key 源文件名
-      # @param [String] dest_key 目标文件名
-      # @param [QiniuNg::Storage::Bucket] src_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
-      # @param [QiniuNg::Storage::Bucket] dest_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [String] from 源文件名
+      # @param [String] to 目标文件名
+      # @param [QiniuNg::Storage::Bucket] from_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [QiniuNg::Storage::Bucket] to_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
       # @param [Boolean] force 是否覆盖，当目标文件名在目标存储空间中已经存在时
       # @return [QiniuNg::Storage::BatchOperations] 返回上下文
       # @raise [ArgumentError] key 或 bucket 为 nil
-      def move_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
-        raise ArgumentError, 'src_key must not be nil' if src_key.nil?
-        raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
-        raise ArgumentError, 'src_bucket must not be nil' if src_bucket.nil?
-        raise ArgumentError, 'dest_bucket must not be nil' if dest_bucket.nil?
+      def move(from:, to:, force: false, from_bucket: @default_bucket, to_bucket: @default_bucket)
+        raise ArgumentError, 'from_bucket must not be nil' if from_bucket.nil?
+        raise ArgumentError, 'to_bucket must not be nil' if to_bucket.nil?
 
-        entry = Entry.new(src_bucket, src_key, @http_client_v1, @http_client_v2, @auth)
-        @ops << Op::Move.new(entry, bucket: dest_bucket, key: dest_key, force: force)
+        entry = Entry.new(from_bucket, from, @http_client_v1, @http_client_v2, @auth)
+        @ops << Op::Move.new(entry, bucket: to_bucket, key: to, force: force)
         self
       end
 
       # 复制文件
       #
-      # @param [String] src_key 源文件名
-      # @param [String] dest_key 目标文件名
-      # @param [QiniuNg::Storage::Bucket] src_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
-      # @param [QiniuNg::Storage::Bucket] dest_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [String] from 源文件名
+      # @param [String] to 目标文件名
+      # @param [QiniuNg::Storage::Bucket] from_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
+      # @param [QiniuNg::Storage::Bucket] to_bucket 存储空间，如果 BatchOperations 对象被创建于存储空间，则该参数可以省略
       # @param [Boolean] force 是否覆盖，当目标文件名在目标存储空间中已经存在时
       # @return [QiniuNg::Storage::BatchOperations] 返回上下文
       # @raise [ArgumentError] key 或 bucket 为 nil
-      def copy_to(src_key, dest_key, force: false, src_bucket: @default_bucket, dest_bucket: @default_bucket)
-        raise ArgumentError, 'src_key must not be nil' if src_key.nil?
-        raise ArgumentError, 'dest_key must not be nil' if dest_key.nil?
-        raise ArgumentError, 'src_bucket must not be nil' if src_bucket.nil?
-        raise ArgumentError, 'dest_bucket must not be nil' if dest_bucket.nil?
+      def copy(from:, to:, force: false, from_bucket: @default_bucket, to_bucket: @default_bucket)
+        raise ArgumentError, 'from_bucket must not be nil' if from_bucket.nil?
+        raise ArgumentError, 'to_bucket must not be nil' if to_bucket.nil?
 
-        entry = Entry.new(src_bucket, src_key, @http_client_v1, @http_client_v2, @auth)
-        @ops << Op::Copy.new(entry, bucket: dest_bucket, key: dest_key, force: force)
+        entry = Entry.new(from_bucket, from, @http_client_v1, @http_client_v2, @auth)
+        @ops << Op::Copy.new(entry, bucket: to_bucket, key: to, force: force)
         self
       end
 
@@ -247,19 +243,34 @@ module QiniuNg
         # @!attribute [r] response
         #   @return [Integer] 操作结果
         class Result
+          extend Forwardable
           attr_reader :op, :code, :response
 
           # @!visibility private
           def initialize(operation, code, response)
             @op = operation
             @code = code
-            @response = operation.parse(response) if operation.respond_to?(:parse)
+            @response = operation.parse(response)
           end
 
           # 操作是否成功
           # @return [Boolean] 操作是否成功
           def success?
             (200...400).include?(@code)
+          end
+          alias successful? success?
+
+          # 操作是否失败
+          # @return [Boolean] 操作是否成功
+          def failed?
+            !success?
+          end
+
+          # @!visibility private
+          def method_missing(method, *args, &block)
+            return @response.send(method, *args, &block) if @response.respond_to?(method)
+
+            super
           end
         end
 
