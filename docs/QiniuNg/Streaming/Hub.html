@@ -341,8 +341,6 @@
       <pre class="lines">
 
 
-13
-14
 15
 16
 17
@@ -494,22 +492,20 @@
 163
 164
 165
-166
-167
-168
-169</pre>
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 15</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Streaming::Hub (class)">Hub</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:name</span>
   <span class='comment'># @!visibility private
-</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_hub'>hub</span><span class='comma'>,</span> <span class='id identifier rubyid_http_client_v2'>http_client_v2</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='id identifier rubyid_domain'>domain</span><span class='rparen'>)</span>
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_hub'>hub</span><span class='comma'>,</span> <span class='id identifier rubyid_http_client_v2'>http_client_v2</span><span class='comma'>,</span> <span class='id identifier rubyid_auth'>auth</span><span class='comma'>,</span> <span class='id identifier rubyid_domain'>domain</span><span class='comma'>,</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='rparen'>)</span>
     <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_hub'>hub</span>
     <span class='ivar'>@auth</span> <span class='op'>=</span> <span class='id identifier rubyid_auth'>auth</span>
     <span class='ivar'>@http_client_v2</span> <span class='op'>=</span> <span class='id identifier rubyid_http_client_v2'>http_client_v2</span>
     <span class='ivar'>@domain</span> <span class='op'>=</span> <span class='id identifier rubyid_domain'>domain</span>
+    <span class='ivar'>@bucket</span> <span class='op'>=</span> <span class='id identifier rubyid_bucket'>bucket</span>
   <span class='kw'>end</span>
 
   <span class='comment'># 创建实时音视频直播应用
@@ -537,7 +533,7 @@
 </span>  <span class='comment'># @param [String] key 直播流名称
 </span>  <span class='comment'># @return [Stream] 返回直播流
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
-    <span class='const'><span class='object_link'><a href="Stream.html" title="QiniuNg::Streaming::Stream (class)">Stream</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='ivar'>@domain</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="Stream.html" title="QiniuNg::Streaming::Stream (class)">Stream</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='ivar'>@domain</span><span class='comma'>,</span> <span class='ivar'>@bucket</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># 创建直播流
@@ -590,6 +586,7 @@
   <span class='comment'># @!visibility private
 </span>  <span class='kw'>class</span> <span class='const'>StreamsIterator</span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_hub'>hub</span><span class='comma'>,</span> <span class='id identifier rubyid_http_client_v2'>http_client_v2</span><span class='comma'>,</span> <span class='id identifier rubyid_live_only'>live_only</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_limit'>limit</span><span class='comma'>,</span> <span class='id identifier rubyid_marker'>marker</span><span class='comma'>,</span> <span class='id identifier rubyid_pili_url'>pili_url</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -604,14 +601,7 @@
       <span class='ivar'>@options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># @!visibility private
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_stream'>stream</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_stream'>stream</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -833,17 +823,17 @@
       <pre class="lines">
 
 
-34
-35
-36
 37
 38
 39
 40
-41</pre>
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_rtc_app'>create_rtc_app</span><span class='lparen'>(</span><span class='label'>title:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>max_users:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>auto_kick:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>rtc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_req_body'>req_body</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>hub:</span> <span class='ivar'>@name</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='label'>maxUsers:</span> <span class='id identifier rubyid_max_users'>max_users</span><span class='comma'>,</span> <span class='label'>noAutoKickUser:</span> <span class='op'>!</span><span class='id identifier rubyid_auto_kick'>auto_kick</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
@@ -940,16 +930,16 @@
       <pre class="lines">
 
 
-56
-57
-58
 59
 60
 61
-62</pre>
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_stream'>create_stream</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>pili_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='ivar'>@http_client_v2</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/v2/hubs/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_content'>/streams</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_pili_url'>pili_url</span> <span class='op'>||</span> <span class='id identifier rubyid_get_pili_url'>get_pili_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -1027,9 +1017,6 @@
       <pre class="lines">
 
 
-69
-70
-71
 72
 73
 74
@@ -1038,10 +1025,13 @@
 77
 78
 79
-80</pre>
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_live_info'>live_info</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_stream_keys'>stream_keys</span><span class='comma'>,</span> <span class='label'>pili_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id identifier rubyid_stream_keys'>stream_keys</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1124,15 +1114,15 @@
       <pre class="lines">
 
 
-47
-48
-49</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="Stream.html" title="QiniuNg::Streaming::Stream (class)">Stream</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='ivar'>@domain</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Stream.html" title="QiniuNg::Streaming::Stream (class)">Stream</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='ivar'>@auth</span><span class='comma'>,</span> <span class='ivar'>@domain</span><span class='comma'>,</span> <span class='ivar'>@bucket</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1276,12 +1266,12 @@
       <pre class="lines">
 
 
-94
-95
-96</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 94</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/streaming/hub.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_streams'>streams</span><span class='lparen'>(</span><span class='label'>live_only:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>prefix:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>pili_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>limit:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>marker:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'>StreamsIterator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@http_client_v2</span><span class='comma'>,</span> <span class='id identifier rubyid_live_only'>live_only</span><span class='comma'>,</span> <span class='id identifier rubyid_prefix'>prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_limit'>limit</span><span class='comma'>,</span> <span class='id identifier rubyid_marker'>marker</span><span class='comma'>,</span> <span class='id identifier rubyid_pili_url'>pili_url</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -1296,7 +1286,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:54 2019 by
+  Generated on Thu Aug  1 18:48:26 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

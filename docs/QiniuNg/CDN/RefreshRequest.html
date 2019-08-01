@@ -504,8 +504,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -736,13 +734,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -860,6 +855,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -923,18 +919,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -1031,8 +1021,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -1263,13 +1251,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -1387,6 +1372,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -1450,18 +1436,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -1558,8 +1538,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -1790,13 +1768,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -1914,6 +1889,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -1977,18 +1953,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -2085,8 +2055,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -2317,13 +2285,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -2441,6 +2406,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -2504,18 +2470,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -2612,8 +2572,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -2844,13 +2802,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -2968,6 +2923,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -3031,18 +2987,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -3139,8 +3089,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -3371,13 +3319,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -3495,6 +3440,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -3558,18 +3504,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -3670,8 +3610,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -3902,13 +3840,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -4026,6 +3961,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -4089,18 +4025,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -4197,8 +4127,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -4429,13 +4357,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -4553,6 +4478,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -4616,18 +4542,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -4724,8 +4644,6 @@
       <pre class="lines">
 
 
-25
-26
 27
 28
 29
@@ -4956,13 +4874,10 @@
 254
 255
 256
-257
-258
-259
-260</pre>
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 27</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::CDN::RefreshRequest (class)">RefreshRequest</a></span></span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:request_id</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:description</span><span class='comma'>,</span> <span class='symbol'>:invalid_urls</span><span class='comma'>,</span> <span class='symbol'>:invalid_prefixes</span><span class='comma'>,</span> <span class='symbol'>:urls_quota_perday</span><span class='comma'>,</span>
@@ -5080,6 +4995,7 @@
   <span class='comment'># 刷新查询条件构建
 </span>  <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span>
     <span class='id identifier rubyid_include'>include</span> <span class='const'>Enumerable</span>
+    <span class='id identifier rubyid_extend'>extend</span> <span class='const'>Forwardable</span>
 
     <span class='comment'># @!visibility private
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_http_client'>http_client</span><span class='comma'>,</span> <span class='id identifier rubyid_request_id'>request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -5143,18 +5059,12 @@
       <span class='kw'>self</span>
     <span class='kw'>end</span>
 
-    <span class='comment'># 对查询结果进行迭代
-</span>    <span class='comment'>#
-</span>    <span class='comment'># @yield [entry] 传入 Block 对结果进行迭代
-</span>    <span class='comment'># @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-</span>    <span class='comment'># @return [Enumerable] 如果没有给出 Block，则返回迭代器
-</span>    <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-      <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-        <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='comment'># @!method each
+</span>    <span class='comment'>#   对查询结果进行迭代
+</span>    <span class='comment'>#   @yield [result] 传入 Block 对结果进行迭代
+</span>    <span class='comment'>#   @yieldparam result [QueryResult] 查询结果
+</span>    <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>    <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
     <span class='id identifier rubyid_private'>private</span>
 
@@ -5256,12 +5166,12 @@
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ok?'>ok?</span>
   <span class='ivar'>@code</span> <span class='op'>==</span> <span class='int'>200</span>
@@ -5380,12 +5290,12 @@
       <pre class="lines">
 
 
-66
-67
-68</pre>
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_results'>results</span><span class='lparen'>(</span><span class='label'>fusion_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="RefreshRequest/QueryBuilder.html" title="QiniuNg::CDN::RefreshRequest::QueryBuilder (class)">QueryBuilder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@http_client</span><span class='comma'>,</span> <span class='ivar'>@request_id</span><span class='comma'>,</span> <span class='label'>fusion_url:</span> <span class='id identifier rubyid_fusion_url'>fusion_url</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='id identifier rubyid_https'>https</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -5400,7 +5310,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:09:02 2019 by
+  Generated on Thu Aug  1 18:48:35 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

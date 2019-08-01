@@ -86,6 +86,24 @@ module QiniuNg
         nil
       end
 
+      # 获取 RoomToken
+      # @param [String] user_id 请求加入房间的用户 ID
+      # @param [String, Symbol] permission 该用户的房间管理权限，:admin 或 :user，房间主播为 :admin，拥有将其他用户移除出房间等特权
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime RoomToken 有效期，与 deadline 参数不要同时使用
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+      # @param [Time] deadline RoomToken 过期时间，与 lifetime 参数不要同时使用
+      # @return [String] 返回 RoomToken 字符串
+      def token(user_id:, permission: :user, lifetime: nil, deadline: nil)
+        deadline ||= Time.now + begin
+                                  lifetime ||= Config.default_room_token_lifetime
+                                  lifetime = Utils::Duration.new(lifetime) if lifetime.is_a?(Hash)
+                                  lifetime.to_i
+                                end
+        room_access = { version: '2.0', room_name: @name, user_id: user_id, perm: permission, expire_at: deadline.to_i }
+        room_access = Config.default_json_marshaler.call(room_access)
+        @auth.sign_with_data(room_access)
+      end
+
       private
 
       def get_rtc_url(https)

@@ -174,6 +174,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|hash| ... } &#x21d2; Enumerable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取 CDN 日志迭代器.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#times-instance_method" title="#times (instance method)">#<strong>times</strong>  &#x21d2; Array&lt;Time&gt; </a>
     
 
@@ -346,7 +370,12 @@
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/log.rb', line 16</span>
@@ -405,7 +434,12 @@
   <span class='kw'>end</span>
   <span class='kw'>alias</span> <span class='id identifier rubyid_value_at'>value_at</span> <span class='id identifier rubyid_values_at'>values_at</span>
 
-  <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:logs_indices</span><span class='comma'>,</span> <span class='symbol'>:each</span>
+  <span class='comment'># @!method each
+</span>  <span class='comment'>#   获取 CDN 日志迭代器
+</span>  <span class='comment'>#   @yield [hash] 传入 Block 对结果进行迭代
+</span>  <span class='comment'>#   @yieldparam hash [Hash] 日志的时间及访问数据
+</span>  <span class='comment'>#   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+</span>  <span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:logs_indices</span><span class='comma'>,</span> <span class='symbol'>:each</span>
 
   <span class='id identifier rubyid_private'>private</span>
 
@@ -435,7 +469,100 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="times-instance_method">
+  <h3 class="signature first" id="each-instance_method">
+  
+    #<strong>each</strong> {|hash| ... } &#x21d2; <tt>Enumerable</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取 CDN 日志迭代器</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>传入 Block 对结果进行迭代</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>hash</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>日志的时间及访问数据</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>如果没有给出 Block，则返回迭代器</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/log.rb', line 75</span>
+
+<span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:logs_indices</span><span class='comma'>,</span> <span class='symbol'>:each</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="times-instance_method">
   
     #<strong>times</strong>  &#x21d2; <tt>Array&lt;Time&gt;</tt> 
   
@@ -642,7 +769,7 @@ log.values_at(3.days.ago, &#39;domain1&#39;, :china)</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:44 2019 by
+  Generated on Thu Aug  1 18:48:11 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

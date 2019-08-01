@@ -85,6 +85,11 @@
 
   
   
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>Forwardable</dd>
+  </dl>
+  
   
   
   <dl>
@@ -133,7 +138,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|entry| ... } &#x21d2; Enumerable </a>
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|result| ... } &#x21d2; Enumerable </a>
     
 
     
@@ -303,6 +308,7 @@
 
 
   
+  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -311,7 +317,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="each-instance_method">
   
-    #<strong>each</strong> {|entry| ... } &#x21d2; <tt>Enumerable</tt> 
+    #<strong>each</strong> {|result| ... } &#x21d2; <tt>Enumerable</tt> 
   
 
   
@@ -333,7 +339,7 @@
     <li>
       
       
-        <span class='type'>(<tt>entry</tt>)</span>
+        <span class='type'>(<tt>result</tt>)</span>
       
       
       
@@ -350,12 +356,17 @@
   
     <li>
       
-        <span class='name'>查询结果</span>
+        <span class='name'>result</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="QueryResult.html" title="QiniuNg::CDN::RefreshRequest::QueryResult (class)">QiniuNg::CDN::RefreshRequest::QueryResult</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="QueryResult.html" title="QiniuNg::CDN::RefreshRequest::QueryResult (class)">QueryResult</a></span></tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>查询结果</p>
+</div>
       
     </li>
   
@@ -385,24 +396,12 @@
       <pre class="lines">
 
 
-209
-210
-211
-212
-213
-214
-215</pre>
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 212</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_enumerator'>enumerator</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-  <span class='id identifier rubyid_enumerator'>enumerator</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
-    <span class='kw'>yield</span> <span class='id identifier rubyid_entry'>entry</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+<span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:enumerator</span><span class='comma'>,</span> <span class='symbol'>:each</span></pre>
     </td>
   </tr>
 </table>
@@ -452,13 +451,13 @@
       <pre class="lines">
 
 
-165
-166
-167
-168</pre>
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_exclude_prefixes'>exclude_prefixes</span>
   <span class='ivar'>@include_prefixes</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -513,13 +512,13 @@
       <pre class="lines">
 
 
-157
-158
-159
-160</pre>
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_include_prefixes'>include_prefixes</span>
   <span class='ivar'>@include_prefixes</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -574,13 +573,13 @@
       <pre class="lines">
 
 
-199
-200
-201
-202</pre>
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 202</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_only_failed'>only_failed</span>
   <span class='ivar'>@state</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>failure</span><span class='tstring_end'>&#39;</span></span>
@@ -635,13 +634,13 @@
       <pre class="lines">
 
 
-183
-184
-185
-186</pre>
+186
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_only_processing'>only_processing</span>
   <span class='ivar'>@state</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>processing</span><span class='tstring_end'>&#39;</span></span>
@@ -696,13 +695,13 @@
       <pre class="lines">
 
 
-191
-192
-193
-194</pre>
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 194</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_only_successful'>only_successful</span>
   <span class='ivar'>@state</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>success</span><span class='tstring_end'>&#39;</span></span>
@@ -777,14 +776,14 @@
       <pre class="lines">
 
 
-174
-175
-176
 177
-178</pre>
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/refresh_request.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_only_urls'>only_urls</span><span class='lparen'>(</span><span class='id identifier rubyid_urls'>urls</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_urls'>urls</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_urls'>urls</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_urls'>urls</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
@@ -801,7 +800,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:09:03 2019 by
+  Generated on Thu Aug  1 18:48:36 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

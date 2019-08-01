@@ -115,6 +115,22 @@
 
     <dl class="constants">
       
+        <dt id="CONNECTION_EXCEPTIONS-constant" class="">CONNECTION_EXCEPTIONS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>连接异常</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>ConnectionFailed</span><span class='comma'>,</span> <span class='const'>Faraday</span><span class='op'>::</span><span class='const'>SSLError</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="RETRYABLE_EXCEPTIONS-constant" class="">RETRYABLE_EXCEPTIONS =
           <div class="docstring">
   <div class="discussion">
@@ -129,8 +145,8 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='op'>*</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Request</span><span class='op'>::</span><span class='const'>Retry</span><span class='op'>::</span><span class='const'>DEFAULT_EXCEPTIONS</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="HTTP/ServerRetryableError.html" title="QiniuNg::HTTP::ServerRetryableError (class)">ServerRetryableError</a></span></span><span class='comma'>,</span> <span class='const'>NeedToRetry</span><span class='comma'>,</span>
-<span class='const'>Faraday</span><span class='op'>::</span><span class='const'>TimeoutError</span><span class='comma'>,</span> <span class='const'>Faraday</span><span class='op'>::</span><span class='const'>ConnectionFailed</span><span class='comma'>,</span> <span class='const'>Faraday</span><span class='op'>::</span><span class='const'>SSLError</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='op'>*</span><span class='const'>Faraday</span><span class='op'>::</span><span class='const'>Request</span><span class='op'>::</span><span class='const'>Retry</span><span class='op'>::</span><span class='const'>DEFAULT_EXCEPTIONS</span><span class='comma'>,</span> <span class='op'>*</span><span class='const'><span class='object_link'><a href="#CONNECTION_EXCEPTIONS-constant" title="QiniuNg::HTTP::CONNECTION_EXCEPTIONS (constant)">CONNECTION_EXCEPTIONS</a></span></span><span class='comma'>,</span>
+<span class='const'><span class='object_link'><a href="HTTP/ServerRetryableError.html" title="QiniuNg::HTTP::ServerRetryableError (class)">ServerRetryableError</a></span></span><span class='comma'>,</span> <span class='const'>NeedToRetry</span><span class='comma'>,</span> <span class='const'>EOFError</span><span class='comma'>,</span> <span class='const'>Faraday</span><span class='op'>::</span><span class='const'>TimeoutError</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="IDEMPOTENT_METHODS-constant" class="">IDEMPOTENT_METHODS =
           <div class="docstring">
@@ -162,7 +178,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:43 2019 by
+  Generated on Thu Aug  1 18:48:10 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

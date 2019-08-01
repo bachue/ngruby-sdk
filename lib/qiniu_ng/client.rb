@@ -22,7 +22,7 @@ module QiniuNg
       @bucket_manager = Storage::BucketManager.new(@http_client_with_auth_v1, @http_client_with_auth_v2, auth)
       @pfop_manager = Processing::Manager.new(@http_client_with_auth_v1)
       @cdn_manager = CDN::Manager.new(@http_client_with_auth_v2)
-      @pili_manager = Streaming::Manager.new(@http_client_with_auth_v2, auth)
+      @pili_manager = Streaming::Manager.new(@http_client_with_auth_v2, auth, @bucket_manager)
       @rtc_manager = RTC::Manager.new(@http_client_with_auth_v2, auth)
     end
 

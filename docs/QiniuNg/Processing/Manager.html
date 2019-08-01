@@ -360,7 +360,7 @@
   <span class='id identifier rubyid_req_body'>req_body</span><span class='lbracket'>[</span><span class='symbol'>:pipeline</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_pipeline'>pipeline</span> <span class='kw'>if</span> <span class='id identifier rubyid_pipeline'>pipeline</span>
   <span class='id identifier rubyid_resp_body'>resp_body</span> <span class='op'>=</span> <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/pfop</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_get_api_url'>get_api_url</span><span class='lparen'>(</span><span class='id identifier rubyid_entry'>entry</span><span class='comma'>,</span> <span class='id identifier rubyid_api_zone'>api_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span>
                                    <span class='label'>body:</span> <span class='id identifier rubyid_req_body'>req_body</span><span class='period'>.</span><span class='id identifier rubyid_to_query'>to_query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
-  <span class='const'><span class='object_link'><a href="PersistentID.html" title="QiniuNg::Processing::PersistentID (class)">PersistentID</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>persistentId</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="PersistentID.html" title="QiniuNg::Processing::PersistentID (class)">PersistentID</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_resp_body'>resp_body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>persistentId</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@http_client_v1</span><span class='comma'>,</span> <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -372,7 +372,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:59 2019 by
+  Generated on Thu Aug  1 18:48:30 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

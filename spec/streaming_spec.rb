@@ -8,7 +8,7 @@ RSpec.describe QiniuNg::Streaming do
 
   before :all do
     client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-    hub = client.hub('avr-pili', domain: 'avr-zhourong.qiniu-solutions.com')
+    hub = client.hub('avr-pili', domain: 'avr-zhourong.qiniu-solutions.com', bucket_name: 'avr-pili')
   end
 
   it 'should create 10 streams and list them' do
@@ -104,6 +104,23 @@ RSpec.describe QiniuNg::Streaming do
       expect(activities[0].last).to eq Time.at(1_463_577_171)
       expect(activities[1].first).to eq Time.at(1_463_382_401)
       expect(activities[1].last).to eq Time.at(1_463_382_793)
+    end
+
+    it 'should save stream as video' do
+      stub_request(:post, "http://pili.qiniuapi.com/v2/hubs/#{hub.name}/streams/#{Base64.urlsafe_encode64('stream')}/saveas")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { fname: 'test.mp4', persistentID: 'FAKEPERSISTENTID' }.to_json)
+      result = hub.stream('stream').save_as key: 'test.mp4', format: :mp4, pipeline: 'fakepipeline'
+      expect(result.entry).to be_kind_of QiniuNg::Storage::Entry
+      expect(result.persistent_id).to be_kind_of QiniuNg::Processing::PersistentID
+    end
+
+    it 'should snapshot stream' do
+      stub_request(:post, "http://pili.qiniuapi.com/v2/hubs/#{hub.name}/streams/#{Base64.urlsafe_encode64('stream')}/snapshot")
+        .to_return(headers: { 'Content-Type': 'application/json' },
+                   body: { fname: 'test.jpg' }.to_json)
+      entry = hub.stream('stream').snapshot key: 'test.jpg', format: :jpg
+      expect(entry).to be_kind_of QiniuNg::Storage::Entry
     end
 
     it 'should generate urls' do

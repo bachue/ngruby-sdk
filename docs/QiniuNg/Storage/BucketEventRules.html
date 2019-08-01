@@ -85,6 +85,11 @@
 
   
   
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>Forwardable</dd>
+  </dl>
+  
   
   
   <dl>
@@ -181,7 +186,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong>  &#x21d2; Enumerator </a>
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|rule| ... } &#x21d2; Enumerator </a>
     
 
     
@@ -226,10 +231,35 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#size-instance_method" title="#size (instance method)">#<strong>size</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取存储空间事件规则数量.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
 
+  
   
 
   <div id="instance_method_details" class="method_details_list">
@@ -340,14 +370,14 @@
       <pre class="lines">
 
 
-59
-60
-61
 62
-63</pre>
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>bucket:</span> <span class='ivar'>@bucket</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
@@ -479,14 +509,14 @@
       <pre class="lines">
 
 
-44
-45
-46
 47
-48</pre>
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='label'>name:</span><span class='comma'>,</span> <span class='label'>uc_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>bucket:</span> <span class='ivar'>@bucket</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
@@ -501,7 +531,7 @@
       <div class="method_details ">
   <h3 class="signature " id="each-instance_method">
   
-    #<strong>each</strong>  &#x21d2; <tt>Enumerator</tt> 
+    #<strong>each</strong> {|rule| ... } &#x21d2; <tt>Enumerator</tt> 
   
 
   
@@ -536,6 +566,44 @@
     
   </div>
 
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>rule</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>传入 Block 对存储空间事件规则进行迭代</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>rule</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Model/BucketEventRule.html" title="QiniuNg::Storage::Model::BucketEventRule (class)">Model::BucketEventRule</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>存储空间事件规则</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -561,24 +629,12 @@
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
-78
-79</pre>
+</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 68</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
-
-  <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_rule'>rule</span><span class='op'>|</span>
-    <span class='kw'>yield</span> <span class='id identifier rubyid_rule'>rule</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+</pre>
     </td>
   </tr>
 </table>
@@ -673,16 +729,71 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>name:</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Model.html" title="QiniuNg::Storage::Model (module)">Model</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Model/BucketEventRule.html" title="QiniuNg::Storage::Model::BucketEventRule (class)">BucketEventRule</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="size-instance_method">
+  
+    #<strong>size</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取存储空间事件规则数量</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>返回存储空间事件规则数量</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket_event_rules.rb', line 81</span>
+
+<span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:all</span><span class='comma'>,</span> <span class='symbol'>:each</span><span class='comma'>,</span> <span class='symbol'>:size</span></pre>
     </td>
   </tr>
 </table>
@@ -693,7 +804,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:09:10 2019 by
+  Generated on Thu Aug  1 18:48:43 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

@@ -163,6 +163,30 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|domain, log_files| ... } &#x21d2; Enumerable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>获取 CDN 日志文件迭代器.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -253,12 +277,121 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="each-instance_method">
+  
+    #<strong>each</strong> {|domain, log_files| ... } &#x21d2; <tt>Enumerable</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>获取 CDN 日志文件迭代器</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>domain</tt>, <tt>log_files</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>传入 Block 对结果进行迭代</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>domain</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>域名</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>log_files</span>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="LogFile.html" title="QiniuNg::CDN::LogFile (class)">LogFile</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>日志文件列表</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Enumerable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>如果没有给出 Block，则返回迭代器</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/cdn/log_files.rb', line 40</span>
+
+<span class='id identifier rubyid_def_delegators'>def_delegators</span> <span class='symbol'>:@data</span><span class='comma'>,</span> <span class='symbol'>:each</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:52 2019 by
+  Generated on Thu Aug  1 18:48:22 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

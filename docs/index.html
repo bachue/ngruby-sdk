@@ -91,7 +91,7 @@
 
 <p>在您 Ruby 应用程序的 <code>Gemfile</code> 文件中，添加如下一行代码：</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>qiniu-ng</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 0.9</span><span class='tstring_end'>&#39;</span></span>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>qiniu-ng</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>~&gt; 0.1</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
 <p>然后，在应用程序所在的目录下，可以运行 <code>bundle</code> 安装依赖包：</p>
@@ -177,15 +177,16 @@
 <pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hash</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ftgm-CkWePC9fzMBTRNmPMhGBcSV</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>qiniu.jpg</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
 </code></pre>
 
-<p>有时候我们希望能自定义这个返回的JSON格式的内容，可以通过设置 <code>returnBody</code> 参数来实现，在 <code>returnBody</code> 中，我们可以使用支持的<a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">魔法变量}[https://developer.qiniu.com/kodo/manual/1235/vars#magicvar]和
+<p>有时候我们希望能自定义这个返回的 JSON 格式的内容，可以通过设置 <code>returnBody</code> 参数来实现，在 <code>returnBody</code> 中，我们可以使用支持的 <a href="https://developer.qiniu.com/kodo/manual/1235/vars#magicvar">魔法变量</a> 和 <a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">自定义变量</a> 。</p>
+
 <pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
-  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_return'>set_return</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_return'>set_return</span> <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)}</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
 </code></pre>
 
 <p>则文件上传到七牛之后，收到的回复内容如下：</p>
 
-<pre class="code ruby"><code class="ruby">&quot;key&quot;:&quot;qiniu.jpg&quot;,&quot;hash&quot;:&quot;Ftgm-CkWePC9fzMBTRNmPMhGBcSV&quot;,&quot;bucket&quot;:&quot;if-bc&quot;,&quot;fsize&quot;:39335
+<pre class="code ruby"><code class="ruby"><span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>qiniu.jpg</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hash</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ftgm-CkWePC9fzMBTRNmPMhGBcSV</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bucket</span><span class='label_end'>&quot;:</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>if-bc</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fsize</span><span class='label_end'>&quot;:</span><span class='int'>39335</span><span class='rbrace'>}</span>
 </code></pre>
 
 <h5 id="label-E5-B8-A6-E5-9B-9E-E8-B0-83-E4-B8-9A-E5-8A-A1-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-9A-84-E5-87-AD-E8-AF-81">带回调业务服务器的凭证</h5>
@@ -194,7 +195,7 @@
 
 <pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_policy'>policy</span><span class='op'>|</span>
   <span class='id identifier rubyid_policy'>policy</span><span class='period'>.</span><span class='id identifier rubyid_set_callback'>set_callback</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>http://api.example.com/qiniu/upload/callback</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-                      <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+                      <span class='label'>body:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>{&quot;key&quot;:&quot;$(key)&quot;,&quot;hash&quot;:&quot;$(etag)&quot;,&quot;bucket&quot;:&quot;$(bucket)&quot;,&quot;fsize&quot;:$(fsize)}</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
                       <span class='label'>body_type:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/json</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
 </code></pre>
@@ -211,7 +212,7 @@
 
 <h5 id="label-E7-BB-BC-E5-90-88-E4-B8-8A-E4-BC-A0-E5-87-AD-E8-AF-81">综合上传凭证</h5>
 
-<p>上面的生成上传凭证的方法，都是通过设置<a href="https://bachue.github.io/ruby-ng-sdk/QiniuNg/Storage/Model/UploadPolicy.html">上传策略}[https://developer.qiniu.com/kodo/manual/1206/put-policy]相关的参数来支持的，这些参数可以通过不同的组合方式来满足不同的业务需求，可以灵活地组织你所需要的上传凭证。点击{这里</a>阅读详细的 API 文档。</p>
+<p>上面的生成上传凭证的方法，都是通过设置 <a href="https://developer.qiniu.com/kodo/manual/1206/put-policy">上传策略</a> 相关的参数来支持的，这些参数可以通过不同的组合方式来满足不同的业务需求，可以灵活地组织你所需要的上传凭证。点击 <a href="https://bachue.github.io/ruby-ng-sdk/QiniuNg/Storage/Model/UploadPolicy.html">这里</a> 阅读详细的 API 文档。</p>
 
 <h4 id="label-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-9B-B4-E4-BC-A0">服务器直传</h4>
 
@@ -229,8 +230,8 @@
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bucket'>bucket</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload'>upload</span> <span class='label'>stream:</span> <span class='const'>StringIO</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>hello qiniu cloud</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='comment'># 这里只需要 IO 流实现 #read 方法即可
-</span>              <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key in Bucket&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='comment'># 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
-</span>              <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span> <span class='comment'># 可以不调用 #to_s 方法
+</span>              <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key in Bucket&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>                    <span class='comment'># 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
+</span>              <span class='label'>upload_token:</span> <span class='id identifier rubyid_bucket'>bucket</span><span class='period'>.</span><span class='id identifier rubyid_upload_token'>upload_token</span>          <span class='comment'># 可以不调用 #to_s 方法
 </span></code></pre>
 
 <h5 id="label-E8-A7-A3-E6-9E-90-E8-87-AA-E5-AE-9A-E4-B9-89-E5-9B-9E-E5-A4-8D-E5-86-85-E5-AE-B9">解析自定义回复内容</h5>
@@ -256,7 +257,7 @@
 
 <h5 id="label-E4-B8-9A-E5-8A-A1-E6-9C-8D-E5-8A-A1-E5-99-A8-E9-AA-8C-E8-AF-81-E4-B8-83-E7-89-9B-E5-9B-9E-E8-B0-83">业务服务器验证七牛回调</h5>
 
-<p>在上传策略里面设置了上传回调相关参数的时候，七牛在文件上传到服务器之后，会主动地向 <code>callbackUrl</code> 发送POST请求的回调，回调的内容为 <code>callbackBody</code> 模版所定义的内容， 如果这个模版里面引用了<a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">魔法变量}[https://developer.qiniu.com/kodo/manual/1235/vars#magicvar]或者{自定义变量</a>，那么这些变量会被自动填充对应的值，然后在发送给业务服务器。</p>
+<p>在上传策略里面设置了上传回调相关参数的时候，七牛在文件上传到服务器之后，会主动地向 <code>callbackUrl</code> 发送POST请求的回调，回调的内容为 <code>callbackBody</code> 模版所定义的内容， 如果这个模版里面引用了 <a href="https://developer.qiniu.com/kodo/manual/1235/vars#magicvar">魔法变量</a> 或者 <a href="https://developer.qiniu.com/kodo/manual/1235/vars#xvar">自定义变量</a> ，那么这些变量会被自动填充对应的值，然后在发送给业务服务器。</p>
 
 <p>业务服务器在收到来自七牛的回调请求的时候，可以根据请求头部的 <code>Authorization</code> 字段来进行验证，查看该请求是否是来自七牛的未经篡改的请求。具体可以参考七牛的 <code>回调鉴权</code>。</p>
 
@@ -276,22 +277,24 @@
 
 <h4 id="label-E4-B8-8B-E8-BD-BD-E6-96-87-E4-BB-B6">下载文件</h4>
 
-<p>文件下载分为公开空间的文件下载和私有空间的文件下载。</p>
+<h5 id="label-E7-94-9F-E6-88-90-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">生成下载地址</h5>
 
-<h5 id="label-E5-85-AC-E5-BC-80-E7-A9-BA-E9-97-B4-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">公开空间的下载地址</h5>
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span> <span class='comment'># 将自动根据空间设置以及给出的参数决定生成公开空间的地址，私有空间的地址还是时间戳防盗链地址
+</span></code></pre>
 
-<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span>
+<h5 id="label-E7-94-9F-E6-88-90-E5-B8-A6-E6-9C-89-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86-E6-8C-87-E4-BB-A4-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">生成带有数据处理指令的下载地址</h5>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Fop Commands&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 </code></pre>
 
-<h5 id="label-E7-A7-81-E6-9C-89-E7-A9-BA-E9-97-B4-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">私有空间的下载地址</h5>
+<h5 id="label-E7-94-9F-E6-88-90-E5-B8-A6-E6-9C-89-E6-A0-B7-E5-BC-8F-E7-9A-84-E4-B8-8B-E8-BD-BD-E5-9C-B0-E5-9D-80">生成带有样式的下载地址</h5>
 
-<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span>
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='lparen'>(</span><span class='label'>style:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Style Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 </code></pre>
 
 <h5 id="label-E4-B8-8B-E8-BD-BD-E4-BA-91-E5-AD-98-E5-82-A8-E6-96-87-E4-BB-B6-E5-88-B0-E6-9C-AC-E5-9C-B0">下载云存储文件到本地</h5>
 
 <pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/path/on/disk</span><span class='tstring_end'>&#39;</span></span>
-<span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_download_url'>download_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/path/on/disk</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
 <h4 id="label-E8-B5-84-E6-BA-90-E7-AE-A1-E7-90-86">资源管理</h4>
@@ -461,35 +464,294 @@
 <span class='kw'>end</span>
 </code></pre>
 <ul><li>
-<p>通过 ActiveRecord 向七牛云上传 / 下载数据</p>
+<p>通过 ActiveRecord 向七牛云上传数据</p>
 </li></ul>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:file</span><span class='rbracket'>]</span>                             <span class='comment'># 将用户上传的文件赋值给 avatar 字段
 </span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_save!'>save!</span>                                              <span class='comment'># 保存数据到数据库，并将用户上传的文件上传至七牛云
-</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>                                         <span class='comment'># 获取上传文件的下载地址
+</span></code></pre>
+<ul><li>
+<p>通过 ActiveRecord 从七牛云下载数据</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span>                                         <span class='comment'># 获取文件的下载地址
 </span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>style:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>small</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>                         <span class='comment'># 获取带有样式的下载地址
 </span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='lparen'>(</span><span class='label'>fop:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>imageView/2/h/200</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>               <span class='comment'># 获取带有数据处理的下载地址
-</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/file/path/on/disk</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载上传的文件到本地
+</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_avatar'>avatar</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/file/path/on/disk</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载文件到本地
 </span></code></pre>
 
-<h3 id="label-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86">数据处理</h3>
+<h5 id="label-E4-B8-8E+ActiveStorage+-E9-9B-86-E6-88-90">与 ActiveStorage 集成</h5>
+<ul><li>
+<p>首先，在 config/storage.yml 中配置七牛云</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby">qiniu_ng:
+  service: QiniuNg
+  access_key: &#39;&lt;Qiniu AccessKey&gt;&#39;
+  secret_key: &#39;&lt;Qiniu SecretKey&gt;&#39;
+  bucket: &#39;&lt;Qiniu BucketName&gt;&#39;
+</code></pre>
+<ul><li>
+<p>在 config/environments/production.rb 中设置七牛云为存储后端</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_active_storage'>active_storage</span><span class='period'>.</span><span class='id identifier rubyid_service'>service</span> <span class='op'>=</span> <span class='symbol'>:local</span>
+</code></pre>
+<ul><li>
+<p>生成使用 ActiveStorage 的 ActiveRecord 类</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>User</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_has_one_attached'>has_one_attached</span> <span class='symbol'>:avatar</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Message</span> <span class='op'>&lt;</span> <span class='const'>ApplicationRecord</span>
+  <span class='id identifier rubyid_has_many_attached'>has_many_attached</span> <span class='symbol'>:images</span>
+<span class='kw'>end</span>
+</code></pre>
+<ul><li>
+<p>通过 ActiveRecord 向七牛云上传数据</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='ivar'>@message</span><span class='period'>.</span><span class='id identifier rubyid_images'>images</span><span class='period'>.</span><span class='id identifier rubyid_attach'>attach</span><span class='lparen'>(</span><span class='label'>io:</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/path/to/file</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>filename:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>file.pdf</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+<ul><li>
+<p>通过 ActiveRecord 从七牛云下载数据</p>
+</li></ul>
+
+<pre class="code ruby"><code class="ruby"><span class='ivar'>@message</span><span class='period'>.</span><span class='id identifier rubyid_images'>images</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_download'>download</span>                                            <span class='comment'># 获取文件的二进制字符数组
+</span><span class='ivar'>@message</span><span class='period'>.</span><span class='id identifier rubyid_images'>images</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_service_url'>service_url</span>                                         <span class='comment'># 获取文件的下载地址
+</span><span class='ivar'>@message</span><span class='period'>.</span><span class='id identifier rubyid_images'>images</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_service_url'>service_url</span><span class='period'>.</span><span class='id identifier rubyid_download_to'>download_to</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/local/file/path/on/disk</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 下载文件到本地
+</span></code></pre>
+
+<h3 id="label-E6-8C-81-E4-B9-85-E5-8C-96-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86">持久化数据处理</h3>
+
+<h4 id="label-E5-8F-91-E9-80-81-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86-E8-AF-B7-E6-B1-82">发送数据处理请求</h4>
+
+<p>对于已经保存到七牛空间的文件，可以通过发送持久化的数据处理指令来进行处理，这些指令支持七牛官方提供的指令，也包括客户自己开发的自定义数据处理的指令。数据处理的结果还可以通过七牛主动通知的方式告知业务服务器。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_jpg_entry'>jpg_entry</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>screenshot.jpg</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_png_entry'>png_entry</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>screenshot.png</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_persistent_id'>persistent_id</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                      <span class='period'>.</span><span class='id identifier rubyid_entry'>entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Video Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+                      <span class='period'>.</span><span class='id identifier rubyid_pfop'>pfop</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vframe/jpg/offset/1|saveas/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_jpg_entry'>jpg_entry</span><span class='period'>.</span><span class='id identifier rubyid_encode'>encode</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>vframe/png/offset/1|saveas/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_png_entry'>png_entry</span><span class='period'>.</span><span class='id identifier rubyid_encode'>encode</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+                            <span class='label'>pipeline:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Persistent Pipeline&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>notify_url:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Callback URL&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h4 id="label-E6-9F-A5-E8-AF-A2-E6-95-B0-E6-8D-AE-E5-A4-84-E7-90-86-E8-AF-B7-E6-B1-82-E7-8A-B6-E6-80-81">查询数据处理请求状态</h4>
+
+<p>由于数据处理是异步处理，可以根据发送处理请求时返回的 <code>persistent_id</code> 去查询任务的处理进度，如果在设置了 <code>notify_url</code> 的情况下，直接业务服务器等待处理结果通知即可，如果需要主动查询，则可以：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='id identifier rubyid_persistent_id'>persistent_id</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span>
+</code></pre>
+
+<p>如果您将 persistent_id 以字符串的形式保存在数据库中，之后取出后，则可以：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_bucket'>bucket</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_query_processing_result'>query_processing_result</span><span class='lparen'>(</span><span class='id identifier rubyid_persistent_id'>persistent_id</span><span class='rparen'>)</span>
+</code></pre>
 
 <h3 id="label-CDN">CDN</h3>
 
+<h4 id="label-E6-96-87-E4-BB-B6-E5-88-B7-E6-96-B0">文件刷新</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_requests'>requests</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_cdn_refresh'>cdn_refresh</span><span class='lparen'>(</span><span class='label'>urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher1.jpg</span><span class='words_sep'> </span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher2.jpg</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_ok?'>ok?</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='op'>&amp;</span><span class='symbol'>:successful?</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h4 id="label-E7-9B-AE-E5-BD-95-E5-88-B7-E6-96-B0">目录刷新</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_requests'>requests</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_cdn_refresh'>cdn_refresh</span><span class='lparen'>(</span><span class='label'>prefixes:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher1/</span><span class='words_sep'> </span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher2/</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_ok?'>ok?</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='op'>&amp;</span><span class='symbol'>:successful?</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h4 id="label-E6-96-87-E4-BB-B6-E9-A2-84-E5-8F-96">文件预取</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_requests'>requests</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_cdn_prefetch'>cdn_prefetch</span><span class='lparen'>(</span><span class='label'>prefixes:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher1.jpg</span><span class='words_sep'> </span><span class='tstring_content'>http://rubysdk.qiniudn.com/gopher2.jpg</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_ok?'>ok?</span> <span class='rbrace'>}</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_requests'>requests</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_reqid'>reqid</span><span class='comma'>,</span> <span class='id identifier rubyid_request'>request</span><span class='op'>|</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span><span class='period'>.</span><span class='id identifier rubyid_all?'>all?</span> <span class='op'>&amp;</span><span class='symbol'>:successful?</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-9F-9F-E5-90-8D-E6-B5-81-E9-87-8F">获取域名流量</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_logs'>logs</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_cdn_flux_log'>cdn_flux_log</span><span class='lparen'>(</span><span class='label'>start_time:</span> <span class='int'>30</span><span class='period'>.</span><span class='id identifier rubyid_days'>days</span><span class='period'>.</span><span class='id identifier rubyid_ago'>ago</span><span class='comma'>,</span> <span class='label'>end_time:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span>
+                           <span class='label'>granularity:</span> <span class='symbol'>:day</span><span class='comma'>,</span> <span class='label'>domains:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_logs'>logs</span><span class='period'>.</span><span class='id identifier rubyid_value_at'>value_at</span><span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:china</span><span class='rparen'>)</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-9F-9F-E5-90-8D-E5-B8-A6-E5-AE-BD">获取域名带宽</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_logs'>logs</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_cdn_bandwidth_log'>cdn_bandwidth_log</span><span class='lparen'>(</span><span class='label'>start_time:</span> <span class='int'>30</span><span class='period'>.</span><span class='id identifier rubyid_days'>days</span><span class='period'>.</span><span class='id identifier rubyid_ago'>ago</span><span class='comma'>,</span> <span class='label'>end_time:</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span>
+                                <span class='label'>granularity:</span> <span class='symbol'>:day</span><span class='comma'>,</span> <span class='label'>domains:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_logs'>logs</span><span class='period'>.</span><span class='id identifier rubyid_value_at'>value_at</span><span class='lparen'>(</span><span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='symbol'>:china</span><span class='rparen'>)</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E6-97-A5-E5-BF-97-E4-B8-8B-E8-BD-BD-E9-93-BE-E6-8E-A5">获取日志下载链接</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_logs'>logs</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_cdn_access_logs'>cdn_access_logs</span><span class='lparen'>(</span><span class='label'>time:</span> <span class='int'>30</span><span class='period'>.</span><span class='id identifier rubyid_days'>days</span><span class='period'>.</span><span class='id identifier rubyid_ago'>ago</span><span class='comma'>,</span> <span class='label'>domains:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_p'>p</span> <span class='id identifier rubyid_logs'>logs</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rubysdk.qiniudn.com</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='op'>&amp;</span><span class='symbol'>:url</span>
+</code></pre>
+
 <h3 id="label-E7-9B-B4-E6-92-AD">直播</h3>
 
+<h4 id="label-E5-88-9D-E5-A7-8B-E5-8C-96-E7-9B-B4-E6-92-AD-E7-A9-BA-E9-97-B4">初始化直播空间</h4>
+
+<p>对于直播场景，您需要准备一个直播空间，与客户端一样，您可以考虑将其设置为全局变量以便于在之后持续使用该直播空间。</p>
+
+<p>如果您使用的是 Rails，可以创建一个初始化脚本来初始化七牛客户端：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='op'>/</span><span class='id identifier rubyid_initializers'>initializers</span><span class='op'>/</span><span class='id identifier rubyid_qiniu'>qiniu</span><span class='period'>.</span><span class='id identifier rubyid_rb'>rb</span>
+</code></pre>
+
+<p>初始化直播空间的代码如下：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='gvar'>$hub</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_hub'>hub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Hub Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>domain:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Hub Domain&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>bucket:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Bucket Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='comment'># 这里的 domain 指的是直播域名, bucket 指的是与直播空间绑定的存储空间名称
+</span></code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96+RTMP+-E6-8E-A8-E6-B5-81-E5-9C-B0-E5-9D-80">获取 RTMP 推流地址</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rtmp_publish_url'>rtmp_publish_url</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-B8-A6-E9-99-90-E6-97-B6-E9-89-B4-E6-9D-83-E7-9A-84+RTMP+-E6-8E-A8-E6-B5-81-E5-9C-B0-E5-9D-80">获取带限时鉴权的 RTMP 推流地址</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rtmp_publish_url'>rtmp_publish_url</span><span class='period'>.</span><span class='id identifier rubyid_private'>private</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E7-9B-B4-E6-92-AD-E6-92-AD-E6-94-BE-E5-9C-B0-E5-9D-80">获取直播播放地址</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stream'>stream</span> <span class='op'>=</span> <span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># 生成 RTMP 播放地址
+</span><span class='id identifier rubyid_rtmp_url'>rtmp_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_rtmp_play_url'>rtmp_play_url</span>
+
+<span class='comment'># 生成 HLS 播放地址
+</span><span class='id identifier rubyid_hls_url'>hls_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_hls_play_url'>hls_play_url</span>
+
+<span class='comment'># 生成 HDL 播放地址
+</span><span class='id identifier rubyid_hdl_url'>hdl_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_hdl_play_url'>hdl_play_url</span>
+
+<span class='comment'># 生成直播封面地址
+</span><span class='id identifier rubyid_snapshot_url'>snapshot_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_snapshot_url'>snapshot_url</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-B8-A6-E6-97-B6-E9-97-B4-E6-88-B3-E9-89-B4-E6-9D-83-E7-9A-84-E7-9B-B4-E6-92-AD-E6-92-AD-E6-94-BE-E5-9C-B0-E5-9D-80">获取带时间戳鉴权的直播播放地址</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_stream'>stream</span> <span class='op'>=</span> <span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># 生成 RTMP 播放地址
+</span><span class='id identifier rubyid_rtmp_url'>rtmp_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_rtmp_play_url'>rtmp_play_url</span><span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Encrypt Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># 生成 HLS 播放地址
+</span><span class='id identifier rubyid_hls_url'>hls_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_hls_play_url'>hls_play_url</span><span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Encrypt Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># 生成 HDL 播放地址
+</span><span class='id identifier rubyid_hdl_url'>hdl_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_hdl_play_url'>hdl_play_url</span><span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Encrypt Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># 生成直播封面地址
+</span><span class='id identifier rubyid_snapshot_url'>snapshot_url</span> <span class='op'>=</span> <span class='id identifier rubyid_stream'>stream</span><span class='period'>.</span><span class='id identifier rubyid_snapshot_url'>snapshot_url</span><span class='period'>.</span><span class='id identifier rubyid_timestamp_anti_leech'>timestamp_anti_leech</span><span class='lparen'>(</span><span class='label'>encrypt_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Encrypt Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h4 id="label-E7-A6-81-E6-92-AD+-2F+-E5-90-AF-E7-94-A8-E6-B5-81">禁播 / 启用流</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_disable'>disable</span>
+<span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_enable'>enable</span>
+</code></pre>
+
+<h4 id="label-E6-9F-A5-E8-AF-A2-E7-9B-B4-E6-92-AD-E5-8E-86-E5-8F-B2-E8-AE-B0-E5-BD-95">查询直播历史记录</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_history_activities'>history_activities</span>
+</code></pre>
+
+<h4 id="label-E4-BF-9D-E5-AD-98-E7-9B-B4-E6-92-AD-E5-9B-9E-E6-94-BE">保存直播回放</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='gvar'>$hub</span><span class='period'>.</span><span class='id identifier rubyid_stream'>stream</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Stream Key&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_save_as'>save_as</span> <span class='label'>key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>live.mp4</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
 <h3 id="label-E8-BF-9E-E9-BA-A6">连麦</h3>
+
+<h4 id="label-E5-88-9D-E5-A7-8B-E5-8C-96-E8-BF-9E-E9-BA-A6-E5-BA-94-E7-94-A8">初始化连麦应用</h4>
+
+<p>对于连麦场景，您需要准备一个连麦应用，与客户端一样，您可以考虑将其设置为全局变量以便于在之后持续使用该连麦应用。</p>
+
+<p>如果您使用的是 Rails，可以创建一个初始化脚本来初始化七牛客户端：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_config'>config</span><span class='op'>/</span><span class='id identifier rubyid_initializers'>initializers</span><span class='op'>/</span><span class='id identifier rubyid_qiniu'>qiniu</span><span class='period'>.</span><span class='id identifier rubyid_rb'>rb</span>
+</code></pre>
+
+<p>初始化直播空间的代码如下：</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$qiniu</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new_client'><span class='object_link'><a href="QiniuNg.html#new_client-class_method" title="QiniuNg.new_client (method)">new_client</a></span></span><span class='lparen'>(</span><span class='label'>access_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu AccessKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>secret_key:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Qiniu SecretKey&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='gvar'>$rtc</span> <span class='op'>=</span> <span class='gvar'>$qiniu</span><span class='period'>.</span><span class='id identifier rubyid_rtc_app'>rtc_app</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;RTC App ID&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h4 id="label-E8-8E-B7-E5-8F-96+RoomToken">获取 RoomToken</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='gvar'>$rtc</span><span class='period'>.</span><span class='id identifier rubyid_room'>room</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;Room Name&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_token'>token</span> <span class='label'>user_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;User ID&gt;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>permission:</span> <span class='symbol'>:user</span>
+</code></pre>
 
 <h3 id="label-E4-BA-91-E7-9F-AD-E4-BF-A1">云短信</h3>
 
 <p>开发中</p>
 
-<h3 id="label-E9-AB-98-E7-BA-A7-E5-88-9D-E5-A7-8B-E5-8C-96-E9-85-8D-E7-BD-AE">高级初始化配置</h3>
+<h3 id="label-E5-88-9D-E5-A7-8B-E5-8C-96-E5-85-A8-E5-B1-80-E9-85-8D-E7-BD-AE">初始化全局配置</h3>
+
+<p>您可以在初始化客户端之前，对全局配置进行修改，例如使用全局 HTTPS，HTTP 重试机制，或设置 JSON 编解码器，或对 HTTP 客户端进行定制等。</p>
+
+<h4 id="label-E8-AE-BE-E7-BD-AE-E5-85-A8-E5-B1-80+HTTPS">设置全局 HTTPS</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="QiniuNg.html#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='label'>use_https:</span> <span class='kw'>true</span>
+</code></pre>
+
+<h4 id="label-E8-AE-BE-E7-BD-AE-E9-87-8D-E8-AF-95-E6-9C-BA-E5-88-B6">设置重试机制</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="QiniuNg.html#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='label'>http_request_retries:</span> <span class='int'>10</span><span class='comma'>,</span>    <span class='comment'># HTTP 请求如果失败，将重试 10 次
+</span>               <span class='label'>http_request_retry_delay:</span> <span class='int'>1</span>  <span class='comment'># 每次重试前等待 1 秒
+</span></code></pre>
+
+<h4 id="label-E8-AE-BE-E7-BD-AE+JSON+-E7-BC-96-E8-A7-A3-E7-A0-81-E5-99-A8">设置 JSON 编解码器</h4>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>oj</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="QiniuNg.html#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='label'>json_marshaler:</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='const'>Oj</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+               <span class='label'>json_unmarshaler:</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='const'>Oj</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='id identifier rubyid_json'>json</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h4 id="label-E5-AE-9A-E5-88-B6+HTTP+-E5-AE-A2-E6-88-B7-E7-AB-AF">定制 HTTP 客户端</h4>
+
+<p><code>qiniu-ng</code> 使用 <a href="https://github.com/lostisland/faraday.git">Faraday</a> 库作为 HTTP 客户端，该库可以封装多种 HTTP 客户端作为其后端，默认情况下，该库使用的是 Ruby 自带的 <code>net-http</code> 库，但您可以将其改为其他性能更好的 HTTP 库，例如 <a href="http://docs.seattlerb.org/net-http-persistent/">net-http-persistent</a>。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="QiniuNg.html#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_conn'>conn</span><span class='op'>|</span> <span class='id identifier rubyid_conn'>conn</span><span class='period'>.</span><span class='id identifier rubyid_adapter'>adapter</span> <span class='symbol'>:net_http_persistent</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<p>您还可以使用 <a href="https://github.com/lostisland/faraday.git">Faraday</a> 的中间件机制对 <code>qiniu-ng</code> 的所有 HTTP 请求进行拦截处理。 例如您可以使用 <a href="https://github.com/lostisland/faraday/blob/master/lib/faraday/response/logger.rb">Logger</a> 记录下所有 HTTP 请求的细节。</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>logger</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='const'><span class='object_link'><a href="QiniuNg.html" title="QiniuNg (module)">QiniuNg</a></span></span><span class='period'>.</span><span class='id identifier rubyid_config'><span class='object_link'><a href="QiniuNg.html#config-class_method" title="QiniuNg.config (method)">config</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_conn'>conn</span><span class='op'>|</span>
+  <span class='id identifier rubyid_conn'>conn</span><span class='period'>.</span><span class='id identifier rubyid_response'>response</span> <span class='symbol'>:logger</span><span class='comma'>,</span>
+                <span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>STDERR</span><span class='rparen'>)</span><span class='comma'>,</span>            <span class='comment'># 在这里可以定制 Logger 类
+</span>                <span class='label'>headers:</span> <span class='kw'>true</span><span class='comma'>,</span>                 <span class='comment'># 是否记录 HTTP Header
+</span>                <span class='label'>bodies:</span> <span class='kw'>true</span>                   <span class='comment'># 是否记录 HTTP Body
+</span>  <span class='id identifier rubyid_conn'>conn</span><span class='period'>.</span><span class='id identifier rubyid_adapter'>adapter</span> <span class='symbol'>:net_http</span>                       <span class='comment'># 但凡对 QiniuNg.config 传入 Block 参数，都必须显式设置 conn.adapter，即使您并不想改变默认设置
+</span><span class='kw'>end</span>
+</code></pre>
+
+<h4 id="label-E5-85-B6-E4-BB-96-E5-85-A8-E5-B1-80-E9-85-8D-E7-BD-AE">其他全局配置</h4>
+
+<p>您可以访问 <a href="https://bachue.github.io/ruby-ng-sdk/QiniuNg.html#config-class_method">这里</a> 了解更多全局配置参数。</p>
+
+<h2 id="label-E8-AF-A6-E7-BB-86+API+-E6-96-87-E6-A1-A3">详细 API 文档</h2>
+
+<p>您可以访问 <a href="https://bachue.github.io/ruby-ng-sdk/">这里</a> 阅读详细 API 文档</p>
 </div></div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:41 2019 by
+  Generated on Thu Aug  1 18:48:07 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

@@ -15,11 +15,12 @@ module QiniuNg
     class Hub
       attr_reader :name
       # @!visibility private
-      def initialize(hub, http_client_v2, auth, domain)
+      def initialize(hub, http_client_v2, auth, domain, bucket)
         @name = hub
         @auth = auth
         @http_client_v2 = http_client_v2
         @domain = domain
+        @bucket = bucket
       end
 
       # 创建实时音视频直播应用
@@ -47,7 +48,7 @@ module QiniuNg
       # @param [String] key 直播流名称
       # @return [Stream] 返回直播流
       def stream(key)
-        Stream.new(key, self, @http_client_v2, @auth, @domain)
+        Stream.new(key, self, @http_client_v2, @auth, @domain, @bucket)
       end
 
       # 创建直播流

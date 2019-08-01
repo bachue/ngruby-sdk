@@ -1,6 +1,6 @@
 # 新一代 Qiniu SDK for Ruby
 
-[![Code Climate](https://codeclimate.com/github/bachue/ngruby-sdk.svg)](https://codeclimate.com/github/bachue/ngruby-sdk) [![Build Status](https://api.travis-ci.com/bachue/ruby-ng-sdk.svg?branch=master)](https://travis-ci.org/bachue/ngruby-sdk) [![Coverage Status](https://coveralls.io/repos/bachue/ngruby-sdk/badge.svg?branch=master)](https://coveralls.io/r/bachue/ngruby-sdk?branch=master)
+[![Code Climate](https://codeclimate.com/github/bachue/ngruby-sdk.svg)](https://codeclimate.com/github/bachue/ngruby-sdk) [![Build Status](https://api.travis-ci.com/bachue/ruby-ng-sdk.svg?branch=master)](https://travis-ci.org/bachue/ruby-ng-sdk) [![Coverage Status](https://coveralls.io/repos/bachue/ruby-ng-sdk/badge.svg?branch=master)](https://coveralls.io/r/bachue/ruby-ng-sdk?branch=master)
 
 ## 关于
 
@@ -25,7 +25,7 @@
 
 在您 Ruby 应用程序的 `Gemfile` 文件中，添加如下一行代码：
 
-    gem 'qiniu-ng', '~> 0.9'
+    gem 'qiniu-ng', '~> 0.1'
 
 然后，在应用程序所在的目录下，可以运行 `bundle` 安装依赖包：
 
@@ -108,7 +108,7 @@ $qiniu.bucket('<Bucket Name>').entry('<Key>').upload_token.to_s
 {"hash":"Ftgm-CkWePC9fzMBTRNmPMhGBcSV","key":"qiniu.jpg"}
 ```
 
-有时候我们希望能自定义这个返回的JSON格式的内容，可以通过设置 `returnBody` 参数来实现，在 `returnBody` 中，我们可以使用支持的[魔法变量](https://developer.qiniu.com/kodo/manual/1235/vars#magicvar)和[自定义变量](https://developer.qiniu.com/kodo/manual/1235/vars#xvar)。
+有时候我们希望能自定义这个返回的 JSON 格式的内容，可以通过设置 `returnBody` 参数来实现，在 `returnBody` 中，我们可以使用支持的 [魔法变量](https://developer.qiniu.com/kodo/manual/1235/vars#magicvar) 和 [自定义变量](https://developer.qiniu.com/kodo/manual/1235/vars#xvar) 。
 
 ```ruby
 $qiniu.bucket('<Bucket Name>').upload_token { |policy|
@@ -149,7 +149,7 @@ $qiniu.bucket('<Bucket Name>').upload_token { |policy|
 
 ##### 综合上传凭证
 
-上面的生成上传凭证的方法，都是通过设置[上传策略](https://developer.qiniu.com/kodo/manual/1206/put-policy)相关的参数来支持的，这些参数可以通过不同的组合方式来满足不同的业务需求，可以灵活地组织你所需要的上传凭证。点击[这里](https://bachue.github.io/ruby-ng-sdk/QiniuNg/Storage/Model/UploadPolicy.html)阅读详细的 API 文档。
+上面的生成上传凭证的方法，都是通过设置 [上传策略](https://developer.qiniu.com/kodo/manual/1206/put-policy) 相关的参数来支持的，这些参数可以通过不同的组合方式来满足不同的业务需求，可以灵活地组织你所需要的上传凭证。点击 [这里](https://bachue.github.io/ruby-ng-sdk/QiniuNg/Storage/Model/UploadPolicy.html) 阅读详细的 API 文档。
 
 #### 服务器直传
 
@@ -200,7 +200,7 @@ p result['fsize']
 ##### 业务服务器验证七牛回调
 
 在上传策略里面设置了上传回调相关参数的时候，七牛在文件上传到服务器之后，会主动地向 `callbackUrl` 发送POST请求的回调，回调的内容为 `callbackBody` 模版所定义的内容，
-如果这个模版里面引用了[魔法变量](https://developer.qiniu.com/kodo/manual/1235/vars#magicvar)或者[自定义变量](https://developer.qiniu.com/kodo/manual/1235/vars#xvar)，那么这些变量会被自动填充对应的值，然后在发送给业务服务器。
+如果这个模版里面引用了 [魔法变量](https://developer.qiniu.com/kodo/manual/1235/vars#magicvar) 或者 [自定义变量](https://developer.qiniu.com/kodo/manual/1235/vars#xvar) ，那么这些变量会被自动填充对应的值，然后在发送给业务服务器。
 
 业务服务器在收到来自七牛的回调请求的时候，可以根据请求头部的 `Authorization` 字段来进行验证，查看该请求是否是来自七牛的未经篡改的请求。具体可以参考七牛的 `回调鉴权`。
 
@@ -225,6 +225,18 @@ end
 
 ```ruby
 $qiniu.bucket('<Bucket Name>').entry('<Key>').download_url # 将自动根据空间设置以及给出的参数决定生成公开空间的地址，私有空间的地址还是时间戳防盗链地址
+```
+
+##### 生成带有数据处理指令的下载地址
+
+```ruby
+$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url(fop: '<Fop Commands>')
+```
+
+##### 生成带有样式的下载地址
+
+```ruby
+$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url(style: '<Style Name>')
 ```
 
 ##### 下载云存储文件到本地
@@ -416,24 +428,317 @@ class User < ActiveRecord::Base
 end
 ```
 
-* 通过 ActiveRecord 向七牛云上传 / 下载数据
+* 通过 ActiveRecord 向七牛云上传数据
 
 ```ruby
 user = User.new
 user.avatar = params[:file]                             # 将用户上传的文件赋值给 avatar 字段
 user.save!                                              # 保存数据到数据库，并将用户上传的文件上传至七牛云
-user.avatar.url                                         # 获取上传文件的下载地址
-user.avatar.url(style: 'small')                         # 获取带有样式的下载地址
-user.avatar.url(fop: 'imageView/2/h/200')               # 获取带有数据处理的下载地址
-user.avatar.url.download_to('/local/file/path/on/disk') # 下载上传的文件到本地
 ```
 
-### 数据处理
+* 通过 ActiveRecord 从七牛云下载数据
+
+```ruby
+user.avatar.url                                         # 获取文件的下载地址
+user.avatar.url(style: 'small')                         # 获取带有样式的下载地址
+user.avatar.url(fop: 'imageView/2/h/200')               # 获取带有数据处理的下载地址
+user.avatar.url.download_to('/local/file/path/on/disk') # 下载文件到本地
+```
+
+##### 与 ActiveStorage 集成
+
+* 首先，在 config/storage.yml 中配置七牛云
+
+```yaml
+qiniu_ng:
+  service: QiniuNg
+  access_key: '<Qiniu AccessKey>'
+  secret_key: '<Qiniu SecretKey>'
+  bucket: '<Qiniu BucketName>'
+```
+
+* 在 config/environments/production.rb 中设置七牛云为存储后端
+
+```ruby
+config.active_storage.service = :local
+```
+
+* 生成使用 ActiveStorage 的 ActiveRecord 类
+
+```ruby
+class User < ApplicationRecord
+  has_one_attached :avatar
+end
+```
+
+```ruby
+class Message < ApplicationRecord
+  has_many_attached :images
+end
+```
+
+* 通过 ActiveRecord 向七牛云上传数据
+
+```ruby
+@message.images.attach(io: File.open('/path/to/file'), filename: 'file.pdf')
+```
+
+* 通过 ActiveRecord 从七牛云下载数据
+
+```ruby
+@message.images.first.download                                            # 获取文件的二进制字符数组
+@message.images.first.service_url                                         # 获取文件的下载地址
+@message.images.first.service_url.download_to('/local/file/path/on/disk') # 下载文件到本地
+```
+
+### 持久化数据处理
+
+#### 发送数据处理请求
+
+对于已经保存到七牛空间的文件，可以通过发送持久化的数据处理指令来进行处理，这些指令支持七牛官方提供的指令，也包括客户自己开发的自定义数据处理的指令。数据处理的结果还可以通过七牛主动通知的方式告知业务服务器。
+
+```ruby
+jpg_entry = $qiniu.bucket('<Bucket Name>').entry('screenshot.jpg')
+png_entry = $qiniu.bucket('<Bucket Name>').entry('screenshot.png')
+persistent_id = $qiniu.bucket('<Bucket Name>')
+                      .entry('<Video Key>')
+                      .pfop(["vframe/jpg/offset/1|saveas/#{jpg_entry.encode}", "vframe/png/offset/1|saveas/#{png_entry.encode}"],
+                            pipeline: '<Persistent Pipeline>', notify_url: '<Callback URL>')
+```
+
+#### 查询数据处理请求状态
+
+由于数据处理是异步处理，可以根据发送处理请求时返回的 `persistent_id` 去查询任务的处理进度，如果在设置了 `notify_url` 的情况下，直接业务服务器等待处理结果通知即可，如果需要主动查询，则可以：
+
+```ruby
+results = persistent_id.get
+```
+
+如果您将 persistent_id 以字符串的形式保存在数据库中，之后取出后，则可以：
+
+```ruby
+$qiniu.bucket('<Bucket Name>').query_processing_result(persistent_id)
+```
+
 ### CDN
+
+#### 文件刷新
+
+```ruby
+requests = $qiniu.cdn_refresh(urls: %w[http://rubysdk.qiniudn.com/gopher1.jpg http://rubysdk.qiniudn.com/gopher2.jpg])
+p requests.all? { |reqid, request| request.ok? }
+p requests.all? { |reqid, request| request.results.all? &:successful? }
+```
+
+#### 目录刷新
+
+```ruby
+requests = $qiniu.cdn_refresh(prefixes: %w[http://rubysdk.qiniudn.com/gopher1/ http://rubysdk.qiniudn.com/gopher2/])
+p requests.all? { |reqid, request| request.ok? }
+p requests.all? { |reqid, request| request.results.all? &:successful? }
+```
+
+#### 文件预取
+
+```ruby
+requests = $qiniu.cdn_prefetch(prefixes: %w[http://rubysdk.qiniudn.com/gopher1.jpg http://rubysdk.qiniudn.com/gopher2.jpg])
+p requests.all? { |reqid, request| request.ok? }
+p requests.all? { |reqid, request| request.results.all? &:successful? }
+```
+
+#### 获取域名流量
+
+```ruby
+logs = client.cdn_flux_log(start_time: 30.days.ago, end_time: Time.now,
+                           granularity: :day, domains: %w[rubysdk.qiniudn.com])
+p logs.value_at(Time.now, 'rubysdk.qiniudn.com', :china)
+```
+
+#### 获取域名带宽
+
+```ruby
+logs = client.cdn_bandwidth_log(start_time: 30.days.ago, end_time: Time.now,
+                                granularity: :day, domains: %w[rubysdk.qiniudn.com])
+p logs.value_at(Time.now, 'rubysdk.qiniudn.com', :china)
+```
+
+#### 获取日志下载链接
+
+```ruby
+logs = client.cdn_access_logs(time: 30.days.ago, domains: %w[rubysdk.qiniudn.com])
+p logs['rubysdk.qiniudn.com'].map &:url
+```
+
 ### 直播
+
+#### 初始化直播空间
+
+对于直播场景，您需要准备一个直播空间，与客户端一样，您可以考虑将其设置为全局变量以便于在之后持续使用该直播空间。
+
+如果您使用的是 Rails，可以创建一个初始化脚本来初始化七牛客户端：
+
+```
+config/initializers/qiniu.rb
+```
+
+初始化直播空间的代码如下：
+
+```ruby
+$qiniu = QiniuNg.new_client(access_key: '<Qiniu AccessKey>', secret_key: '<Qiniu SecretKey>')
+$hub = $qiniu.hub('<Hub Name>', domain: '<Hub Domain>', bucket: '<Bucket Name>') # 这里的 domain 指的是直播域名, bucket 指的是与直播空间绑定的存储空间名称
+```
+
+#### 获取 RTMP 推流地址
+
+```ruby
+url = $hub.stream('<Stream Key>').rtmp_publish_url
+```
+
+#### 获取带限时鉴权的 RTMP 推流地址
+
+```ruby
+url = $hub.stream('<Stream Key>').rtmp_publish_url.private
+```
+
+#### 获取直播播放地址
+
+```ruby
+stream = $hub.stream('<Stream Key>')
+
+# 生成 RTMP 播放地址
+rtmp_url = stream.rtmp_play_url
+
+# 生成 HLS 播放地址
+hls_url = stream.hls_play_url
+
+# 生成 HDL 播放地址
+hdl_url = stream.hdl_play_url
+
+# 生成直播封面地址
+snapshot_url = stream.snapshot_url
+```
+
+#### 获取带时间戳鉴权的直播播放地址
+
+```ruby
+stream = $hub.stream('<Stream Key>')
+
+# 生成 RTMP 播放地址
+rtmp_url = stream.rtmp_play_url.timestamp_anti_leech(encrypt_key: '<Encrypt Key>')
+
+# 生成 HLS 播放地址
+hls_url = stream.hls_play_url.timestamp_anti_leech(encrypt_key: '<Encrypt Key>')
+
+# 生成 HDL 播放地址
+hdl_url = stream.hdl_play_url.timestamp_anti_leech(encrypt_key: '<Encrypt Key>')
+
+# 生成直播封面地址
+snapshot_url = stream.snapshot_url.timestamp_anti_leech(encrypt_key: '<Encrypt Key>')
+```
+
+#### 禁播 / 启用流
+
+```ruby
+$hub.stream('<Stream Key>').disable
+$hub.stream('<Stream Key>').enable
+```
+
+#### 查询直播历史记录
+
+```ruby
+$hub.stream('<Stream Key>').history_activities
+```
+
+#### 保存直播回放
+
+```ruby
+result = $hub.stream('<Stream Key>').save_as key: 'live.mp4'
+```
+
 ### 连麦
+
+#### 初始化连麦应用
+
+对于连麦场景，您需要准备一个连麦应用，与客户端一样，您可以考虑将其设置为全局变量以便于在之后持续使用该连麦应用。
+
+如果您使用的是 Rails，可以创建一个初始化脚本来初始化七牛客户端：
+
+```
+config/initializers/qiniu.rb
+```
+
+初始化直播空间的代码如下：
+
+```ruby
+$qiniu = QiniuNg.new_client(access_key: '<Qiniu AccessKey>', secret_key: '<Qiniu SecretKey>')
+$rtc = $qiniu.rtc_app('<RTC App ID>')
+```
+
+#### 获取 RoomToken
+
+```ruby
+$rtc.room('<Room Name>').token user_id: '<User ID>', permission: :user
+```
+
 ### 云短信
 
 开发中
 
-### 高级初始化配置
+### 初始化全局配置
+
+您可以在初始化客户端之前，对全局配置进行修改，例如使用全局 HTTPS，HTTP 重试机制，或设置 JSON 编解码器，或对 HTTP 客户端进行定制等。
+
+#### 设置全局 HTTPS
+
+```ruby
+QiniuNg.config use_https: true
+```
+
+#### 设置重试机制
+
+```ruby
+QiniuNg.config http_request_retries: 10,    # HTTP 请求如果失败，将重试 10 次
+               http_request_retry_delay: 1  # 每次重试前等待 1 秒
+```
+
+#### 设置 JSON 编解码器
+
+```ruby
+require 'oj'
+
+QiniuNg.config json_marshaler: ->(h) { Oj.dump(h) },
+               json_unmarshaler: ->(json) { Oj.load(json) }
+```
+
+#### 定制 HTTP 客户端
+
+`qiniu-ng` 使用 [Faraday](https://github.com/lostisland/faraday.git) 库作为 HTTP 客户端，该库可以封装多种 HTTP 客户端作为其后端，默认情况下，该库使用的是 Ruby 自带的 `net-http` 库，但您可以将其改为其他性能更好的 HTTP 库，例如 [`net-http-persistent`](http://docs.seattlerb.org/net-http-persistent/)。
+
+```ruby
+gem 'net_http_persistent', '~> 3.1'
+
+QiniuNg.config { |conn| conn.adapter :net_http_persistent }
+```
+
+您还可以使用 [Faraday](https://github.com/lostisland/faraday.git) 的中间件机制对 `qiniu-ng` 的所有 HTTP 请求进行拦截处理。
+例如您可以使用 [Logger](https://github.com/lostisland/faraday/blob/master/lib/faraday/response/logger.rb) 记录下所有 HTTP 请求的细节。
+
+```ruby
+require 'logger'
+
+QiniuNg.config do |conn|
+  conn.response :logger,
+                Logger.new(STDERR),            # 在这里可以定制 Logger 类
+                headers: true,                 # 是否记录 HTTP Header
+                bodies: true                   # 是否记录 HTTP Body
+  conn.adapter :net_http                       # 但凡对 QiniuNg.config 传入 Block 参数，都必须显式设置 conn.adapter，即使您并不想改变默认设置
+end
+```
+
+#### 其他全局配置
+
+您可以访问 [这里](https://bachue.github.io/ruby-ng-sdk/QiniuNg.html#config-class_method) 了解更多全局配置参数。
+
+## 详细 API 文档
+
+您可以访问 [这里](https://bachue.github.io/ruby-ng-sdk/) 阅读详细 API 文档

@@ -363,6 +363,33 @@
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#default_room_token_lifetime-class_method" title="default_room_token_lifetime (class method)">.<strong>default_room_token_lifetime</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>默认生成的 RoomToken 的有效期。单位为秒.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#default_upload_block_size-class_method" title="default_upload_block_size (class method)">.<strong>default_upload_block_size</strong>  &#x21d2; Integer </a>
     
 
@@ -408,7 +435,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>默认生成的上传策略的有效期。单位为秒.</p>
+<p>默认生成的上传凭证的有效期。单位为秒.</p>
 </div></span>
   
 </li>
@@ -574,12 +601,12 @@
       <pre class="lines">
 
 
-152
-153
-154</pre>
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_domains_manager'>default_domains_manager</span>
   <span class='ivar'>@default_domains_manager</span>
@@ -686,12 +713,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_faraday_options'>default_faraday_options</span>
   <span class='ivar'>@default_faraday_options</span>
@@ -798,12 +825,12 @@
       <pre class="lines">
 
 
-132
-133
-134</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_http_request_retries'>default_http_request_retries</span>
   <span class='ivar'>@default_http_request_retries</span>
@@ -854,12 +881,12 @@
       <pre class="lines">
 
 
-137
-138
-139</pre>
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_http_request_retry_delay'>default_http_request_retry_delay</span>
   <span class='ivar'>@default_http_request_retry_delay</span>
@@ -910,12 +937,12 @@
       <pre class="lines">
 
 
-142
-143
-144</pre>
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 147</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_json_marshaler'>default_json_marshaler</span>
   <span class='ivar'>@default_json_marshaler</span>
@@ -966,15 +993,71 @@
       <pre class="lines">
 
 
-147
-148
-149</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_json_unmarshaler'>default_json_unmarshaler</span>
   <span class='ivar'>@default_json_unmarshaler</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="default_room_token_lifetime=-class_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="default_room_token_lifetime-class_method">
+  
+    .<strong>default_room_token_lifetime</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>默认生成的 RoomToken 的有效期。单位为秒</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_default_room_token_lifetime'>default_room_token_lifetime</span>
+  <span class='ivar'>@default_room_token_lifetime</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1051,7 +1134,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>默认生成的上传策略的有效期。单位为秒</p>
+<p>默认生成的上传凭证的有效期。单位为秒</p>
 
 
   </div>
@@ -1211,7 +1294,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jul 31 16:08:43 2019 by
+  Generated on Thu Aug  1 18:48:10 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

@@ -108,7 +108,7 @@ module QiniuNg
       # @return [String]
       attr_accessor :default_file_recorder_path
 
-      # 默认生成的上传策略的有效期。单位为秒
+      # 默认生成的上传凭证的有效期。单位为秒
       #
       # @return [Integer]
       attr_accessor :default_upload_token_lifetime
@@ -117,6 +117,11 @@ module QiniuNg
       #
       # @return [Integer]
       attr_accessor :default_download_url_lifetime
+
+      # 默认生成的 RoomToken 的有效期。单位为秒
+      #
+      # @return [Integer]
+      attr_accessor :default_room_token_lifetime
 
       # Faraday 配置参数
       #
@@ -177,8 +182,9 @@ module QiniuNg
   # @param [Boolean] use_https 是否使用 HTTPS，默认为 false
   # @param [Integer] batch_max_size 批处理操作的单次最大处理数量，如果批处理操作中操作数大于该值，将自动被分割为多次批处理操作，默认值为 1000
   # @param [Integer] upload_threshold 如果上传文件尺寸大于该值，将自动使用分片上传，否则，使用表单上传。单位为字节。默认为 4 MB
-  # @param [Integer] upload_token_lifetime 分片上传时，每个分片的尺寸。单位为秒。默认为 1 小时
+  # @param [Integer] upload_token_lifetime 上传凭证有效期。单位为秒。默认为 1 小时
   # @param [Integer] download_url_lifetime 默认生成的下载地址的有效期。单位为秒。默认为 1 小时
+  # @param [Integer] room_token_lifetime RoomToken 有效期。单位为秒。默认为 1 小时
   # @param [Integer] upload_block_size 分片上传时，每个分片的尺寸。单位为字节。默认为 4 MB
   # @param [String] file_recorder_path 分片上传时，用于保存上传信息的目录。如果给定的目录地址不存在，将会自动创建。默认为 /tmp/qiniu_ng
   # @param [Integer] http_request_retries 默认 HTTP 请求在失败后的重试次数，当且仅当 HTTP 请求幂等时才会重试。默认为 3 次
@@ -193,6 +199,7 @@ module QiniuNg
                   upload_threshold: nil,
                   upload_token_lifetime: nil,
                   download_url_lifetime: nil,
+                  room_token_lifetime: nil,
                   upload_block_size: nil,
                   file_recorder_path: nil,
                   http_request_retries: nil,
@@ -207,6 +214,7 @@ module QiniuNg
     Config.default_file_recorder_path = file_recorder_path unless file_recorder_path.nil?
     Config.default_upload_token_lifetime = upload_token_lifetime unless upload_token_lifetime.nil?
     Config.default_download_url_lifetime = download_url_lifetime unless download_url_lifetime.nil?
+    Config.default_room_token_lifetime = room_token_lifetime unless room_token_lifetime.nil?
     Config.default_upload_block_size = upload_block_size unless upload_block_size.nil?
     Config.default_http_request_retries = http_request_retries unless http_request_retries.nil?
     Config.default_http_request_retry_delay = http_request_retry_delay unless http_request_retry_delay.nil?
@@ -223,6 +231,7 @@ module QiniuNg
          file_recorder_path: '/tmp/qiniu_ng',
          upload_token_lifetime: 3600,
          download_url_lifetime: 3600,
+         room_token_lifetime: 3600,
          upload_threshold: 1 << 22,
          upload_block_size: 1 << 22,
          http_request_retries: 3,

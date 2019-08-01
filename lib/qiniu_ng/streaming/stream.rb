@@ -13,12 +13,13 @@ module QiniuNg
     class Stream
       attr_reader :hub, :key
       # @!visibility private
-      def initialize(stream_key, hub, http_client_v2, auth, domain)
+      def initialize(stream_key, hub, http_client_v2, auth, domain, bucket)
         @key = stream_key
         @hub = hub
         @http_client_v2 = http_client_v2
         @auth = auth
         @domain = domain
+        @bucket = bucket
       end
 
       # 获取直播流详细信息
@@ -211,23 +212,28 @@ module QiniuNg
                                          headers: { content_type: 'application/json' },
                                          body: Config.default_json_marshaler.call(req_body),
                                          **options).body
-        SaveAsResult.new(resp_body).freeze
+        SaveAsResult.new(
+          @bucket.entry(resp_body['fname']),
+          Processing::PersistentID.new(resp_body['persistentID'],
+                                       @bucket.instance_variable_get(:@http_client_v1),
+                                       @bucket)
+        ).freeze
       end
       alias saveas save_as
 
       # 录制直播回放结果
       #
-      # @!attribute [r] key
-      #   @return [String] 保存后在存储空间里的文件名
+      # @!attribute [r] entry
+      #   @return [QiniuNg::Storage::Entry] 保存后在存储空间里的文件名
       # @!attribute [r] persistent_id
-      #   @return [String] 持久化异步处理任务 ID
+      #   @return [QiniuNg::Processing::PersistentID] 持久化异步处理任务 ID
       class SaveAsResult
-        attr_reader :key, :persistent_id
+        attr_reader :entry, :persistent_id
 
         # @!visibility private
-        def initialize(hash)
-          @key = hash['fname']
-          @persistent_id = hash['persistentID']
+        def initialize(entry, persistent_id)
+          @entry = entry
+          @persistent_id = persistent_id
         end
       end
 
@@ -243,7 +249,7 @@ module QiniuNg
       # @param [Hash] options 额外的 Faraday 参数
       # @raise [QiniuNg::HTTP::ResourceNotFound] 找不到直播流
       # @raise [Faraday::ClientError] 该时间点上没有视频
-      # @return [SnapshotResult] 返回录制结果
+      # @return [QiniuNg::Storage::Entry] 返回录制结果文件
       def snapshot(key: nil, time: nil, format: :jpg, expire_after_days: nil, delete_after_days: nil,
                    pili_url: nil, https: nil, **options)
         path = "/v2/hubs/#{@hub.name}/streams/#{Base64.urlsafe_encode64(@key)}/snapshot"
@@ -254,20 +260,7 @@ module QiniuNg
                                          headers: { content_type: 'application/json' },
                                          body: Config.default_json_marshaler.call(req_body),
                                          **options).body
-        SnapshotResult.new(resp_body).freeze
-      end
-
-      # 保存直播截图结果
-      #
-      # @!attribute [r] key
-      #   @return [String] 保存后在存储空间里的文件名
-      class SnapshotResult
-        attr_reader :key
-
-        # @!visibility private
-        def initialize(hash)
-          @key = hash['fname']
-        end
+        @bucket.entry(resp_body['fname'])
       end
 
       # RTMP 推流域名
