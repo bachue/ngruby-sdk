@@ -245,14 +245,10 @@ module QiniuNg
         Model::AsyncFetchJob.new(@bucket, @http_client_v2, resp_body['id'])
       end
 
-      # 生成文件的下载地址
+      # 为公开空间生成下载地址
       #
-      # @example 为公开空间生成下载地址
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url
-      # @example 为私有空间生成下载地址
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url.private
-      # @example 为 CDN 生成带有时间戳鉴权的下载地址
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url.timestamp_anti_leech(encrypt_key: '<EncryptKey>')
+      # @example
+      #   client.bucket('<Bucket Name>').entry('<key>').public_url
       #
       # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
       # @param [String] uc_url UC 所在服务器地址，一般无需填写
@@ -262,8 +258,8 @@ module QiniuNg
       # @param [String] style 数据处理样式。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [Boolean] https 是否使用 HTTPS 协议
       # @return [QiniuNg::Storage::PublicURL, nil] 返回文件的下载地址，如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
-      def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
-                       filename: nil, fop: nil, style: nil, **options)
+      def public_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
+                     filename: nil, fop: nil, style: nil, **options)
         if domains.nil? || domains.empty?
           domains = @bucket.domains(api_zone: api_zone, https: https, **options).reverse
         elsif !domains.is_a?(Array)
@@ -275,6 +271,36 @@ module QiniuNg
         PublicURL.new(domains, @key, @auth,
                       style_separator: @bucket.style_separator(uc_url: uc_url, https: https, **options),
                       filename: filename, fop: fop, style: style, https: https)
+      end
+
+      # 根据空间情况及参数生成合适的下载地址
+      #
+      # 如果给出了 encrypt_key 参数，则生成时间戳防盗链下载地址。
+      # 否则，当给出了 deadline 或 lifetime 参数，或当前空间为私有空间，则给出私有空间的下载地址。
+      # 否则，给出公开空间的下载地址。
+      #
+      # @param [QiniuNg::Zone] api_zone API 所在区域，一般无需填写
+      # @param [String] uc_url UC 所在服务器地址，一般无需填写
+      # @param [Array<String>, String] domains 下载域名列表。默认将使用存储空间绑定的下载域名列表
+      # @param [String] filename 下载到本地后的文件名，该参数仅对由浏览器打开的地址有效
+      # @param [String] fop 数据处理参数。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [String] style 数据处理样式。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
+      #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
+      # @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
+      # @return [QiniuNg::Storage::PublicURL, QiniuNg::Storage::PrivateURL, QiniuNg::Storage::TimestampAntiLeechURL, nil]
+      def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
+                       filename: nil, fop: nil, style: nil,
+                       lifetime: nil, deadline: nil, encrypt_key: nil, **options)
+        url = public_url(api_zone: api_zone, uc_url: uc_url, domains: domains, https: https,
+                         filename: filename, fop: fop, style: style, **options)
+        if encrypt_key
+          url = url.timestamp_anti_leech(encrypt_key: encrypt_key, lifetime: lifetime, deadline: deadline)
+        elsif lifetime || deadline || @bucket.private?
+          url = url.private(lifetime: lifetime, deadline: deadline)
+        end
+        url
       end
 
       # 生成用于上传该文件的上传凭证

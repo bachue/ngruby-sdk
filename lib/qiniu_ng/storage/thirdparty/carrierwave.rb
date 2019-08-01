@@ -161,14 +161,9 @@ module CarrierWave
 
         # @!visibility private
         def download_url(key, style: nil, fop: nil, https: false)
-          url = @bucket.entry(key).download_url(style: style, fop: fop, https: https)
-          if @cdn_timestamp_anti_leech_encrypt_key
-            url = url.timestamp_anti_leech(encrypt_key: @cdn_timestamp_anti_leech_encrypt_key,
-                                           lifetime: @url_expires_in)
-          elsif @url_expires_in || @bucket.private?
-            url = url.private(lifetime: @url_expires_in)
-          end
-          url
+          @bucket.entry(key).download_url(style: style, fop: fop, https: https,
+                                          encrypt_key: @cdn_timestamp_anti_leech_encrypt_key,
+                                          lifetime: @url_expires_in)
         end
 
         # @!visibility private

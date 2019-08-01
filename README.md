@@ -169,8 +169,8 @@ bucket.upload filepath: '/home/qiniu/test.png',
 ```ruby
 bucket = $qiniu.bucket('<Bucket Name>')
 bucket.upload stream: StringIO.new('hello qiniu cloud'), # 这里只需要 IO 流实现 #read 方法即可
-              key: '<Key in Bucket>', # 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
-              upload_token: bucket.upload_token # 可以不调用 #to_s 方法
+              key: '<Key in Bucket>',                    # 可选参数，如果不指定，将以文件内容的 hash 值作为文件名
+              upload_token: bucket.upload_token          # 可以不调用 #to_s 方法
 ```
 
 ##### 解析自定义回复内容
@@ -221,25 +221,16 @@ end
 
 #### 下载文件
 
-文件下载分为公开空间的文件下载和私有空间的文件下载。
-
-##### 公开空间的下载地址
+##### 生成下载地址
 
 ```ruby
-$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url
-```
-
-##### 私有空间的下载地址
-
-```ruby
-$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url.private
+$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url # 将自动根据空间设置以及给出的参数决定生成公开空间的地址，私有空间的地址还是时间戳防盗链地址
 ```
 
 ##### 下载云存储文件到本地
 
 ```ruby
 $qiniu.bucket('<Bucket Name>').entry('<Key>').download_url.download_to '/local/path/on/disk'
-$qiniu.bucket('<Bucket Name>').entry('<Key>').download_url.private.download_to '/local/path/on/disk'
 ```
 
 #### 资源管理

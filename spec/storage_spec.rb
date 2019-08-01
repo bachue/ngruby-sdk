@@ -146,8 +146,8 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should set max age' do
-      bucket.set_cache_max_age(days: 365)
-      expect(bucket.cache_max_age.days).to eq 1
+      bucket.set_cache_max_age(days: 5)
+      expect(bucket.cache_max_age.days).to eq 5
     end
 
     it 'should update bucket acl' do
@@ -213,7 +213,7 @@ RSpec.describe QiniuNg::Storage do
       end
 
       it 'should disable / enable the entry' do
-        public_url = entry.download_url
+        public_url = entry.public_url
         private_url = public_url.private
         expect(head(public_url.refresh)).to be_success
         expect(head(private_url.refresh)).to be_success
@@ -255,10 +255,10 @@ RSpec.describe QiniuNg::Storage do
       end
 
       it 'should rename the entry' do
-        old_public_url = entry.download_url
+        old_public_url = entry.public_url
         expect(head(old_public_url.refresh)).to be_success
         new_entry = bucket.entry("16K-#{Time.now.usec}")
-        new_public_url = new_entry.download_url
+        new_public_url = new_entry.public_url
         begin
           entry.rename_to(new_entry.key)
           expect { head(old_public_url.refresh).status }.to eventually eq 404
@@ -271,10 +271,10 @@ RSpec.describe QiniuNg::Storage do
       end
 
       it 'should copy / delete the entry' do
-        old_public_url = entry.download_url
+        old_public_url = entry.public_url
         expect(head(old_public_url.refresh)).to be_success
         new_entry = bucket.entry("16K-#{Time.now.usec}")
-        new_public_url = new_entry.download_url
+        new_public_url = new_entry.public_url
         begin
           entry.copy_to(bucket.name, new_entry.key)
           expect { head(old_public_url.refresh) }.to eventually be_success
@@ -334,7 +334,7 @@ RSpec.describe QiniuNg::Storage do
     describe 'Fetch' do
       it 'should fetch the entry from the url' do
         src_entry = client.bucket('z1-bucket').entry('1m')
-        src_url = src_entry.download_url.private
+        src_url = src_entry.download_url
         expect(head(src_url)).to be_success
         entry = bucket.entry("16k-#{Time.now.usec}")
         begin
@@ -349,7 +349,7 @@ RSpec.describe QiniuNg::Storage do
       it 'should fetch the entry from the url async' do
         src_bucket = client.bucket('z1-bucket')
         src_entry = src_bucket.entry('1m')
-        src_url = src_entry.download_url.private
+        src_url = src_entry.download_url
         expect(head(src_url)).to be_success
         entry = bucket.entry("16k-#{Time.now.usec}")
         begin
@@ -425,26 +425,38 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should access entry by public url' do
-      expect(head(entry.download_url)).to be_success
+      expect(head(entry.public_url)).to be_success
     end
 
     it 'should set fop' do
-      expect(head(entry.download_url.set(fop: 'qhash/md5'))).to be_success
+      expect(head(entry.public_url.set(fop: 'qhash/md5'))).to be_success
     end
 
     it 'should set style' do
-      expect(entry.download_url.set(style: 'small')).to be_include('/64m-small')
+      expect(entry.public_url.set(style: 'small')).to be_include('/64m-small')
     end
 
     it 'should set filename' do
-      expect(entry.download_url.set(filename: 'test.bin')).to be_include('attname=test.bin')
+      expect(entry.public_url.set(filename: 'test.bin')).to be_include('attname=test.bin')
     end
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.download_url.download_to(file.path)
+        entry.public_url.download_to(file.path)
         expect(File.size(file.path)).to eq(1 << 26)
       end
+    end
+
+    it 'should use #download_url to generate public_url' do
+      expect(entry.download_url).to be_kind_of(QiniuNg::Storage::PublicURL)
+    end
+
+    it 'should use #download_url with lifetime to generate private_url' do
+      expect(entry.download_url(lifetime: { day: 1 })).to be_kind_of(QiniuNg::Storage::PrivateURL)
+    end
+
+    it 'should use #download_url with deadline to generate private_url' do
+      expect(entry.download_url(deadline: Time.now)).to be_kind_of(QiniuNg::Storage::PrivateURL)
     end
   end
 
@@ -457,18 +469,22 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should not access entry by public url' do
-      expect(head(entry.download_url).status).to eq 401
+      expect(head(entry.public_url).status).to eq 401
     end
 
     it 'should access entry by private url' do
-      expect(head(entry.download_url.private)).to be_success
+      expect(head(entry.public_url.private)).to be_success
     end
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.download_url.private.download_to(file.path)
+        entry.public_url.private.download_to(file.path)
         expect(File.size(file.path)).to eq(1 << 26)
       end
+    end
+
+    it 'should use #download_url to generate private_url' do
+      expect(entry.download_url).to be_kind_of(QiniuNg::Storage::PrivateURL)
     end
   end
 
@@ -481,22 +497,26 @@ RSpec.describe QiniuNg::Storage do
     end
 
     it 'should not access entry by public url' do
-      expect(head(entry.download_url).status).to eq 403
+      expect(head(entry.public_url).status).to eq 403
     end
 
     it 'should not access entry by private url' do
-      expect(head(entry.download_url.private).status).to eq 403
+      expect(head(entry.public_url.private).status).to eq 403
     end
 
     it 'should access entry by timestamp anti leech url' do
-      expect(head(entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key))).to be_success
+      expect(head(entry.public_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key))).to be_success
     end
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.download_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(file.path)
+        entry.public_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(file.path)
         expect(File.size(file.path)).to eq(1 << 26)
       end
+    end
+
+    it 'should use #download_url with encrypt_key to generate timestamp_anti_leech_url' do
+      expect(entry.download_url(encrypt_key: z2_encrypt_key)).to be_kind_of(QiniuNg::Storage::TimestampAntiLeechURL)
     end
   end
 

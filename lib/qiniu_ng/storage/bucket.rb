@@ -596,6 +596,7 @@ module QiniuNg
         max_age = Utils::Duration.new(args) if args.is_a?(Hash)
         params = { bucket: @bucket_name, maxAge: max_age.to_i }
         @http_client_v1.post('/maxAge', uc_url || get_uc_url(https), params: params, **options)
+        expire_info!
         nil
       end
 

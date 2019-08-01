@@ -197,14 +197,8 @@ module ActiveStorage
       end
 
       def generate_url(key, expires_in: nil, fop: nil, style: nil, filename: nil, **_options)
-        url = entry_for(key).download_url(filename: filename, style: style, fop: fop, https: @https_download_url)
-        if @cdn_timestamp_anti_leech_encrypt_key
-          url = url.timestamp_anti_leech(encrypt_key: @cdn_timestamp_anti_leech_encrypt_key,
-                                         lifetime: expires_in)
-        elsif expires_in || @bucket.private?
-          url = url.private(lifetime: expires_in)
-        end
-        url
+        entry_for(key).download_url(filename: filename, style: style, fop: fop, https: @https_download_url,
+                                    encrypt_key: @cdn_timestamp_anti_leech_encrypt_key, lifetime: expires_in)
       end
 
       def make_upload_token(key, content_type:)

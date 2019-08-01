@@ -11,15 +11,15 @@ module QiniuNg
     # @example 下载公开空间中的文件
     #   Faraday.get(client.bucket('<Bucket Name>')
     #                     .entry('<key>')
-    #                     .download_url)
+    #                     .public_url)
     # @example 下载私有空间中的文件
     #   Faraday.get(client.bucket('<Bucket Name>')
     #                     .entry('<key>')
-    #                     .download_url.private)
+    #                     .public_url.private)
     # @example 下载 CDN 中 生成带有时间戳鉴权的文件
     #   Faraday.get(client.bucket('<Bucket Name>')
     #                     .entry('<key>')
-    #                     .download_url
+    #                     .public_url
     #                     .timestamp_anti_leech(encrypt_key: '<EncryptKey>'))
     #
     # @!attribute [r] domains
@@ -96,7 +96,7 @@ module QiniuNg
       # 为私有空间生成下载地址
       #
       # @example
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url.private(lifetime: { hour: 1 })
+      #   client.bucket('<Bucket Name>').entry('<key>').public_url.private(lifetime: { hour: 1 })
       #
       # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
       #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
@@ -109,7 +109,7 @@ module QiniuNg
       # 为 CDN 生成带有时间戳鉴权的下载地址
       #
       # @example
-      #   client.bucket('<Bucket Name>').entry('<key>').download_url.timestamp_anti_leech(encrypt_key: '<EncryptKey>')
+      #   client.bucket('<Bucket Name>').entry('<key>').public_url.timestamp_anti_leech(encrypt_key: '<EncryptKey>')
       # @see https://developer.qiniu.com/kodo/manual/1657/download-anti-leech
       #
       # @param [String] encrypt_key CDN Key
