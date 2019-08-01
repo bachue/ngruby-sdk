@@ -24,9 +24,11 @@ module QiniuNg
       Client.new(faraday_connection, auth: auth, auth_version: auth_version, domains_manager: domains_manager)
     end
 
+    # 连接异常
+    CONNECTION_EXCEPTIONS = [Faraday::ConnectionFailed, Faraday::SSLError].freeze
     # 可重试的异常
-    RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, ServerRetryableError, NeedToRetry,
-                            Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::SSLError].freeze
+    RETRYABLE_EXCEPTIONS = [*Faraday::Request::Retry::DEFAULT_EXCEPTIONS, *CONNECTION_EXCEPTIONS,
+                            ServerRetryableError, NeedToRetry, EOFError, Faraday::TimeoutError].freeze
     # 幂等的 HTTP 方法
     IDEMPOTENT_METHODS = %i[delete get head options put].freeze
 
@@ -130,6 +132,8 @@ module QiniuNg
       end
 
       def retryable?(error, method, retry_if, idempotent)
+        return true if CONNECTION_EXCEPTIONS.any? { |err_class| error.class.to_s == err_class.to_s }
+
         idempotent = IDEMPOTENT_METHODS.include?(method.to_sym) if idempotent.nil?
         return true if idempotent && RETRYABLE_EXCEPTIONS.any? do |err_class|
                          if err_class.is_a?(Module)

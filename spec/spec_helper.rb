@@ -6,7 +6,7 @@ Rspec::Eventually.timeout = 300
 
 require 'qiniu_ng'
 
-QiniuNg.config do |conn|
+QiniuNg.config(http_request_retries: 5, http_request_retry_delay: 1) do |conn|
   # conn.response :logger, nil, headers: true, bodies: true
   conn.adapter :net_http
 end
@@ -17,6 +17,7 @@ Coveralls.wear!
 require 'webmock'
 require_relative 'load_variables'
 require_relative 'spec_helpers/time_id'
+require_relative 'spec_helpers/print_progress'
 require_relative 'spec_helpers/http'
 require_relative 'spec_helpers/temp_file_helper'
 require_relative 'spec_helpers/drop_bucket'

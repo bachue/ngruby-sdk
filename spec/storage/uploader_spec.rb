@@ -107,9 +107,9 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        assert_requested(:post, 'http://upload.qiniup.com', times: 4)
-        assert_requested(:post, 'http://up.qiniup.com', times: 4)
-        assert_requested(:post, 'http://upload.qbox.me', times: 4)
+        assert_requested(:post, 'http://upload.qiniup.com', times: 6)
+        assert_requested(:post, 'http://up.qiniup.com', times: 6)
+        assert_requested(:post, 'http://upload.qbox.me', times: 6)
         assert_requested(:post, 'http://up.qbox.me', times: 1)
 
         WebMock.reset!
@@ -118,7 +118,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
         expect do
           result = uploader.sync_upload_file(path, upload_token: entry.upload_token)
         end.to raise_error(Faraday::ConnectionFailed)
-        assert_requested(:post, 'http://up.qbox.me', times: 4)
+        assert_requested(:post, 'http://up.qbox.me', times: 6)
 
         WebMock.reset!
 
@@ -306,7 +306,7 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                            meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         expect(result.hash).not_to be_empty
         expect(result.key).to eq entry.key
-        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 4)
+        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 6)
         assert_requested(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 1)
         assert_requested(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1", times: 1)
         assert_requested(:put, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 1)
@@ -335,12 +335,12 @@ RSpec.describe QiniuNg::Storage::Uploader do
                                     params: { param_key1: 'param_value1', param_key2: 'param_value2' },
                                     meta: { meta_key1: 'meta_value1', meta_key2: 'meta_value2' })
         end.to raise_error(Faraday::ParsingError)
-        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 4)
+        assert_requested(:post, "http://upload.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 6)
         assert_requested(:post, "http://up.qiniup.com/buckets/z0-bucket/objects/#{encoded_key}/uploads", times: 1)
         assert_requested(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/1", times: 1)
-        assert_requested(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 4)
+        assert_requested(:put, "http://upload.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 6)
         assert_requested(:put, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc/2", times: 1)
-        assert_requested(:post, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc", times: 4)
+        assert_requested(:post, "http://up.qbox.me/buckets/z0-bucket/objects/#{encoded_key}/uploads/abc", times: 6)
       end
 
       it 'should validate the checksum' do

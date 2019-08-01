@@ -32,7 +32,7 @@ module SpecHelpers
   def temp_file_from_url(url)
     temp_file = File.open(Pathname.new('/tmp').join(File.basename(url)), 'w')
     temp_file.close
-    QiniuNg::Storage::URL.new(url).download_to(temp_file.path)
+    QiniuNg::Storage::URL.new(url).download_to(temp_file.path, progress: print_progress)
     temp_file.path
   end
 end

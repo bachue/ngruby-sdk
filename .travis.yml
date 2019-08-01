@@ -4,7 +4,10 @@ rvm:
   - 2.6.0
   - jruby-9.1.17.0
   - jruby-9.2.7.0
+jdk:
+  - openjdk8
 before_install:
+  - sudo apt-get install -y sqlite3 build-essential
   - gem update --system
   - gem install bundler
 script:

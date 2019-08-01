@@ -67,6 +67,11 @@ module QiniuNg
       end
       alias value_at values_at
 
+      # @!method each
+      #   获取 CDN 日志迭代器
+      #   @yield [hash] 传入 Block 对结果进行迭代
+      #   @yieldparam hash [Hash] 日志的时间及访问数据
+      #   @return [Enumerable] 如果没有给出 Block，则返回迭代器
       def_delegators :logs_indices, :each
 
       private

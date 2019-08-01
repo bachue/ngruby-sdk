@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'webrick'
-require 'securerandom'
+require 'open3'
+require 'socket'
 
 module SpecHelpers
   def head(url)
@@ -15,17 +15,36 @@ module SpecHelpers
   end
 
   def start_server(port:, size:, etag: nil)
-    fork do
-      server = WEBrick::HTTPServer.new(BindAddress: '127.0.0.1', Port: port)
+    r, w = IO.pipe
+    pid = spawn(RbConfig.ruby, in: r)
+    r.close
+    script = <<~CODE
+      require 'webrick'
+      require 'securerandom'
+
+      server = WEBrick::HTTPServer.new(BindAddress: '127.0.0.1', Port: #{port})
       server.mount_proc '/' do |_, res|
         res['X-Reqid'] = SecureRandom.hex(10)
-        res['Etag'] = %("#{etag}") if etag
-        res['Content-Length'] = size.to_s
+        res['Etag'] = %(#{etag.inspect}) if #{etag.inspect}
+        res['Content-Length'] = '#{size}'
         res.content_type = 'application/octet-stream'
         res.body = File.open('/dev/urandom', 'r')
       end
       trap('INT') { server.shutdown }
       server.start
+    CODE
+    w.write(script)
+    w.close
+
+    loop do
+      begin
+        TCPSocket.new('127.0.0.1', port).close
+        break
+      rescue StandardError => _e
+        sleep(1)
+      end
     end
+
+    pid
   end
 end

@@ -36,7 +36,7 @@ module QiniuNg
         req_body[:pipeline] = pipeline if pipeline
         resp_body = @http_client_v1.post('/pfop', get_api_url(entry, api_zone, https),
                                          body: req_body.to_query, **options).body
-        PersistentID.new(resp_body['persistentId'], @http_client_v1, entry)
+        PersistentID.new(resp_body['persistentId'], @http_client_v1, entry.bucket)
       end
 
       private

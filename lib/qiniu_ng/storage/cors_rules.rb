@@ -5,6 +5,7 @@ module QiniuNg
     # 七牛 CORS 规则集合
     class CORSRules
       include Enumerable
+      extend Forwardable
 
       # @!visibility private
       def initialize(bucket, http_client)
@@ -79,22 +80,20 @@ module QiniuNg
         set([], uc_url: uc_url, https: https, **options)
       end
 
-      # 获取存储空间跨域规则迭代器
-      #
-      # @example 获取迭代器
-      #   bucket.cors_rules.each
-      #
-      # @example 直接使用迭代器遍历所有跨域规则
-      #   bucket.cors_rules.find_all { |rule| rule.allowed_methods.include?('GET') }
-      #
-      # @return [Enumerator] 返回迭代器
-      def each
-        return all.each unless block_given?
+      # @!method each
+      #   获取存储空间跨域规则迭代器
+      #   @example 获取迭代器
+      #     bucket.cors_rules.each
+      #   @example 直接使用迭代器遍历所有跨域规则
+      #     bucket.cors_rules.find_all { |rule| rule.allowed_methods.include?('GET') }
+      #   @yield [rule] 传入 Block 对存储空间跨域规则进行迭代
+      #   @yieldparam rule [Model::CORSRule] 存储空间跨域规则
+      #   @return [Enumerator] 返回迭代器
 
-        all.each do |rule|
-          yield rule
-        end
-      end
+      # @!method size
+      #   获取存储空间跨域规则数量
+      #   @return [Integer] 返回存储空间跨域规则数量
+      def_delegators :all, :each, :size
 
       private
 

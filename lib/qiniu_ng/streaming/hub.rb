@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module Streaming
     # 七牛直播空间
@@ -98,6 +100,7 @@ module QiniuNg
       # @!visibility private
       class StreamsIterator
         include Enumerable
+        extend Forwardable
 
         # @!visibility private
         def initialize(hub, http_client_v2, live_only, prefix, limit, marker, pili_url, https, options)
@@ -112,14 +115,7 @@ module QiniuNg
           @options = options
         end
 
-        # @!visibility private
-        def each
-          return enumerator unless block_given?
-
-          enumerator.each do |stream|
-            yield stream
-          end
-        end
+        def_delegators :enumerator, :each
 
         private
 

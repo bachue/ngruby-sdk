@@ -6,7 +6,7 @@ RSpec.describe QiniuNg::RTC do
 
   before :all do
     client = QiniuNg.new_client(access_key: access_key, secret_key: secret_key)
-    hub = client.hub('avr-pili', domain: 'avr-zhourong.qiniu-solutions.com')
+    hub = client.hub('avr-pili', domain: 'avr-zhourong.qiniu-solutions.com', bucket_name: 'avr-pili')
   end
 
   it 'should create / update / get / delete a new app' do

@@ -264,7 +264,9 @@ RSpec.describe QiniuNg::Storage do
           expect { head(old_public_url.refresh).status }.to eventually eq 404
           expect { head(new_public_url.refresh) }.to eventually be_success
         ensure
-          new_entry.rename_to(entry.key)
+          expect { new_entry.rename_to(entry.key) }.to(
+            eventually(be_kind_of QiniuNg::Storage::Entry).by_suppressing_errors
+          )
           expect { head(old_public_url.refresh) }.to eventually be_success
           expect { head(new_public_url.refresh).status }.to eventually eq 404
         end
@@ -442,7 +444,7 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.public_url.download_to(file.path)
+        entry.public_url.download_to(file.path, progress: print_progress)
         expect(File.size(file.path)).to eq(1 << 26)
       end
     end
@@ -478,7 +480,7 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.public_url.private.download_to(file.path)
+        entry.public_url.private.download_to(file.path, progress: print_progress)
         expect(File.size(file.path)).to eq(1 << 26)
       end
     end
@@ -510,7 +512,7 @@ RSpec.describe QiniuNg::Storage do
 
     it 'should download file' do
       create_temp_file(kilo_size: 0) do |file|
-        entry.public_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(file.path)
+        entry.public_url.timestamp_anti_leech(encrypt_key: z2_encrypt_key).download_to(file.path, progress: print_progress)
         expect(File.size(file.path)).to eq(1 << 26)
       end
     end
@@ -585,7 +587,7 @@ RSpec.describe QiniuNg::Storage do
         stub_request(:get, 'http://www.test2.com/1m').to_timeout
         stub_request(:get, 'http://www.test1.com/1m').to_timeout
         expect do
-          entry.download_url.download_to('/dev/null', max_retry: 5)
+          entry.download_url.download_to('/dev/null', max_retry: 5, progress: print_progress)
         end.to raise_error(Down::TimeoutError)
         assert_requested(:get, 'http://www.test2.com/1m', times: 6)
         assert_requested(:get, 'http://www.test1.com/1m', times: 6)
@@ -601,33 +603,29 @@ RSpec.describe QiniuNg::Storage do
 
       it 'should download the file' do
         pid = start_server(port: 8088, size: 1 << 32, etag: 'ABCDEFG')
-        sleep(0.5)
         thread = Thread.start do
-          sleep(0.5)
+          sleep(1)
           Process.kill('INT', pid)
           old_pid = pid
-          sleep(0.5)
+          sleep(1)
           pid = start_server(port: 8088, size: 1 << 32, etag: 'ABCDEFG')
-          sleep(0.5)
           Process.kill('KILL', old_pid)
-          sleep(0.5)
+          sleep(1)
           Process.kill('INT', pid)
           old_pid = pid
-          sleep(0.5)
+          sleep(1)
           pid = start_server(port: 8089, size: 1 << 32, etag: 'ABCDEFG')
-          sleep(0.5)
           Process.kill('KILL', old_pid)
-          sleep(0.5)
+          sleep(1)
           Process.kill('INT', pid)
           old_pid = pid
-          sleep(0.5)
+          sleep(1)
           pid = start_server(port: 8089, size: 1 << 32, etag: 'AAAAAAA')
-          sleep(0.5)
           Process.kill('KILL', old_pid)
         end
         begin
           expect do
-            entry.download_url.download_to('/dev/null', max_retry: 1)
+            entry.download_url.download_to('/dev/null', max_retry: 1, progress: print_progress)
           end.to raise_error(QiniuNg::Storage::DownloadManager::EtagChanged)
         ensure
           thread.kill if thread.alive?

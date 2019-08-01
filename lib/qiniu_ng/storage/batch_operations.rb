@@ -243,7 +243,6 @@ module QiniuNg
         # @!attribute [r] response
         #   @return [Integer] 操作结果
         class Result
-          extend Forwardable
           attr_reader :op, :code, :response
 
           # @!visibility private
@@ -272,9 +271,15 @@ module QiniuNg
 
             super
           end
+
+          # @!visibility private
+          def respond_to_missing?(method_name, include_private = false)
+            @response.respond_to?(method, include_private) || super
+          end
         end
 
         include Enumerable
+        extend Forwardable
 
         # @!visibility private
         def initialize(ops, results)
@@ -283,21 +288,17 @@ module QiniuNg
           end
         end
 
-        # 获取操作结果迭代器
-        # @return [Enumerator] 返回迭代器
-        def each
-          if block_given?
-            @results.each { |result| yield result }
-          else
-            @results.each
-          end
-        end
+        # @!method each
+        #   获取操作结果迭代器
+        #   @yield [result] 传入 Block 对结果进行迭代
+        #   @yieldparam result [Result] 操作结果
+        #   @return [Enumerable] 如果没有给出 Block，则返回迭代器
 
-        # 获取操作结果数量
-        # @return [Integer] 返回操作结果数量
-        def size
-          @results.size
-        end
+        # @!method size
+        #   获取操作结果数量
+        #   @return [Integer] 返回操作结果数量
+
+        def_delegators :@results, :each, :size
       end
 
       private

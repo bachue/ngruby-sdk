@@ -37,6 +37,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.8'
   spec.add_development_dependency 'rspec-eventually', '~> 0.1'
   spec.add_development_dependency 'rubocop', '~> 0.71'
+  if RUBY_PLATFORM == 'java'
+    spec.add_development_dependency 'activerecord-jdbcsqlite3-adapter', '~> 52'
+  else
+    spec.add_development_dependency 'sqlite3', '~> 1.4'
+  end
   spec.add_development_dependency 'webmock', '~> 3.6'
   spec.add_development_dependency 'yard', '~> 0.9'
   spec.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
@@ -46,7 +51,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday_middleware', '~> 0.13'
   spec.add_runtime_dependency 'ruby-enum', '~> 0.7'
   spec.add_runtime_dependency 'safe_yaml', '~> 1.0'
-  spec.add_runtime_dependency 'sqlite3', '~> 1.4'
   if RUBY_PLATFORM == 'java'
     spec.add_runtime_dependency 'jruby-openssl', '~> 0.10'
   else

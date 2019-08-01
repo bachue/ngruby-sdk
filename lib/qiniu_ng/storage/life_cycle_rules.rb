@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module Storage
     # 七牛生命周期规则集合
     class LifeCycleRules
       include Enumerable
+      extend Forwardable
 
       # @!visibility private
       def initialize(bucket, http_client)
@@ -64,21 +67,20 @@ module QiniuNg
         rules_from_hash(body || [])
       end
 
-      # 获取存储空间生命周期规则迭代器
-      #
-      # @example 获取迭代器
-      #   bucket.life_cycle_rules.each
-      #
-      # @example 直接使用迭代器遍历所有生命周期规则
-      #   bucket.life_cycle_rules.find { |rule| rule.name == 'name' }
-      # @return [Enumerator] 返回迭代器
-      def each
-        return all.each unless block_given?
+      # @!method each
+      #   获取存储空间生命周期规则迭代器
+      #   @example 获取迭代器
+      #     bucket.life_cycle_rules.each
+      #   @example 直接使用迭代器遍历所有生命周期规则
+      #     bucket.life_cycle_rules.find { |rule| rule.name == 'name' }
+      #   @yield [rule] 传入 Block 对存储空间生命周期规则进行迭代
+      #   @yieldparam rule [Model::LifeCycleRule] 存储空间生命周期规则
+      #   @return [Enumerator] 返回迭代器
 
-        all.each do |rule|
-          yield rule
-        end
-      end
+      # @!method size
+      #   获取存储空间生命周期规则数量
+      #   @return [Integer] 返回存储空间生命周期规则数量
+      def_delegators :all, :each, :size
 
       private
 

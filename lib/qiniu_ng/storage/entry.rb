@@ -257,7 +257,7 @@ module QiniuNg
       # @param [String] fop 数据处理参数。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [String] style 数据处理样式。{参考文档}[https://developer.qiniu.com/dora/manual/1204/processing-mechanism]
       # @param [Boolean] https 是否使用 HTTPS 协议
-      # @return [QiniuNg::Storage::PublicURL, nil] 返回文件的下载地址，如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
+      # @return [PublicURL, nil] 返回文件的下载地址，如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
       def public_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
                      filename: nil, fop: nil, style: nil, **options)
         if domains.nil? || domains.empty?
@@ -289,7 +289,8 @@ module QiniuNg
       # @param [Integer, Hash, QiniuNg::Duration] lifetime 下载地址有效期，与 deadline 参数不要同时使用
       #   参数细节可以参考 QiniuNg::Utils::Duration#initialize
       # @param [Time] deadline 下载地址过期时间，与 lifetime 参数不要同时使用
-      # @return [QiniuNg::Storage::PublicURL, QiniuNg::Storage::PrivateURL, QiniuNg::Storage::TimestampAntiLeechURL, nil]
+      # @return [PublicURL, PrivateURL, TimestampAntiLeechURL, nil]
+      #   返回文件的下载地址，将会自动根据配置返回正确的下载地址。如果没有提供域名且存储空间在七牛没有绑定任何域名将返回 nil
       def download_url(api_zone: nil, uc_url: nil, domains: nil, https: nil,
                        filename: nil, fop: nil, style: nil,
                        lifetime: nil, deadline: nil, encrypt_key: nil, **options)

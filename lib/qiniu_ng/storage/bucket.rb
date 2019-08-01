@@ -324,6 +324,7 @@ module QiniuNg
       # @!visibility private
       class FilesIterator
         include Enumerable
+        extend Forwardable
 
         # @!visibility private
         def initialize(http_client_v1, http_client_v2, auth, bucket, prefix, limit, marker, rsf_zone, https, options)
@@ -339,14 +340,7 @@ module QiniuNg
           @options = options
         end
 
-        # @!visibility private
-        def each
-          return enumerator unless block_given?
-
-          enumerator.each do |entry|
-            yield entry
-          end
-        end
+        def_delegators :enumerator, :each
 
         private
 

@@ -132,7 +132,7 @@ module QiniuNg
             @io.each_chunk do |chunk|
               block.call(chunk)
               @have_read += chunk.bytesize
-              progress&.call(have_read, @io.size)
+              progress&.call(@have_read, @will_receive_size)
             end
             raise EOFError unless @will_receive_size == @have_read
           end

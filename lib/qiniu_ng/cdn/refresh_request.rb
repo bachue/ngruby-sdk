@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module CDN
     # 七牛 CDN 刷新请求
@@ -138,6 +140,7 @@ module QiniuNg
       # 刷新查询条件构建
       class QueryBuilder
         include Enumerable
+        extend Forwardable
 
         # @!visibility private
         def initialize(http_client, request_id, fusion_url: nil, https: nil, **options)
@@ -201,18 +204,12 @@ module QiniuNg
           self
         end
 
-        # 对查询结果进行迭代
-        #
-        # @yield [entry] 传入 Block 对结果进行迭代
-        # @yieldparam [QiniuNg::CDN::RefreshRequest::QueryResult] 查询结果
-        # @return [Enumerable] 如果没有给出 Block，则返回迭代器
-        def each
-          return enumerator unless block_given?
-
-          enumerator.each do |entry|
-            yield entry
-          end
-        end
+        # @!method each
+        #   对查询结果进行迭代
+        #   @yield [result] 传入 Block 对结果进行迭代
+        #   @yieldparam result [QueryResult] 查询结果
+        #   @return [Enumerable] 如果没有给出 Block，则返回迭代器
+        def_delegators :enumerator, :each
 
         private
 

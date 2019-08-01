@@ -29,7 +29,7 @@ RSpec.describe CarrierWave::Storage::QiniuNg do
       begin
         tar.save!
         create_temp_file(kilo_size: 0) do |f|
-          tar.test.url.download_to(f.path)
+          tar.test.url.download_to(f.path, progress: print_progress)
           expect(File.size(f.path)).to eq(64 * (1 << 20))
           expect(::QiniuNg::Etag.from_file_path(f.path)).to eq etag_expected
         end

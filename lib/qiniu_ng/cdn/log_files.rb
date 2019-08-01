@@ -31,6 +31,12 @@ module QiniuNg
         @data[domain]
       end
 
+      # @!method each
+      #   获取 CDN 日志文件迭代器
+      #   @yield [domain, log_files] 传入 Block 对结果进行迭代
+      #   @yieldparam domain [String] 域名
+      #   @yieldparam log_files [Array<LogFile>] 日志文件列表
+      #   @return [Enumerable] 如果没有给出 Block，则返回迭代器
       def_delegators :@data, :each
     end
   end

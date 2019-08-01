@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module QiniuNg
   module RTC
     # 七牛实时音视频应用
@@ -131,6 +133,7 @@ module QiniuNg
       # @!visibility private
       class RoomsIterator
         include Enumerable
+        extend Forwardable
 
         # @!visibility private
         def initialize(http_client, auth, app, prefix, limit, offset, list_url, options)
@@ -145,14 +148,7 @@ module QiniuNg
           @options = options
         end
 
-        # @!visibility private
-        def each
-          return enumerator unless block_given?
-
-          enumerator.each do |entry|
-            yield entry
-          end
-        end
+        def_delegators :enumerator, :each
 
         private
 

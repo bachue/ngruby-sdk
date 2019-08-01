@@ -57,7 +57,7 @@ module QiniuNg
       # 数据处理是否已经结束
       # @return [Boolean] 数据处理是否已经结束
       def done?
-        @code > 1
+        ![1, 2].include?(@code)
       end
 
       # 数据处理结果
