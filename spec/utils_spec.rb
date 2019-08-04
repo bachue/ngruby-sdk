@@ -87,8 +87,11 @@ RSpec.describe QiniuNg::Utils do
     describe '#sign_download_url_with_deadline' do
       it 'should sign download url correctly' do
         dummy_auth = QiniuNg::Auth.new(access_key: 'abcdefghklmnopq', secret_key: '1234567890')
-        expect(dummy_auth.sign_download_url_with_deadline('http://www.qiniu.com?go=1', deadline: Time.at(1_234_567_890 + 3600))).to(
-          eq 'http://www.qiniu.com?go=1&e=1234571490&token=abcdefghklmnopq:8vzBeLZ9W3E4kbBLFLW0Xe0u7v4='
+        expect(dummy_auth.sign_download_url_with_deadline('http://www.qiniu.com/?go=1', deadline: Time.at(1_234_567_890 + 3600))).to(
+          eq 'http://www.qiniu.com/?go=1&e=1234571490&token=abcdefghklmnopq:KjQtlGAkEOhSwtFjJfYtYa2-reE='
+        )
+        expect(dummy_auth.sign_download_url_with_deadline('http://www.qiniu.com/?go=1', deadline: Time.at(1_234_567_890 + 3600), only_path: true)).to(
+          eq 'http://www.qiniu.com/?go=1&e=1234571490&token=abcdefghklmnopq:86uQeCB9GsFFvL2wA0mgBcOMsmk='
         )
       end
 
