@@ -290,7 +290,7 @@ $qiniu.bucket('<Bucket Name>').entry('<Key>').delete
 ##### 设置或更新文件的生存时间
 
 ```ruby
-$qiniu.bucket('<Bucket Name>').entry('<Key>').set_lifetime days: '<Lifetime>'
+$qiniu.bucket('<Bucket Name>').entry('<Key>').set_lifetime days: 5
 ```
 
 ##### 获取空间文件列表
