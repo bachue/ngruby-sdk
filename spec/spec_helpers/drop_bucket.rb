@@ -4,20 +4,20 @@ require 'faraday'
 
 module SpecHelpers
   module DropBucket
-    def drop_bucket(bucket_name, rs_zone: nil, https: nil, **options)
-      @http_client_v1.post("/drop/#{bucket_name}", rs_url(rs_zone, https), **options)
+    def drop!(rs_zone: nil, https: nil, **options)
+      clear_all!
+      @http_client_v1.post("/drop/#{@bucket_name}", get_rs_url(rs_zone, https), **options)
       nil
     end
-  end
 
-  module ClientDropBucket
-    def drop_bucket(bucket_name, rs_zone: nil, https: nil, **options)
-      @bucket_manager.drop_bucket(bucket_name, rs_zone: rs_zone, https: https, **options)
+    private
+
+    def clear_all!
+      batch { |b| files.each { |file| b.delete(file.key) } }
     end
   end
 
   def self.included(_mod)
-    QiniuNg::Storage::BucketManager.include(DropBucket)
-    QiniuNg::Client.include(ClientDropBucket)
+    QiniuNg::Storage::Bucket.include(DropBucket)
   end
 end

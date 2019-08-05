@@ -45,7 +45,7 @@
 
 ## 许可证
 
-Copyright (c) 2012-2014 qiniu.com
+Copyright (c) 2012-2020 qiniu.com
 
 基于 MIT 协议发布:
 
@@ -92,9 +92,10 @@ $qiniu = QiniuNg.new_client(access_key: '<Qiniu AccessKey>', secret_key: '<Qiniu
 $qiniu.bucket('<Bucket Name>').upload_token.to_s
 ```
 
-##### 覆盖上传的凭证
+##### 单文件上传的凭证
 
-覆盖上传除了需要简单上传所需要的信息之外，还需要想进行覆盖的文件名称，这个文件名称同时可是客户端上传代码中指定的文件名，两者必须一致。
+在简单上传的凭证中，服务器端只限定了可以上传的存储空间，而没有限定文件名。上传文件名将由客户端进行指定，这可能造成安全隐患。
+可以在服务器端直接限定上传的文件名，这样，客户端就无法指定其他文件名进行上传。
 
 ```ruby
 $qiniu.bucket('<Bucket Name>').entry('<Key>').upload_token.to_s

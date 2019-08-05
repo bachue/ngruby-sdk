@@ -16,5 +16,9 @@ script:
     then
       bundle exec rspec -f d -b
     fi
-  - bundle exec rubocop -f c --fail-level A
+  - |
+    if [ "$(ruby -e 'puts RUBY_PLATFORM')" != "java" ]
+    then
+      bundle exec rubocop -f c --fail-level A
+    fi
   - bundle exec rake docs

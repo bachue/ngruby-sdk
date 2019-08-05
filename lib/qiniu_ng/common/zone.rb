@@ -3,7 +3,7 @@
 module QiniuNg
   module Common
     # 多区域上传域名
-    # @!attribute [r] region
+    # @!attribute [r] region_id
     #   @return [String] 区域代号
     # @!attribute [r] up_http_urls
     #   @return [Array<String>] UP 地址集合（HTTP 协议）
@@ -26,8 +26,7 @@ module QiniuNg
     # @!attribute [r] api_https_url
     #   @return [String] API 地址（HTTPS 协议）
     class Zone
-      attr_reader :region
-      alias name region
+      attr_reader :region_id
       attr_reader :up_http_urls
       attr_reader :up_https_urls
       attr_reader :io_http_urls
@@ -40,7 +39,7 @@ module QiniuNg
       attr_reader :api_https_url
 
       # 初始化一个区域
-      # @param [String] region 区域代号
+      # @param [String] region_id 区域代号
       # @param [String, Array<String>] up_http_urls UP 地址集合（HTTP 协议）
       # @param [String, Array<String>] up_https_urls UP 地址集合（HTTPS 协议）
       # @param [String, Array<String>] io_http_urls UP 地址集合（HTTP 协议）
@@ -52,7 +51,7 @@ module QiniuNg
       # @param [String] api_http_url API 地址（HTTP 协议）
       # @param [String] api_https_url API 地址（HTTPS 协议）
       def initialize(
-        region:,
+        region_id:,
         up_http_urls: nil,
         up_https_urls: nil,
         io_http_urls: nil,
@@ -64,7 +63,7 @@ module QiniuNg
         api_http_url: nil,
         api_https_url: nil
       )
-        @region = region
+        @region_id = region_id
         @up_http_urls = normalize_array(up_http_urls)
         @up_https_urls = normalize_array(up_https_urls)
         @io_http_urls = normalize_array(io_http_urls)
@@ -133,7 +132,7 @@ module QiniuNg
         #
         # @return [QiniuNg::Zone] 返回华东区域
         def huadong
-          new(region: 'z0',
+          new(region_id: 'z0',
               up_http_urls: %w[http://upload.qiniup.com http://up.qiniup.com
                                http://upload.qbox.me http://up.qbox.me],
               up_https_urls: %w[https://upload.qiniup.com https://up.qiniup.com
@@ -156,7 +155,7 @@ module QiniuNg
         #
         # @return [QiniuNg::Zone] 返回华北区域
         def huabei
-          new(region: 'z1',
+          new(region_id: 'z1',
               up_http_urls: %w[http://upload-z1.qiniup.com http://up-z1.qiniup.com
                                http://upload-z1.qbox.me http://up-z1.qbox.me],
               up_https_urls: %w[https://upload-z1.qiniup.com https://up-z1.qiniup.com
@@ -179,7 +178,7 @@ module QiniuNg
         #
         # @return [QiniuNg::Zone] 返回华南区域
         def huanan
-          new(region: 'z2',
+          new(region_id: 'z2',
               up_http_urls: %w[http://upload-z2.qiniup.com http://up-z2.qiniup.com
                                http://upload-z2.qbox.me http://up-z2.qbox.me],
               up_https_urls: %w[https://upload-z2.qiniup.com https://up-z2.qiniup.com
@@ -202,7 +201,7 @@ module QiniuNg
         #
         # @return [QiniuNg::Zone] 返回北美区域
         def north_america
-          new(region: 'na0',
+          new(region_id: 'na0',
               up_http_urls: %w[http://upload-na.qiniup.com http://up-na.qiniup.com
                                http://upload-na.qbox.me http://up-na.qbox.me],
               up_https_urls: %w[https://upload-na.qiniup.com https://up-na.qiniup.com
@@ -226,7 +225,7 @@ module QiniuNg
         #
         # @return [QiniuNg::Zone] 返回新加坡区域
         def singapore
-          new(region: 'as0',
+          new(region_id: 'as0',
               up_http_urls: %w[http://upload-as0.qiniup.com http://up-as0.qiniup.com
                                http://upload-as0.qbox.me http://up-as0.qbox.me],
               up_https_urls: %w[https://upload-as0.qiniup.com https://up-as0.qiniup.com
@@ -273,5 +272,7 @@ module QiniuNg
         ele.is_a?(Array) ? ele : [ele].compact
       end
     end
+
+    Region = Zone
   end
 end

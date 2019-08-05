@@ -236,11 +236,9 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#region-instance_method" title="#region (instance method)">#<strong>region</strong>  &#x21d2; String </a>
+      <a href="#region_id-instance_method" title="#region_id (instance method)">#<strong>region_id</strong>  &#x21d2; String </a>
     
 
-    
-      (also: #name)
     
   </span>
   
@@ -641,7 +639,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(region:, up_http_urls: nil, up_https_urls: nil, io_http_urls: nil, io_https_urls: nil, rs_http_url: nil, rs_https_url: nil, rsf_http_url: nil, rsf_https_url: nil, api_http_url: nil, api_https_url: nil)  &#x21d2; Zone </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(region_id:, up_http_urls: nil, up_https_urls: nil, io_http_urls: nil, io_https_urls: nil, rs_http_url: nil, rs_https_url: nil, rsf_http_url: nil, rsf_https_url: nil, api_http_url: nil, api_https_url: nil)  &#x21d2; Zone </a>
     
 
     
@@ -769,7 +767,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(region:, up_http_urls: nil, up_https_urls: nil, io_http_urls: nil, io_https_urls: nil, rs_http_url: nil, rs_https_url: nil, rsf_http_url: nil, rsf_https_url: nil, api_http_url: nil, api_https_url: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></tt> 
+    #<strong>initialize</strong>(region_id:, up_http_urls: nil, up_https_urls: nil, io_http_urls: nil, io_https_urls: nil, rs_http_url: nil, rs_https_url: nil, rsf_http_url: nil, rsf_https_url: nil, api_http_url: nil, api_https_url: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></tt> 
   
 
   
@@ -789,7 +787,7 @@
   
     <li>
       
-        <span class='name'>region</span>
+        <span class='name'>region_id</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -972,6 +970,7 @@
       <pre class="lines">
 
 
+53
 54
 55
 56
@@ -995,14 +994,13 @@
 74
 75
 76
-77
-78</pre>
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-  <span class='label'>region:</span><span class='comma'>,</span>
+  <span class='label'>region_id:</span><span class='comma'>,</span>
   <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -1014,7 +1012,7 @@
   <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
   <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
 <span class='rparen'>)</span>
-  <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
   <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
   <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
   <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -1328,15 +1326,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -1349,7 +1345,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -1361,7 +1357,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -1373,7 +1369,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -1442,7 +1438,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -1465,7 +1461,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -1488,7 +1484,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -1511,7 +1507,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -1535,7 +1531,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -1879,15 +1875,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -1900,7 +1894,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -1912,7 +1906,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -1924,7 +1918,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -1993,7 +1987,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -2016,7 +2010,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -2039,7 +2033,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -2062,7 +2056,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -2086,7 +2080,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -2430,15 +2424,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -2451,7 +2443,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -2463,7 +2455,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -2475,7 +2467,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -2544,7 +2536,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -2567,7 +2559,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -2590,7 +2582,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -2613,7 +2605,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -2637,7 +2629,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -2981,15 +2973,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -3002,7 +2992,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -3014,7 +3004,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -3026,7 +3016,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -3095,7 +3085,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -3118,7 +3108,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -3141,7 +3131,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -3164,7 +3154,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -3188,7 +3178,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -3243,15 +3233,11 @@
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="region-instance_method">
+  <h3 class="signature " id="region_id-instance_method">
   
-    #<strong>region</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
+    #<strong>region_id</strong>  &#x21d2; <tt>String</tt>  <span class="extras">(readonly)</span>
   
 
-  
-    <span class="aliases">Also known as:
-    <span class="names"><span id='name-instance_method'>name</span></span>
-    </span>
   
 
   
@@ -3536,15 +3522,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -3557,7 +3541,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -3569,7 +3553,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -3581,7 +3565,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -3650,7 +3634,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -3673,7 +3657,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -3696,7 +3680,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -3719,7 +3703,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -3743,7 +3727,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -4087,15 +4071,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -4108,7 +4090,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -4120,7 +4102,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -4132,7 +4114,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -4201,7 +4183,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -4224,7 +4206,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -4247,7 +4229,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -4270,7 +4252,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -4294,7 +4276,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -4638,15 +4620,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -4659,7 +4639,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -4671,7 +4651,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -4683,7 +4663,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -4752,7 +4732,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -4775,7 +4755,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -4798,7 +4778,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -4821,7 +4801,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -4845,7 +4825,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -5189,15 +5169,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -5210,7 +5188,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -5222,7 +5200,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -5234,7 +5212,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -5303,7 +5281,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -5326,7 +5304,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -5349,7 +5327,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -5372,7 +5350,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -5396,7 +5374,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -5740,15 +5718,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -5761,7 +5737,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -5773,7 +5749,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -5785,7 +5761,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -5854,7 +5830,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -5877,7 +5853,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -5900,7 +5876,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -5923,7 +5899,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -5947,7 +5923,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -6291,15 +6267,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -6312,7 +6286,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -6324,7 +6298,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -6336,7 +6310,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -6405,7 +6379,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -6428,7 +6402,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -6451,7 +6425,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -6474,7 +6448,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -6498,7 +6472,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -6842,15 +6816,13 @@
 271
 272
 273
-274
-275</pre>
+274</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 28</span>
 
 <span class='kw'>class</span> <span class='const'><span class='object_link'><a href="" title="QiniuNg::Common::Zone (class)">Zone</a></span></span>
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region</span>
-  <span class='kw'>alias</span> <span class='id identifier rubyid_name'>name</span> <span class='id identifier rubyid_region'>region</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:region_id</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_http_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:up_https_urls</span>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:io_http_urls</span>
@@ -6863,7 +6835,7 @@
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_https_url</span>
 
   <span class='comment'># 初始化一个区域
-</span>  <span class='comment'># @param [String] region 区域代号
+</span>  <span class='comment'># @param [String] region_id 区域代号
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_http_urls UP 地址集合（HTTP 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] up_https_urls UP 地址集合（HTTPS 协议）
 </span>  <span class='comment'># @param [String, Array&lt;String&gt;] io_http_urls UP 地址集合（HTTP 协议）
@@ -6875,7 +6847,7 @@
 </span>  <span class='comment'># @param [String] api_http_url API 地址（HTTP 协议）
 </span>  <span class='comment'># @param [String] api_https_url API 地址（HTTPS 协议）
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span>
-    <span class='label'>region:</span><span class='comma'>,</span>
+    <span class='label'>region_id:</span><span class='comma'>,</span>
     <span class='label'>up_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>up_https_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>io_http_urls:</span> <span class='kw'>nil</span><span class='comma'>,</span>
@@ -6887,7 +6859,7 @@
     <span class='label'>api_http_url:</span> <span class='kw'>nil</span><span class='comma'>,</span>
     <span class='label'>api_https_url:</span> <span class='kw'>nil</span>
   <span class='rparen'>)</span>
-    <span class='ivar'>@region</span> <span class='op'>=</span> <span class='id identifier rubyid_region'>region</span>
+    <span class='ivar'>@region_id</span> <span class='op'>=</span> <span class='id identifier rubyid_region_id'>region_id</span>
     <span class='ivar'>@up_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_http_urls'>up_http_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@up_https_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_up_https_urls'>up_https_urls</span><span class='rparen'>)</span>
     <span class='ivar'>@io_http_urls</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_array'>normalize_array</span><span class='lparen'>(</span><span class='id identifier rubyid_io_http_urls'>io_http_urls</span><span class='rparen'>)</span>
@@ -6956,7 +6928,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华东区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -6979,7 +6951,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华北区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -7002,7 +6974,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回华南区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -7025,7 +6997,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回北美区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -7049,7 +7021,7 @@
 </span>    <span class='comment'>#
 </span>    <span class='comment'># @return [QiniuNg::Zone] 返回新加坡区域
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+      <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
           <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                            </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
           <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -7160,12 +7132,12 @@
       <pre class="lines">
 
 
+125
 126
-127
-128</pre>
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_auto'>auto</span>
   <span class='const'><span class='object_link'><a href="AutoZone.html" title="QiniuNg::Common::AutoZone (class)">AutoZone</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -7231,6 +7203,7 @@
       <pre class="lines">
 
 
+157
 158
 159
 160
@@ -7244,14 +7217,13 @@
 168
 169
 170
-171
-172</pre>
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_huabei'>huabei</span>
-  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z1</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
       <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qiniup.com</span><span class='words_sep'>
                        </span><span class='tstring_content'>http://upload-z1.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z1.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
       <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z1.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z1.qiniup.com</span><span class='words_sep'>
@@ -7326,6 +7298,7 @@
       <pre class="lines">
 
 
+134
 135
 136
 137
@@ -7339,14 +7312,13 @@
 145
 146
 147
-148
-149</pre>
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_huadong'>huadong</span>
-  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
       <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qiniup.com</span><span class='words_sep'>
                        </span><span class='tstring_content'>http://upload.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
       <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up.qiniup.com</span><span class='words_sep'>
@@ -7421,6 +7393,7 @@
       <pre class="lines">
 
 
+180
 181
 182
 183
@@ -7434,14 +7407,13 @@
 191
 192
 193
-194
-195</pre>
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_huanan'>huanan</span>
-  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>z2</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
       <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qiniup.com</span><span class='words_sep'>
                        </span><span class='tstring_content'>http://upload-z2.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-z2.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
       <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-z2.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-z2.qiniup.com</span><span class='words_sep'>
@@ -7516,6 +7488,7 @@
       <pre class="lines">
 
 
+203
 204
 205
 206
@@ -7529,14 +7502,13 @@
 214
 215
 216
-217
-218</pre>
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 203</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_north_america'>north_america</span>
-  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>na0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
       <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qiniup.com</span><span class='words_sep'>
                        </span><span class='tstring_content'>http://upload-na.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-na.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
       <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-na.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-na.qiniup.com</span><span class='words_sep'>
@@ -7611,6 +7583,7 @@
       <pre class="lines">
 
 
+227
 228
 229
 230
@@ -7624,14 +7597,13 @@
 238
 239
 240
-241
-242</pre>
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_singapore'>singapore</span>
-  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>region_id:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>as0</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
       <span class='label'>up_http_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>http://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qiniup.com</span><span class='words_sep'>
                        </span><span class='tstring_content'>http://upload-as0.qbox.me</span><span class='words_sep'> </span><span class='tstring_content'>http://up-as0.qbox.me</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
       <span class='label'>up_https_urls:</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>https://upload-as0.qiniup.com</span><span class='words_sep'> </span><span class='tstring_content'>https://up-as0.qiniup.com</span><span class='words_sep'>
@@ -7722,12 +7694,12 @@
       <pre class="lines">
 
 
+115
 116
-117
-118</pre>
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_api_url'>api_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'>Bool</span><span class='period'>.</span><span class='id identifier rubyid_to_bool'>to_bool</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@api_https_url</span> <span class='op'>:</span> <span class='ivar'>@api_http_url</span>
@@ -7803,12 +7775,12 @@
       <pre class="lines">
 
 
+91
 92
-93
-94</pre>
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_io_urls'>io_urls</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'>Bool</span><span class='period'>.</span><span class='id identifier rubyid_to_bool'>to_bool</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@up_https_urls</span> <span class='op'>:</span> <span class='ivar'>@io_http_urls</span>
@@ -7884,12 +7856,12 @@
       <pre class="lines">
 
 
+99
 100
-101
-102</pre>
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rs_url'>rs_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'>Bool</span><span class='period'>.</span><span class='id identifier rubyid_to_bool'>to_bool</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@rs_https_url</span> <span class='op'>:</span> <span class='ivar'>@rs_http_url</span>
@@ -7965,12 +7937,12 @@
       <pre class="lines">
 
 
+107
 108
-109
-110</pre>
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rsf_url'>rsf_url</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'>Bool</span><span class='period'>.</span><span class='id identifier rubyid_to_bool'>to_bool</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@rsf_https_url</span> <span class='op'>:</span> <span class='ivar'>@rsf_http_url</span>
@@ -8046,12 +8018,12 @@
       <pre class="lines">
 
 
+83
 84
-85
-86</pre>
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/common/zone.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_up_urls'>up_urls</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../Utils.html" title="QiniuNg::Utils (module)">Utils</a></span></span><span class='op'>::</span><span class='const'>Bool</span><span class='period'>.</span><span class='id identifier rubyid_to_bool'>to_bool</span><span class='lparen'>(</span><span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@up_https_urls</span> <span class='op'>:</span> <span class='ivar'>@up_http_urls</span>
@@ -8066,7 +8038,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug  1 18:48:22 2019 by
+  Generated on Mon Aug  5 09:12:37 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

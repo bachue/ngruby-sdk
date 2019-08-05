@@ -15,7 +15,7 @@ RSpec.describe QiniuNg::Storage do
       begin
         expect(client.bucket_names).to include(bucket.name)
       ensure
-        client.drop_bucket(bucket.name)
+        bucket.drop!
       end
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe QiniuNg::Storage do
     end
 
     after :all do
-      client.drop_bucket(bucket.name)
+      bucket&.drop!
     end
 
     it 'should get bucket domains' do
@@ -264,9 +264,7 @@ RSpec.describe QiniuNg::Storage do
           expect { head(old_public_url.refresh).status }.to eventually eq 404
           expect { head(new_public_url.refresh) }.to eventually be_success
         ensure
-          expect { new_entry.rename_to(entry.key) }.to(
-            eventually(be_kind_of QiniuNg::Storage::Entry).by_suppressing_errors
-          )
+          new_entry.rename_to(entry.key)
           expect { head(old_public_url.refresh) }.to eventually be_success
           expect { head(new_public_url.refresh).status }.to eventually eq 404
         end

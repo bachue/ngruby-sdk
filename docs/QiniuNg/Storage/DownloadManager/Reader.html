@@ -606,7 +606,7 @@
     <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_each_chunk'>each_chunk</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_chunk'>chunk</span><span class='op'>|</span>
       <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_chunk'>chunk</span><span class='rparen'>)</span>
       <span class='ivar'>@have_read</span> <span class='op'>+=</span> <span class='id identifier rubyid_chunk'>chunk</span><span class='period'>.</span><span class='id identifier rubyid_bytesize'>bytesize</span>
-      <span class='id identifier rubyid_progress'>progress</span><span class='op'>&amp;.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_have_read'>have_read</span><span class='comma'>,</span> <span class='ivar'>@io</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_progress'>progress</span><span class='op'>&amp;.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='ivar'>@have_read</span><span class='comma'>,</span> <span class='ivar'>@will_receive_size</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="EOFError.html" title="QiniuNg::Storage::DownloadManager::EOFError (class)">EOFError</a></span></span> <span class='kw'>unless</span> <span class='ivar'>@will_receive_size</span> <span class='op'>==</span> <span class='ivar'>@have_read</span>
   <span class='kw'>end</span>
@@ -915,7 +915,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug  1 18:48:43 2019 by
+  Generated on Mon Aug  5 09:12:54 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

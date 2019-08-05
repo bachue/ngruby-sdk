@@ -15,32 +15,32 @@ RSpec.describe QiniuNg::RTC do
       expect(app.title).to eq 'test'
       expect(app.hub).to eq 'avr-pili'
       expect(app.max_users).to eq 10
-      expect(app.created_at).to be_within(30).of(Time.now)
-      expect(app.updated_at).to be_within(30).of(Time.now)
+      expect(app.created_at).to be_within(60).of(Time.now)
+      expect(app.updated_at).to be_within(60).of(Time.now)
       expect(app).to be_auto_kick
 
       app = client.rtc_app(app.id)
       expect(app.title).to eq 'test'
       expect(app.hub).to eq 'avr-pili'
       expect(app.max_users).to eq 10
-      expect(app.created_at).to be_within(30).of(Time.now)
-      expect(app.updated_at).to be_within(30).of(Time.now)
+      expect(app.created_at).to be_within(60).of(Time.now)
+      expect(app.updated_at).to be_within(60).of(Time.now)
       expect(app).to be_auto_kick
 
       app.update(title: 'new-test', max_users: 30, auto_kick: false)
       expect(app.title).to eq 'new-test'
       expect(app.hub).to eq 'avr-pili'
       expect(app.max_users).to eq 30
-      expect(app.created_at).to be_within(30).of(Time.now)
-      expect(app.updated_at).to be_within(30).of(Time.now)
+      expect(app.created_at).to be_within(60).of(Time.now)
+      expect(app.updated_at).to be_within(60).of(Time.now)
       expect(app).not_to be_auto_kick
 
       app = client.rtc_app(app.id)
       expect(app.title).to eq 'new-test'
       expect(app.hub).to eq 'avr-pili'
       expect(app.max_users).to eq 30
-      expect(app.created_at).to be_within(30).of(Time.now)
-      expect(app.updated_at).to be_within(30).of(Time.now)
+      expect(app.created_at).to be_within(60).of(Time.now)
+      expect(app.updated_at).to be_within(60).of(Time.now)
       expect(app).not_to be_auto_kick
     ensure
       app&.delete

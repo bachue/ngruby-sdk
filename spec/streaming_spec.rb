@@ -14,8 +14,8 @@ RSpec.describe QiniuNg::Streaming do
   it 'should create 10 streams and list them' do
     (1..10).each do |i|
       stream = hub.create_stream("stream-#{i}-#{SecureRandom.hex(4)}")
-      expect(stream.attributes.created_at).to be_within(30).of(Time.now)
-      expect(stream.attributes.updated_at).to be_within(30).of(Time.now)
+      expect(stream.attributes.created_at).to be_within(120).of(Time.now)
+      expect(stream.attributes.updated_at).to be_within(120).of(Time.now)
       stream.disable
       expect(stream.attributes(refresh: true)).to be_disabled
       expect(stream.attributes(refresh: true)).to be_disabled_forever

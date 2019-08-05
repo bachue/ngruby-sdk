@@ -39,14 +39,14 @@ module QiniuNg
         io_http_urls = io_hosts.map { |domain| "http://#{domain}" }
         io_https_urls = io_hosts.map { |domain| "https://#{domain}" }
 
-        region = @infer_domains_map[io_hosts.first]&.region
+        region_id = @infer_domains_map[io_hosts.first]&.region_id
         rs_http_url = @infer_domains_map[io_hosts.first]&.rs_http_url
         rs_https_url = @infer_domains_map[io_hosts.first]&.rs_https_url
         rsf_http_url = @infer_domains_map[io_hosts.first]&.rsf_http_url
         rsf_https_url = @infer_domains_map[io_hosts.first]&.rsf_https_url
         api_http_url = @infer_domains_map[io_hosts.first]&.api_http_url
         api_https_url = @infer_domains_map[io_hosts.first]&.api_https_url
-        Zone.new(region: region,
+        Zone.new(region_id: region_id,
                  up_http_urls: up_http_urls&.freeze,
                  up_https_urls: up_https_urls&.freeze,
                  io_http_urls: io_http_urls&.freeze,
