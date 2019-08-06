@@ -226,7 +226,7 @@ module QiniuNg
           Enumerator.new do |yielder|
             while total.nil? || got < total
               resp = @http_client.post('/v2/tune/refresh/list', @fusion_url || get_fusion_url(@https),
-                                       headers: { content_type: 'application/json' },
+                                       headers: { content_type: 'application/json' }, idempotent: true,
                                        body: Config.default_json_marshaler.call(body.merge(pageNo: page_no)),
                                        **@options)
               raise RefreshQueryError, response_values(resp) unless resp.body['code'] == 200
