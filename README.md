@@ -1,6 +1,6 @@
 # 新一代 Qiniu SDK for Ruby
 
-[![Code Climate](https://codeclimate.com/github/bachue/ngruby-sdk.svg)](https://codeclimate.com/github/bachue/ngruby-sdk) [![Build Status](https://api.travis-ci.com/bachue/ruby-ng-sdk.svg?branch=master)](https://travis-ci.org/bachue/ruby-ng-sdk) [![Coverage Status](https://coveralls.io/repos/bachue/ruby-ng-sdk/badge.svg?branch=master)](https://coveralls.io/r/bachue/ruby-ng-sdk?branch=master)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bachue/ruby-ng-sdk/blob/master/LICENSE.txt) [![Code Climate](https://codeclimate.com/github/bachue/ngruby-sdk.svg)](https://codeclimate.com/github/bachue/ngruby-sdk) [![Build Status](https://api.travis-ci.com/bachue/ruby-ng-sdk.svg?branch=master)](https://travis-ci.org/bachue/ruby-ng-sdk) [![Coverage Status](https://coveralls.io/repos/bachue/ruby-ng-sdk/badge.svg?branch=master)](https://coveralls.io/r/bachue/ruby-ng-sdk?branch=master)
 
 ## 关于
 
