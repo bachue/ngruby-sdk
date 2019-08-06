@@ -10,14 +10,12 @@ module SpecHelpers
     filename = "qiniu_#{kilo_size}k"
     filename += "_t#{thread_id}" if thread_id
     temp_file = File.open(Pathname.new('/tmp').join(filename), 'wb+')
-    written = 0
     size = kilo_size * 1024
     rest = size
-    while written < size
+    while rest > 0
       to_write = [rest, fake_data.size].min
       temp_file.write fake_data[0...to_write]
       rest -= to_write
-      written += to_write
     end
     if block_given?
       yield temp_file
