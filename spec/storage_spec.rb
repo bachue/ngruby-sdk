@@ -264,7 +264,7 @@ RSpec.describe QiniuNg::Storage do
           expect { head(old_public_url.refresh).status }.to eventually eq 404
           expect { head(new_public_url.refresh) }.to eventually be_success
         ensure
-          new_entry.rename_to(entry.key)
+          new_entry.rename_to(entry.key, force: true)
           expect { head(old_public_url.refresh) }.to eventually be_success
           expect { head(new_public_url.refresh).status }.to eventually eq 404
         end
