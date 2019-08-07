@@ -227,7 +227,7 @@ module QiniuNg
   end
 
   config(use_https: false,
-         batch_max_size: 10_000,
+         batch_max_size: 1_000,
          file_recorder_path: '/tmp/qiniu_ng',
          upload_token_lifetime: 3600,
          download_url_lifetime: 3600,
