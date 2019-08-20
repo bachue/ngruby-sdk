@@ -644,6 +644,25 @@ module QiniuNg
         Quota.new(resp_body['size'], resp_body['count'])
       end
 
+      # 删除存储空间
+      #
+      # 注意，请务必保证删除存储空间前将存储空间清空，否则将出错
+      #
+      # @param [QiniuNg::Zone] rs_zone RS 所在区域，一般无需填写
+      # @param [Boolean] https 是否使用 HTTPS 协议
+      # @param [Hash] options 额外的 Faraday 参数
+      # @raise [HTTP::BucketIsNotEmpty] 存储空间非空，无法删除
+      def drop!(rs_zone: Common::Zone.huadong, https: nil, **options)
+        @http_client_v1.post("/drop/#{@bucket_name}", get_rs_url(rs_zone, https), **options)
+        nil
+      rescue Faraday::ClientError => e
+        if e.response&.dig(:status) == 403 && e.response&.dig(:body)&.include?('drop non empty bucket is not allowed')
+          raise HTTP::BucketIsNotEmpty
+        end
+
+        raise
+      end
+
       # @!visibility private
       def inspect
         "#<#{self.class.name} @bucket_name=#{@bucket_name.inspect} @auth=#{@auth.inspect}" \

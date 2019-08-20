@@ -369,6 +369,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#drop!-instance_method" title="#drop! (instance method)">#<strong>drop!</strong>(rs_zone: Common::Zone.huadong, https: nil, **options)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>删除存储空间.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#enable_index_page-instance_method" title="#enable_index_page (instance method)">#<strong>enable_index_page</strong>(uc_url: nil, https: nil, **options)  &#x21d2; Object </a>
     
 
@@ -1976,6 +2000,133 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_domains='>domains=</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_domains'>domains</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize_domains'>normalize_domains</span><span class='lparen'>(</span><span class='id identifier rubyid_domains'>domains</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span>
   <span class='ivar'>@domains_lock</span><span class='period'>.</span><span class='id identifier rubyid_with_write_lock'>with_write_lock</span> <span class='lbrace'>{</span> <span class='ivar'>@domains</span> <span class='op'>=</span> <span class='id identifier rubyid_domains'>domains</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="drop!-instance_method">
+  
+    #<strong>drop!</strong>(rs_zone: Common::Zone.huadong, https: nil, **options)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>删除存储空间</p>
+
+<p>注意，请务必保证删除存储空间前将存储空间清空，否则将出错</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rs_zone</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">QiniuNg::Zone</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>RS 所在区域，一般无需填写</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>https</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>是否使用 HTTPS 协议</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>额外的 Faraday 参数</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../HTTP/BucketIsNotEmpty.html" title="QiniuNg::HTTP::BucketIsNotEmpty (class)">HTTP::BucketIsNotEmpty</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>存储空间非空，无法删除</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/qiniu_ng/storage/bucket.rb', line 655</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_drop!'>drop!</span><span class='lparen'>(</span><span class='label'>rs_zone:</span> <span class='const'><span class='object_link'><a href="../Common.html" title="QiniuNg::Common (module)">Common</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Common/Zone.html" title="QiniuNg::Common::Zone (class)">Zone</a></span></span><span class='period'>.</span><span class='id identifier rubyid_huadong'><span class='object_link'><a href="../Common/Zone.html#huadong-class_method" title="QiniuNg::Common::Zone.huadong (method)">huadong</a></span></span><span class='comma'>,</span> <span class='label'>https:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@http_client_v1</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/drop/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@bucket_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_get_rs_url'>get_rs_url</span><span class='lparen'>(</span><span class='id identifier rubyid_rs_zone'>rs_zone</span><span class='comma'>,</span> <span class='id identifier rubyid_https'>https</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>rescue</span> <span class='const'>Faraday</span><span class='op'>::</span><span class='const'>ClientError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_response'>response</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:status</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>403</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_response'>response</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:body</span><span class='rparen'>)</span><span class='op'>&amp;.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>drop non empty bucket is not allowed</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../HTTP.html" title="QiniuNg::HTTP (module)">HTTP</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../HTTP/BucketIsNotEmpty.html" title="QiniuNg::HTTP::BucketIsNotEmpty (class)">BucketIsNotEmpty</a></span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_raise'>raise</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -4888,7 +5039,7 @@ bucket.upload(filepath: &#39;/path/to/file&#39;, upload_token: token)</code></pr
 </div>
 
       <div id="footer">
-  Generated on Mon Aug  5 09:12:42 2019 by
+  Generated on Tue Aug 20 09:58:20 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20 (ruby-2.6.1).
 </div>

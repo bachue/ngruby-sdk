@@ -86,5 +86,9 @@ module QiniuNg
     # 所有候选地址都已被标记为不可用，没有可用的地址
     class NoURLAvailable < RuntimeError
     end
+
+    # 存储空间非空，无法删除
+    class BucketIsNotEmpty < RuntimeError
+    end
   end
 end

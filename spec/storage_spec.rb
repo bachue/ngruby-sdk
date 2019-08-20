@@ -15,6 +15,7 @@ RSpec.describe QiniuNg::Storage do
       begin
         expect(client.bucket_names).to include(bucket.name)
       ensure
+        bucket.clear_all!
         bucket.drop!
       end
     end
@@ -30,6 +31,7 @@ RSpec.describe QiniuNg::Storage do
     end
 
     after :all do
+      bucket&.clear_all!
       bucket&.drop!
     end
 
